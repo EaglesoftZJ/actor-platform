@@ -12,12 +12,6 @@ export default {
     });
   },
 
-  requestUserName(userName) {
-    return new Promise((resolve, reject) => {
-                           window.messenger.requestNickName(userName.trim(), resolve, reject);
-                           });
-  },
-
   requestCodeEmail(email) {
     return new Promise((resolve, reject) => {
       window.messenger.requestCodeEmail(email.trim(), resolve, reject);
@@ -29,11 +23,6 @@ export default {
       window.messenger.sendCode(code, resolve, reject);
     });
   },
-  sendPassword(password) {
-    return new Promise((resolve, reject) => {
-                             window.messenger.sendPassword(password, resolve, reject);
-                             });
-  },
 
   signUp(name) {
     return new Promise((resolve, reject) => {
@@ -41,11 +30,6 @@ export default {
     });
   },
 
-  signUp(name,password) {
-    return new Promise((resolve, reject) => {
-                             window.messenger.signUpForPassword(name,password, resolve, reject);
-                             });
-  },
   isLoggedIn() {
     return window.messenger.isLoggedIn();
   },
