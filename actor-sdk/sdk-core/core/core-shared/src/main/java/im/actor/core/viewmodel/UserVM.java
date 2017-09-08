@@ -4,11 +4,16 @@
 
 package im.actor.core.viewmodel;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+
 import com.google.j2objc.annotations.ObjectiveCName;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import im.actor.core.entity.ContactRecord;
@@ -36,6 +41,7 @@ import im.actor.runtime.mvvm.BaseValueModel;
 import im.actor.runtime.mvvm.ModelChangedListener;
 import im.actor.runtime.mvvm.ValueModelCreator;
 import im.actor.runtime.threading.CommonTimer;
+import im.actor.sdk.intents.WebServiceUtil;
 
 /**
  * User View Model
@@ -133,6 +139,21 @@ public class UserVM extends BaseValueModel<User> {
             }
         });
         presenceTimer.schedule(PRESENCE_UPDATE_DELAY);
+
+        HashMap<String, String> par = new HashMap<String, String>();
+        par.put("id", String.valueOf(id));
+        WebServiceUtil.webServiceRun("http://localhost:8989/HelloWorld",
+                par, "getUser", new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        Bundle b = msg.getData();
+                        String datasource = b.getString("datasource");
+                        user.editAbout(datasource);
+                        about = new StringValueModel("user." + id + ".about", user.getAbout());
+                        return false;
+                    }
+                }));
+
     }
 
     @Override
