@@ -35,6 +35,6 @@
 # manifest: provider for updates
 -keep public class com.huawei.hms.update.provider.UpdateProvider { public *; protected *; }
 
--libraryjars libs/pushservice-VERSION.jar
+-libraryjars libs/pushservice-5.3.0.99.jar
 -dontwarn com.baidu.**
 -keep class com.baidu.**{*; }
