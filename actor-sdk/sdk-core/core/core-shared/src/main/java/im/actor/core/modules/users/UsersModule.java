@@ -4,6 +4,8 @@
 
 package im.actor.core.modules.users;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +96,7 @@ public class UsersModule extends AbsModule implements BusSubscriber {
     }
 
     public Promise<Void> editMyName(final String newName) {
+
         return api(new RequestEditName(newName))
                 .flatMap(responseSeq -> updates().applyUpdate(
                         responseSeq.getSeq(),

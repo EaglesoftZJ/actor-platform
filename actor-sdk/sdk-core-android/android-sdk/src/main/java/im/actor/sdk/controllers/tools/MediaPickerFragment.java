@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.soundcloud.android.crop.Crop;
@@ -30,6 +31,8 @@ import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.pickers.file.FilePickerActivity;
 import im.actor.sdk.util.Randoms;
+
+import static im.actor.sdk.R.id.file;
 
 public class MediaPickerFragment extends BaseFragment {
 
@@ -78,12 +81,27 @@ public class MediaPickerFragment extends BaseFragment {
             return;
         }
 
+        Uri uri = null;
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                //需要7.0特殊适配
+                //通过系统提供的FileProvider类创建一个content类型的Uri对象
+                uri= FileProvider
+                        .getUriForFile(AndroidContext.getContext(), "im.actor.develop.myFileProvider", new File(pendingFile));
+            } else {
+                //不需要适配
+                uri = Uri.fromFile(new File(pendingFile));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //
         // Requesting Photo
         //
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(pendingFile)));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, REQUEST_PHOTO);
     }
 
@@ -93,17 +111,35 @@ public class MediaPickerFragment extends BaseFragment {
         //
         // Generating Temporary File Name
         //
+
+
         pendingFile = generateRandomFile(".mp4");
         if (pendingFile == null) {
             return;
         }
 
 
+        Uri uri = null;
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                //需要7.0特殊适配
+                //通过系统提供的FileProvider类创建一个content类型的Uri对象
+                uri= FileProvider
+                        .getUriForFile(AndroidContext.getContext(), "im.actor.develop.myFileProvider", new File(pendingFile));
+            } else {
+                //不需要适配
+                uri = Uri.fromFile(new File(pendingFile));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //
         // Requesting Video
         //
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(pendingFile)));
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, REQUEST_VIDEO);
     }
 

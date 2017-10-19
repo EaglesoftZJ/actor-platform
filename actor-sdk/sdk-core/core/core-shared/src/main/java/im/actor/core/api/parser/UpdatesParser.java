@@ -18,6 +18,8 @@ import im.actor.core.api.updates.*;
 public class UpdatesParser extends BaseParser<Update> {
     @Override
     public Update read(int type, byte[] payload) throws IOException {
+//        UpdateUserExtChanged.fromBytes(payload);
+//        UpdateUserAboutChanged.fromBytes(payload);
         switch(type) {
             case 16: return UpdateUserAvatarChanged.fromBytes(payload);
             case 32: return UpdateUserNameChanged.fromBytes(payload);

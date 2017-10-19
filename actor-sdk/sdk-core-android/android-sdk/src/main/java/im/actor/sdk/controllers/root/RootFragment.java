@@ -3,6 +3,7 @@ package im.actor.sdk.controllers.root;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -77,7 +78,7 @@ public class RootFragment extends BaseFragment {
             DialogsDefaultFragment dialogsDefaultFragment = ActorSDK.sharedActor().getDelegate().fragmentForDialogs();
             getChildFragmentManager().beginTransaction()
                     .add(R.id.content, dialogsDefaultFragment != null ? dialogsDefaultFragment : new DialogsDefaultFragment())
-                    .add(R.id.fab, new ComposeFabFragment())
+//                    .add(R.id.fab, new ComposeFabFragment())
                     .add(R.id.search, new GlobalSearchDefaultFragment())
                     .add(R.id.placeholder, new GlobalPlaceholderFragment())
                     .commit();
@@ -87,7 +88,7 @@ public class RootFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main, menu);
+//        inflater.inflate(R.menu.main, menu);
     }
 
     @Override

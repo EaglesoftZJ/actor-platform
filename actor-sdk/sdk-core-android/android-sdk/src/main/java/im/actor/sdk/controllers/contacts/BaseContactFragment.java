@@ -44,6 +44,12 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
     private final boolean useSelection;
     private View emptyView;
 
+    public BaseContactFragment(){
+        this.useCompactVersion = false;
+        this.userSearch = false;
+        this.useSelection = false;
+    }
+
     public BaseContactFragment(boolean useCompactVersion, boolean userSearch, boolean useSelection) {
         this.useCompactVersion = useCompactVersion;
         this.userSearch = userSearch;
@@ -170,7 +176,7 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         startActivity(sendIntent);
     }
 
-    protected void                 addFooterOrHeaderAction(int color, int icon, int text, boolean isLast, final Runnable action, boolean isHeader) {
+    protected void addFooterOrHeaderAction(int color, int icon, int text, boolean isLast, final Runnable action, boolean isHeader) {
         FrameLayout container = new FrameLayout(getActivity());
         container.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
         {

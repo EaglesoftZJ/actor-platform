@@ -1,20 +1,33 @@
 package im.actor.sdk.controllers.root;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import im.actor.core.viewmodel.AppStateVM;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseFragmentActivity;
+import im.actor.sdk.controllers.compose.ComposeFabFragment;
+import im.actor.sdk.controllers.contacts.ContactsFragment;
+import im.actor.sdk.controllers.dialogs.DialogsDefaultFragment;
+import im.actor.sdk.controllers.placeholder.GlobalPlaceholderFragment;
+import im.actor.sdk.controllers.search.GlobalSearchDefaultFragment;
 import im.actor.sdk.controllers.tools.InviteHandler;
+import im.actor.sdk.view.PagerSlidingTabStrip;
+import im.actor.sdk.view.adapters.FragmentNoMenuStatePagerAdapter;
 
 /**
  * Root Activity of Application
@@ -22,7 +35,8 @@ import im.actor.sdk.controllers.tools.InviteHandler;
 public class RootActivity extends BaseFragmentActivity {
 
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
-
+//    ViewPager pager;
+//    private HomePagerAdapter homePagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +63,14 @@ public class RootActivity extends BaseFragmentActivity {
             if (fragment == null) {
                 fragment = new RootFragment();
             }
+            fragment = new RootPageFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.root, fragment)
                     .commit();
         }
 
         InviteHandler.handleIntent(this, getIntent());
+
     }
 
     @Override
@@ -82,4 +98,6 @@ public class RootActivity extends BaseFragmentActivity {
 
         }
     }
+
+
 }

@@ -23,10 +23,10 @@ include ":actor-sdk:sdk-core-android:android-app"
 include ":actor-sdk:sdk-core-android:android-sdk"
 
 //Google push for Android SDk
-include ":actor-sdk:sdk-core-android:android-google-push"
+//include ":actor-sdk:sdk-core-android:android-google-push"
 
 //Google maps for Android SDk
-include ":actor-sdk:sdk-core-android:android-google-maps"
+//include ":actor-sdk:sdk-core-android:android-google-maps"
 //eaglesoft push for Android SDk
 include ":actor-sdk:sdk-core-android:android-eaglesoft-push"
 

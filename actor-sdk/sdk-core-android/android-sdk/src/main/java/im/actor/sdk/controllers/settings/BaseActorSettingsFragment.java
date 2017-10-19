@@ -77,7 +77,7 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
     private HeaderViewRecyclerAdapter wallpaperAdapter;
 
     public BaseActorSettingsFragment() {
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     public boolean isAnimateToolbar() {
@@ -96,6 +96,7 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
         }
     }
 
+    UserVM userModel;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         messenger().onUserVisible(myUid());
@@ -105,7 +106,22 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
 
         baseColor = getResources().getColor(R.color.primary);
         final ActorStyle style = ActorSDK.sharedActor().style;
-        final UserVM userModel = users().get(myUid());
+         userModel = users().get(myUid());
+
+        UserVM userVM = messenger().getUser(myUid());
+        String aboutn = userVM.getAbout().get();
+        userModel = userVM;
+//        execute(messenger().getUser("AndroidAbout"), R.string.progress_common, new CommandCallback<Boolean>() {
+//            @Override
+//            public void onResult(Boolean res) {
+////                getActivity().finish();
+//            }
+//
+//            @Override
+//            public void onError(Exception e) {
+//                Toast.makeText(getActivity(), R.string.toast_unable_change, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         final TextView nameView = (TextView) view.findViewById(R.id.name);
         nameView.setShadowLayer(1, 1, 1, style.getDividerColor());
@@ -705,35 +721,35 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
     }
 
     private void updateActionBar(int offset) {
-        if (!animateToolbar) {
-            return;
-        }
-        Activity activity = getActivity();
-        if (!(activity instanceof BaseActivity)) {
-            return;
-        }
-        ActionBar bar = ((BaseActivity) getActivity()).getSupportActionBar();
-        if (bar == null) {
-            return;
-        }
-        int fullColor = baseColor;
-        ActorStyle style = ActorSDK.sharedActor().style;
-        if (style.getToolBarColor() != 0) {
-            fullColor = style.getToolBarColor();
-        }
-
-        if (Math.abs(offset) > Screen.dp(248 - 56)) {
-            bar.setBackgroundDrawable(new ColorDrawable(fullColor));
-        } else {
-            float alpha = Math.abs(offset) / (float) Screen.dp(248 - 56);
-
-            bar.setBackgroundDrawable(new ColorDrawable(Color.argb(
-                    (int) (255 * alpha),
-                    Color.red(fullColor),
-                    Color.green(fullColor),
-                    Color.blue(fullColor)
-            )));
-        }
+//        if (!animateToolbar) {
+//            return;
+//        }
+//        Activity activity = getActivity();
+//        if (!(activity instanceof BaseActivity)) {
+//            return;
+//        }
+//        ActionBar bar = ((BaseActivity) getActivity()).getSupportActionBar();
+//        if (bar == null) {
+//            return;
+//        }
+//        int fullColor = baseColor;
+//        ActorStyle style = ActorSDK.sharedActor().style;
+//        if (style.getToolBarColor() != 0) {
+//            fullColor = style.getToolBarColor();
+//        }
+//
+//        if (Math.abs(offset) > Screen.dp(248 - 56)) {
+//            bar.setBackgroundDrawable(new ColorDrawable(fullColor));
+//        } else {
+//            float alpha = Math.abs(offset) / (float) Screen.dp(248 - 56);
+//
+//            bar.setBackgroundDrawable(new ColorDrawable(Color.argb(
+//                    (int) (255 * alpha),
+//                    Color.red(fullColor),
+//                    Color.green(fullColor),
+//                    Color.blue(fullColor)
+//            )));
+//        }
     }
 
     public static String getWallpaperFile() {

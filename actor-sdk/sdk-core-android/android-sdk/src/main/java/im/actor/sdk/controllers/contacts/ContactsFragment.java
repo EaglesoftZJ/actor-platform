@@ -19,10 +19,10 @@ import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 public class ContactsFragment extends BaseContactFragment {
 
     public ContactsFragment() {
-        super(false, false, false);
-        setRootFragment(true);
-        setHomeAsUp(true);
-        setTitle(R.string.contacts_title);
+//        super(false, false, false);
+//        setRootFragment(true);
+//        setHomeAsUp(true);
+//        setTitle(R.string.contacts_title);
     }
 
     @Override

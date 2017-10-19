@@ -39,6 +39,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.util.ArrayList;
 
+import im.actor.core.entity.Avatar;
 import im.actor.core.entity.Peer;
 import im.actor.core.viewmodel.UserEmail;
 import im.actor.core.viewmodel.UserPhone;
@@ -96,7 +97,6 @@ public class ProfileFragment extends BaseFragment {
         final UserVM user = users().get(uid);
         ArrayList<UserPhone> phones = user.getPhones().get();
         ArrayList<UserEmail> emails = user.getEmails().get();
-        String about = user.getAbout().get();
         final String userName = user.getNick().get();
 
         final View res = inflater.inflate(R.layout.fragment_profile, container, false);

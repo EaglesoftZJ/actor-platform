@@ -93,7 +93,8 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
     protected void addFooterView(View header) {
         if (collection.getAdapter() instanceof HeaderViewRecyclerAdapter) {
             HeaderViewRecyclerAdapter h = (HeaderViewRecyclerAdapter) collection.getAdapter();
-            h.addFooterView(header);
+            //通讯录最后的一条线
+//            h.addFooterView(header);
         } else {
             HeaderViewRecyclerAdapter headerViewRecyclerAdapter = new HeaderViewRecyclerAdapter(adapter);
             headerViewRecyclerAdapter.addFooterView(header);

@@ -12,8 +12,8 @@ public class ComposeFragment extends BaseContactFragment {
 
     public ComposeFragment() {
         super(true, true, false);
-        setRootFragment(true);
-        setTitle(R.string.compose_title);
+//        setRootFragment(true);
+//        setTitle(R.string.compose_title);
         setHomeAsUp(true);
     }
 
@@ -39,6 +39,6 @@ public class ComposeFragment extends BaseContactFragment {
     @Override
     public void onItemClicked(Contact contact) {
         getActivity().startActivity(Intents.openPrivateDialog(contact.getUid(), true, getActivity()));
-        getActivity().finish();
+//        getActivity().finish();
     }
 }
