@@ -1,5 +1,6 @@
 package im.actor.server.file.local.http
 
+import java.net.URLEncoder
 import java.time.{ Duration, Instant }
 
 import akka.actor.ActorSystem
@@ -37,6 +38,8 @@ private[local] final class FilesHttpHandler(storageConfig: LocalFileStorageConfi
 
   private val log = Logging(system, this)
 
+  private val Utf8Encoding = "UTF-8"
+
   val rejectionHandler: RejectionHandler =
     RejectionHandler.newBuilder()
       .handle {
@@ -66,7 +69,7 @@ private[local] final class FilesHttpHandler(storageConfig: LocalFileStorageConfi
                   case Success(Some(file)) =>
                     log.debug("Serving fileId: {}, file: {} parts", fileId, file)
                     respondWithDefaultHeader(
-                      `Content-Disposition`(attachment, Map("filename" -> file.name))
+                      `Content-Disposition`(attachment, Map("filename" -> URLEncoder.encode(file.name, Utf8Encoding)))
                     ) {
                       getFromFile(file.toJava)
                     }

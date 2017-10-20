@@ -96,6 +96,7 @@ final case class ActorServerBuilder(defaultConfig: Config = ConfigFactory.empty(
     val serverConfig = ActorConfig.load(defaultConfig)
 
     implicit val system = ActorSystem(serverConfig.getString("actor-system-name"), serverConfig)
+    system.log.info("configPath", configPath.toString)
 
     try {
 
