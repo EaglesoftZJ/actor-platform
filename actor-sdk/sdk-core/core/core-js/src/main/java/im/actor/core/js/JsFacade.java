@@ -31,6 +31,7 @@ import im.actor.core.js.providers.JsNotificationsProvider;
 import im.actor.core.js.providers.JsPhoneBookProvider;
 import im.actor.core.js.providers.JsCallsProvider;
 import im.actor.core.js.providers.electron.JsElectronApp;
+import im.actor.core.js.providers.electron.JsElectronListener;
 import im.actor.core.js.utils.HtmlMarkdownUtils;
 import im.actor.core.js.utils.IdentityUtils;
 import im.actor.core.network.RpcCallback;
@@ -50,6 +51,7 @@ import im.actor.runtime.js.mvvm.JsDisplayListCallback;
 import im.actor.runtime.js.utils.JsPromise;
 import im.actor.runtime.js.utils.JsPromiseDispatcher;
 import im.actor.runtime.js.utils.JsPromiseExecutor;
+import im.actor.runtime.json.JSONObject;
 import im.actor.runtime.markdown.MarkdownParser;
 
 import org.timepedia.exporter.client.Export;
@@ -153,6 +155,16 @@ public class JsFacade implements Exportable {
     @UsedByApp
     public boolean isElectron() {
         return messenger.isElectron();
+    }
+
+    @UsedByApp
+    public void subscribe(String topic, JsElectronListener listener){
+        messenger.subscribe(topic, listener);
+
+    }
+    @UsedByApp
+    public void sendToElectron(String topic, JSONObject args) {
+        messenger.sendToElectron(topic, args);
     }
 
     // Auth
@@ -937,9 +949,9 @@ public class JsFacade implements Exportable {
     @UsedByApp
     public void onAppVisible() {
         // Ignore for electron runtime
-        if (isElectron()) {
-            return;
-        }
+//        if (isElectron()) {
+//            return;
+//        }
 
         messenger.getJsIdleModule().onVisible();
     }
@@ -947,9 +959,9 @@ public class JsFacade implements Exportable {
     @UsedByApp
     public void onAppHidden() {
         // Ignore for electron runtime
-        if (isElectron()) {
-            return;
-        }
+//        if (isElectron()) {
+//            return;
+//        }
 
         messenger.getJsIdleModule().onHidden();
     }

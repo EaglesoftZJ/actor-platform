@@ -1,5 +1,7 @@
 package im.actor.core.js.providers.electron;
 
+import im.actor.runtime.json.JSONObject;
+
 public class JsElectronApp {
 
     public static native boolean isElectron()/*-{
@@ -27,6 +29,11 @@ public class JsElectronApp {
         ipc.on(topic, function(event, message) {
             listener.@im.actor.core.js.providers.electron.JsElectronListener::onEvent(*)(message);
         });
+    }-*/;
+
+    public static native void sendToElectron(String topic, JSONObject args)/*-{
+        var ipc = $wnd.require("electron").ipcRenderer;
+        ipc.send(topic, args);
     }-*/;
 
     public static native void openUrlExternal(String url)/*-{

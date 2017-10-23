@@ -61,6 +61,7 @@ import im.actor.runtime.js.JsFileSystemProvider;
 import im.actor.runtime.js.fs.JsBlob;
 import im.actor.runtime.js.fs.JsFile;
 import im.actor.runtime.js.mvvm.JsDisplayList;
+import im.actor.runtime.json.JSONObject;
 import im.actor.runtime.mvvm.Value;
 import im.actor.runtime.mvvm.ValueChangedListener;
 import im.actor.runtime.threading.ThreadDispatcher;
@@ -122,12 +123,21 @@ public class JsMessenger extends Messenger {
         JsMessenger.instance = this;
     }
 
+    public void subscribe(String topic, JsElectronListener listener){
+        JsElectronApp.subscribe(topic, listener);
+
+    }
+
     public JsIdleModule getJsIdleModule() {
         return jsIdleModule;
     }
 
     public boolean isElectron() {
         return isElectron;
+    }
+
+    public void sendToElectron(String topic, JSONObject args) {
+        JsElectronApp.sendToElectron(topic, args);
     }
 
     public void sendPhoto(final Peer peer, final String fileName, final JsBlob blob) {
