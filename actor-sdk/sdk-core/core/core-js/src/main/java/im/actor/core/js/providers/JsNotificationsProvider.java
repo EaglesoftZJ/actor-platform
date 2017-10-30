@@ -22,7 +22,6 @@ import im.actor.core.js.providers.notification.JsNotification;
 import im.actor.core.providers.NotificationProvider;
 import im.actor.core.viewmodel.GroupVM;
 import im.actor.core.viewmodel.UserVM;
-
 public class JsNotificationsProvider implements NotificationProvider {
 
     // private JsNotification currentNotification;
@@ -140,7 +139,13 @@ public class JsNotificationsProvider implements NotificationProvider {
             return;
         }
 
-        JsManagedNotification.show(peerKey, peerTitle, contentMessage, peerAvatarUrl);
+        if (JsElectronApp.isElectron()) {
+            JsElectronApp.notification(peerKey, peerTitle, contentMessage, peerAvatarUrl);
+        } else {
+            JsManagedNotification.show(peerKey, peerTitle, contentMessage, peerAvatarUrl);
+        }
+
+
     }
 
     @Override

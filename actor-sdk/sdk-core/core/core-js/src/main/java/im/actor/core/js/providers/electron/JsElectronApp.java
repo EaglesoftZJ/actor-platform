@@ -23,6 +23,11 @@ public class JsElectronApp {
         ipc.send('tray-badge', { count: count });
     }-*/;
 
+    public static native void notification(String key, String title, String message, String avatarUrl)/*-{
+        var ipc = $wnd.require("electron").ipcRenderer;
+        ipc.send('new-messages-notification', {key: key, title: title, message: message, avatar: avatarUrl});
+    }-*/;
+
 
     public static native void subscribe(String topic, JsElectronListener listener)/*-{
         var ipc = $wnd.require("electron").ipcRenderer;

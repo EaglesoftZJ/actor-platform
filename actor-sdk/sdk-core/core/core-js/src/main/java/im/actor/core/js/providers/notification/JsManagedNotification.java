@@ -8,10 +8,10 @@ public class JsManagedNotification {
 
     public static native boolean isGranted()/*-{
         if (Notification.permission !== "granted") {
-            Notification.requestPermission();
-            return false;
-        }
-        return true;
+        Notification.requestPermission();
+        return false;
+    }
+    return true;
     }-*/;
 
     public static native void show(String key, String title, String message, String avatarUrl)/*-{
