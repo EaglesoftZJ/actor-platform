@@ -64,7 +64,7 @@ public class JsFacade implements Exportable {
 
     private static final String TAG = "JsMessenger";
 
-    private static final String APP_NAME = "Eaglesot IM Web App";
+    private static final String APP_NAME = "Eaglesoft IM Web App";
     private static final int APP_ID = 3;
     private static final String APP_KEY = "278f13e07eee8398b189bced0db2cf66703d1746e2b541d85f5b42b1641aae0e";
 
