@@ -33,11 +33,13 @@ public class JsGroupMembersSlice extends JavaScriptObject {
         }
 
         JsArrayInteger nextRes = (JsArrayInteger) JsArrayInteger.createArray();
+        if (groupMembersSlice.getNext() != null) {
 
-        for (byte u : groupMembersSlice.getNext()) {
+            for (byte u : groupMembersSlice.getNext()) {
 
 
-            nextRes.push(u);
+                nextRes.push(u);
+            }
         }
 
         return JsGroupMembersSlice.create(res, nextRes);
