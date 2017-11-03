@@ -58,7 +58,7 @@ public class JsGroup extends JavaScriptObject {
         for (JsGroupMember member : convertedMembers) {
             jsMembers.push(member);
         }
-        return create(groupVM.getId(), groupVM.getName().get(), groupVM.getAbout() + "", fileUrl, bigFileUrl,
+        return create(groupVM.getId(), groupVM.getName().get(), groupVM.getAbout().get(), fileUrl, bigFileUrl,
                 Placeholders.getPlaceholder(groupVM.getId()), presence,
                 jsMembers);
     }
