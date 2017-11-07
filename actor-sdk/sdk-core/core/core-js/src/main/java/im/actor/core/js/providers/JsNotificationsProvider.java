@@ -4,6 +4,7 @@
 
 package im.actor.core.js.providers;
 
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.media.client.Audio;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import im.actor.core.entity.GroupType;
 import im.actor.core.entity.Notification;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.PeerType;
+import im.actor.core.js.entity.JSElectronNotifications;
 import im.actor.core.js.entity.JsPeer;
 import im.actor.core.js.JsMessenger;
 import im.actor.core.js.providers.electron.JsElectronApp;
@@ -50,6 +52,8 @@ public class JsNotificationsProvider implements NotificationProvider {
 
         Notification notification = topNotifications.get(0);
 
+        JsArray<JSElectronNotifications> array = JsArray.createArray().cast();
+
         // Peer info
         Peer peer = notification.getPeer();
         if (conversationsCount == 1) {
@@ -77,7 +81,9 @@ public class JsNotificationsProvider implements NotificationProvider {
 
         int nCount = Math.min(topNotifications.size(), 5);
         boolean showCounters = false;
-        if (topNotifications.size() > 5) {
+        if (JsElectronApp.isElectron()) {
+            nCount = topNotifications.size();
+        } else if (topNotifications.size() > 5) {
             nCount--;
             showCounters = true;
         }
@@ -98,7 +104,17 @@ public class JsNotificationsProvider implements NotificationProvider {
                         n.getContentDescription().getText(),
                         n.getContentDescription().getRelatedUser(),
                         isChannel);
+                if (JsElectronApp.isElectron()) {
+                    JSElectronNotifications jsElectronNotifications = JSElectronNotifications.create(n.getSender(),
+                            isChannel,
+                            n.getContentDescription().getText(),
+                            n.getContentDescription().getRelatedUser(),
+                            n.getContentDescription().getContentType().toString());
+                    array.push(jsElectronNotifications);
+                }
             }
+
+
 
             if (showCounters) {
                 contentMessage += "\n+" + (messagesCount - 4) + " new messages";
@@ -121,6 +137,14 @@ public class JsNotificationsProvider implements NotificationProvider {
                         n.getContentDescription().getText(),
                         n.getContentDescription().getRelatedUser(),
                         isChannel);
+                if (JsElectronApp.isElectron()) {
+                    JSElectronNotifications jsElectronNotifications = JSElectronNotifications.create(n.getSender(),
+                            isChannel,
+                            n.getContentDescription().getText(),
+                            n.getContentDescription().getRelatedUser(),
+                            n.getContentDescription().getContentType().toString());
+                    array.push(jsElectronNotifications);
+                }
             }
 
             if (showCounters) {
@@ -140,7 +164,7 @@ public class JsNotificationsProvider implements NotificationProvider {
         }
 
         if (JsElectronApp.isElectron()) {
-            JsElectronApp.notification(peerKey, peerTitle, contentMessage, peerAvatarUrl);
+            JsElectronApp.notification(peerKey, peerTitle, contentMessage, peerAvatarUrl, array);
         } else {
             JsManagedNotification.show(peerKey, peerTitle, contentMessage, peerAvatarUrl);
         }

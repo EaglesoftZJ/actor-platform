@@ -187,7 +187,7 @@ public class NotificationsActor extends ModuleActor {
         // WARRING: This implementation is copied to onNotificationsResumed with small changes
         // to fit logic
 
-        if (isAppVisible) {
+        if (isAppVisible && isMobilePlatform) {
 
             // If application is visible application play only sound effects and
             // doesn't show any "out-app" notifications

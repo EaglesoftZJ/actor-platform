@@ -1,5 +1,7 @@
 package im.actor.core.js.providers.electron;
 
+import com.google.gwt.core.client.JsArray;
+import im.actor.core.js.entity.JSElectronNotifications;
 import im.actor.runtime.json.JSONObject;
 
 public class JsElectronApp {
@@ -23,9 +25,9 @@ public class JsElectronApp {
         ipc.send('tray-badge', { count: count });
     }-*/;
 
-    public static native void notification(String key, String title, String message, String avatarUrl)/*-{
+    public static native void notification(String key, String title, String message, String avatarUrl, JsArray<JSElectronNotifications> array)/*-{
         var ipc = $wnd.require("electron").ipcRenderer;
-        ipc.send('new-messages-notification', {key: key, title: title, message: message, avatar: avatarUrl});
+        ipc.send('new-messages-notification', {key: key, title: title, message: message, avatar: avatarUrl,notifications: array});
     }-*/;
 
 
