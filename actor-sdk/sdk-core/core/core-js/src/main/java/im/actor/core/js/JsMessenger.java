@@ -140,6 +140,11 @@ public class JsMessenger extends Messenger {
         JsElectronApp.sendToElectron(topic, args);
     }
 
+    public void listenOnRender(String topic, JavaScriptObject func){
+        JsElectronApp.listenOnRender(topic, func);
+
+    }
+
     public void sendPhoto(final Peer peer, final String fileName, final JsBlob blob) {
         Log.d(TAG, "Resizing photo");
         JsImageResize.resize(blob, new JsResizeListener() {

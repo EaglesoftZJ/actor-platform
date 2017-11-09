@@ -158,6 +158,13 @@ public class JsFacade implements Exportable {
         messenger.subscribe(topic, listener);
 
     }
+
+    @UsedByApp
+    public void listenOnRender(String topic, JavaScriptObject func){
+        messenger.listenOnRender(topic, func);
+
+    }
+
     @UsedByApp
     public void sendToElectron(String topic, JSONObject args) {
         messenger.sendToElectron(topic, args);

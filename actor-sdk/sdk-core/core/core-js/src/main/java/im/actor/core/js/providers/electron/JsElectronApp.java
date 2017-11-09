@@ -1,5 +1,6 @@
 package im.actor.core.js.providers.electron;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import im.actor.core.js.entity.JSElectronNotifications;
 import im.actor.runtime.json.JSONObject;
@@ -47,4 +48,10 @@ public class JsElectronApp {
         var shell = $wnd.require('electron').shell;
         shell.openExternal(url);
     }-*/;
+
+    public static native void listenOnRender(String topic, JavaScriptObject func) /*-{
+        var ipc = $wnd.require("electron").ipcRenderer;
+        ipc.on(topic, func);
+    }-*/;{
+    }
 }
