@@ -109,7 +109,7 @@ public class JsNotificationsProvider implements NotificationProvider {
                             isChannel,
                             n.getContentDescription().getText(),
                             n.getContentDescription().getRelatedUser(),
-                            n.getContentDescription().getContentType().toString());
+                            n.getContentDescription().getContentType().toString(), peerTitle);
                     array.push(jsElectronNotifications);
                 }
             }
@@ -138,11 +138,21 @@ public class JsNotificationsProvider implements NotificationProvider {
                         n.getContentDescription().getRelatedUser(),
                         isChannel);
                 if (JsElectronApp.isElectron()) {
+                    String sendername;
+                    if (n.getPeer().getPeerType() == PeerType.PRIVATE) {
+                        UserVM userVM = messenger.getUser(n.getPeer().getPeerId());
+                        sendername = userVM.getName().get();
+                    } else {
+                        GroupVM groupVM = messenger.getGroup(n.getPeer().getPeerId());
+                        sendername = groupVM.getName().get();
+                    }
+
                     JSElectronNotifications jsElectronNotifications = JSElectronNotifications.create(n.getSender(),
                             isChannel,
                             n.getContentDescription().getText(),
                             n.getContentDescription().getRelatedUser(),
-                            n.getContentDescription().getContentType().toString());
+                            n.getContentDescription().getContentType().toString(),
+                            sendername);
                     array.push(jsElectronNotifications);
                 }
             }

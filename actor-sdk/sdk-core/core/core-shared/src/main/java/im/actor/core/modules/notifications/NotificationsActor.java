@@ -41,7 +41,7 @@ public class NotificationsActor extends ModuleActor {
     /**
      * Maximum amount of messages in notification
      */
-    private static final int MAX_NOTIFICATION_COUNT = 10;
+    private static final int MAX_NOTIFICATION_COUNT = 99;
 
     /**
      * KeyValue storage name for actor state

@@ -32,6 +32,7 @@ import im.actor.core.js.utils.IdentityUtils;
 import im.actor.core.network.RpcCallback;
 import im.actor.core.network.RpcException;
 import im.actor.core.viewmodel.CommandCallback;
+import im.actor.core.viewmodel.UserPresence;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.runtime.Log;
 import im.actor.runtime.Storage;
@@ -582,6 +583,13 @@ public class JsFacade implements Exportable {
     @UsedByApp
     public JsPeer getUserPeer(int uid) {
         return JsPeer.create(Peer.user(uid));
+    }
+
+    @UsedByApp
+    public JsUserPresence getUserPresence(int uid) {
+
+        UserPresence up = messenger.getUser(uid).getPresence().get();
+        return JsUserPresence.create(up.getState().toString(), up.getLastSeen());
     }
 
     @UsedByApp
@@ -1645,6 +1653,8 @@ public class JsFacade implements Exportable {
             }
         });
     }
+
+
 
     @UsedByApp
     public JsPromise removeContact(final int uid) {
