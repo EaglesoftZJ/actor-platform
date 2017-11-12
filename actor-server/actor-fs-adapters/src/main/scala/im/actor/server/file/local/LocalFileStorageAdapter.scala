@@ -115,7 +115,7 @@ final class LocalFileStorageAdapter(_system: ActorSystem)
       isComplete ← haveAllParts(fileDir, partNames, fileSize)
       result ← concatFiles(fileDir, partNames, fileName.safe, fileSize)
       _ ← if (isComplete) deleteUploadedParts(fileDir, partNames) else FastFuture.successful(())
-      _ ← db.run(FileRepo.setUploaded(fileId, fileName.safe))
+      _ ← db.run(FileRepo.setUploaded(fileId, fileName.unSafe))
     } yield ()
   }
 
@@ -135,7 +135,7 @@ final class LocalFileStorageAdapter(_system: ActorSystem)
    */
   override def getFileDownloadUrl(file: FileModel, accessHash: Long): Future[Option[String]] = {
     if (ACLFiles.fileAccessHash(file.id, file.accessSalt) == accessHash) {
-      val filePart = Option(file.name) filter (_.trim.nonEmpty) map (n ⇒ s"/${URLEncoder.encode(n, "UTF-8")}") getOrElse ""
+      val filePart = Option(UnsafeFileName(file.name).safe) filter (_.trim.nonEmpty) map (n ⇒ s"/${URLEncoder.encode(n, "UTF-8")}") getOrElse ""
       val query = baseUri
         .withPath(Uri.Path(s"/v1/files/${file.id}" + filePart))
         .withQuery(Uri.Query("expires" → expiresAt().toString))

@@ -77,7 +77,7 @@ trait FileStorageOperations extends LocalUploadKeyImplicits {
   protected def concatFiles(dir: File, partNames: Seq[String], fileName: String, fileSize: Long): Future[File] = {
     Future {
       blocking {
-        log.debug("Concatenating file: {}, parts number: {}", fileName, partNames.length)
+        log.debug("Concatenating file: {}, parts number: {}，Safe name:{}", fileName, partNames.length, getFileName(fileName))
         val concatFile = dir.createChild(getFileName(fileName))
         val groupedPartNames = partNames.grouped(100)
         for {
@@ -103,15 +103,15 @@ trait FileStorageOperations extends LocalUploadKeyImplicits {
     for {
       fileOpt ← getFile(fileId)
       dataOpt ← fileOpt match {
-        case Some(file) ⇒ getFileData(file) map (Some(_))
-        case None       ⇒ FastFuture.successful(None)
+        case (Some(file), Some(name)) ⇒ getFileData(file) map (Some(_))
+        case _                        ⇒ FastFuture.successful(None)
       }
     } yield dataOpt
 
-  protected def getFile(fileId: Long): Future[Option[File]] =
+  protected def getFile(fileId: Long): Future[(Option[File], Option[String])] =
     db.run(FileRepo.find(fileId)) map {
-      case Some(model) ⇒ Some(fileDirectory(fileId) / getFileName(model.name))
-      case None        ⇒ None
+      case Some(model) ⇒ (Some(fileDirectory(fileId) / getFileName(model.name)), Some(model.name))
+      case None        ⇒ (None, None)
     }
 
   protected def getFileData(file: File): Future[ByteString] =

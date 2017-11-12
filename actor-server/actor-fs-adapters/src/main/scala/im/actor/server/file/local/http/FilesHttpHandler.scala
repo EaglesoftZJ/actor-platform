@@ -66,14 +66,14 @@ private[local] final class FilesHttpHandler(storageConfig: LocalFileStorageConfi
               path(Segments(0, 1)) { seqName =>
                 log.debug("Download file request, fileId: {}", fileId)
                 onComplete(getFile(fileId)) {
-                  case Success(Some(file)) =>
+                  case Success((Some(file),Some(modelName))) =>
                     log.debug("Serving fileId: {}, file: {} parts", fileId, file)
                     respondWithDefaultHeader(
-                      `Content-Disposition`(attachment, Map("filename" -> URLEncoder.encode(file.name, Utf8Encoding)))
+                      `Content-Disposition`(attachment, Map("filename" -> URLEncoder.encode(modelName, Utf8Encoding)))
                     ) {
                       getFromFile(file.toJava)
                     }
-                  case Success(None) =>
+                  case Success(_) =>
                     complete(HttpResponse(StatusCodes.NotFound))
                   case Failure(e) =>
                     log.error(e, "Failed to get file content, fileId: {}", fileId)
