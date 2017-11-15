@@ -105,7 +105,14 @@ public class JsNotificationsProvider implements NotificationProvider {
                         n.getContentDescription().getRelatedUser(),
                         isChannel);
                 if (JsElectronApp.isElectron()) {
-                    JSElectronNotifications jsElectronNotifications = JSElectronNotifications.create(n.getSender(),
+                    Peer p = n.getPeer();
+                    String uid ;
+                    if(p.getPeerType() == PeerType.GROUP) {
+                        uid = "g" + n.getPeer().getPeerId();
+                    } else {
+                        uid = "u" + n.getPeer().getPeerId();
+                    }
+                    JSElectronNotifications jsElectronNotifications = JSElectronNotifications.create(uid,
                             isChannel,
                             n.getContentDescription().getText(),
                             n.getContentDescription().getRelatedUser(),
@@ -139,15 +146,18 @@ public class JsNotificationsProvider implements NotificationProvider {
                         isChannel);
                 if (JsElectronApp.isElectron()) {
                     String sendername;
+                    Peer p = n.getPeer();
+                    String uid ;
                     if (n.getPeer().getPeerType() == PeerType.PRIVATE) {
                         UserVM userVM = messenger.getUser(n.getPeer().getPeerId());
                         sendername = userVM.getName().get();
+                        uid = "u" + n.getPeer().getPeerId();
                     } else {
                         GroupVM groupVM = messenger.getGroup(n.getPeer().getPeerId());
                         sendername = groupVM.getName().get();
+                        uid = "g" + n.getPeer().getPeerId();
                     }
-
-                    JSElectronNotifications jsElectronNotifications = JSElectronNotifications.create(n.getSender(),
+                    JSElectronNotifications jsElectronNotifications = JSElectronNotifications.create(uid,
                             isChannel,
                             n.getContentDescription().getText(),
                             n.getContentDescription().getRelatedUser(),
