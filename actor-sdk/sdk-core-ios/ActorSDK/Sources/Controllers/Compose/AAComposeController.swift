@@ -24,7 +24,7 @@ open class AAComposeController: AAContactsListContentController, AAContactsListC
     }
     
     open func willAddContacts(_ controller: AAContactsListContentController, section: AAManagedSection) {
-        section.custom { (r:AACustomRow<AAContactActionCell>) -> () in
+        _ = section.custom { (r:AACustomRow<AAContactActionCell>) -> () in
             
             r.height = 56
             
@@ -38,7 +38,7 @@ open class AAComposeController: AAContactsListContentController, AAContactsListC
             }
         }
         
-        section.custom { (r:AACustomRow<AAContactActionCell>) -> () in
+        _ = section.custom { (r:AACustomRow<AAContactActionCell>) -> () in
             
             r.height = 56
             

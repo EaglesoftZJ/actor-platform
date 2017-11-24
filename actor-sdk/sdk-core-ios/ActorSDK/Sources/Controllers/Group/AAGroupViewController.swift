@@ -328,7 +328,7 @@ open class AAGroupViewController: AAContentTableController {
                             action = AALocalized("ActionDeleteAndExitMessageAction")
                         }
                         self.confirmDestructive(title, action: action, yes: { () -> () in
-                            self.executePromise(Actor.leaveAndDeleteGroup(withGid: jint(self.gid)))
+                           _ = self.executePromise(Actor.leaveAndDeleteGroup(withGid: jint(self.gid)))
                         })
                         
                         return true

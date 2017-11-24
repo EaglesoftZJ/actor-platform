@@ -1,8 +1,5 @@
 set -e
 
-pod install
-pod update
-
 rm -fr build
 mkdir -p build/Output
 

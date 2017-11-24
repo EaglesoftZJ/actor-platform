@@ -90,12 +90,11 @@ open class AAContactsViewController: AAContactsListContentController, AAContacts
             }
             
             r.selectAction = { () -> Bool in
-                
+                self.navigateNext(AAGroupCreateViewController(isChannel: false), removeCurrent: false)
                 return true
             }
         }
     }
- 
     // Searching for contact
     
     open func findContact() {

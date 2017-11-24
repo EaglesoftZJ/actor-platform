@@ -725,6 +725,7 @@
 
 "ActionDeleteAndExitAction" = "退出";
 
+"ActionDeleteAndExitMessageAction" = "确定";
 
 
 "ActionClearHistory" = "清除历史";

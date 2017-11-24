@@ -12,6 +12,10 @@ public extension UIViewController {
         
         closure(s)
         
+        //#自己改的
+        if s.title == nil{s.title = "ActionDelete"}
+        if s.message == nil {s.message = "ActionDeleteMessage"}
+        
         let controller = UIAlertController(title: AALocalized(s.title), message: AALocalized(s.message), preferredStyle: .actionSheet)
             
         for i in s.actions {

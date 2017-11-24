@@ -40,11 +40,11 @@ open class AADialogsListContentController: AAContentTableController, UISearchBar
             }
         }
         
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             s.autoSeparatorsInset = 75
             
-            s.binded { (r:AABindedRows<AADialogCell>) -> () in
+            _ = s.binded { (r:AABindedRows<AADialogCell>) -> () in
                 
                 r.differental = true
                 
@@ -86,20 +86,20 @@ open class AADialogsListContentController: AAContentTableController, UISearchBar
                                 if isChannel {
                                     a.destructive(AALocalized("ActionLeaveChannel"), closure: {
                                         self.confirmAlertUserDanger("ActionLeaveChannelMessage", action: "ActionLeaveChannelAction", tapYes: {
-                                            self.executePromise(Actor.leaveAndDeleteGroup(withGid: dialog.peer.peerId))
+                                            _ = self.executePromise(Actor.leaveAndDeleteGroup(withGid: dialog.peer.peerId))
                                         })
                                     })
                                 } else {
                                     a.destructive(AALocalized("ActionDeleteAndExit"), closure: {
                                         self.confirmAlertUserDanger("ActionDeleteAndExitMessage", action: "ActionDeleteAndExitAction", tapYes: {
-                                            self.executePromise(Actor.leaveAndDeleteGroup(withGid: dialog.peer.peerId))
+                                            _ = self.executePromise(Actor.leaveAndDeleteGroup(withGid: dialog.peer.peerId))
                                         })
                                     })
                                 }
                             } else if g.isCanDelete.get().booleanValue()  && g.isMember.get().booleanValue(){
                                 a.destructive(AALocalized(isChannel ? "ActionDeleteChannel" : "ActionDeleteGroup"), closure: {
                                     self.confirmAlertUserDanger(isChannel ? "ActionDeleteChannelMessage" : "ActionDeleteGroupMessage", action: "ActionDelete", tapYes: {
-                                        self.executePromise(Actor.deleteGroup(withGid: g.groupId))
+                                        _ = self.executePromise(Actor.deleteGroup(withGid: g.groupId))
                                     })
                                 })
                             } else {

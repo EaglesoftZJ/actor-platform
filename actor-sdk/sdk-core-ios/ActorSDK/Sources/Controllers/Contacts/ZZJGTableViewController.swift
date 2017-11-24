@@ -9,27 +9,17 @@
 import UIKit
 class ZZJGTableViewController: UITableViewController,CommonServiceDelegate {
     func serviceStart(_ svc: CommonService!) {
-        hud.show(view:self.tableView)
+//        hud.show(view:self.tableView)
     }
     func serviceEnd(_ svc: CommonService!) {
-        hud.hide()
+//        hud.hide()
     }
     func serviceSuccess(_ svc: CommonService!, object obj: Any!) {
         if svc == companyService {
             guard (obj as? NSDictionary) != nil else{return}
             result_dict = obj as! NSDictionary
-            let arr:Array<NSDictionary> = result_dict["dw_data"] as! Array<NSDictionary>
-            var wzh_arr = Array<Any>()
-            for companyInfo in arr{
-                let dic = companyInfo as! [String:AnyObject]
-                wzh_arr.append(ZZJGModel(dict:dic))
-            }
-            dw_arr = wzh_arr.sorted(by: { (s1, s2) -> Bool in
-                let zzjg1:ZZJGModel = s1 as! ZZJGModel
-                let zzjg2:ZZJGModel = s2 as! ZZJGModel
-                return (zzjg1.wzh) < (zzjg2.wzh) ? true:false
-            })
-            self.tableView.reloadData()
+            UserDefaults.standard.set(result_dict, forKey: "ZZJG")
+            getResultDict()
         }
     }
     
@@ -49,10 +39,31 @@ class ZZJGTableViewController: UITableViewController,CommonServiceDelegate {
         self.title = "组织架构"
         self.tableView.tableFooterView = UIView()
         self.tableView?.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
+        if UserDefaults.standard.object(forKey: "ZZJG") != nil{
+            result_dict = UserDefaults.standard.object(forKey: "ZZJG") as! NSDictionary
+            getResultDict()
+        }
+        
         companyService.delegate = self
         companyService.chooseCompany()
     }
-
+    
+    //# 🉐组织结构
+    private func getResultDict(){
+        let arr:Array<NSDictionary> = result_dict["dw_data"] as! Array<NSDictionary>
+        var wzh_arr = Array<Any>()
+        for companyInfo in arr{
+            let dic = companyInfo as! [String:AnyObject]
+            wzh_arr.append(ZZJGModel(dict:dic))
+        }
+        dw_arr = wzh_arr.sorted(by: { (s1, s2) -> Bool in
+            let zzjg1:ZZJGModel = s1 as! ZZJGModel
+            let zzjg2:ZZJGModel = s2 as! ZZJGModel
+            return (zzjg1.wzh) < (zzjg2.wzh) ? true:false
+        })
+        self.tableView.reloadData()
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

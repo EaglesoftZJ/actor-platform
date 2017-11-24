@@ -159,7 +159,7 @@ open class AAGroupCreateViewController: AAViewController, UITextFieldDelegate {
         groupName.resignFirstResponder()
         
         if isChannel {
-            executePromise(Actor.createChannel(withTitle: title, withAvatar: nil)).then({ (gid: JavaLangInteger!) in
+            _ = executePromise(Actor.createChannel(withTitle: title, withAvatar: nil)).then({ (gid: JavaLangInteger!) in
                 self.navigateNext(AAGroupTypeViewController(gid: Int(gid.intValue()), isCreation: true), removeCurrent: true)
             })
         } else {

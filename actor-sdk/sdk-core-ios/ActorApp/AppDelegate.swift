@@ -62,7 +62,7 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
         let _ = super.application(application, didFinishLaunchingWithOptions: launchOptions)
         //#注册切换Root控制器通知
         NotificationCenter.default.addObserver(self, selector: #selector(switchRootViewController), name: ActorSDK.sharedActor().switchRootController, object: nil)
-        //ActorSDK.sharedActor().presentMessengerInNewWindow()
+//        ActorSDK.sharedActor().presentMessengerInNewWindow()
         window = UIWindow(frame:UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
         window?.rootViewController = WelcomeViewController()
@@ -79,7 +79,7 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
     }
     
     open override func actorRootInitialControllerIndex() -> Int? {
-        return 0
+        return 1
     }
     func switchRootViewController(){
         ActorSDK.sharedActor().presentMessengerInNewWindow()

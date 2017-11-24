@@ -1,6 +1,6 @@
 //
 //  Copyright (c) 2014-2016 Actor LLC. <https://actor.im>
-//
+//邀请成员
 
 import UIKit
 
@@ -44,6 +44,7 @@ open class GroupMembersController: AAContactsListContentController, AAContactsLi
         tokenView.backgroundColor = appStyle.vcTokenFieldBgColor
         tokenView.tintColor = appStyle.vcTokenTintColor
         tokenView.fieldName = ""
+        tokenView.drawBottomBorder = true
         
         let placeholder = AALocalized("CreateGroupMembersPlaceholders")
         let attributedPlaceholder = NSMutableAttributedString(string: placeholder)
@@ -81,10 +82,10 @@ open class GroupMembersController: AAContactsListContentController, AAContactsLi
             res?.replaceInt(at: UInt(i), with: selected[i].contact.uid)
         }
         
-        executePromise(Actor.createGroup(withTitle: groupTitle, withAvatar: nil, withUids: res)).then { (res: JavaLangInteger!) in
+        _ = executePromise(Actor.createGroup(withTitle: groupTitle, withAvatar: nil, withUids: res)).then { (res: JavaLangInteger!) in
             let gid = res.int32Value
             if self.groupImage != nil {
-                Actor.changeGroupAvatar(gid, image: self.groupImage!)
+                _ = Actor.changeGroupAvatar(gid, image: self.groupImage!)
             }
             if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer.group(with: gid)) {
                 self.navigateDetail(customController)
