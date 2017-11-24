@@ -340,6 +340,58 @@
 		15F89F081C211FED00776ACD /* opus_multistream.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F041C211FED00776ACD /* opus_multistream.h */; };
 		15F89F091C211FED00776ACD /* opus_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F051C211FED00776ACD /* opus_types.h */; };
 		15F89F0A1C211FED00776ACD /* opus.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F061C211FED00776ACD /* opus.h */; };
+		350034B91FBD3BB5000E5459 /* ZZJGTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350034B81FBD3BB5000E5459 /* ZZJGTableViewController.swift */; };
+		350034BE1FBD619E000E5459 /* NetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350034BD1FBD619E000E5459 /* NetManager.swift */; };
+		350034C61FBD7D8A000E5459 /* WebService.h in Headers */ = {isa = PBXBuildFile; fileRef = 350034C41FBD7D8A000E5459 /* WebService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		350034C71FBD7D8A000E5459 /* WebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 350034C51FBD7D8A000E5459 /* WebService.m */; };
+		3504FD231FBEC92A00E7F177 /* ZZJGModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504FD221FBEC92A00E7F177 /* ZZJGModel.swift */; };
+		3504FD251FC264F200E7F177 /* BMJGTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504FD241FC264F200E7F177 /* BMJGTableViewController.swift */; };
+		3504FD271FC2653300E7F177 /* YGJGTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504FD261FC2653300E7F177 /* YGJGTableViewController.swift */; };
+		3567C7B81FBE6D5800103066 /* CompanyService.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7B61FBE6D5800103066 /* CompanyService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7B91FBE6D5800103066 /* CompanyService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7B71FBE6D5800103066 /* CompanyService.m */; };
+		3567C7D71FBE71F700103066 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7BD1FBE71F700103066 /* JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7D81FBE71F700103066 /* NSObject+SBJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7BE1FBE71F700103066 /* NSObject+SBJson.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7D91FBE71F700103066 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7BF1FBE71F700103066 /* NSObject+SBJson.m */; };
+		3567C7DA1FBE71F700103066 /* SBJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7C01FBE71F700103066 /* SBJson.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7DB1FBE71F700103066 /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7C11FBE71F700103066 /* SBJsonParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7DC1FBE71F700103066 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7C21FBE71F700103066 /* SBJsonParser.m */; };
+		3567C7DD1FBE71F700103066 /* SBJsonStreamParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7C31FBE71F700103066 /* SBJsonStreamParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7DE1FBE71F700103066 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7C41FBE71F700103066 /* SBJsonStreamParser.m */; };
+		3567C7DF1FBE71F700103066 /* SBJsonStreamParserAccumulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7C51FBE71F700103066 /* SBJsonStreamParserAccumulator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7E01FBE71F700103066 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7C61FBE71F700103066 /* SBJsonStreamParserAccumulator.m */; };
+		3567C7E11FBE71F700103066 /* SBJsonStreamParserAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7C71FBE71F700103066 /* SBJsonStreamParserAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7E21FBE71F700103066 /* SBJsonStreamParserAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7C81FBE71F700103066 /* SBJsonStreamParserAdapter.m */; };
+		3567C7E31FBE71F700103066 /* SBJsonStreamParserState.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7C91FBE71F700103066 /* SBJsonStreamParserState.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7E41FBE71F700103066 /* SBJsonStreamParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7CA1FBE71F700103066 /* SBJsonStreamParserState.m */; };
+		3567C7E51FBE71F700103066 /* SBJsonStreamWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7CB1FBE71F700103066 /* SBJsonStreamWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7E61FBE71F700103066 /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7CC1FBE71F700103066 /* SBJsonStreamWriter.m */; };
+		3567C7E71FBE71F700103066 /* SBJsonStreamWriterAccumulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7CD1FBE71F700103066 /* SBJsonStreamWriterAccumulator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7E81FBE71F700103066 /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7CE1FBE71F700103066 /* SBJsonStreamWriterAccumulator.m */; };
+		3567C7E91FBE71F700103066 /* SBJsonStreamWriterState.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7CF1FBE71F700103066 /* SBJsonStreamWriterState.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7EA1FBE71F700103066 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7D01FBE71F700103066 /* SBJsonStreamWriterState.m */; };
+		3567C7EB1FBE71F700103066 /* SBJsonTokeniser.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7D11FBE71F700103066 /* SBJsonTokeniser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7EC1FBE71F700103066 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7D21FBE71F700103066 /* SBJsonTokeniser.m */; };
+		3567C7ED1FBE71F700103066 /* SBJsonUTF8Stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7D31FBE71F700103066 /* SBJsonUTF8Stream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7EE1FBE71F700103066 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7D41FBE71F700103066 /* SBJsonUTF8Stream.m */; };
+		3567C7EF1FBE71F700103066 /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7D51FBE71F700103066 /* SBJsonWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7F01FBE71F700103066 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7D61FBE71F700103066 /* SBJsonWriter.m */; };
+		3567C7F51FBE723000103066 /* CommonServiceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7F21FBE722F00103066 /* CommonServiceDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7F61FBE723000103066 /* CommonService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7F31FBE723000103066 /* CommonService.m */; };
+		3567C7FB1FBE89A800103066 /* CommonService.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7F11FBE722F00103066 /* CommonService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3567C7FD1FBE924500103066 /* WaitMBProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7FC1FBE924500103066 /* WaitMBProgress.swift */; };
+		35E500201FC41C6200637253 /* PhoneImageService.h in Headers */ = {isa = PBXBuildFile; fileRef = 35E5001E1FC41C6200637253 /* PhoneImageService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		35E500211FC41C6200637253 /* PhoneImageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E5001F1FC41C6200637253 /* PhoneImageService.m */; };
+		35E500251FC50B8E00637253 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E500241FC50B8E00637253 /* WelcomeViewController.swift */; };
+		35FC76C81FB54EF50054F45E /* 选择公司.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC76C21FB54EF40054F45E /* 选择公司.png */; };
+		35FC76C91FB54EF50054F45E /* 不记住.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC76C31FB54EF40054F45E /* 不记住.png */; };
+		35FC76CA1FB54EF50054F45E /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC76C41FB54EF50054F45E /* logo@2x.png */; };
+		35FC76CB1FB54EF50054F45E /* 选择.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC76C51FB54EF50054F45E /* 选择.png */; };
+		35FC76CC1FB54EF50054F45E /* 密码.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC76C61FB54EF50054F45E /* 密码.png */; };
+		35FC76CD1FB54EF50054F45E /* 记住.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC76C71FB54EF50054F45E /* 记住.png */; };
+		35FC76CF1FB5503E0054F45E /* 用户名.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC76CE1FB5503E0054F45E /* 用户名.png */; };
+		35FC76D51FB59ADF0054F45E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FC76D41FB59ADF0054F45E /* LoginViewController.swift */; };
+		35FC76D91FB92EA50054F45E /* backgroundImg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 35FC76D81FB92EA50054F45E /* backgroundImg.jpg */; };
+		35FC76DB1FB931E00054F45E /* loginBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC76DA1FB931E00054F45E /* loginBackground.png */; };
 		9AA6A41F1D08568A00957A7F /* AASettingsMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6A41E1D08568A00957A7F /* AASettingsMediaViewController.swift */; };
 		9AAE96481CF81F140092E366 /* AARingtonesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE96471CF81F140092E366 /* AARingtonesViewController.swift */; };
 		BDF21708B376E212CEAEC43D /* Pods_ActorSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354C3EFA48FBFAEAD0DEEE17 /* Pods_ActorSDK.framework */; };
@@ -723,7 +775,59 @@
 		15F89F051C211FED00776ACD /* opus_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opus_types.h; sourceTree = "<group>"; };
 		15F89F061C211FED00776ACD /* opus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opus.h; sourceTree = "<group>"; };
 		15F89F0F1C21317400776ACD /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		350034B81FBD3BB5000E5459 /* ZZJGTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZJGTableViewController.swift; sourceTree = "<group>"; };
+		350034BD1FBD619E000E5459 /* NetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetManager.swift; sourceTree = "<group>"; };
+		350034C41FBD7D8A000E5459 /* WebService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebService.h; sourceTree = "<group>"; };
+		350034C51FBD7D8A000E5459 /* WebService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebService.m; sourceTree = "<group>"; };
+		3504FD221FBEC92A00E7F177 /* ZZJGModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZJGModel.swift; sourceTree = "<group>"; };
+		3504FD241FC264F200E7F177 /* BMJGTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMJGTableViewController.swift; sourceTree = "<group>"; };
+		3504FD261FC2653300E7F177 /* YGJGTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YGJGTableViewController.swift; sourceTree = "<group>"; };
 		354C3EFA48FBFAEAD0DEEE17 /* Pods_ActorSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ActorSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3567C7B61FBE6D5800103066 /* CompanyService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompanyService.h; sourceTree = "<group>"; };
+		3567C7B71FBE6D5800103066 /* CompanyService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompanyService.m; sourceTree = "<group>"; };
+		3567C7BD1FBE71F700103066 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		3567C7BE1FBE71F700103066 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
+		3567C7BF1FBE71F700103066 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
+		3567C7C01FBE71F700103066 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
+		3567C7C11FBE71F700103066 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		3567C7C21FBE71F700103066 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		3567C7C31FBE71F700103066 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
+		3567C7C41FBE71F700103066 /* SBJsonStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParser.m; sourceTree = "<group>"; };
+		3567C7C51FBE71F700103066 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		3567C7C61FBE71F700103066 /* SBJsonStreamParserAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAccumulator.m; sourceTree = "<group>"; };
+		3567C7C71FBE71F700103066 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		3567C7C81FBE71F700103066 /* SBJsonStreamParserAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAdapter.m; sourceTree = "<group>"; };
+		3567C7C91FBE71F700103066 /* SBJsonStreamParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserState.h; sourceTree = "<group>"; };
+		3567C7CA1FBE71F700103066 /* SBJsonStreamParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserState.m; sourceTree = "<group>"; };
+		3567C7CB1FBE71F700103066 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		3567C7CC1FBE71F700103066 /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriter.m; sourceTree = "<group>"; };
+		3567C7CD1FBE71F700103066 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		3567C7CE1FBE71F700103066 /* SBJsonStreamWriterAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterAccumulator.m; sourceTree = "<group>"; };
+		3567C7CF1FBE71F700103066 /* SBJsonStreamWriterState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterState.h; sourceTree = "<group>"; };
+		3567C7D01FBE71F700103066 /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterState.m; sourceTree = "<group>"; };
+		3567C7D11FBE71F700103066 /* SBJsonTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonTokeniser.h; sourceTree = "<group>"; };
+		3567C7D21FBE71F700103066 /* SBJsonTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonTokeniser.m; sourceTree = "<group>"; };
+		3567C7D31FBE71F700103066 /* SBJsonUTF8Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonUTF8Stream.h; sourceTree = "<group>"; };
+		3567C7D41FBE71F700103066 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
+		3567C7D51FBE71F700103066 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		3567C7D61FBE71F700103066 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		3567C7F11FBE722F00103066 /* CommonService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonService.h; sourceTree = "<group>"; };
+		3567C7F21FBE722F00103066 /* CommonServiceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonServiceDelegate.h; sourceTree = "<group>"; };
+		3567C7F31FBE723000103066 /* CommonService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonService.m; sourceTree = "<group>"; };
+		3567C7FC1FBE924500103066 /* WaitMBProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitMBProgress.swift; sourceTree = "<group>"; };
+		35E5001E1FC41C6200637253 /* PhoneImageService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhoneImageService.h; sourceTree = "<group>"; };
+		35E5001F1FC41C6200637253 /* PhoneImageService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhoneImageService.m; sourceTree = "<group>"; };
+		35E500241FC50B8E00637253 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		35FC76C21FB54EF40054F45E /* 选择公司.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "选择公司.png"; sourceTree = "<group>"; };
+		35FC76C31FB54EF40054F45E /* 不记住.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "不记住.png"; sourceTree = "<group>"; };
+		35FC76C41FB54EF50054F45E /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		35FC76C51FB54EF50054F45E /* 选择.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "选择.png"; sourceTree = "<group>"; };
+		35FC76C61FB54EF50054F45E /* 密码.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "密码.png"; sourceTree = "<group>"; };
+		35FC76C71FB54EF50054F45E /* 记住.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "记住.png"; sourceTree = "<group>"; };
+		35FC76CE1FB5503E0054F45E /* 用户名.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "用户名.png"; sourceTree = "<group>"; };
+		35FC76D41FB59ADF0054F45E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		35FC76D81FB92EA50054F45E /* backgroundImg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = backgroundImg.jpg; sourceTree = "<group>"; };
+		35FC76DA1FB931E00054F45E /* loginBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginBackground.png; sourceTree = "<group>"; };
 		9AA6A41E1D08568A00957A7F /* AASettingsMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AASettingsMediaViewController.swift; sourceTree = "<group>"; };
 		9AAE96471CF81F140092E366 /* AARingtonesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AARingtonesViewController.swift; sourceTree = "<group>"; };
 		BE237C9C1C422FFA00060648 /* AAStickersKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAStickersKeyboard.swift; sourceTree = "<group>"; };
@@ -1131,6 +1235,7 @@
 				06C1D07A1C8BFE5C00B73632 /* AAAuthPhoneViewController.swift */,
 				066CBCDB1C8D419F004507E2 /* AAAuthEmailViewController.swift */,
 				06D5C05B1C8EA842002D5045 /* AAAuthOTPViewController.swift */,
+				35FC76D41FB59ADF0054F45E /* LoginViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1295,6 +1400,10 @@
 			isa = PBXGroup;
 			children = (
 				066A53031BC53177000E606E /* AAContactsViewController.swift */,
+				350034B81FBD3BB5000E5459 /* ZZJGTableViewController.swift */,
+				3504FD241FC264F200E7F177 /* BMJGTableViewController.swift */,
+				3504FD261FC2653300E7F177 /* YGJGTableViewController.swift */,
+				3504FD211FBEC91000E7F177 /* ZZJGModel */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -1403,12 +1512,14 @@
 				066A51571BC4C112000E606E /* Utils */,
 				06E322CB1C69392F00D66F53 /* Libs */,
 				066A52131BC4EDEB000E606E /* Views */,
+				350034BC1FBD6119000E5459 /* NetManager */,
 				066A525D1BC503BB000E606E /* ActorApplicationDelegate.swift */,
 				066A50D51BC4AE63000E606E /* ActorSDK.h */,
 				066A50E11BC4AF9F000E606E /* ActorSDK.swift */,
 				06CE898F1BD84DF5005A5530 /* ActorSDKAnalytics.swift */,
 				066A525B1BC502EB000E606E /* ActorSDKDelegate.swift */,
 				066A53381BC5456B000E606E /* ActorStyle.swift */,
+				3567C7FC1FBE924500103066 /* WaitMBProgress.swift */,
 				066A50D71BC4AE63000E606E /* Info.plist */,
 			);
 			path = Sources;
@@ -1441,6 +1552,8 @@
 		06C1D0751C8BC55100B73632 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
+				35FC76C11FB54EDD0054F45E /* image */,
+				35E500241FC50B8E00637253 /* WelcomeViewController.swift */,
 				153F6B601C2BF8EC00C0B960 /* AAAuthWelcomeController.swift */,
 			);
 			name = Welcome;
@@ -1679,6 +1792,89 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		350034BC1FBD6119000E5459 /* NetManager */ = {
+			isa = PBXGroup;
+			children = (
+				3567C7BC1FBE71F700103066 /* json */,
+				350034C31FBD7D3A000E5459 /* OC_Net */,
+				350034BD1FBD619E000E5459 /* NetManager.swift */,
+			);
+			path = NetManager;
+			sourceTree = "<group>";
+		};
+		350034C31FBD7D3A000E5459 /* OC_Net */ = {
+			isa = PBXGroup;
+			children = (
+				3567C7F11FBE722F00103066 /* CommonService.h */,
+				3567C7F31FBE723000103066 /* CommonService.m */,
+				3567C7F21FBE722F00103066 /* CommonServiceDelegate.h */,
+				350034C41FBD7D8A000E5459 /* WebService.h */,
+				350034C51FBD7D8A000E5459 /* WebService.m */,
+				3567C7B61FBE6D5800103066 /* CompanyService.h */,
+				3567C7B71FBE6D5800103066 /* CompanyService.m */,
+				35E5001E1FC41C6200637253 /* PhoneImageService.h */,
+				35E5001F1FC41C6200637253 /* PhoneImageService.m */,
+			);
+			path = OC_Net;
+			sourceTree = "<group>";
+		};
+		3504FD211FBEC91000E7F177 /* ZZJGModel */ = {
+			isa = PBXGroup;
+			children = (
+				3504FD221FBEC92A00E7F177 /* ZZJGModel.swift */,
+			);
+			path = ZZJGModel;
+			sourceTree = "<group>";
+		};
+		3567C7BC1FBE71F700103066 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				3567C7BD1FBE71F700103066 /* JSON.h */,
+				3567C7BE1FBE71F700103066 /* NSObject+SBJson.h */,
+				3567C7BF1FBE71F700103066 /* NSObject+SBJson.m */,
+				3567C7C01FBE71F700103066 /* SBJson.h */,
+				3567C7C11FBE71F700103066 /* SBJsonParser.h */,
+				3567C7C21FBE71F700103066 /* SBJsonParser.m */,
+				3567C7C31FBE71F700103066 /* SBJsonStreamParser.h */,
+				3567C7C41FBE71F700103066 /* SBJsonStreamParser.m */,
+				3567C7C51FBE71F700103066 /* SBJsonStreamParserAccumulator.h */,
+				3567C7C61FBE71F700103066 /* SBJsonStreamParserAccumulator.m */,
+				3567C7C71FBE71F700103066 /* SBJsonStreamParserAdapter.h */,
+				3567C7C81FBE71F700103066 /* SBJsonStreamParserAdapter.m */,
+				3567C7C91FBE71F700103066 /* SBJsonStreamParserState.h */,
+				3567C7CA1FBE71F700103066 /* SBJsonStreamParserState.m */,
+				3567C7CB1FBE71F700103066 /* SBJsonStreamWriter.h */,
+				3567C7CC1FBE71F700103066 /* SBJsonStreamWriter.m */,
+				3567C7CD1FBE71F700103066 /* SBJsonStreamWriterAccumulator.h */,
+				3567C7CE1FBE71F700103066 /* SBJsonStreamWriterAccumulator.m */,
+				3567C7CF1FBE71F700103066 /* SBJsonStreamWriterState.h */,
+				3567C7D01FBE71F700103066 /* SBJsonStreamWriterState.m */,
+				3567C7D11FBE71F700103066 /* SBJsonTokeniser.h */,
+				3567C7D21FBE71F700103066 /* SBJsonTokeniser.m */,
+				3567C7D31FBE71F700103066 /* SBJsonUTF8Stream.h */,
+				3567C7D41FBE71F700103066 /* SBJsonUTF8Stream.m */,
+				3567C7D51FBE71F700103066 /* SBJsonWriter.h */,
+				3567C7D61FBE71F700103066 /* SBJsonWriter.m */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
+		35FC76C11FB54EDD0054F45E /* image */ = {
+			isa = PBXGroup;
+			children = (
+				35FC76DA1FB931E00054F45E /* loginBackground.png */,
+				35FC76CE1FB5503E0054F45E /* 用户名.png */,
+				35FC76C31FB54EF40054F45E /* 不记住.png */,
+				35FC76C51FB54EF50054F45E /* 选择.png */,
+				35FC76C61FB54EF50054F45E /* 密码.png */,
+				35FC76C71FB54EF50054F45E /* 记住.png */,
+				35FC76C21FB54EF40054F45E /* 选择公司.png */,
+				35FC76C41FB54EF50054F45E /* logo@2x.png */,
+				35FC76D81FB92EA50054F45E /* backgroundImg.jpg */,
+			);
+			name = image;
+			sourceTree = "<group>";
+		};
 		9AAE96461CF81F140092E366 /* Ringtones */ = {
 			isa = PBXGroup;
 			children = (
@@ -1860,6 +2056,24 @@
 				061851021C95CBF000C522D5 /* YYTextUtilities.h in Headers */,
 				0618510A1C95CBF000C522D5 /* YYText.h in Headers */,
 				BED5A2071C4839790045FDB0 /* NYTPhoto.h in Headers */,
+				3567C7B81FBE6D5800103066 /* CompanyService.h in Headers */,
+				3567C7D71FBE71F700103066 /* JSON.h in Headers */,
+				350034C61FBD7D8A000E5459 /* WebService.h in Headers */,
+				3567C7DA1FBE71F700103066 /* SBJson.h in Headers */,
+				3567C7F51FBE723000103066 /* CommonServiceDelegate.h in Headers */,
+				3567C7FB1FBE89A800103066 /* CommonService.h in Headers */,
+				3567C7DD1FBE71F700103066 /* SBJsonStreamParser.h in Headers */,
+				3567C7ED1FBE71F700103066 /* SBJsonUTF8Stream.h in Headers */,
+				3567C7D81FBE71F700103066 /* NSObject+SBJson.h in Headers */,
+				3567C7E71FBE71F700103066 /* SBJsonStreamWriterAccumulator.h in Headers */,
+				3567C7E31FBE71F700103066 /* SBJsonStreamParserState.h in Headers */,
+				3567C7EB1FBE71F700103066 /* SBJsonTokeniser.h in Headers */,
+				3567C7DF1FBE71F700103066 /* SBJsonStreamParserAccumulator.h in Headers */,
+				3567C7EF1FBE71F700103066 /* SBJsonWriter.h in Headers */,
+				3567C7E91FBE71F700103066 /* SBJsonStreamWriterState.h in Headers */,
+				3567C7E51FBE71F700103066 /* SBJsonStreamWriter.h in Headers */,
+				3567C7E11FBE71F700103066 /* SBJsonStreamParserAdapter.h in Headers */,
+				3567C7DB1FBE71F700103066 /* SBJsonParser.h in Headers */,
 				15D35F571C20187E00E3717A /* AAAudioRecorder.h in Headers */,
 				15F89F071C211FED00776ACD /* opus_defines.h in Headers */,
 				061850E21C95CBF000C522D5 /* YYTextKeyboardManager.h in Headers */,
@@ -1868,6 +2082,7 @@
 				061850EA1C95CBF000C522D5 /* YYTextSelectionView.h in Headers */,
 				061850FC1C95CBF000C522D5 /* UIView+YYText.h in Headers */,
 				15D35F281C20186200E3717A /* os_types.h in Headers */,
+				35E500201FC41C6200637253 /* PhoneImageService.h in Headers */,
 				15D35F191C20185500E3717A /* opus_header.h in Headers */,
 				061850DC1C95CBF000C522D5 /* YYTextDebugOption.h in Headers */,
 				15F89F081C211FED00776ACD /* opus_multistream.h in Headers */,
@@ -1963,27 +2178,36 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35FC76CB1FB54EF50054F45E /* 选择.png in Resources */,
 				06230F451BC95C0E00A4807B /* ABPhoneFieldCodes.txt in Resources */,
+				35FC76CA1FB54EF50054F45E /* logo@2x.png in Resources */,
 				0630741B1BD68E370053DEAF /* bg_1_preview.jpg in Resources */,
+				35FC76C91FB54EF50054F45E /* 不记住.png in Resources */,
 				BED5A1D91C4839590045FDB0 /* NYTPhotoViewerCloseButtonX@3x.png in Resources */,
 				BED5A1D81C4839590045FDB0 /* NYTPhotoViewerCloseButtonX@2x.png in Resources */,
 				BED5A1D71C4839590045FDB0 /* NYTPhotoViewerCloseButtonX.png in Resources */,
 				06230F461BC95C0E00A4807B /* PhoneFormats.dat in Resources */,
+				35FC76C81FB54EF50054F45E /* 选择公司.png in Resources */,
 				065975511BC7DD3C00B8C7DF /* highlight-default.min.css in Resources */,
 				0659754B1BC7DBA000B8C7DF /* iapetus.caf in Resources */,
+				35FC76CC1FB54EF50054F45E /* 密码.png in Resources */,
 				BED5A1DC1C4839590045FDB0 /* NYTPhotoViewerCloseButtonXLandscape@3x.png in Resources */,
 				0630741A1BD68E370053DEAF /* bg_2_preview.jpg in Resources */,
 				065975221BC7C84E00B8C7DF /* bg_3.jpg in Resources */,
 				065975211BC7C84E00B8C7DF /* bg_1.jpg in Resources */,
 				0659753B1BC7D22200B8C7DF /* Images.xcassets in Resources */,
 				065975231BC7C84E00B8C7DF /* bg_2.jpg in Resources */,
+				35FC76DB1FB931E00054F45E /* loginBackground.png in Resources */,
 				065975521BC7DD3C00B8C7DF /* highlight.min.js in Resources */,
 				065975441BC7D34200B8C7DF /* Localizable.strings in Resources */,
 				06E3C58B1C746CCC004776CD /* tone.m4a in Resources */,
+				35FC76CD1FB54EF50054F45E /* 记住.png in Resources */,
 				BED5A1DB1C4839590045FDB0 /* NYTPhotoViewerCloseButtonXLandscape@2x.png in Resources */,
 				06E3C58D1C749320004776CD /* ringtone.m4a in Resources */,
 				0659754C1BC7DBA000B8C7DF /* notification.caf in Resources */,
 				BEF11DB61C466D800076400A /* begin_record.caf in Resources */,
+				35FC76CF1FB5503E0054F45E /* 用户名.png in Resources */,
+				35FC76D91FB92EA50054F45E /* backgroundImg.jpg in Resources */,
 				063074191BD68E370053DEAF /* bg_3_preview.jpg in Resources */,
 				BED5A1DA1C4839590045FDB0 /* NYTPhotoViewerCloseButtonXLandscape.png in Resources */,
 			);
@@ -2012,13 +2236,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ActorSDK-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A2ED258362D73946D3AE7FB4 /* [CP] Copy Pods Resources */ = {
@@ -2043,6 +2270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3567C7FD1FBE924500103066 /* WaitMBProgress.swift in Sources */,
 				15D35F781C20273D00E3717A /* AAAudioRecorder.m in Sources */,
 				15D35F181C20185500E3717A /* opus_header.c in Sources */,
 				066A52F81BC52B13000E606E /* AAWallpapperSettingsCell.swift in Sources */,
@@ -2051,14 +2279,17 @@
 				061850F11C95CBF000C522D5 /* YYTextParser.m in Sources */,
 				BED5A1FB1C48396A0045FDB0 /* NYTPhotoTransitionAnimator.m in Sources */,
 				15D35F161C20185500E3717A /* diag_range.c in Sources */,
+				35E500251FC50B8E00637253 /* WelcomeViewController.swift in Sources */,
 				061850E11C95CBF000C522D5 /* YYTextInput.m in Sources */,
 				9AA6A41F1D08568A00957A7F /* AASettingsMediaViewController.swift in Sources */,
 				066A525E1BC503BB000E606E /* ActorApplicationDelegate.swift in Sources */,
+				3567C7EC1FBE71F700103066 /* SBJsonTokeniser.m in Sources */,
 				061850F31C95CBF000C522D5 /* YYTextRubyAnnotation.m in Sources */,
 				BED5A1F91C48396A0045FDB0 /* NYTPhotosViewController.m in Sources */,
 				066A53101BC53317000E606E /* AAWallpapperPreviewController.swift in Sources */,
 				152AA8B91C2989270030DEEE /* UIView+SLKAdditions.m in Sources */,
 				066A52F21BC52B02000E606E /* AASettingsPrivacyViewController.swift in Sources */,
+				35E500211FC41C6200637253 /* PhoneImageService.m in Sources */,
 				15D35F561C20187E00E3717A /* AAAlertView.m in Sources */,
 				060135061C95ED4C00A18C4E /* YYSentinel.m in Sources */,
 				061850DB1C95CBF000C522D5 /* YYTextContainerView.m in Sources */,
@@ -2068,6 +2299,7 @@
 				066A514A1BC4BCE0000E606E /* Dispatch.swift in Sources */,
 				066A52401BC4EECD000E606E /* AABigPlaceholderView.swift in Sources */,
 				BED5A1F51C48396A0045FDB0 /* NYTPhotosDataSource.m in Sources */,
+				3567C7D91FBE71F700103066 /* NSObject+SBJson.m in Sources */,
 				066A52FF1BC52FA9000E606E /* AAGroupMembersController.swift in Sources */,
 				066A53301BC53406000E606E /* AABubbleDocumentCell.swift in Sources */,
 				066A52FD1BC52FA8000E606E /* AAComposeController.swift in Sources */,
@@ -2082,14 +2314,18 @@
 				066A52251BC4EEAC000E606E /* ManagedBindedCells.swift in Sources */,
 				15D35F601C20187E00E3717A /* AAOpusAudioPlayerAU.mm in Sources */,
 				061850EB1C95CBF000C522D5 /* YYTextSelectionView.m in Sources */,
+				3567C7B91FBE6D5800103066 /* CompanyService.m in Sources */,
 				15D35F1C1C20185500E3717A /* picture.c in Sources */,
 				066A532B1BC53406000E606E /* AABubbleCell.swift in Sources */,
 				061850E91C95CBF000C522D5 /* YYTextMagnifier.m in Sources */,
 				06E323151C6A7AC000D66F53 /* AACallViewController.swift in Sources */,
 				066A52C71BC521EA000E606E /* AAEditTextController.swift in Sources */,
+				35FC76D51FB59ADF0054F45E /* LoginViewController.swift in Sources */,
 				061850FD1C95CBF000C522D5 /* UIView+YYText.m in Sources */,
 				153F6B5D1C2B3AC500C0B960 /* AABubbleStickerCell.swift in Sources */,
 				15D35F1E1C20185500E3717A /* wav_io.c in Sources */,
+				3567C7E01FBE71F700103066 /* SBJsonStreamParserAccumulator.m in Sources */,
+				3567C7EE1FBE71F700103066 /* SBJsonUTF8Stream.m in Sources */,
 				065974A51BC621F100B8C7DF /* AAAuthNavigationController.swift in Sources */,
 				068AFC391C94A0050055F503 /* AADialogListProcessor.swift in Sources */,
 				BED5A1FF1C48396A0045FDB0 /* NYTPhotoViewController.m in Sources */,
@@ -2104,6 +2340,7 @@
 				066A527F1BC51ED0000E606E /* AARootSplitViewController.swift in Sources */,
 				066A52481BC4EED5000E606E /* AAProgressView.swift in Sources */,
 				066A51921BC4C383000E606E /* CocoaFileSystemRuntime.swift in Sources */,
+				3567C7E41FBE71F700103066 /* SBJsonStreamParserState.m in Sources */,
 				066A52DC1BC52385000E606E /* AAContactCell.swift in Sources */,
 				065975071BC7BB4000B8C7DF /* AANavigationBadge.swift in Sources */,
 				066A518D1BC4C383000E606E /* CocoaStorageRuntime.swift in Sources */,
@@ -2127,6 +2364,7 @@
 				066A52DF1BC5241F000E606E /* AAWebActionController.swift in Sources */,
 				066A51221BC4B55C000E606E /* AADevice.swift in Sources */,
 				066A532D1BC53406000E606E /* AABubbleServiceCell.swift in Sources */,
+				350034C71FBD7D8A000E5459 /* WebService.m in Sources */,
 				065974A71BC62B3600B8C7DF /* ViewExtensions.swift in Sources */,
 				066A52F11BC52B02000E606E /* AASettingsNotificationsViewController.swift in Sources */,
 				061850FF1C95CBF000C522D5 /* YYTextAsyncLayer.m in Sources */,
@@ -2135,6 +2373,9 @@
 				066A52381BC4EEBA000E606E /* AAHeaderCell.swift in Sources */,
 				06C1D0771C8BC9FC00B73632 /* AAAuthNameViewController.swift in Sources */,
 				066A524B1BC4EF49000E606E /* AAViewController.swift in Sources */,
+				350034B91FBD3BB5000E5459 /* ZZJGTableViewController.swift in Sources */,
+				3567C7F01FBE71F700103066 /* SBJsonWriter.m in Sources */,
+				3567C7DC1FBE71F700103066 /* SBJsonParser.m in Sources */,
 				066A51521BC4BE34000E606E /* Logs.swift in Sources */,
 				066A52D71BC52378000E606E /* AAContactsListContentControllerDelegate.swift in Sources */,
 				061850FB1C95CBF000C522D5 /* UIPasteboard+YYText.m in Sources */,
@@ -2142,8 +2383,10 @@
 				066A53171BC533DD000E606E /* AABubbles.swift in Sources */,
 				153F6B8B1C2D7BA400C0B960 /* AATapLabel.swift in Sources */,
 				06ABFE341D3FAF800031A0D6 /* GCDAsyncSocket.m in Sources */,
+				3567C7E21FBE71F700103066 /* SBJsonStreamParserAdapter.m in Sources */,
 				061850E71C95CBF000C522D5 /* YYTextLine.m in Sources */,
 				066A52081BC4E962000E606E /* Makefile in Sources */,
+				350034BE1FBD619E000E5459 /* NetManager.swift in Sources */,
 				066A53231BC533F5000E606E /* Caches.swift in Sources */,
 				06E7B2471C0F8D7A0090660C /* AALocationPickerController.swift in Sources */,
 				061851031C95CBF000C522D5 /* YYTextUtilities.m in Sources */,
@@ -2163,6 +2406,7 @@
 				061851051C95CBF000C522D5 /* YYTextWeakProxy.m in Sources */,
 				066A52451BC4EECD000E606E /* AAAvatarCell.swift in Sources */,
 				BE237C9D1C422FFA00060648 /* AAStickersKeyboard.swift in Sources */,
+				3567C7F61FBE723000103066 /* CommonService.m in Sources */,
 				066A52D21BC52204000E606E /* AADialogSearchCell.swift in Sources */,
 				066A52371BC4EEBA000E606E /* AATableViewCell.swift in Sources */,
 				066A51481BC4BBF4000E606E /* Views.swift in Sources */,
@@ -2209,6 +2453,7 @@
 				066A519E1BC4C390000E606E /* FMDBExtensions.swift in Sources */,
 				066A52E61BC52A20000E606E /* AAAddParticipantViewController.swift in Sources */,
 				066A52C81BC521EA000E606E /* AAEditFieldController.swift in Sources */,
+				3504FD271FC2653300E7F177 /* YGJGTableViewController.swift in Sources */,
 				066A532C1BC53406000E606E /* AABubbleTextCell.swift in Sources */,
 				BE2621571C4656D700A817AB /* AAConvActionSheet.swift in Sources */,
 				066A52261BC4EEAC000E606E /* ManagedCells.swift in Sources */,
@@ -2231,8 +2476,11 @@
 				066A53121BC53317000E606E /* AAPhotoPreviewController.swift in Sources */,
 				066A52391BC4EEBA000E606E /* AAEditCell.swift in Sources */,
 				066A526D1BC50E8B000E606E /* AAAuthCountryCell.swift in Sources */,
+				3567C7E81FBE71F700103066 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				152AA8AF1C2989270030DEEE /* SLKTextViewController.m in Sources */,
+				3567C7E61FBE71F700103066 /* SBJsonStreamWriter.m in Sources */,
 				066A51911BC4C383000E606E /* CocoaHttpRuntime.swift in Sources */,
+				3504FD251FC264F200E7F177 /* BMJGTableViewController.swift in Sources */,
 				BE281CC51C502B230042F6D4 /* AAVoiceRecorderView.swift in Sources */,
 				066A53211BC533F5000E606E /* BubbleLayouts.swift in Sources */,
 				066A51821BC4C373000E606E /* FMDatabaseQueue.m in Sources */,
@@ -2252,6 +2500,8 @@
 				BEE6EB011C4D7B7500A2280E /* AASettingsWallpapersController.swift in Sources */,
 				BED5A2011C48396A0045FDB0 /* NYTScalingImageView.m in Sources */,
 				066A53331BC534F5000E606E /* AAFileTypes.swift in Sources */,
+				3567C7DE1FBE71F700103066 /* SBJsonStreamParser.m in Sources */,
+				3567C7EA1FBE71F700103066 /* SBJsonStreamWriterState.m in Sources */,
 				066A52FE1BC52FA9000E606E /* AAGroupCreateViewController.swift in Sources */,
 				066A52E71BC52A20000E606E /* AAInviteLinkViewController.swift in Sources */,
 				152AA8AD1C2989270030DEEE /* SLKTextView+SLKAdditions.m in Sources */,
@@ -2286,6 +2536,7 @@
 				06E323111C694C1D00D66F53 /* WebRTCExt.swift in Sources */,
 				066A52231BC4EEAC000E606E /* AAManagedSection.swift in Sources */,
 				066A52D11BC52204000E606E /* AADialogCell.swift in Sources */,
+				3504FD231FBEC92A00E7F177 /* ZZJGModel.swift in Sources */,
 				066A51901BC4C383000E606E /* CocoaNetworkRuntime.swift in Sources */,
 				06ABFE381D3FCCE30031A0D6 /* AAGroupEditInfoViewController.swift in Sources */,
 				06E7B24A1C0F92140090660C /* AABubbleLocationCell.swift in Sources */,

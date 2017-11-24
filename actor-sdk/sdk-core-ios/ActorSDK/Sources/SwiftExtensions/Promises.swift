@@ -15,14 +15,14 @@ extension ARPromise {
         hud.removeFromSuperViewOnHide = true
         window.addSubview(hud)
         window.bringSubview(toFront: hud)
-        hud.show(true)
+        hud.show(animated: true)
         
-        then { (t: AnyObject!) -> () in
-            hud.hide(true)
+        let _ = then { (t: AnyObject!) -> () in
+            hud.hide(animated:true)
         }
         
-        failure { (e) -> () in
-            hud.hide(true)
+        let _ = failure { (e) -> () in
+            hud.hide(animated:true)
             if let rpc = e as? ACRpcException {
                 if ignore.contains(rpc.tag) {
                     return

@@ -53,7 +53,7 @@ open class AAContactsViewController: AAContactsListContentController, AAContacts
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    //点击事件
     open func contactDidTap(_ controller: AAContactsListContentController, contact: ACContact) -> Bool {
         
         if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer_userWithInt_(contact.uid)) {
@@ -67,79 +67,29 @@ open class AAContactsViewController: AAContactsListContentController, AAContacts
     
     open func willAddContacts(_ controller: AAContactsListContentController, section: AAManagedSection) {
         
-        section.custom { (r: AACustomRow<AAContactActionCell>) -> () in
+        _ = section.custom { (r: AACustomRow<AAContactActionCell>) -> () in
             
             r.height = 56
             
             r.closure = { (cell: AAContactActionCell)->() in
-                cell.bind("ic_add_user", actionTitle: AALocalized("ContactsActionAdd"))
+                cell.bind("ic_create_channel", actionTitle: "组织架构")//AALocalized("ContactsActionAdd") 添加好友
             }
             
             r.selectAction = { () -> Bool in
-                self.findContact()
+                self.navigateDetail(ZZJGTableViewController())
                 return AADevice.isiPad
             }
         }
         
-        section.custom { (r: AACustomRow<AAContactActionCell>) -> () in
+       _ = section.custom { (r: AACustomRow<AAContactActionCell>) -> () in
             
             r.height = 56
-            
+            //\(AALocalized("ContactsActionInvite")) \(ActorSDK.sharedActor().appName)邀请好友使用SDK
             r.closure = { (cell: AAContactActionCell)->() in
-                cell.bind("ic_invite_user", actionTitle: "\(AALocalized("ContactsActionInvite")) \(ActorSDK.sharedActor().appName)")
+                cell.bind("ic_add_user", actionTitle: "创建群组")
             }
             
             r.selectAction = { () -> Bool in
-                
-                let builder = AAMenuBuilder()
-                
-                if MFMessageComposeViewController.canSendText() {
-                    builder.add("SMS") { () -> () in
-                        self.showSmsInvitation(nil)
-                    }
-                }
-                
-                if MFMailComposeViewController.canSendMail() {
-                    builder.add("Email") { () -> () in
-                        self.showEmailInvitation(nil)
-                    }    
-                }
-                
-                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTencentWeibo) {
-                    builder.add("Tencent Weibo") { () -> () in
-                        let vc = SLComposeViewController(forServiceType: SLServiceTypeTencentWeibo)!
-                        vc.setInitialText(self.inviteText)
-                        self.present(vc, animated: true, completion: nil)
-                    }
-                }
-                
-                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeSinaWeibo) {
-                    builder.add("Sina Weibo") { () -> () in
-                        let vc = SLComposeViewController(forServiceType: SLServiceTypeSinaWeibo)!
-                        vc.setInitialText(self.inviteText)
-                        self.present(vc, animated: true, completion: nil)
-                    }
-                }
-                
-                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeTwitter) {
-                    builder.add("Twitter") { () -> () in
-                        let vc = SLComposeViewController(forServiceType: SLServiceTypeTwitter)!
-                        vc.setInitialText(self.inviteText)
-                        self.present(vc, animated: true, completion: nil)
-                    }
-                }
-                
-                if SLComposeViewController.isAvailable(forServiceType: SLServiceTypeFacebook) {
-                    builder.add("Facebook") { () -> () in
-                        let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook)!
-                        vc.add(URL(string: ActorSDK.sharedActor().inviteUrl))
-                        self.present(vc, animated: true, completion: nil)
-                    }
-                }
-                
-                let view = self.tableView.cellForRow(at: IndexPath(row: 1, section: 0))!.contentView
-                
-                self.showActionSheet(builder.items, cancelButton: "AlertCancel", destructButton: nil, sourceView: view, sourceRect: view.bounds, tapClosure: builder.tapClosure)
                 
                 return true
             }

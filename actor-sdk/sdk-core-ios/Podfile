@@ -15,6 +15,10 @@ target 'ActorApp' do
     # pod 'CocoaAsyncSocket'
     pod 'zipzap'
     pod 'ReachabilitySwift', '~> 3'
+    pod 'AFNetworking'
+    pod 'ASIHTTPRequest'
+    pod 'SBJson'
+    pod 'GDataXMLNode2'
 
     # Main UI
     pod 'TTTAttributedLabel'
@@ -25,6 +29,8 @@ target 'ActorApp' do
     pod 'YYWebImage'
     pod 'YYCategories'
     pod 'DZNWebViewController'
+    pod 'Masonry'
+    pod 'SDWebImage', '~> 4.2.2'
 
     # Small UI
     pod 'VBFPopFlatButton'
@@ -51,6 +57,10 @@ target 'ActorSDK' do
     # pod 'CocoaAsyncSocket'
     pod 'zipzap'
     pod 'ReachabilitySwift', '~> 3'
+    pod 'AFNetworking'
+    pod 'ASIHTTPRequest'
+    pod 'SBJson'
+    pod 'GDataXMLNode2'
 
     # Main UI
     pod 'TTTAttributedLabel'
@@ -61,6 +71,8 @@ target 'ActorSDK' do
     pod 'YYWebImage'
     pod 'YYCategories'
     pod 'DZNWebViewController'
+    pod 'Masonry'
+    pod 'SDWebImage', '~> 4.2.2'
 
     # Small UI
     pod 'VBFPopFlatButton'

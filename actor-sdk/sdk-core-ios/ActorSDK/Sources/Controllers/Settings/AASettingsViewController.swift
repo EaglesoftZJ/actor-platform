@@ -33,7 +33,7 @@ open class AASettingsViewController: AAContentTableController {
     open override func tableDidLoad() {
         
         // Profile
-        section { [unowned self] (s) -> () in
+        _ = section { [unowned self] (s) -> () in
 
             // Profile: Photo and name
             self.headerCell = s.avatar() { [unowned self] (r) -> () in
@@ -85,7 +85,7 @@ open class AASettingsViewController: AAContentTableController {
             }
             
             // Profile: Set Photo
-            s.action("SettingsSetPhoto") { [unowned self] (r) -> () in
+            _ = s.action("SettingsSetPhoto") { [unowned self] (r) -> () in
                 r.selectAction = { [unowned self] () -> Bool in
                     let hasCamera = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
                     let view = self.tableView.cellForRow(at: IndexPath(row: 1, section: 0))!.contentView
@@ -147,21 +147,21 @@ open class AASettingsViewController: AAContentTableController {
 
         
         // Settings
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             ActorSDK.sharedActor().delegate.actorSettingsConfigurationWillCreated(self, section: s)
             
             // Settings: Notifications
-            s.navigate("SettingsNotifications", controller: AASettingsNotificationsViewController.self)
+            _ = s.navigate("SettingsNotifications", controller: AASettingsNotificationsViewController.self)
             
             // Settings: Media Settings
-            s.navigate("SettingsMedia", controller: AASettingsMediaViewController.self)
+            _ = s.navigate("SettingsMedia", controller: AASettingsMediaViewController.self)
             
             // Settings: Security
-            s.navigate("SettingsSecurity", controller: AASettingsPrivacyViewController.self)
+            _ = s.navigate("SettingsSecurity", controller: AASettingsPrivacyViewController.self)
             
             // Settings: Wallpapper
-            s.custom({ [unowned self] (r: AACustomRow<AAWallpapperSettingsCell>) -> () in
+            _ = s.custom({ [unowned self] (r: AACustomRow<AAWallpapperSettingsCell>) -> () in
                 r.height = 230
                 r.closure = { [unowned self] (cell) -> () in
                     cell.wallpapperDidTap = { [unowned self] (name) -> () in
@@ -181,7 +181,7 @@ open class AASettingsViewController: AAContentTableController {
         }
         
         // Contacts
-        section { [unowned self] (s) -> () in
+        _ = section { [unowned self] (s) -> () in
 
             // Contacts: Nicknames
             self.nicknameCell = s.titled("ProfileUsername") { [unowned self] (r) -> () in
@@ -321,13 +321,13 @@ open class AASettingsViewController: AAContentTableController {
         }
         
         // Support
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             ActorSDK.sharedActor().delegate.actorSettingsSupportWillCreated(self, section: s)
             
             // Support: Ask Question
             if let account = ActorSDK.sharedActor().supportAccount {
-                s.navigate("SettingsAskQuestion", closure: { (r) -> () in
+                _ = s.navigate("SettingsAskQuestion", closure: { (r) -> () in
                     r.selectAction = { () -> Bool in
                         self.executeSafe(Actor.findUsersCommand(withQuery: account)) { (val) -> Void in
                             var user:ACUserVM!
@@ -356,12 +356,12 @@ open class AASettingsViewController: AAContentTableController {
 
             // Support: Home page
             if let homePage = ActorSDK.sharedActor().supportHomepage {
-                s.url("SettingsAbout", url: homePage)
+                _ = s.url("SettingsAbout", url: homePage)
             }
 
             // Support: App version
             let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-            s.hint(AALocalized("SettingsVersion").replace("{version}", dest: version))
+            _ = s.hint(AALocalized("SettingsVersion").replace("{version}", dest: version))
             
             ActorSDK.sharedActor().delegate.actorSettingsSupportDidCreated(self, section: s)
         }

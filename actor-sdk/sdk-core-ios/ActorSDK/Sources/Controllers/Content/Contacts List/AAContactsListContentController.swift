@@ -30,13 +30,13 @@ open class AAContactsListContentController: AAContentTableController {
             
                 s.selectAction = { (contact) -> () in
                     if let d = self.delegate {
-                        d.contactDidTap(self, contact: contact)
+                        _ = d.contactDidTap(self, contact: contact)
                     }
                 }
             }
         }
         
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             s.autoSeparatorsInset = 80
             
@@ -73,7 +73,7 @@ open class AAContactsListContentController: AAContentTableController {
             subtitle: AALocalized("Placeholder_Contacts_Message").replace("{appname}", dest: ActorSDK.sharedActor().appName),
             actionTitle: AALocalized("Placeholder_Contacts_Action"),
             subtitle2: AALocalized("Placeholder_Contacts_Message2"),
-            actionTarget: self, actionSelector: Selector("showSmsInvitation"),
+            actionTarget: self, actionSelector: Selector(("showSmsInvitation")),
             action2title: nil,
             action2Selector: nil)
     }

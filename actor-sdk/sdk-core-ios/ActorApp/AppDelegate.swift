@@ -5,9 +5,30 @@
 import Foundation
 
 import ActorSDK
-
-open class AppDelegate : ActorApplicationDelegate {
-    
+import UIKit
+open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
+    //# 小于服务器版本号{"welcomePage_bg":"http:\/\/61.175.100.14:5433\/photoImage\/bg1-2560.png","loginPage_bg":"http:\/\/61.175.100.14:5433\/photoImage\/bg-2560.png","loginPage_but":"http:\/\/61.175.100.14:5433\/photoImage\/login_but.png","version":1,"canUpdate":true}
+    //# 大于，等于服务器版本号{"canUpdate":false}
+    public func serviceSuccess(_ svc: CommonService!, object obj: Any!) {
+        guard (obj as? NSDictionary) != nil else{return}
+        let dic:[String:AnyObject] = obj as! Dictionary
+        let defaults = UserDefaults.standard
+        if dic["canUpdate"] as! Int == 1 {
+            defaults.set(String(describing: dic["version"]), forKey: "version")
+            defaults.set(dic["welcomePage_bg"], forKey: "welcomeImage")
+            defaults.set(dic["loginPage_bg"], forKey: "loginImage")
+            defaults.set(dic["loginPage_but"], forKey: "loginBtnImage")
+            defaults.synchronize()
+        }
+        else{
+            
+        }
+    }
+    public func serviceFail(_ svc: CommonService!, info: String!) {
+        
+    }
+    let image = PhoneImageService()
+    var window: UIWindow?
     override init() {
         super.init()
         
@@ -36,12 +57,20 @@ open class AppDelegate : ActorApplicationDelegate {
         ActorSDK.sharedActor().createActor()
         
     }
-    
+
     open override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
-        super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        let _ = super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        //#注册切换Root控制器通知
+        NotificationCenter.default.addObserver(self, selector: #selector(switchRootViewController), name: ActorSDK.sharedActor().switchRootController, object: nil)
+        //ActorSDK.sharedActor().presentMessengerInNewWindow()
+        window = UIWindow(frame:UIScreen.main.bounds)
+        window?.backgroundColor = UIColor.white
+        window?.rootViewController = WelcomeViewController()
+        window?.makeKeyAndVisible()
         
-        ActorSDK.sharedActor().presentMessengerInNewWindow()
         
+        //#启动图
+        addLaunchController()
         return true
     }
     
@@ -51,5 +80,12 @@ open class AppDelegate : ActorApplicationDelegate {
     
     open override func actorRootInitialControllerIndex() -> Int? {
         return 0
+    }
+    func switchRootViewController(){
+        ActorSDK.sharedActor().presentMessengerInNewWindow()
+    }
+    private func addLaunchController() {
+        image.delegate = self
+        image.getLaunchImage()
     }
 }

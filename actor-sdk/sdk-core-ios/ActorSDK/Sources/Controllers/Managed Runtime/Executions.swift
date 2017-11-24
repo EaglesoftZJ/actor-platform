@@ -43,12 +43,12 @@ open class AAExecutions {
     }
     
     open class func executePromise(_ promice: ARPromise){
-        promice.startUserAction()
+        _ = promice.startUserAction()
     }
     
     open class func executePromise(_ promice: ARPromise, successBlock: ((_ val: Any?) -> Void)?, failureBlock: ((_ val: Any?) -> Void)? ){
-        promice.startUserAction()
-        promice.then { result in
+        _ = promice.startUserAction()
+        _ = promice.then { result in
             successBlock!(result)
         }
     }
@@ -61,12 +61,12 @@ open class AAExecutions {
         
         command.start(with: AACommandCallback(result: { (val:Any?) -> () in
             dispatchOnUi {
-                hud?.hide(true)
+                hud?.hide(animated:true)
                 successBlock?(val)
             }
             }, error: { (val) -> () in
                 dispatchOnUi {
-                    hud?.hide(true)
+                    hud?.hide(animated:true)
                     
                     if type == .safe {
                         
@@ -147,7 +147,7 @@ open class AAExecutions {
         hud.removeFromSuperViewOnHide = true
         window.addSubview(hud)
         window.bringSubview(toFront: hud)
-        hud.show(true)
+        hud.show(animated:true)
         return hud
     }
 }

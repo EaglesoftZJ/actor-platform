@@ -7,10 +7,18 @@ import YYImage
 
 open class ActorStyle {
     
+    //屏幕长宽 750X1334
+    let kScreenWidth = UIScreen.main.bounds.size.width
+    let kScreenHeight = UIScreen.main.bounds.size.height
+    open func kScaleW(w:CGFloat) -> CGFloat {
+        return w*kScreenWidth/750.0
+    }
+    open func kScaleH(h:CGFloat) -> CGFloat {
+        return h*kScreenHeight/1334.0
+    }
     //
     // Main colors of app
     //
-    
     /// Is Application have dark theme. Default is false.
     open var isDarkApp = false
     

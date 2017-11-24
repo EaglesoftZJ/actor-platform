@@ -10,13 +10,11 @@
 		06230F091BC7FF3500A4807B /* ActorSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06230F081BC7FF3000A4807B /* ActorSDK.framework */; };
 		06230F0A1BC7FF3500A4807B /* ActorSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06230F081BC7FF3000A4807B /* ActorSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		068B397B1C85386A002BFF73 /* ringtone.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 068B397A1C85386A002BFF73 /* ringtone.m4a */; };
-		068C6E4F1BBC4BF900182516 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 068C6E4E1BBC4BF900182516 /* Launch Screen.storyboard */; };
 		06CE898E1BD841D0005A5530 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06CE898D1BD841D0005A5530 /* SystemConfiguration.framework */; };
 		06E7B24F1C109C4B0090660C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06E7B24E1C109C4B0090660C /* MapKit.framework */; };
 		2CE3FEBEF881B465BDE1045A959BFB0A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ACD33B73078EB46A22D2D4C45BF1E6E /* Images.xcassets */; };
 		34279C7FB8E40393FEAC939F6474BE2E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 148837AEB986AFDE519BEBD3686AB073 /* main.m */; };
 		45E942511E7A416300D9BE17 /* ActorSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E942501E7A416300D9BE17 /* ActorSDK.framework */; };
-		45E942531E7A489800D9BE17 /* ActorSDK.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 45E942521E7A489800D9BE17 /* ActorSDK.framework.dSYM */; };
 		A88F4C381ED2B98E99A68937 /* Pods_ActorApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A275ED497CA570AD01FB66A7 /* Pods_ActorApp.framework */; };
 		DFE814D1E12D2647AF2DBA3F76405F06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A521812020DAAAA325065ADC32B7DEB /* AppDelegate.swift */; };
 		F45B35E37C8CB7140417EA87AAFEFDA2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 13C57576F07AC8694C15B51DFDFDC4C6 /* InfoPlist.strings */; };
@@ -36,6 +34,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 066A50D11BC4AE63000E606E;
 			remoteInfo = ActorSDK;
+		};
+		350034B61FBAD0C1000E5459 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFEF53CC1E66599B00182E77 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E4759C8857681B5C359F30B45BF13EC1;
+			remoteInfo = Masonry;
 		};
 		4567CC071E8B78A600FC35E0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -196,7 +201,6 @@
 /* Begin PBXFileReference section */
 		06230F031BC7FF2F00A4807B /* ActorSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ActorSDK.xcodeproj; sourceTree = "<group>"; };
 		068B397A1C85386A002BFF73 /* ringtone.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = ringtone.m4a; path = Resources/ringtone.m4a; sourceTree = "<group>"; };
-		068C6E4E1BBC4BF900182516 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "Supporting Files/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		06CE898D1BD841D0005A5530 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		06E7B24E1C109C4B0090660C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		148837AEB986AFDE519BEBD3686AB073 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Supporting Files/main.m"; sourceTree = "<group>"; };
@@ -258,7 +262,6 @@
 				068B397A1C85386A002BFF73 /* ringtone.m4a */,
 				2ACD33B73078EB46A22D2D4C45BF1E6E /* Images.xcassets */,
 				13C57576F07AC8694C15B51DFDFDC4C6 /* InfoPlist.strings */,
-				068C6E4E1BBC4BF900182516 /* Launch Screen.storyboard */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				4567CC0A1E8B78A600FC35E0 /* ISEmojiView.bundle */,
 				EFEF53E41E66599D00182E77 /* JDStatusBarNotification.framework */,
 				EFEF53E61E66599D00182E77 /* M13ProgressSuite.framework */,
+				350034B71FBAD0C1000E5459 /* Masonry.framework */,
 				EFEF53E81E66599D00182E77 /* MBProgressHUD.framework */,
 				EFEF53EA1E66599D00182E77 /* Pods_ActorApp.framework */,
 				EFEF53EC1E66599D00182E77 /* Pods_ActorSDK.framework */,
@@ -434,6 +438,13 @@
 			fileType = wrapper.framework;
 			path = ActorSDK.framework;
 			remoteRef = 06230F071BC7FF3000A4807B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		350034B71FBAD0C1000E5459 /* Masonry.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Masonry.framework;
+			remoteRef = 350034B61FBAD0C1000E5459 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4567CC081E8B78A600FC35E0 /* ISEmojiView.framework */ = {
@@ -585,9 +596,7 @@
 			files = (
 				2CE3FEBEF881B465BDE1045A959BFB0A /* Images.xcassets in Resources */,
 				F45B35E37C8CB7140417EA87AAFEFDA2 /* InfoPlist.strings in Resources */,
-				45E942531E7A489800D9BE17 /* ActorSDK.framework.dSYM in Resources */,
 				068B397B1C85386A002BFF73 /* ringtone.m4a in Resources */,
-				068C6E4F1BBC4BF900182516 /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,13 +623,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ActorApp-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		851EE1A34619AE6677649A27 /* Embed Pods Frameworks */ = {
@@ -644,9 +656,58 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ActorApp/Pods-ActorApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/ASIHTTPRequest/ASIHTTPRequest.framework",
+				"${BUILT_PRODUCTS_DIR}/DZNWebViewController/DZNWebViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/GDataXMLNode2/GDataXMLNode2.framework",
+				"${BUILT_PRODUCTS_DIR}/ISEmojiView/ISEmojiView.framework",
+				"${BUILT_PRODUCTS_DIR}/JDStatusBarNotification/JDStatusBarNotification.framework",
+				"${BUILT_PRODUCTS_DIR}/M13ProgressSuite/M13ProgressSuite.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/RSKImageCropper/RSKImageCropper.framework",
+				"${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RegexKitLite/RegexKitLite.framework",
+				"${BUILT_PRODUCTS_DIR}/SBJson/SBJson.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SZTextView/SZTextView.framework",
+				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/VBFPopFlatButton/VBFPopFlatButton.framework",
+				"${BUILT_PRODUCTS_DIR}/YYCache/YYCache.framework",
+				"${BUILT_PRODUCTS_DIR}/YYCategories/YYCategories.framework",
+				"${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework",
+				"${BUILT_PRODUCTS_DIR}/YYWebImage/YYWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
+				"${BUILT_PRODUCTS_DIR}/zipzap/zipzap.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ASIHTTPRequest.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNWebViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GDataXMLNode2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ISEmojiView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JDStatusBarNotification.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13ProgressSuite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RSKImageCropper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RegexKitLite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SBJson.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SZTextView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VBFPopFlatButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYCache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYCategories.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/zipzap.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

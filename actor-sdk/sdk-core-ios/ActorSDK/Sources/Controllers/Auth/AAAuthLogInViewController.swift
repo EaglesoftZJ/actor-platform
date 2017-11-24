@@ -6,6 +6,8 @@ import Foundation
 
 open class AAAuthLogInViewController: AAAuthViewController, UITextFieldDelegate {
     
+    let logoImgView = UIImageView()
+    
     let scrollView = UIScrollView()
     
     let welcomeLabel = UILabel()
@@ -18,6 +20,7 @@ open class AAAuthLogInViewController: AAAuthViewController, UITextFieldDelegate 
         super.init(nibName: nil, bundle: nil)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: AALocalized("NavigationCancel"), style: .plain, target: self, action: #selector(AAViewController.dismissController))
+        
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -27,6 +30,8 @@ open class AAAuthLogInViewController: AAAuthViewController, UITextFieldDelegate 
     open override func viewDidLoad() {
      
         view.backgroundColor = UIColor.white
+    
+//        logoImgView.image = UIImage(named:"logo")
         
         scrollView.keyboardDismissMode = .onDrag
         scrollView.isScrollEnabled = true
@@ -57,8 +62,9 @@ open class AAAuthLogInViewController: AAAuthViewController, UITextFieldDelegate 
         scrollView.addSubview(welcomeLabel)
         scrollView.addSubview(field)
         scrollView.addSubview(fieldLine)
+        scrollView.addSubview(logoImgView)
         view.addSubview(scrollView)
-
+        
         super.viewDidLoad()
     }
     
@@ -66,7 +72,7 @@ open class AAAuthLogInViewController: AAAuthViewController, UITextFieldDelegate 
         super.viewDidLayoutSubviews()
         
         welcomeLabel.frame = CGRect(x: 15, y: 90 - 66, width: view.width - 30, height: 28)
-        
+//        logoImgView.frame = CGRect(x:0,y:200,width:50,height:50)
         fieldLine.frame = CGRect(x: 10, y: 200 - 66, width: view.width - 20, height: 0.5)
         field.frame = CGRect(x: 20, y: 156 - 66, width: view.width - 40, height: 44)
         
@@ -84,7 +90,7 @@ open class AAAuthLogInViewController: AAAuthViewController, UITextFieldDelegate 
         
         if ActorSDK.sharedActor().authStrategy == .emailOnly || ActorSDK.sharedActor().authStrategy == .phoneEmail {
             if (AATools.isValidEmail(value)) {
-                Actor.doStartAuth(withEmail: value).startUserAction().then { (res: ACAuthStartRes!) -> () in
+                let _ = Actor.doStartAuth(withEmail: value).startUserAction().then { (res: ACAuthStartRes!) -> () in
                     if res.authMode.toNSEnum() == .OTP {
                         self.navigateNext(AAAuthOTPViewController(email: value, transactionHash: res.transactionHash))
                     } else {
@@ -99,7 +105,7 @@ open class AAAuthLogInViewController: AAAuthViewController, UITextFieldDelegate 
             let numbersSet = CharacterSet(charactersIn: "0123456789").inverted
             let stripped = value.strip(numbersSet)
             if let parsed = Int64(stripped) {
-                Actor.doStartAuth(withPhone: jlong(parsed)).startUserAction().then { (res: ACAuthStartRes!) -> () in
+               let _ = Actor.doStartAuth(withPhone: jlong(parsed)).startUserAction().then { (res: ACAuthStartRes!) -> () in
                     if res.authMode.toNSEnum() == .OTP {
                         let formatted = RMPhoneFormat().format("\(parsed)")!
                         self.navigateNext(AAAuthOTPViewController(phone: formatted, transactionHash: res.transactionHash))
@@ -111,10 +117,9 @@ open class AAAuthLogInViewController: AAAuthViewController, UITextFieldDelegate 
             }
         }
         if ActorSDK.sharedActor().authStrategy == .usernameOnly {
-           
-                Actor.doStartAuth(withUsername: value).startUserAction().then { (res: ACAuthStartRes!) -> () in
+                let _ = Actor.doStartAuth(withUsername: value).startUserAction().then {
+                    (res: ACAuthStartRes!) -> () in
                     if res.authMode.toNSEnum() == .OTP {
-                        
                         self.navigateNext(AAAuthOTPViewController(name: value, transactionHash: res.transactionHash))
                     } else {
                         self.alertUser(AALocalized("AuthUnsupported").replace("{app_name}", dest: ActorSDK.sharedActor().appName))

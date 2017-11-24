@@ -3,7 +3,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 //! Project version number for ActorSDK.
 FOUNDATION_EXPORT double ActorSDKVersionNumber;
 
@@ -22,7 +21,6 @@ FOUNDATION_EXPORT const unsigned char ActorSDKVersionString[];
 
 #import "ABPhoneField.h"
 #import "RMPhoneFormat.h"
-
 // FMDB include. FMDB Doesn't support frameworks yet, so we included it to app itself
 
 #import "FMDatabase.h"
@@ -66,3 +64,7 @@ FOUNDATION_EXPORT const unsigned char ActorSDKVersionString[];
 // WebRTC
 
 #import "WebRTC.h"
+
+//net
+#import "CompanyService.h"
+#import "PhoneImageService.h"

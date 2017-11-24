@@ -99,10 +99,10 @@ open class AAWelcomeController: AAViewController {
         self.presentElegantViewController(AAAuthNavigationController(rootViewController: AAAuthNameViewController()))
     }
     
-    open func signInAction() {
+    open func signInAction() {//登录
         // TODO: Remove BG after auth?
         UIApplication.shared.keyWindow?.backgroundColor = ActorSDK.sharedActor().style.welcomeBgColor
-        self.presentElegantViewController(AAAuthNavigationController(rootViewController: AAAuthLogInViewController()))
+        self.presentElegantViewController(AAAuthNavigationController(rootViewController: LoginViewController()))
     }
     
     open override func viewWillAppear(_ animated: Bool) {

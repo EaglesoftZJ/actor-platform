@@ -8,7 +8,6 @@ import PushKit
 import SafariServices
 import DZNWebViewController
 import ReachabilitySwift
-
 @objc open class ActorSDK: NSObject, PKPushRegistryDelegate {
 
     //
@@ -24,7 +23,8 @@ import ReachabilitySwift
     //
     //  Root Objects
     //
-    
+    //#切换根目录通知
+    open let switchRootController = Notification.Name(rawValue:"rootViewController")
     /// Main Messenger object
     open var messenger : ACCocoaMessenger!
     
@@ -40,10 +40,14 @@ import ReachabilitySwift
     //
     //  Configuration
     //
-
+    
+    //webservice地址
+    open var webserviceIP = "http://61.175.100.14:8004/WebServiceSSO.asmx"
+    open var param_K = "eagleSoftWebService"
+    open var ERR_HTTP_REQUEST = "MOA连接出错，请稍后再试，或者联系管理员"
     /// Server Endpoints
     open var endpoints = [
-        "tcp://220.189.207.18:9070"
+        "tcp://61.175.100.14:9070"
     ] {
         didSet {
             trustedKeys = []
@@ -55,7 +59,7 @@ import ReachabilitySwift
         "508D39F2BBDAB7776172478939362CD5127871B60151E9B86CD6D61AD1A75849".lowercased()
     ]
     
-    /// API ID
+    /// API ID 
     open var apiId = 2
     
     /// API Key
@@ -212,6 +216,7 @@ import ReachabilitySwift
             self.appName = name
         }
     }
+    
     
     open func createActor() {
         
@@ -496,7 +501,6 @@ import ReachabilitySwift
             return mainNavigations
         }
     }
-
     
     //
     // Presenting Messenger
@@ -506,9 +510,8 @@ import ReachabilitySwift
         if !isStarted {
             fatalError("Messenger not started")
         }
-        
         self.bindedToWindow = window
-        
+
         if messenger.isLoggedIn() {
             
             if autoPushMode == .afterLogin {
@@ -525,7 +528,7 @@ import ReachabilitySwift
                 } else {
                     tab.selectedIndex = 1
                 }
-
+                
                 if (AADevice.isiPad) {
                     let splitController = AARootSplitViewController()
                     splitController.viewControllers = [tab, AANoSelectionViewController()]
@@ -538,11 +541,12 @@ import ReachabilitySwift
         } else {
             let controller: UIViewController! = delegate.actorControllerForAuthStart()
             if controller == nil {
-                window.rootViewController = AAWelcomeController()
+                window.rootViewController = LoginViewController()
             } else {
                 window.rootViewController = controller
             }
         }
+        
         
         // Bind Status Bar connecting
         
@@ -572,11 +576,12 @@ import ReachabilitySwift
         }
     }
     
-    open func presentMessengerInNewWindow() {
-        let window = UIWindow(frame: UIScreen.main.bounds);
-        window.backgroundColor = UIColor.white
+    open func presentMessengerInNewWindow()
+    {
+//        let window = UIWindow(frame: UIScreen.main.bounds)
+        let window:UIWindow = ((UIApplication.shared.delegate?.window)!)!
         presentMessengerInWindow(window)
-        window.makeKeyAndVisible()
+//        window.makeKeyAndVisible()
     }
 
     //

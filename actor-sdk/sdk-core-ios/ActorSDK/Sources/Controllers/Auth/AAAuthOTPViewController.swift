@@ -74,7 +74,7 @@ open class AAAuthOTPViewController: AAAuthViewController, MFMailComposeViewContr
     }
     
     open override func viewDidLoad() {
-        
+    
         view.backgroundColor = UIColor.white
         
         scrollView.keyboardDismissMode = .onDrag
@@ -188,38 +188,25 @@ open class AAAuthOTPViewController: AAAuthViewController, MFMailComposeViewContr
             shakeField()
             return
         }
-        
-       
-//        let promise2 = Actor.doValidateCode(code, withTransaction: self.transactionHash)
-//            .startUserAction(["EMAIL_CODE_INVALID", "PHONE_CODE_INVALID", "EMAIL_CODE_EXPIRED", "PHONE_CODE_EXPIRED"])
-        
         let promise = Actor.doValidatePassword(code, withTransaction: self.transactionHash)
             .startUserAction(["EMAIL_CODE_INVALID", "PHONE_CODE_INVALID", "EMAIL_CODE_EXPIRED", "PHONE_CODE_EXPIRED" ,"PASSWORD_INVALID" , "PASSWORD_EXPIRED"])
         
-        promise.then { (r: ACAuthCodeRes!) -> () in
-            if r.needToSignup {
+        let _ = promise.then { (r: ACAuthCodeRes!) -> () in
+            if r.needToSignup
+            {
                 self.shakeField()
-//                if self.name == nil {
-//                    self.navigateNext(AAAuthNameViewController(transactionHash: r.transactionHash))
-//                } else {
-//                    let promise = Actor.doSignup(withName: self.name, with: ACSex.unknown(), withTransaction: r.transactionHash)
-//                    promise.then { (r: ACAuthRes!) -> () in
-//                        Actor.doCompleteAuth(r).startUserAction().then { (r: JavaLangBoolean!) -> () in
-//                            self.codeField.resignFirstResponder()
-//                            self.onAuthenticated()
-//                        }
-//                    }
-//                    promise.startUserAction()
-//                }
-            } else {
-                Actor.doCompleteAuth(r.result).startUserAction().then { (r: JavaLangBoolean!) -> () in
+            }
+            else
+            {
+                let _ = Actor.doCompleteAuth(r.result).startUserAction().then
+                { (r: JavaLangBoolean!) -> () in
                     self.codeField.resignFirstResponder()
                     self.onAuthenticated()
                 }
             }
         }
         
-        promise.failure { (e: JavaLangException!) -> () in
+        let _ = promise.failure { (e: JavaLangException!) -> () in
             if let rpc = e as? ACRpcException {
                 if rpc.tag == "EMAIL_CODE_INVALID" || rpc.tag == "PHONE_CODE_INVALID" {
                     self.shakeField()
