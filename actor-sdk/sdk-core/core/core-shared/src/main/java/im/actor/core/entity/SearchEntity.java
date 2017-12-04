@@ -27,14 +27,14 @@ public class SearchEntity extends BserObject implements ListEngineItem {
 
     @SuppressWarnings("NullableProblems")
     @Property("readonly, nonatomic")
-    private Peer peer;
+    public Peer peer;
     @Property("readonly, nonatomic")
-    private long order;
+    public long order;
     @Property("readonly, nonatomic")
-    private Avatar avatar;
+    public Avatar avatar;
     @Property("readonly, nonatomic")
     @SuppressWarnings("NullableProblems")
-    private String title;
+    public String title;
 
     public SearchEntity(Peer peer, long order, Avatar avatar, String title) {
         this.peer = peer;
@@ -43,7 +43,7 @@ public class SearchEntity extends BserObject implements ListEngineItem {
         this.title = title;
     }
 
-    private SearchEntity() {
+    public SearchEntity() {
 
     }
 

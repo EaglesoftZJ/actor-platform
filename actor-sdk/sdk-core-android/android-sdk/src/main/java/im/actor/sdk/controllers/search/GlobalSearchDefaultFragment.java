@@ -14,4 +14,9 @@ public class GlobalSearchDefaultFragment extends GlobalSearchBaseFragment {
             startActivity(Intents.openDialog(peer, false, activity));
         }
     }
+
+
+    public void showSearchMenu(boolean isShow) {
+        pageActivityHide(isShow);
+    }
 }

@@ -3,6 +3,7 @@ package im.actor.sdk.controllers.root;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,8 +30,9 @@ public class RootFragment extends BaseFragment {
         setTitle(ActorSDK.sharedActor().getAppName());
     }
 
+    public GlobalSearchDefaultFragment searchFram;
     private boolean isInited = false;
-
+    FrameLayout res;
     @Override
     public void onCreate(Bundle saveInstance) {
         super.onCreate(saveInstance);
@@ -64,7 +66,7 @@ public class RootFragment extends BaseFragment {
         placeholder.setId(R.id.placeholder);
         res.addView(placeholder, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-
+        this.res=res;
         return res;
     }
 
@@ -74,20 +76,31 @@ public class RootFragment extends BaseFragment {
 
         if (!isInited) {
             isInited = true;
+            searchFram = new GlobalSearchDefaultFragment();
             DialogsDefaultFragment dialogsDefaultFragment = ActorSDK.sharedActor().getDelegate().fragmentForDialogs();
             getChildFragmentManager().beginTransaction()
                     .add(R.id.content, dialogsDefaultFragment != null ? dialogsDefaultFragment : new DialogsDefaultFragment())
-                    .add(R.id.fab, new ComposeFabFragment())
-                    .add(R.id.search, new GlobalSearchDefaultFragment())
+//                    .add(R.id.fab, new ComposeFabFragment())
+                    .add(R.id.search, searchFram)
                     .add(R.id.placeholder, new GlobalPlaceholderFragment())
                     .commit();
+
         }
     }
+
+    public  void removeSearchFram(){
+        searchFram.showSearchMenu(false);
+    }
+
+    public  void addSearchFram(){
+        searchFram.showSearchMenu(true);
+    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main, menu);
+//        inflater.inflate(R.menu.main, menu);
     }
 
     @Override

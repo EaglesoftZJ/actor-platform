@@ -256,6 +256,7 @@ public class Authentication {
 
             @Override
             public void onError(RpcException e) {
+//                System.out.println("iGem:"+e.getTag()+"----");
                 if ("USERNAME_UNOCCUPIED".equals(e.getTag())||"PHONE_NUMBER_UNOCCUPIED".equals(e.getTag()) || "EMAIL_UNOCCUPIED".equals(e.getTag())) {
                     resolver.result(new AuthCodeRes(transactionHash));
                 } else {

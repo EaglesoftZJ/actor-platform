@@ -30,6 +30,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        sit {
+            debuggable true
+            minifyEnabled false
+        }
     }
     lintOptions {
         abortOnError false
@@ -46,7 +50,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':actor-sdk:sdk-core-android:android-sdk')
     // compile project(':actor-sdk:sdk-core-android:android-google-push')
-    compile project(':actor-sdk:sdk-core-android:android-google-maps')
+//    compile project(':actor-sdk:sdk-core-android:android-google-maps')
     compile project(':actor-sdk:sdk-core-android:android-eaglesoft-push')
     compile 'com.roughike:bottom-bar:1.3.9'
     compile 'com.android.support:multidex:1.0.1'

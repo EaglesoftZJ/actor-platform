@@ -68,6 +68,11 @@ public abstract class BaseAuthFragment extends BaseFragment {
         ((AuthActivity) getActivity()).startNickNameAuth(messenger().doStartUsernameAuth(nickName), nickName);
     }
 
+    protected void startNickNameAuth(String nickName,String password) {
+        messenger().getPreferences().putString("sign_in_auth_id", nickName);
+        ((AuthActivity) getActivity()).startNickNameAuth(messenger().doStartUsernameAuth(nickName), nickName,password);
+    }
+
     protected void startPhoneAuth(long phone) {
         messenger().getPreferences().putString("sign_in_auth_id", Long.toString(phone));
         ((AuthActivity) getActivity()).startPhoneAuth(messenger().doStartPhoneAuth(phone), phone);

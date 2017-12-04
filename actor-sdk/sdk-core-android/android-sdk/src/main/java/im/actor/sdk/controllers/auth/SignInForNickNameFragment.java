@@ -1,6 +1,7 @@
 package im.actor.sdk.controllers.auth;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -10,9 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.ActorStyle;
@@ -82,11 +85,18 @@ public class SignInForNickNameFragment extends BaseAuthFragment {
         //messenger().trackAuthPhoneOpen();
 
         setTitle(R.string.sign_in_title);
+        if (savedAuthId == null || savedAuthId.length() == 0) {
+            focussignId(signIdEditText);
+        } else {
+            focussignId(signPwdEditText);
+        }
 
-        focussignId();
 
         keyboardHelper.setImeVisibility(signIdEditText, true);
     }
+
+    EditText signPwdEditText;
+    String savedAuthId;
 
     private void initView(View v) {
 
@@ -97,11 +107,18 @@ public class SignInForNickNameFragment extends BaseAuthFragment {
         signIdEditText.setTextColor(style.getTextPrimaryColor());
         signIdEditText.setHighlightColor(style.getMainColor());
 
-        signIdEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        signPwdEditText = (EditText) v.findViewById(R.id.et_sms_pwd_enter);
+
+        signPwdEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_GO) {
                     requestCode();
+
+                    InputMethodManager imm = (InputMethodManager) textView
+                            .getContext().getSystemService(
+                                    Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
                     return true;
                 }
                 return false;
@@ -109,7 +126,7 @@ public class SignInForNickNameFragment extends BaseAuthFragment {
         });
 
         int availableAuthType = ActorSDK.sharedActor().getAuthType();
-        String savedAuthId = messenger().getPreferences().getString("sign_in_auth_id");
+        savedAuthId = messenger().getPreferences().getString("sign_in_auth_id");
         signIdEditText.setText(savedAuthId);
         boolean needSuggested = savedAuthId == null || savedAuthId.isEmpty();
         if (((availableAuthType & AuthActivity.AUTH_TYPE_PHONE) == AuthActivity.AUTH_TYPE_PHONE) && ((availableAuthType & AuthActivity.AUTH_TYPE_EMAIL) == AuthActivity.AUTH_TYPE_EMAIL)) {
@@ -143,6 +160,10 @@ public class SignInForNickNameFragment extends BaseAuthFragment {
             @Override
             public void onClick(View view) {
                 requestCode();
+                InputMethodManager imm = (InputMethodManager) view
+                        .getContext().getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         });
 
@@ -158,14 +179,21 @@ public class SignInForNickNameFragment extends BaseAuthFragment {
             return;
         }
 
-        String rawId = signIdEditText.getText().toString();
+        String rawId = signIdEditText.getText().toString().trim();
+        if (rawId.length() == 0) {
+            Toast.makeText(getActivity(), R.string.sign_in_nickname_hint, Toast.LENGTH_SHORT).show();
+        }
+
+        String pwd = signPwdEditText.getText().toString().trim();
+        if (pwd.length() == 0)
+            Toast.makeText(getActivity(), R.string.auth_password_init, Toast.LENGTH_SHORT).show();
 
         if (rawId.contains("@")) {
             startEmailAuth(rawId);
         } else {
             try {
 //                isNeedSignUp(rawId);
-                startNickNameAuth(rawId);
+                startNickNameAuth(rawId, pwd);
 //                startPhoneAuth(Long.parseLong(rawId.replace("+", "")));
             } catch (Exception e) {
                 new AlertDialog.Builder(getActivity())
@@ -192,8 +220,8 @@ public class SignInForNickNameFragment extends BaseAuthFragment {
     }
 
 
-    private void focussignId() {
-        focus(signIdEditText);
+    private void focussignId(EditText editText) {
+        focus(editText);
     }
 
 

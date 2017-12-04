@@ -367,6 +367,30 @@
                             android:textSize="16sp" />
                     </LinearLayout>
 
+
+
+                    <LinearLayout
+                        android:id="@+id/guanyuShezhi"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/selector"
+                        android:clickable="true">
+
+                        <im.actor.sdk.view.TintImageView
+                            android:id="@+id/guanyuShezhiz_image"
+                            android:layout_width="72dp"
+                            android:layout_height="match_parent"
+                            app:src="@drawable/ic_public_white_24dp" />
+
+                        <TextView
+                            android:id="@+id/guanyuShezhiz_page"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="left|center_vertical"
+                            android:text="建立群组"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
                     <FrameLayout
                         android:id="@+id/settings_bottom_container"
                         android:layout_width="match_parent"

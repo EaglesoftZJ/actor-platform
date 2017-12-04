@@ -23,6 +23,8 @@ import im.actor.runtime.threading.ThreadDispatcher;
  */
 public class Promise<T> {
 
+
+
     /**
      * Success promise. Have result immediately.
      *

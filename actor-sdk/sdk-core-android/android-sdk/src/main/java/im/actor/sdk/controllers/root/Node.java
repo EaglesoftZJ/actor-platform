@@ -1,5 +1,7 @@
 package im.actor.sdk.controllers.root;
 
+import android.support.annotation.NonNull;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -37,19 +39,23 @@ import im.actor.runtime.mvvm.BaseValueModel;
 //                                    "fid":"",
 //                                    "dwid":"dw006"
 //                        }
-public class Node  implements Serializable {
+public class Node  implements Serializable,
+        Comparable<Node> {
 
     private Node parent;// 父节点
     private List<Node> children = new ArrayList<Node>();// 子节点
+    private int childrenSize =-1;
     private String text;// 节点显示的文字
     private String value;// 节点的值
     private String fid;// 父节点标识
-    private Integer wzh;// 位置号
+    private String wzh;// 位置号
     private String dwid;
     private String bmid;
+    private String szk;
     private int index;// 在listView里的位置，从0开始
     private boolean isChecked = false;// 是否处于选中状态
     private boolean isExpanded = false;// 是否处于展开状态
+    private boolean isRy = false; //是否是人员
 
     private JSONObject json;
     /**
@@ -273,11 +279,11 @@ public class Node  implements Serializable {
         this.fid = fid;
     }
 
-    public Integer getWzh() {
+    public String getWzh() {
         return wzh;
     }
 
-    public void setWzh(Integer wzh) {
+    public void setWzh(String wzh) {
         this.wzh = wzh;
     }
 
@@ -316,5 +322,47 @@ public class Node  implements Serializable {
 
     public void setChildren(List<Node> children) {
         this.children = children;
+    }
+
+
+    public String getSzk() {
+        return szk;
+    }
+
+    public void setSzk(String szk) {
+        this.szk = szk;
+    }
+
+    public int getChildrenSize() {
+        return childrenSize;
+    }
+
+    public void setChildrenSize(int childrenSize) {
+        this.childrenSize = childrenSize;
+    }
+
+    @Override
+    public int compareTo(@NonNull Node another) {
+        int sx = 0;
+        try {
+            int a = Integer.parseInt(this.getWzh());
+            int b = Integer.parseInt(another.getWzh());
+            if (a >= b)
+                sx = 1;
+            else
+                sx = -1;
+        } catch (Exception e) {
+
+        }
+
+        return sx;
+    }
+
+    public boolean isRy() {
+        return isRy;
+    }
+
+    public void setRy(boolean ry) {
+        isRy = ry;
     }
 }

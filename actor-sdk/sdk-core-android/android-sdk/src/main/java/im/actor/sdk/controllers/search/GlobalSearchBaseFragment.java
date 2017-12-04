@@ -45,7 +45,7 @@ import static im.actor.sdk.util.ActorSDKMessenger.users;
 
 public abstract class GlobalSearchBaseFragment extends BaseFragment {
 
-    private MenuItem searchMenu;
+    public MenuItem searchMenu;
     private SearchView searchView;
 
     private boolean isSearchVisible = false;
@@ -123,7 +123,7 @@ public abstract class GlobalSearchBaseFragment extends BaseFragment {
         inflater.inflate(R.menu.fragment_global_search, menu);
 
         searchMenu = menu.findItem(R.id.search);
-        if (messenger().getAppState().getIsAppEmpty().get()) {
+        if (messenger().getAppState().getIsAppEmpty().get() || !isShow) {
             searchMenu.setVisible(false);
         } else {
             searchMenu.setVisible(true);
@@ -300,6 +300,15 @@ public abstract class GlobalSearchBaseFragment extends BaseFragment {
         }
     }
 
+    //是否在页面上显示menu
+    boolean isShow=true;
+
+    public void pageActivityHide(boolean isShow) {
+        searchMenu.setVisible(isShow);
+        this.isShow = isShow;
+        hideSearch();
+    }
+
     private void hideSearch() {
         if (!isSearchVisible) {
             return;
@@ -341,6 +350,7 @@ public abstract class GlobalSearchBaseFragment extends BaseFragment {
         super.onPause();
         hideSearch();
     }
+
 
     protected abstract void onPeerPicked(Peer peer);
 }

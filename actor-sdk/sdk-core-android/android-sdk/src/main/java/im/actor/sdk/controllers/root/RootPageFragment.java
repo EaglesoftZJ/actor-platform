@@ -1,5 +1,6 @@
 package im.actor.sdk.controllers.root;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,8 +52,13 @@ import im.actor.sdk.view.adapters.FragmentNoMenuStatePagerAdapter;
 public class RootPageFragment extends BaseFragment {
 
     ViewPager pager;
-    int pageSize = 4;
+    int pageSize = 3;
     private HomePagerAdapter homePagerAdapter;
+
+    RootFragment rootFragment;//消息页面
+
+    RootZzjgFragment zzjgFragment;//组织结构
+
 
     public RootPageFragment() {
 //        setRootFragment(true);
@@ -120,8 +126,8 @@ public class RootPageFragment extends BaseFragment {
         LinearLayout layPage3 = (LinearLayout) view.findViewById(R.id.root_page3);
         layPage3.setOnClickListener(new pageOclickListener(2));
 
-        LinearLayout layPage4 = (LinearLayout) view.findViewById(R.id.root_page4);
-        layPage4.setOnClickListener(new pageOclickListener(3));
+//        LinearLayout layPage4 = (LinearLayout) view.findViewById(R.id.root_page4);
+//        layPage4.setOnClickListener(new pageOclickListener(2));
 
         return view;
     }
@@ -171,38 +177,39 @@ public class RootPageFragment extends BaseFragment {
         TextView text3 = (TextView) ((View) view.getParent()).
                 findViewById(R.id.root_text3);
 
-        TextView text4 = (TextView) ((View) view.getParent()).
-                findViewById(R.id.root_text4);
+//        TextView text4 = (TextView) ((View) view.getParent()).
+//                findViewById(R.id.root_text4);//组织架构
+        if (rootFragment != null) {
+            rootFragment.removeSearchFram();
+        }
         switch (pagePos) {
             case 0:
-//                setSubtitle("11");
-//                setShowTitle(false);
-//                setHomeAsUp(false);
-//                setShowHome(false);
-
                 text1.setTextColor(getResources().getColor(R.color.action));
                 text2.setTextColor(getResources().getColor(R.color.selector_ripple));
                 text3.setTextColor(getResources().getColor(R.color.selector_ripple));
-                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
+//                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
                 break;
             case 1:
+                if (rootFragment != null) {
+                    rootFragment.addSearchFram();
+                }
                 text1.setTextColor(getResources().getColor(R.color.selector_ripple));
                 text2.setTextColor(getResources().getColor(R.color.action));
                 text3.setTextColor(getResources().getColor(R.color.selector_ripple));
-                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
+//                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
                 break;
             case 2:
                 text1.setTextColor(getResources().getColor(R.color.selector_ripple));
                 text2.setTextColor(getResources().getColor(R.color.selector_ripple));
                 text3.setTextColor(getResources().getColor(R.color.action));
-                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
+//                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
                 break;
-            case 3:
-                text1.setTextColor(getResources().getColor(R.color.selector_ripple));
-                text2.setTextColor(getResources().getColor(R.color.selector_ripple));
-                text3.setTextColor(getResources().getColor(R.color.selector_ripple));
-                text4.setTextColor(getResources().getColor(R.color.action));
-                break;
+//            case 2:
+//                text1.setTextColor(getResources().getColor(R.color.selector_ripple));
+//                text2.setTextColor(getResources().getColor(R.color.selector_ripple));
+//                text3.setTextColor(getResources().getColor(R.color.selector_ripple));
+//                text4.setTextColor(getResources().getColor(R.color.action));
+//                break;
         }
     }
 
@@ -238,6 +245,7 @@ public class RootPageFragment extends BaseFragment {
 
     public class HomePagerAdapter extends FragmentNoMenuStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
+
         public HomePagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -255,9 +263,9 @@ public class RootPageFragment extends BaseFragment {
                     return getContactsFragment();
                 case 1:
                     return getDialogsFragment();
+//                case 3:
+//                    return getZzjg();
                 case 2:
-                    return getZzjg();
-                case 3:
                     BaseActorSettingsFragment fragment2 = new ActorSettingsFragment();
                     return fragment2;
             }
@@ -277,14 +285,18 @@ public class RootPageFragment extends BaseFragment {
             if (fragment == null) {
                 fragment = new RootFragment();
             }
-            return fragment;
+            rootFragment = (RootFragment) fragment;
+            return rootFragment;
 //            DialogsDefaultFragment dialogsDefaultFragment = ActorSDK.sharedActor().getDelegate().fragmentForDialogs();
 //            return dialogsDefaultFragment != null ? dialogsDefaultFragment : new DialogsDefaultFragment();
         }
 
         public Fragment getZzjg() {
-            Fragment fragment = new RootZzjgFragment();
-            return fragment;
+            if (zzjgFragment == null)
+                zzjgFragment = new RootZzjgFragment();
+
+
+            return zzjgFragment;
         }
 
         @Override
@@ -295,9 +307,9 @@ public class RootPageFragment extends BaseFragment {
                     return getActivity().getString(R.string.main_bar_chats);
                 case 1:
                     return getActivity().getString(R.string.main_bar_contacts);
+//                case 3:
+//                    return getActivity().getString(R.string.main_bar_organizational);
                 case 2:
-                    return getActivity().getString(R.string.main_bar_organizational);
-                case 3:
                     return getActivity().getString(R.string.profile_title);
             }
         }
@@ -308,5 +320,9 @@ public class RootPageFragment extends BaseFragment {
         }
     }
 
+
+    public ViewPager getViewPage(){
+        return this.pager;
+    }
 
 }

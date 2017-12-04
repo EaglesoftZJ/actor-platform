@@ -1,5 +1,9 @@
 package im.actor.sdk.util;
 
+import android.content.Context;
+
+import org.json.JSONObject;
+
 import im.actor.core.AndroidMessenger;
 import im.actor.core.entity.Group;
 import im.actor.core.entity.User;
@@ -27,4 +31,11 @@ public class ActorSDKMessenger {
         ActorSDK.sharedActor().waitForReady();
         return messenger().myUid();
     }
+
+    public static JSONObject zjjgData() {
+        ActorSDK.sharedActor().waitForReady();
+        return ActorSDK.getZjjgData();
+    }
+
+
 }

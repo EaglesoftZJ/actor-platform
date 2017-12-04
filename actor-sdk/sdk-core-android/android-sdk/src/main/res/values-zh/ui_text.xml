@@ -4,7 +4,7 @@
   -->
 
 <resources>
-    <string name="app_name">iGem</string>
+    <string name="app_name">FlyChat</string>
     <string name="app_locale">Cn</string>
 
     <string name="dialog_ok">确定</string>
@@ -44,7 +44,7 @@
     <string name="tour_sign_using_oauth">(使用谷歌)</string>
     <string name="tour_back_to_top">返回顶部</string>
 
-    <string name="tour_welcome_title">iGem</string>
+    <string name="tour_welcome_title">FlyChat</string>
     <string name="tour_welcome_subtitle">针对团队和朋友的安全交流工具</string>
 
     <string name="tour_groups_title">超多人的群组</string>
@@ -85,7 +85,7 @@
     <!-- Sign In Fragment -->
     <string name="sign_in_title">登录</string>
     <string name="sign_in_nickname_hint">请输入您的用户名.</string>
-    <string name="sign_in_edit_text_hint">用户名</string>
+    <string name="sign_in_edit_text_hint">请输入您的用户名</string>
     <string name="auth_code_phone_hint">已经发送验证码到您的手机： {0}</string>
     <string name="auth_password">请输入您的密码： {0}</string>
     <string name="auth_password_init">请输入您的密码</string>
@@ -123,6 +123,7 @@
     <string name="typing_group_many">{0} 个人正在输入…</string>
 
     <!-- Main -->
+    <string name="main_search_global_header">全局搜索</string>
     <string name="main_search_hint">输入要检索的关键字</string>
     <string name="main_search_empty">什么都没找到</string>
     <string name="main_menu_help">帮助</string>
@@ -130,6 +131,7 @@
 
     <string name="main_bar_chats">消息</string>
     <string name="main_bar_contacts">通讯录</string>
+    <string name="main_bar_organizational">组织架构</string>
 
     <string name="main_fab_compose">发消息</string>
     <string name="main_fab_new_group">创建群组</string>
@@ -188,6 +190,7 @@
     <!-- Contacts -->
     <string name="contacts_title">好友</string>
     <string name="contacts_empty_short">还没有任何好友</string>
+    <string name="zzjg_empty_short">无可选人员</string>
     <string name="contacts_share">把{appName}告诉好友</string>
     <string name="contacts_add">添加好友...</string>
 

@@ -86,8 +86,7 @@ public class ZzjgAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        String fastName = null;
-
+//        String fastName = null;
 //        if (position == 0) {
 //            fastName = messenger().getFormatter().formatFastName(item.getName());
 //        } else {
@@ -100,6 +99,7 @@ public class ZzjgAdapter extends RecyclerView.Adapter {
 //        contactHolder.bind(item, fastName, query, selectedUsers.contains(item.getUid()), index == getItemCount() - 1);
 
     }
+
 
     @Override
     public int getItemCount() {

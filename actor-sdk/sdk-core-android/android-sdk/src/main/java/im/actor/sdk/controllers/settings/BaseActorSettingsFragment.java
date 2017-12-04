@@ -37,6 +37,10 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -46,6 +50,7 @@ import im.actor.core.viewmodel.UserPhone;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.core.viewmodel.generics.ArrayListUserEmail;
 import im.actor.core.viewmodel.generics.ArrayListUserPhone;
+import im.actor.runtime.actors.messages.Void;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.ActorStyle;
 import im.actor.sdk.R;
@@ -54,6 +59,7 @@ import im.actor.sdk.controllers.activity.BaseActivity;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.fragment.help.HelpActivity;
 import im.actor.sdk.controllers.fragment.preview.ViewAvatarActivity;
+import im.actor.sdk.util.BoxUtil;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.view.adapters.HeaderViewRecyclerAdapter;
 import im.actor.sdk.view.avatar.AvatarView;
@@ -61,9 +67,11 @@ import im.actor.sdk.view.TintImageView;
 import im.actor.runtime.mvvm.ValueChangedListener;
 import im.actor.runtime.mvvm.Value;
 
+import static im.actor.sdk.util.ActorSDKMessenger.groups;
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 import static im.actor.sdk.util.ActorSDKMessenger.myUid;
 import static im.actor.sdk.util.ActorSDKMessenger.users;
+import static im.actor.sdk.util.ActorSDKMessenger.zjjgData;
 
 public abstract class BaseActorSettingsFragment extends BaseFragment implements IActorSettingsFragment {
 
@@ -77,7 +85,7 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
     private HeaderViewRecyclerAdapter wallpaperAdapter;
 
     public BaseActorSettingsFragment() {
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     public boolean isAnimateToolbar() {
@@ -96,6 +104,8 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
         }
     }
 
+    UserVM userModel;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         messenger().onUserVisible(myUid());
@@ -105,12 +115,76 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
 
         baseColor = getResources().getColor(R.color.primary);
         final ActorStyle style = ActorSDK.sharedActor().style;
-        final UserVM userModel = users().get(myUid());
+        userModel = users().get(myUid());
+
+        UserVM userVM = messenger().getUser(myUid());
+        String aboutn = userVM.getAbout().get();
+        userModel = userVM;
+//        execute(messenger().getUser(myUid()), R.string.progress_common, new CommandCallback<Boolean>() {
+//            @Override
+//            public void onResult(Boolean res) {
+//                getActivity().finish();
+//            }
+//
+//            @Override
+//            public void onError(Exception e) {
+//                Toast.makeText(getActivity(), R.string.toast_unable_change, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
 
         final TextView nameView = (TextView) view.findViewById(R.id.name);
         nameView.setShadowLayer(1, 1, 1, style.getDividerColor());
         nameView.setTextColor(style.getProfileTitleColor());
         bind(nameView, userModel.getName());
+
+        view.findViewById(R.id.guanyuShezhi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//加入群组
+                execute(messenger().createGroup("测试群组3", "", new int[]{895636497}).then(gid -> {
+//                    getActivity().startActivity(Intents.openGroupDialog(gid, true, getActivity()));
+//                    getActivity().finish();
+                    JSONObject json = zjjgData();
+                    try {
+                        JSONArray yhArray = json.getJSONArray("yh_data");
+                        for (int i = 0; i < 100; i++) {
+                            JSONObject yhJson = yhArray.getJSONObject(i);
+                            String igimid = yhJson.getString("IGIMID");
+                            try {
+                                int igid = Integer.valueOf(igimid);
+                                if (igid != 0 && igid != 895636497 &&
+                                        igid != 350188520) {
+//                                    Thread.sleep(500);
+                                    execute(messenger().inviteMember(gid, igid),
+                                            R.string.progress_common, new CommandCallback<Void>() {
+                                                @Override
+                                                public void onResult(Void res) {
+//                                                    getActivity().finish();
+
+                                                }
+
+                                                @Override
+                                                public void onError(Exception e) {
+                                                    Toast.makeText(getActivity(), R.string.toast_unable_add, Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+//                    messenger().inviteMemberPromise(gid,11);
+                }).failure(e -> {
+                    Toast.makeText(getActivity(), getString(R.string.toast_unable_create_group),
+                            Toast.LENGTH_LONG).show();
+                }));
+            }
+        });
 
         view.findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +231,7 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
                     @Override
                     public void onClick(View v) {
                         //修改姓名
+//                        getActivity().startActivity(Intents.editUserName(myUid(),getActivity()));
 //                        getActivity().startActivity(Intents.editUserNick(getActivity()));
                     }
                 });
@@ -705,35 +780,35 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
     }
 
     private void updateActionBar(int offset) {
-        if (!animateToolbar) {
-            return;
-        }
-        Activity activity = getActivity();
-        if (!(activity instanceof BaseActivity)) {
-            return;
-        }
-        ActionBar bar = ((BaseActivity) getActivity()).getSupportActionBar();
-        if (bar == null) {
-            return;
-        }
-        int fullColor = baseColor;
-        ActorStyle style = ActorSDK.sharedActor().style;
-        if (style.getToolBarColor() != 0) {
-            fullColor = style.getToolBarColor();
-        }
-
-        if (Math.abs(offset) > Screen.dp(248 - 56)) {
-            bar.setBackgroundDrawable(new ColorDrawable(fullColor));
-        } else {
-            float alpha = Math.abs(offset) / (float) Screen.dp(248 - 56);
-
-            bar.setBackgroundDrawable(new ColorDrawable(Color.argb(
-                    (int) (255 * alpha),
-                    Color.red(fullColor),
-                    Color.green(fullColor),
-                    Color.blue(fullColor)
-            )));
-        }
+//        if (!animateToolbar) {
+//            return;
+//        }
+//        Activity activity = getActivity();
+//        if (!(activity instanceof BaseActivity)) {
+//            return;
+//        }
+//        ActionBar bar = ((BaseActivity) getActivity()).getSupportActionBar();
+//        if (bar == null) {
+//            return;
+//        }
+//        int fullColor = baseColor;
+//        ActorStyle style = ActorSDK.sharedActor().style;
+//        if (style.getToolBarColor() != 0) {
+//            fullColor = style.getToolBarColor();
+//        }
+//
+//        if (Math.abs(offset) > Screen.dp(248 - 56)) {
+//            bar.setBackgroundDrawable(new ColorDrawable(fullColor));
+//        } else {
+//            float alpha = Math.abs(offset) / (float) Screen.dp(248 - 56);
+//
+//            bar.setBackgroundDrawable(new ColorDrawable(Color.argb(
+//                    (int) (255 * alpha),
+//                    Color.red(fullColor),
+//                    Color.green(fullColor),
+//                    Color.blue(fullColor)
+//            )));
+//        }
     }
 
     public static String getWallpaperFile() {

@@ -26,6 +26,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import im.actor.sdk.ActorSDK;
+
 
 /**
  * @作者：胡成杰
@@ -56,7 +58,7 @@ public class WebServiceUtil {
                     con.MODE_PRIVATE);
             String url = sp2.getString("url", null);
             if (url == null || url.length() == 0) {
-                serviceurl = "220.189.207.21:8220";
+                serviceurl = ActorSDK.webServiceUri;
                 sp2.edit().putString("url", serviceurl).commit();
             } else {
                 serviceurl = url;
@@ -65,7 +67,7 @@ public class WebServiceUtil {
                 serviceurl = "http://" + serviceurl;
             }
         }
-        if (serviceurl.endsWith("/MoaService/MoaService.asmx")) {
+        if (serviceurl.endsWith("/WebServiceSSO.asmx")) {
             serviceurl = serviceurl.substring(0, serviceurl.length() - 27);
         }
 
@@ -74,8 +76,8 @@ public class WebServiceUtil {
 
         String soapAction = nameSpace + "/" + methodName;
         SoapObject request = new SoapObject(nameSpace, methodName);
-        if (!serviceurl.endsWith("/MoaService/MoaService.asmx")) {
-            serviceurl += "/MoaService/MoaService.asmx";
+        if (!serviceurl.endsWith("/WebServiceSSO.asmx")) {
+            serviceurl += "/WebServiceSSO.asmx";
         }
         Params.put("k", "eagleSoftWebService");
 

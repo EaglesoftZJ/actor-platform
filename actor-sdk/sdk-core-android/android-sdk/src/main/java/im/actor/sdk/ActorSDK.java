@@ -6,15 +6,25 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.ContactsContract;
+import android.view.View;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -30,6 +40,7 @@ import im.actor.runtime.Runtime;
 import im.actor.runtime.actors.ActorSystem;
 import im.actor.runtime.threading.ThreadDispatcher;
 import im.actor.sdk.controllers.Intents;
+import im.actor.sdk.controllers.root.Node;
 import im.actor.sdk.controllers.root.RootActivity;
 import im.actor.sdk.controllers.conversation.ChatActivity;
 import im.actor.sdk.controllers.auth.AuthActivity;
@@ -43,6 +54,7 @@ import im.actor.sdk.core.ActorPushManager;
 import im.actor.sdk.intents.ActorIntent;
 import im.actor.sdk.intents.ActorIntentActivity;
 import im.actor.sdk.intents.ActorIntentFragmentActivity;
+import im.actor.sdk.intents.WebServiceUtil;
 import im.actor.sdk.push.ActorPushRegister;
 import im.actor.sdk.services.KeepAliveService;
 import im.actor.sdk.util.Devices;
@@ -108,7 +120,7 @@ public class ActorSDK {
     /**
      * Actor App Name
      */
-    private String appName = "iGem";
+    private String appName = "FlyChat";
     /**
      * Push Registration Id
      */
@@ -215,11 +227,21 @@ public class ActorSDK {
 //                "6709b8b733a9f20a96b9091767ac19fd6a2a978ba0dccc85a9ac8f6b6560ac1a"
 //        };
 //    }
-
+//
     private ActorSDK() {
-        endpoints = new String[]{"tcp://220.189.207.18:9070"};
+        endpoints = new String[]{"tcp://61.175.100.14:9070"};
         trustedKeys = new String[]{"508D39F2BBDAB7776172478939362CD5127871B60151E9B86CD6D61AD1A75849"};
     }
+//
+//    private ActorSDK() {
+//        endpoints = new String[]{"tcp://220.189.207.18:9070"};
+//        trustedKeys = new String[]{"508D39F2BBDAB7776172478939362CD5127871B60151E9B86CD6D61AD1A75849"};
+//    }
+
+//    public static String webServiceUri = "http://220.189.207.21:8709";
+//   http://61.175.100.14:8012/ActorServices-Maven/services/ActorService?wsdl";
+
+    public static String webServiceUri = "http://61.175.100.14:8004";
 
     /**
      * Shared ActorSDK. Use this method to get instance of SDK for configuration and starting up
@@ -235,6 +257,8 @@ public class ActorSDK {
     // SDK Initialization
     //
 
+    private static JSONObject zjjgData;
+
     public void createActor(final Application application) {
 
         this.application = application;
@@ -242,7 +266,6 @@ public class ActorSDK {
         ThreadDispatcher.pushDispatcher(Runtime::postToMainThread);
 
         Runtime.dispatch(() -> {
-
             //
             // SDK Tools
             //
@@ -369,6 +392,8 @@ public class ActorSDK {
             //
 
             emojiProcessor.loadEmoji();
+
+
         });
     }
 
@@ -1090,4 +1115,14 @@ public class ActorSDK {
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(i);
     }
+
+    public static JSONObject getZjjgData(){
+        ActorSDK.sharedActor().waitForReady();
+        return zjjgData;
+    }
+
+    public static void setZjjgData(JSONObject data){
+         zjjgData = data;
+    }
+
 }

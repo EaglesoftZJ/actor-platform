@@ -2,11 +2,13 @@ package im.actor.sdk.controllers.auth;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import im.actor.core.AuthState;
@@ -213,6 +215,18 @@ public class AuthActivity extends BaseFragmentActivity {
         startAuth(promise);
     }
 
+
+    public void startNickNameAuth(Promise<AuthStartRes> promise, String nickName, String password) {
+        currentAuthType = AUTH_TYPE_NICKNAME;
+        currentName = nickName;
+        currentCode = password;
+//        showProgress();
+//        currentNickName = nickName;
+        currentSex = Sex.UNKNOWN;
+        availableAuthType = ActorSDK.sharedActor().getAuthType();
+        startAuth(promise);
+    }
+
     public void startPhoneAuth(Promise<AuthStartRes> promise, long phone) {
         currentAuthType = AUTH_TYPE_PHONE;
         currentPhone = phone;
@@ -230,32 +244,34 @@ public class AuthActivity extends BaseFragmentActivity {
         res.then(new Consumer<AuthStartRes>() {
             @Override
             public void apply(AuthStartRes authStartRes) {
-                if (dismissProgress()) {
-                    transactionHash = authStartRes.getTransactionHash();
-                    isRegistered = authStartRes.isRegistered();
-                    switch (authStartRes.getAuthMode()) {
-                        case OTP:
-                            switch (currentAuthType) {
-                                case AUTH_TYPE_PHONE:
-                                    updateState(AuthState.CODE_VALIDATION_PHONE);
-                                    break;
+//                if (dismissProgress()) {
+                transactionHash = authStartRes.getTransactionHash();
+                isRegistered = authStartRes.isRegistered();
+                switch (authStartRes.getAuthMode()) {
+                    case OTP:
+                        switch (currentAuthType) {
+                            case AUTH_TYPE_PHONE:
+                                updateState(AuthState.CODE_VALIDATION_PHONE);
+                                break;
 
-                                case AUTH_TYPE_EMAIL:
-                                    updateState(AuthState.CODE_VALIDATION_EMAIL);
-                                    break;
-                                case AUTH_TYPE_NICKNAME:
-                                    transactionHash = authStartRes.getTransactionHash();
-                                    isRegistered = authStartRes.isRegistered();
-                                    updateState(AuthState.PASSWORD_VALIDATION);
-                                    break;
-                            }
-                            break;
+                            case AUTH_TYPE_EMAIL:
+                                updateState(AuthState.CODE_VALIDATION_EMAIL);
+                                break;
+                            case AUTH_TYPE_NICKNAME:
+                                transactionHash = authStartRes.getTransactionHash();
+                                isRegistered = authStartRes.isRegistered();
+                                validatePassword(messenger().doValidatePassword(currentCode, getTransactionHash()), currentCode);
+//                                    updateState(AuthState.PASSWORD_VALIDATION);
 
-                        default:
-                            //not supported AuthMode - force crash?
-                    }
+                                break;
+                        }
+                        break;
+
+                    default:
+                        //not supported AuthMode - force crash?
                 }
             }
+//            }
         }).failure(new Consumer<Exception>() {
             @Override
             public void apply(Exception e) {
@@ -266,7 +282,7 @@ public class AuthActivity extends BaseFragmentActivity {
 
     public void validatePassword(Promise<AuthCodeRes> promise, String password) {
         currentCode = password;
-        showProgress();
+//        showProgress();
         promise.then(new Consumer<AuthCodeRes>() {
             @Override
             public void apply(AuthCodeRes authCodeRes) {
@@ -380,6 +396,7 @@ public class AuthActivity extends BaseFragmentActivity {
                     boolean keepState = false;
                     String message = getString(R.string.error_unknown);
                     String tag = "UNKNOWN";
+
                     if (e instanceof RpcException) {
                         RpcException re = (RpcException) e;
                         if (re instanceof RpcInternalException) {
@@ -399,6 +416,9 @@ public class AuthActivity extends BaseFragmentActivity {
                                 keepState = true;
                             } else if ("FAILED_GET_OAUTH2_TOKEN".equals(re.getTag())) {
                                 message = getString(R.string.auth_error_failed_get_oauth2_token);
+                                canTryAgain = false;
+                            } else if ("PASSWORD_INVALID".equals(re.getTag())) {
+                                message = getString(R.string.auth_error_password_invalid);
                                 canTryAgain = false;
                             } else {
                                 message = re.getMessage();
