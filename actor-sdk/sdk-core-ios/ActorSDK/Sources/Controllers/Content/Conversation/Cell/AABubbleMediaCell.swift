@@ -185,7 +185,7 @@ open class AABubbleMediaCell : AABubbleBaseFileCell, NYTPhotosViewControllerDele
         
         // Loading Image and State
         
-        runOnUiThread(selfGeneration) { () -> () in
+        _ = runOnUiThread(selfGeneration) { () -> () in
             
             // Loading Image
             

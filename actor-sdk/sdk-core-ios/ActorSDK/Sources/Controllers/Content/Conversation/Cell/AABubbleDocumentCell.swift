@@ -15,7 +15,7 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
     
     fileprivate let dateLabel = UILabel()
     fileprivate let statusView = UIImageView()
-    
+   
     fileprivate var bindedLayout: DocumentCellLayout!
     
     public init(frame: CGRect) {
@@ -137,7 +137,7 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
             }
         }
     }
-    
+    // #文件点击
     open func documentDidTap() {
         
         let content = bindedMessage!.content as! ACDocumentContent
@@ -149,15 +149,14 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
                 }, onDownloading: { (progress) -> () in
                     Actor.cancelDownloading(withFileId: fileSource.getFileReference().getFileId())
                 }, onDownloaded: { (reference) -> () in
-                    let docController = UIDocumentInteractionController(url: URL(fileURLWithPath: CocoaFiles.pathFromDescriptor(reference)))
+                    let docPath:String = CocoaFiles.pathFromDescriptor(reference)
+                    let docController = UIDocumentInteractionController(url: URL(fileURLWithPath: docPath))
                     docController.delegate = self
-                    
                     if (docController.presentPreview(animated: true)) {
                         return
                     }
             }))
-            
-        } else if let fileSource = content.getSource() as? ACFileLocalSource {
+        }else if let fileSource = content.getSource() as? ACFileLocalSource {
             let rid = bindedMessage!.rid
             Actor.requestUploadState(withRid: rid, with: AAUploadFileCallback(
                 notUploaded: { () -> () in
@@ -176,7 +175,7 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
     }
     
     open override func fileStateChanged(_ reference: String?, progress: Int?, isPaused: Bool, isUploading: Bool, selfGeneration: Int) {
-        self.runOnUiThread(selfGeneration) { () -> () in
+        _ = self.runOnUiThread(selfGeneration) { () -> () in
             if isUploading {
                 if isPaused {
                     self.fileIcon.hideView()
@@ -250,7 +249,8 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
         }
     }
 
-    open func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+    public func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController
+    {
         return self.controller
     }
 }
