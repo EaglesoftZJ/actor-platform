@@ -94,14 +94,6 @@ class LoginViewController: AAAuthViewController,UITextFieldDelegate {
     
     func loginAction(){
         let userDefault = UserDefaults.standard
-        if checkRemind.isSelected {
-            userDefault.set(true, forKey: "isRemind")
-            userDefault.synchronize()
-        }
-        else{
-            userDefault.set(false, forKey: "isRemind")
-            userDefault.synchronize()
-        }
         
         let user = userField.text!.trim()
         let pass = pwdField.text!.trim()
@@ -131,6 +123,14 @@ class LoginViewController: AAAuthViewController,UITextFieldDelegate {
                     else
                     {
                         let _ = Actor.doCompleteAuth(r.result).startUserAction().then{ (r: JavaLangBoolean!) -> () in
+                            if self.checkRemind.isSelected {
+                                userDefault.set(["user":user,"pass":pass], forKey: "isRemind")
+                                userDefault.synchronize()
+                            }
+                            else{
+                                userDefault.removeObject(forKey: "isRemind")
+                                userDefault.synchronize()
+                            }
                             self.pwdField.resignFirstResponder()
                             self.onAuthenticated()
                         }
