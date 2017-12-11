@@ -49,7 +49,7 @@ import Foundation
         self.db = FMDatabase(path: databasePath)
         self.db.open()
         if (!db.tableExists(tableName)) {
-            db.executeUpdate(queryCreate)
+            _ = db.executeUpdate(queryCreate)
         }
     }
     
@@ -59,7 +59,7 @@ import Foundation
         db.beginTransaction()
         for i in 0..<values.size() {
             let record = values.getWith(i) as! ARKeyValueRecord
-            db.executeUpdate(queryAdd, record.getId().toNSNumber(),record.getData().toNSData() as AnyObject)
+            _ = db.executeUpdate(queryAdd, record.getId().toNSNumber(),record.getData().toNSData() as AnyObject)
         }
         db.commit()
     }
@@ -68,7 +68,7 @@ import Foundation
         checkTable()
         
         db.beginTransaction()
-        db.executeUpdate(queryAdd, key.toNSNumber(), data!.toNSData() as AnyObject)
+        _ = db.executeUpdate(queryAdd, key.toNSNumber(), data!.toNSData() as AnyObject)
         db.commit()
     }
     
@@ -78,7 +78,7 @@ import Foundation
         db.beginTransaction()
         for i in 0..<keys.length() {
             let key = keys.long(at: UInt(i));
-            db.executeUpdate(queryDelete, key.toNSNumber())
+            _ = db.executeUpdate(queryDelete, key.toNSNumber())
         }
         db.commit()
     }
@@ -87,7 +87,7 @@ import Foundation
         checkTable()
         
         db.beginTransaction()
-        db.executeUpdate(queryDelete, key.toNSNumber())
+        _ = db.executeUpdate(queryDelete, key.toNSNumber())
         db.commit()
     }
     
@@ -140,7 +140,7 @@ import Foundation
         checkTable()
         
         db.beginTransaction()
-        db.executeUpdate(queryDeleteAll)
+        _ = db.executeUpdate(queryDeleteAll)
         db.commit()
     }
 }

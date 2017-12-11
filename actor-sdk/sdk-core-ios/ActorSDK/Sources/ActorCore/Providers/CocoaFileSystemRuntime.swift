@@ -24,7 +24,8 @@ open class CocoaFiles {
     }
     
     func createTempFile() -> ARFileSystemReference! {
-        let fileName = "/tmp/\(UUID().uuidString)"
+        
+        let fileName = "/tmp/\(UUID().uuidString)"//66033823445060329_Optional("截至20171101即时通讯问题.docx")
         FileManager.default.createFile(atPath: documentsFolder + fileName, contents: nil, attributes: nil)
         return CocoaFile(path: fileName)
     }
@@ -34,8 +35,8 @@ open class CocoaFiles {
         // Finding file available name
         
         // let path = "\(documentsFolder)/Documents/\(fileId)_\(fileName)"
-        let descriptor = "/Documents/\(fileId)_\(fileName)"
-//        
+//        let descriptor = "/Documents/\(fileId)_\(fileName)"
+        let descriptor = "/Documents/\(fileId)_"+fileName
 //        if manager.fileExistsAtPath("\(documentsFolder)/Documents/\(fileId)_\(fileName)") {
 //            do {
 //                try manager.removeItemAtPath(path)

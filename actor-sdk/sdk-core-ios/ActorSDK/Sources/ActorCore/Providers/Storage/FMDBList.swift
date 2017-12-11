@@ -84,9 +84,9 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         self.db = FMDatabase(path: databasePath)
         self.db!.open()
         if (!db!.tableExists(tableName)) {
-            db!.executeUpdate(queryCreate)
-            db!.executeUpdate(queryCreateIndex)
-            db!.executeUpdate(queryCreateFilter)
+            _ = db!.executeUpdate(queryCreate)
+            _ = db!.executeUpdate(queryCreateIndex)
+            _ = db!.executeUpdate(queryCreateFilter)
         }
     }
     
@@ -109,7 +109,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         db!.beginTransaction()
         for i in 0..<items.size() {
             let record = items.getWith(i) as! ARListEngineRecord;
-            db!.executeUpdate(queryAdd, record.getKey().toNSNumber(), record.dbQuery(), record.getOrder().toNSNumber(),
+            _ = db!.executeUpdate(queryAdd, record.getKey().toNSNumber(), record.dbQuery(), record.getOrder().toNSNumber(),
                 record.getData().toNSData() as AnyObject)
         }
         db!.commit()
@@ -119,7 +119,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         checkTable();
         
         db!.beginTransaction()
-        db!.executeUpdate(queryDelete, key.toNSNumber());
+        _ = db!.executeUpdate(queryDelete, key.toNSNumber());
         db!.commit()
     }
 
@@ -129,7 +129,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         db!.beginTransaction()
         for i in 0..<keys.length() {
             let k = keys.long(at: UInt(i));
-            db!.executeUpdate(queryDelete, k.toNSNumber());
+            _ = db!.executeUpdate(queryDelete, k.toNSNumber());
         }
         db!.commit()
     }
@@ -174,7 +174,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         checkTable();
         
         db!.beginTransaction()
-        db!.executeUpdate(queryDeleteAll);
+        _ = db!.executeUpdate(queryDeleteAll);
         db!.commit()
     }
     

@@ -307,7 +307,7 @@ open class ConversationViewController:
 
             let user = Actor.getUserWithUid(peer.peerId)
             let nameModel = user.getNameModel()
-            let blockStatus = user.isBlockedModel().get().booleanValue()
+            _ = user.isBlockedModel().get().booleanValue()
             
             binder.bind(nameModel, closure: { (value: NSString?) -> () in
                 self.titleView.text = String(value!)
@@ -437,7 +437,7 @@ open class ConversationViewController:
             let group = Actor.getGroupWithGid(peer.peerId)
             if !group.isMember.get().booleanValue() {
                 if group.isCanJoin.get().booleanValue() {
-                    executePromise(Actor.joinGroup(withGid: peer.peerId))
+                    _ = executePromise(Actor.joinGroup(withGid: peer.peerId))
                 } else {
                     // DO NOTHING
                 }

@@ -23,7 +23,7 @@ import AudioToolbox.AudioServices
             
             var path = Bundle.framework.url(forResource: "notification", withExtension: "caf")
             
-            if let fileURL: URL = URL(fileURLWithPath: "/Library/Ringtones/\(soundFile)") {
+            if let fileURL: URL = URL(fileURLWithPath: "/Library/Ringtones/\(String(describing: soundFile))") {
                 path = fileURL
             }
             
