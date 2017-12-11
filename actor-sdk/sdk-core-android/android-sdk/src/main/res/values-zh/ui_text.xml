@@ -85,10 +85,12 @@
     <!-- Sign In Fragment -->
     <string name="sign_in_title">登录</string>
     <string name="sign_in_nickname_hint">请输入您的用户名.</string>
-    <string name="sign_in_edit_text_hint">请输入您的用户名</string>
+    <string name="sign_in_edit_text_hint">用户名</string>
     <string name="auth_code_phone_hint">已经发送验证码到您的手机： {0}</string>
     <string name="auth_password">请输入您的密码： {0}</string>
-    <string name="auth_password_init">请输入您的密码</string>
+    <string name="auth_password_init">密码</string>
+    <string name="shuRuIP">请输入IP+端口</string>
+    <string name="jiZhuMiMa">记住用户名和密码</string>
     <string name="auth_code_email_hint">已经发送验证码到您的电子邮件： {0}</string>
     <string name="auth_code_title">请输入密码</string>
     <string name="auth_code_sms_hint">短信验证码</string>

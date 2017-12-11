@@ -5,9 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -62,6 +64,8 @@ public class AuthActivity extends BaseFragmentActivity {
     private ActorRef authActor;
     private boolean codeValidated = false;
 
+    SharedPreferences spIp,spUswer,spLogin,ipList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +88,14 @@ public class AuthActivity extends BaseFragmentActivity {
         signType = preferences.getInt("signType", signType);
         String savedState = preferences.getString("auth_state");
         state = Enum.valueOf(AuthState.class, savedState != null ? savedState : "AUTH_START");
+
+        spUswer = getSharedPreferences("userList",Context.MODE_PRIVATE);
+        spIp =getSharedPreferences("ipLogin",Context.MODE_PRIVATE);
+        spLogin = getSharedPreferences("userLogin",Context.MODE_PRIVATE);
+        ipList =  getSharedPreferences("ipList",Context.MODE_PRIVATE);
+
         updateState(state, true);
+
     }
 
 
@@ -129,17 +140,17 @@ public class AuthActivity extends BaseFragmentActivity {
                     updateState(AuthState.SIGN_UP);
                 } else if (signType == SIGN_TYPE_IN) {
 //                    showFragment(new SignInFragment(), false);
-                    showFragment(new SignInForNickNameFragment(), false);
+                    showFragment(new SignInForOAFragment(), false);
                 }
 
                 break;
             case SIGN_UP:
                 if (currentName != null && !currentName.isEmpty()) {
 //                    startAuth(currentName);
-                    showFragment(new SignInForNickNameFragment(), false);
+                    showFragment(new SignInForOAFragment(), false);
                 } else {
 //                    showFragment(new SignUpFragment(), false);
-                    showFragment(new SignInForNickNameFragment(), false);
+                    showFragment(new SignInForOAFragment(), false);
                 }
                 break;
             case AUTH_CUSTOM:
@@ -293,6 +304,9 @@ public class AuthActivity extends BaseFragmentActivity {
                         messenger().doCompleteAuth(authCodeRes.getResult()).then(new Consumer<Boolean>() {
                             @Override
                             public void apply(Boolean aBoolean) {
+                                spUswer.edit().putString(currentName,currentCode);
+                                spLogin.edit().putString("zh", currentName).commit();
+                                spLogin.edit().putString("mm", currentCode).commit();
                                 updateState(AuthState.LOGGED_IN);
                             }
                         }).failure(new Consumer<Exception>() {

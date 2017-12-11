@@ -58,7 +58,7 @@ public class WebServiceUtil {
                     con.MODE_PRIVATE);
             String url = sp2.getString("url", null);
             if (url == null || url.length() == 0) {
-                serviceurl = ActorSDK.webServiceUri;
+                serviceurl = ActorSDK.getWebServiceUri(con)+":8004";
                 sp2.edit().putString("url", serviceurl).commit();
             } else {
                 serviceurl = url;

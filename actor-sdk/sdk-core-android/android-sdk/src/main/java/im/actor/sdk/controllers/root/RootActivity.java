@@ -1,11 +1,19 @@
 package im.actor.sdk.controllers.root;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -17,10 +25,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 import im.actor.core.AuthState;
@@ -31,14 +46,13 @@ import im.actor.runtime.android.AndroidContext;
 import im.actor.runtime.promise.Promise;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
+import im.actor.sdk.controllers.activity.BaseActivity;
 import im.actor.sdk.controllers.activity.BaseFragmentActivity;
-import im.actor.sdk.controllers.compose.ComposeFabFragment;
-import im.actor.sdk.controllers.contacts.ContactsFragment;
-import im.actor.sdk.controllers.dialogs.DialogsDefaultFragment;
-import im.actor.sdk.controllers.placeholder.GlobalPlaceholderFragment;
-import im.actor.sdk.controllers.search.GlobalSearchDefaultFragment;
 import im.actor.sdk.controllers.tools.InviteHandler;
+import im.actor.sdk.intents.WebServiceLogionUtil;
 import im.actor.sdk.intents.WebServiceUtil;
+import im.actor.sdk.permisson_interface.OnPermissionListener;
+import im.actor.sdk.services.UpdataService;
 import im.actor.sdk.view.PagerSlidingTabStrip;
 import im.actor.sdk.view.adapters.FragmentNoMenuStatePagerAdapter;
 
@@ -47,8 +61,8 @@ import im.actor.sdk.view.adapters.FragmentNoMenuStatePagerAdapter;
  */
 public class RootActivity extends BaseFragmentActivity {
 
-    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     private RootPageFragment rootPageFragment;
+    private SharedPreferences sp;
 
     //    ViewPager pager;
 //    private HomePagerAdapter homePagerAdapter;
@@ -56,12 +70,24 @@ public class RootActivity extends BaseFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root);
+        sp = this.getSharedPreferences("flyChatSp", MODE_PRIVATE);
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.READ_CONTACTS},
+//                    PERMISSIONS_REQUEST_READ_CONTACTS);
+        String[] PERMISSIONS_CONTACT = {
+                Manifest.permission.READ_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE};
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS},
-                    PERMISSIONS_REQUEST_READ_CONTACTS);
-        }
+        requestPermission(PERMISSIONS_CONTACT, new OnPermissionListener() {
+            @Override
+            public void permissionGranted() {
+                AppStateVM appStateVM = ActorSDK.sharedActor().getMessenger().getAppStateVM();
+                if (appStateVM.isDialogsLoaded() && appStateVM.isContactsLoaded() && appStateVM.isSettingsLoaded()) {
+                    ActorSDK.sharedActor().getMessenger().startImport();
+                }
+            }
+        });
+//        }
 
 
         //
@@ -92,11 +118,124 @@ public class RootActivity extends BaseFragmentActivity {
                 zjjgData(callback);
             }
         });
+
+
+        HashMap<String, Object> par = new HashMap<>();
+        PackageInfo info = null;
+        try {
+            info = getPackageManager().getPackageInfo(
+                    getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            // e.printStackTrace(System.err);
+            // L.i("getPackageInfo err = " + e.getMessage());
+        }
+        if (info == null)
+            info = new PackageInfo();
+        par.put("version", info.versionName);
+//        System.out.println("iGem:"+info.versionName);
+//        http://61.175.100.14:8012
+        WebServiceLogionUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8012", par, "updatePhotoFlyChat", getApplicationContext(),
+                new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message message) {
+                        Bundle b = message.getData();
+                        String datasource = b.getString("datasource");
+                        try {
+                            JSONObject json = new JSONObject(datasource);
+//                            System.out.println("iGem:"+json.toString());
+                            if (json.getBoolean("canUpdate")) {
+                                final String url = json.getString("url");
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RootActivity.this);
+                                AlertDialog alertDialog = alertDialogBuilder.setPositiveButton("更新",// 设置确定按钮
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                dialog.dismiss();
+                                                String[] PERMISSIONS_CONTACT = {
+                                                        Manifest.permission.READ_EXTERNAL_STORAGE};
+
+                                                requestPermission(PERMISSIONS_CONTACT, new OnPermissionListener() {
+                                                    @Override
+                                                    public void permissionGranted() {
+                                                        Intent intent = new Intent(RootActivity.this,
+                                                                UpdataService.class);
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putString("url", url);
+                                                        intent.putExtras(bundle);
+                                                        startService(intent);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                ).setNegativeButton("暂不更新",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                                int whichButton) {
+                                                // 点击"取消"按钮之后退出程序
+                                                dialog.dismiss();
+                                            }
+                                        }
+
+                                ).create();
+//                                alertDialog.setTitle("软件更新");
+                                alertDialog.setMessage("发现新版本，是否在该网络环境下更新？");
+                                alertDialog.show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }
+                }));
+
+
+        HashMap<String, Object> parImage = new HashMap<>();
+        parImage.put("version", 0);
+        WebServiceLogionUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8012", parImage, "phone_image", getApplicationContext(),
+                new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message message) {
+                        Bundle b = message.getData();
+                        String datasource = b.getString("datasource");
+                        try {
+                            JSONObject json = new JSONObject(datasource);
+                            System.out.println("iGem:" + json.toString());
+                            sp.edit().putString("imageVersion", json.getString("version"));
+
+                            final String welcomePage_bg = json.getString("welcomePage_bg");
+                            if (json.getBoolean("canUpdate")) {
+                                new Thread() {
+                                    public void run() {
+                                        sp.edit().putString("welcomePage_bg",
+                                                getImageURI(welcomePage_bg, "welcomePage_bg.png")).commit();
+                                        sp.edit().putString("login_logo",
+                                                getImageURI(welcomePage_bg, "login_logo.png")).commit();
+                                        sp.edit().putString("loginPage_but",
+                                                getImageURI(welcomePage_bg, "loginPage_but.png")).commit();
+
+                                        sp.edit().putString("loginPage_bg_bottom_small",
+                                                getImageURI(welcomePage_bg, "loginPage_bg_bottom_small.png")).commit();
+                                        sp.edit().putString("loginPage_bg_bottom",
+                                                getImageURI(welcomePage_bg, "loginPage_bg_bottom.png")).commit();
+                                        sp.edit().putString("loginPage_bg_top",
+                                                getImageURI(welcomePage_bg, "loginPage_bg_top.png")).commit();
+                                    }
+                                }.start();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }
+                }));
     }
 
     private void zjjgData(final CommandCallback<String> callback) {
         if (ActorSDK.getZjjgData() == null) {
-            WebServiceUtil.webServiceRun(ActorSDK.webServiceUri, new HashMap<String, String>(),
+            WebServiceUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8004", new HashMap<String, String>(),
                     "GetAllUserFullData", AndroidContext.getContext(), new Handler(new Handler.Callback() {
                         @Override
                         public boolean handleMessage(Message msg) {
@@ -125,26 +264,139 @@ public class RootActivity extends BaseFragmentActivity {
         InviteHandler.handleIntent(this, intent);
     }
 
+
+    //6.0之后权限返回方法
+
+    public static final int PERMISSIONS_REQUEST = 0;
+    private OnPermissionListener activitylistener;
+
+    public void requestPermission(String[] permission, OnPermissionListener listener) {
+        boolean flag = true;
+        activitylistener = listener;
+        for (int i = 0; i < permission.length; i++) {
+            if (android.support.v4.app.ActivityCompat.checkSelfPermission(this, permission[i])
+                    != PackageManager.PERMISSION_GRANTED) {
+                flag = false;
+                break;
+            }
+        }
+        if (!flag) {
+            requestContactsPermissions(permission);
+        } else {
+            listener.permissionGranted();
+        }
+
+    }
+
+    private boolean requestShowRequestPermission(String[] permission) {
+        boolean flag = false;
+        for (int i = 0; i < permission.length; i++) {
+            if (android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale(this, permission[i])) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    private void requestContactsPermissions(String[] permission) {
+        // BEGIN_INCLUDE(contacts_permission_request)
+        if (requestShowRequestPermission(permission)) {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // For example, if the request has been denied previously.
+            // Display a SnackBar with an explanation and a button to trigger the request.
+            android.support.v4.app.ActivityCompat.requestPermissions(this, permission,
+                    PERMISSIONS_REQUEST);
+
+        } else {
+            // Contact permissions have not been granted yet. Request them directly.
+            android.support.v4.app.ActivityCompat.requestPermissions(this, permission, PERMISSIONS_REQUEST);
+        }
+        // END_INCLUDE(contacts_permission_request)
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_READ_CONTACTS: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    AppStateVM appStateVM = ActorSDK.sharedActor().getMessenger().getAppStateVM();
-                    if (appStateVM.isDialogsLoaded() && appStateVM.isContactsLoaded() && appStateVM.isSettingsLoaded()) {
-                        ActorSDK.sharedActor().getMessenger().startImport();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST) {
+            boolean flag = true;
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                    flag = false;
+                    if (permissions[i].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        Toast.makeText(this, "因位置权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
+                        break;
+                    } else if (permissions[i].equals(Manifest.permission.CAMERA)) {
+                        Toast.makeText(this, "因相机权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
+                        break;
+                    } else if (permissions[i].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        Toast.makeText(this, "因存储权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
+                        break;
+                    } else if (permissions[i].equals(Manifest.permission.READ_PHONE_STATE)) {
+                        Toast.makeText(this, "因使用电话权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
+                        break;
+                    } else {
+                        Toast.makeText(this, "因部分权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
+                        break;
                     }
-
                 }
             }
+            if (flag) {
+                activitylistener.permissionGranted();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         }
     }
 
 
+    public String getImageURI(String path, String fileName) {
+        File cache = new File(Environment.getExternalStorageDirectory(), "iGem/cache");
+
+        if (!cache.exists()) {
+            cache.mkdirs();
+        }
+        File file = new File(cache, fileName);
+
+        // 如果图片存在本地缓存目录，则不去服务器下载
+//        if (file.exists()) {
+//            return file.getAbsolutePath();//Uri.fromFile(path)这个方法能得到文件的URI
+//        } else {
+        // 从网络上获取图片
+        URL url = null;
+        try {
+            if (file.exists()) {
+                file.delete();
+            } else {
+                file.createNewFile();
+            }
+            url = new URL(path);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            if (conn.getResponseCode() == 200) {
+
+                InputStream is = conn.getInputStream();
+                FileOutputStream fos = new FileOutputStream(file);
+                byte[] buffer = new byte[1024];
+                int len = 0;
+                while ((len = is.read(buffer)) != -1) {
+                    fos.write(buffer, 0, len);
+                }
+                is.close();
+                fos.close();
+                // 返回一个URI对象
+                return file.getAbsolutePath();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        }
+        return null;
+    }
 
 }

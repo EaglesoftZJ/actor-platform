@@ -4,6 +4,11 @@
 
 <resources>
 
+    <!-- 自定义登录界面check -->
+    <style name="LoginCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_style</item>
+    </style>
+
     <style name="AppToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowContentOverlay">@null</item>
 

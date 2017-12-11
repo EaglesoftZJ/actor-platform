@@ -71,4 +71,7 @@ public class BaseFragmentActivity extends BaseActivity {
         }
         return false;
     }
+
+
+
 }

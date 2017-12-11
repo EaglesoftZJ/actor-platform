@@ -58,9 +58,8 @@
 
         <activity
             android:name=".controllers.auth.AuthActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/CommonActivityTheme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".controllers.auth.PickCountryActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -202,7 +201,6 @@
             android:windowSoftInputMode="adjustResize">
         </activity>
 
-
         <!-- Settings -->
 
         <activity
@@ -295,6 +293,11 @@
             android:screenOrientation="portrait"
             android:showOnLockScreen="true"
             android:theme="@style/CallTheme"/>
+
+        <!-- apk跟新后台服务 -->
+        <service
+            android:name="im.actor.sdk.services.UpdataService"
+            android:enabled="true"/>
 
         <service
             android:name=".services.KeepAliveService"

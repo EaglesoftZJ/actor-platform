@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,9 +62,9 @@ public class RootPageFragment extends BaseFragment {
 
 
     public RootPageFragment() {
-//        setRootFragment(true);
-//        setUnbindOnPause(true);
-//        setTitle(ActorSDK.sharedActor().getAppName());
+        setRootFragment(true);
+        setUnbindOnPause(true);
+        setTitle(ActorSDK.sharedActor().getAppName());
     }
 
     private boolean isInited = false;
@@ -177,6 +178,11 @@ public class RootPageFragment extends BaseFragment {
         TextView text3 = (TextView) ((View) view.getParent()).
                 findViewById(R.id.root_text3);
 
+        ImageView image1 = (ImageView) ((View) view.getParent()).findViewById(R.id.root_Image1);
+        ImageView image2 = (ImageView) ((View) view.getParent()).findViewById(R.id.root_Image2);
+        ImageView image3 = (ImageView) ((View) view.getParent()).findViewById(R.id.root_Image3);
+
+
 //        TextView text4 = (TextView) ((View) view.getParent()).
 //                findViewById(R.id.root_text4);//组织架构
         if (rootFragment != null) {
@@ -185,24 +191,37 @@ public class RootPageFragment extends BaseFragment {
         switch (pagePos) {
             case 0:
                 text1.setTextColor(getResources().getColor(R.color.action));
-                text2.setTextColor(getResources().getColor(R.color.selector_ripple));
-                text3.setTextColor(getResources().getColor(R.color.selector_ripple));
+                text2.setTextColor(getResources().getColor(R.color.action_no));
+                text3.setTextColor(getResources().getColor(R.color.action_no));
 //                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
+
+                image1.setImageResource(R.drawable.root_page_contact_check);
+                image2.setImageResource(R.drawable.root_page_duble_bubble_uncheck);
+                image3.setImageResource(R.drawable.root_page_setting_uncheck);
+
                 break;
             case 1:
                 if (rootFragment != null) {
                     rootFragment.addSearchFram();
                 }
-                text1.setTextColor(getResources().getColor(R.color.selector_ripple));
+                text1.setTextColor(getResources().getColor(R.color.action_no));
                 text2.setTextColor(getResources().getColor(R.color.action));
-                text3.setTextColor(getResources().getColor(R.color.selector_ripple));
+                text3.setTextColor(getResources().getColor(R.color.action_no));
 //                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
+                image1.setImageResource(R.drawable.root_page_contact_uncheck);
+                image2.setImageResource(R.drawable.root_page_duble_bubble_check);
+                image3.setImageResource(R.drawable.root_page_setting_uncheck);
+
                 break;
             case 2:
-                text1.setTextColor(getResources().getColor(R.color.selector_ripple));
-                text2.setTextColor(getResources().getColor(R.color.selector_ripple));
+                text1.setTextColor(getResources().getColor(R.color.action_no));
+                text2.setTextColor(getResources().getColor(R.color.action_no));
                 text3.setTextColor(getResources().getColor(R.color.action));
 //                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
+
+                image1.setImageResource(R.drawable.root_page_contact_uncheck);
+                image2.setImageResource(R.drawable.root_page_duble_bubble_uncheck);
+                image3.setImageResource(R.drawable.root_page_setting_check);
                 break;
 //            case 2:
 //                text1.setTextColor(getResources().getColor(R.color.selector_ripple));
@@ -321,7 +340,7 @@ public class RootPageFragment extends BaseFragment {
     }
 
 
-    public ViewPager getViewPage(){
+    public ViewPager getViewPage() {
         return this.pager;
     }
 

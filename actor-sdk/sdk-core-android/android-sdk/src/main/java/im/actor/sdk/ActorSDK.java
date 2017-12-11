@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.os.Build;
 import android.os.Bundle;
@@ -212,7 +213,7 @@ public class ActorSDK {
 
     private String inviteDataUrl = "https://api.actor.im/v1/groups/invites/";
 
-//    private ActorSDK() {
+    //    private ActorSDK() {
 //        endpoints = new String[]{
 //                "tcp://front1-mtproto-api-rev3.actor.im:443",
 //                "tcp://front2-mtproto-api-rev3.actor.im:443",
@@ -241,7 +242,13 @@ public class ActorSDK {
 //    public static String webServiceUri = "http://220.189.207.21:8709";
 //   http://61.175.100.14:8012/ActorServices-Maven/services/ActorService?wsdl";
 
-    public static String webServiceUri = "http://61.175.100.14:8004";
+    public static String webServiceUri = "http://61.175.100.14";
+
+
+    public static String getWebServiceUri(Context context) {
+        SharedPreferences sp = context.getSharedPreferences("ipLogin", Context.MODE_PRIVATE);
+        return sp.getString("url", webServiceUri);
+    }
 
     /**
      * Shared ActorSDK. Use this method to get instance of SDK for configuration and starting up
@@ -252,6 +259,7 @@ public class ActorSDK {
         // Use function if we will replace implementation for some cases
         return sdk;
     }
+
 
     //
     // SDK Initialization
@@ -1116,13 +1124,13 @@ public class ActorSDK {
         context.startActivity(i);
     }
 
-    public static JSONObject getZjjgData(){
+    public static JSONObject getZjjgData() {
         ActorSDK.sharedActor().waitForReady();
         return zjjgData;
     }
 
-    public static void setZjjgData(JSONObject data){
-         zjjgData = data;
+    public static void setZjjgData(JSONObject data) {
+        zjjgData = data;
     }
 
 }
