@@ -38,8 +38,7 @@ import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.Intents;
-import im.actor.sdk.controllers.root.ZzjgAdapter.TreeDanWeiAdapter;
-import im.actor.sdk.controllers.root.ZzjgAdapter.ZzjgAdapter;
+import im.actor.sdk.controllers.zuzhijiagou.TreeDanWeiAdapter;
 
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 import static java.util.Collections.*;
