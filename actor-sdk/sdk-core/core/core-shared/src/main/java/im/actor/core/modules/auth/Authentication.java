@@ -15,6 +15,7 @@ import im.actor.core.api.ApiSex;
 import im.actor.core.api.rpc.RequestCompleteOAuth2;
 import im.actor.core.api.rpc.RequestGetOAuth2Params;
 import im.actor.core.api.rpc.RequestSendCodeByPhoneCall;
+import im.actor.core.api.rpc.RequestSignOut;
 import im.actor.core.api.rpc.RequestSignUp;
 import im.actor.core.api.rpc.RequestStartAnonymousAuth;
 import im.actor.core.api.rpc.RequestStartEmailAuth;
@@ -150,6 +151,24 @@ public class Authentication {
         }
     }
 
+
+    //signout
+    public Promise<String> doSignOut() {
+        return new Promise<String>(resolver -> request(new RequestSignOut(), new
+                RpcCallback<ResponseVoid>() {
+                    @Override
+                    public void onResult(ResponseVoid response) {
+
+                    }
+
+                    @Override
+                    public void onError(RpcException e) {
+
+                    }
+                }));
+    }
+
+
     //
     // Starting Authentication
     //
@@ -224,7 +243,6 @@ public class Authentication {
     }
 
 
-
     //
     // Code And Password Validation
     //
@@ -257,7 +275,7 @@ public class Authentication {
             @Override
             public void onError(RpcException e) {
 //                System.out.println("iGem:"+e.getTag()+"----");
-                if ("USERNAME_UNOCCUPIED".equals(e.getTag())||"PHONE_NUMBER_UNOCCUPIED".equals(e.getTag()) || "EMAIL_UNOCCUPIED".equals(e.getTag())) {
+                if ("USERNAME_UNOCCUPIED".equals(e.getTag()) || "PHONE_NUMBER_UNOCCUPIED".equals(e.getTag()) || "EMAIL_UNOCCUPIED".equals(e.getTag())) {
                     resolver.result(new AuthCodeRes(transactionHash));
                 } else {
                     resolver.error(e);
@@ -300,7 +318,7 @@ public class Authentication {
         }));
     }
 
-    public Promise<AuthRes> doSignup(final String name, final Sex sex, final String transactionHash,final String password) {
+    public Promise<AuthRes> doSignup(final String name, final Sex sex, final String transactionHash, final String password) {
         return new Promise<>((PromiseFunc<AuthRes>) resolver -> request(new RequestSignUp(transactionHash, name, sex.toApi(), password), new RpcCallback<ResponseAuth>() {
 
             @Override
@@ -314,9 +332,6 @@ public class Authentication {
             }
         }));
     }
-
-
-
 
 
     //
@@ -562,13 +577,13 @@ public class Authentication {
     }
 
 
-
     @Deprecated
     public Command<AuthState> signUp(final String name, final ApiSex sex, final String avatarPath) {
-        return signUp(name,sex,avatarPath,null);
+        return signUp(name, sex, avatarPath, null);
     }
+
     @Deprecated
-    public Command<AuthState> signUp(final String name, final ApiSex sex, final String avatarPath,final String password) {
+    public Command<AuthState> signUp(final String name, final ApiSex sex, final String avatarPath, final String password) {
         return callback -> request(new RequestSignUp(modules.getPreferences().getString(KEY_TRANSACTION_HASH), name, sex,
                 password), new RpcCallback<ResponseAuth>() {
             @Override

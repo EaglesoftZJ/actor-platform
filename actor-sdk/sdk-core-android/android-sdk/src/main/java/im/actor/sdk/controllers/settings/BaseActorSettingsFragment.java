@@ -43,7 +43,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import im.actor.core.api.ApiAuthHolder;
+import im.actor.core.api.ApiAuthSession;
 import im.actor.core.viewmodel.CommandCallback;
 import im.actor.core.viewmodel.UserEmail;
 import im.actor.core.viewmodel.UserPhone;
@@ -132,57 +136,143 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
 //            }
 //        });
 
+        view.findViewById(R.id.sign_out_lay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                messenger().u
+
+//                executeSilent(messenger().loadSessions(), new CommandCallback<List<ApiAuthSession>>() {
+//                    @Override
+//                    public void onResult(List<ApiAuthSession> res) {
+//                        ArrayList<ApiAuthSession> items = new ArrayList<ApiAuthSession>(res);
+//                        Collections.sort(items, (lhs, rhs) -> rhs.getAuthTime() - lhs.getAuthTime());
+//                        int signId = -1;
+//                        for (final ApiAuthSession item : items) {
+//                            if (getActivity() == null) return;
+//                            boolean isThisDevice = item.getAuthHolder() == ApiAuthHolder.THISDEVICE;
+//                            if (isThisDevice) {
+//                                signId = item.getId();
+//                                break;
+//                            }
+//                        }
+//                        if (signId != -1) {
+//                            execute(messenger().terminateSession(signId), R.string.progress_common,
+//                                    new CommandCallback<Void>() {
+//                                        @Override
+//                                        public void onResult(Void res1) {
+//                                        }
+//
+//                                        @Override
+//                                        public void onError(Exception e) {
+//                                            Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    });
+//                        } else {
+//                            Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Exception e) {
+//                        Toast.makeText(getContext(), "退出失败", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+            }
+        });
 
         final TextView nameView = (TextView) view.findViewById(R.id.name);
         nameView.setShadowLayer(1, 1, 1, style.getDividerColor());
         nameView.setTextColor(style.getProfileTitleColor());
         bind(nameView, userModel.getName());
-
+        view.findViewById(R.id.guanyuShezhi).setVisibility(View.GONE);
         view.findViewById(R.id.guanyuShezhi).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//加入群组
-                execute(messenger().createGroup("测试群组3", "", new int[]{895636497}).then(gid -> {
-//                    getActivity().startActivity(Intents.openGroupDialog(gid, true, getActivity()));
-//                    getActivity().finish();
-                    JSONObject json = zjjgData();
-                    try {
-                        JSONArray yhArray = json.getJSONArray("yh_data");
-                        for (int i = 0; i < 100; i++) {
-                            JSONObject yhJson = yhArray.getJSONObject(i);
-                            String igimid = yhJson.getString("IGIMID");
-                            try {
-                                int igid = Integer.valueOf(igimid);
-                                if (igid != 0 && igid != 895636497 &&
-                                        igid != 350188520) {
-//                                    Thread.sleep(500);
-                                    execute(messenger().inviteMember(gid, igid),
-                                            R.string.progress_common, new CommandCallback<Void>() {
-                                                @Override
-                                                public void onResult(Void res) {
-//                                                    getActivity().finish();
-
-                                                }
-
-                                                @Override
-                                                public void onError(Exception e) {
-                                                    Toast.makeText(getActivity(), R.string.toast_unable_add, Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-//                    messenger().inviteMemberPromise(gid,11);
-                }).failure(e -> {
-                    Toast.makeText(getActivity(), getString(R.string.toast_unable_create_group),
-                            Toast.LENGTH_LONG).show();
-                }));
+//加入群组ute(messenger().createGroup("测试群组3", "", new int[]{895636497}).then(gid -> {
+////                    getActivity().startActivity(Intents.openGroupDialog(gid, true, getActivity()));
+////                    getActivity().finish();
+//                    JSONObject json = zjjgData();
+//                    try {
+//                        JSONArray yhArray = json.getJSONArray("yh_data");
+//                        for (int i = 0; i < 100; i++) {
+//                            JSONObject yhJson = yhArray.getJSONObject(i);
+//                            String igimid = yhJson.getString("IGIMID");
+//                            try {
+//                                int igid = Integer.valueOf(igimid);
+//                                if (igid != 0 && igid != 895636497 &&
+//                                        igid != 350188520) {
+////                                    Thread.sleep(500);
+//                                    execute(messenger().inviteMember(gid, igid),
+//                                            R.string.progress_common, new CommandCallback<Void>() {
+//                                                @Override
+//                                                public void onResult(Void res) {
+////                                                    getActivity().finish();
+//
+//                                                }
+//
+//                                                @Override
+//                                                public void onError(Exception e) {
+//                                                    Toast.makeText(getActivity(), R.string.toast_unable_add, Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            });
+//                                }
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+////                    messenger().inviteMemberPromise(gid,11);
+//                }).failure(e -> {
+//                    Toast.makeText(getActivity(), getString(R.string.toast_unable_create_group),
+//                            Toast.LENGTH_LONG).show();
+//                }));
+//                execute(messenger().createGroup("测试群组3", "", new int[]{895636497}).then(gid -> {
+////                    getActivity().startActivity(Intents.openGroupDialog(gid, true, getActivity()));
+////                    getActivity().finish();
+//                    JSONObject json = zjjgData();
+//                    try {
+//                        JSONArray yhArray = json.getJSONArray("yh_data");
+//                        for (int i = 0; i < 100; i++) {
+//                            JSONObject yhJson = yhArray.getJSONObject(i);
+//                            String igimid = yhJson.getString("IGIMID");
+//                            try {
+//                                int igid = Integer.valueOf(igimid);
+//                                if (igid != 0 && igid != 895636497 &&
+//                                        igid != 350188520) {
+////                                    Thread.sleep(500);
+//                                    execute(messenger().inviteMember(gid, igid),
+//                                            R.string.progress_common, new CommandCallback<Void>() {
+//                                                @Override
+//                                                public void onResult(Void res) {
+////                                                    getActivity().finish();
+//
+//                                                }
+//
+//                                                @Override
+//                                                public void onError(Exception e) {
+//                                                    Toast.makeText(getActivity(), R.string.toast_unable_add, Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            });
+//                                }
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+////                    messenger().inviteMemberPromise(gid,11);
+//                }).failure(e -> {
+//                    Toast.makeText(getActivity(), getString(R.string.toast_unable_create_group),
+//                            Toast.LENGTH_LONG).show();
+//                }));
             }
         });
 

@@ -115,7 +115,7 @@ public class SignInForOAFragment extends BaseAuthFragment {
 //        }
 
 
-        keyboardHelper.setImeVisibility(signIdEditText, true);
+//        keyboardHelper.setImeVisibility(signIdEditText, true);
     }
 
     EditText signPwdEditText;
@@ -159,10 +159,13 @@ public class SignInForOAFragment extends BaseAuthFragment {
                 if (id == EditorInfo.IME_ACTION_GO) {
                     requestCode();
 
-                    InputMethodManager imm = (InputMethodManager) textView
-                            .getContext().getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+//                    InputMethodManager imm = (InputMethodManager) textView
+//                            .getContext().getSystemService(
+//                                    Context.INPUT_METHOD_SERVICE);
+//                    imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+
+                    keyboardHelper.setImeVisibility(textView, false);
+
                     return true;
                 }
                 return false;
@@ -171,13 +174,18 @@ public class SignInForOAFragment extends BaseAuthFragment {
         if (reMM.isChecked()) {
             signIdEditText.setText(spLogin.getString("zh", ""));
             signPwdEditText.setText(spLogin.getString("mm", ""));
+            savedAuthId = spLogin.getString("zh", "");
+            signIdEditText.setSelection(signIdEditText.getText().length());
+
+        } else {
+            savedAuthId = "";
         }
 
         login_set_ip_text = (TextView) v.findViewById(R.id.login_set_ip_text);
         login_set_ip_text.setText(spIp.getString("urlForCompany", ""));
         int availableAuthType = ActorSDK.sharedActor().getAuthType();
-        savedAuthId = messenger().getPreferences().getString("sign_in_auth_id");
-        signIdEditText.setText(savedAuthId);
+//        savedAuthId = messenger().getPreferences().getString("sign_in_auth_id");
+//        signIdEditText.setText(savedAuthId);
         boolean needSuggested = savedAuthId == null || savedAuthId.isEmpty();
         if (((availableAuthType & AuthActivity.AUTH_TYPE_PHONE) == AuthActivity.AUTH_TYPE_PHONE) && ((availableAuthType & AuthActivity.AUTH_TYPE_EMAIL) == AuthActivity.AUTH_TYPE_EMAIL)) {
             //both hints set phone + email by default
@@ -205,10 +213,12 @@ public class SignInForOAFragment extends BaseAuthFragment {
             @Override
             public void onClick(View v) {
                 requestCode();
-                InputMethodManager imm = (InputMethodManager) v
-                        .getContext().getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//                InputMethodManager imm = (InputMethodManager) v
+//                        .getContext().getSystemService(
+//                                Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+                keyboardHelper.setImeVisibility(v, false);
             }
         });
 

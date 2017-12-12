@@ -192,7 +192,7 @@ public class RootActivity extends BaseFragmentActivity {
 
 
         HashMap<String, Object> parImage = new HashMap<>();
-        parImage.put("version", 0);
+        parImage.put("version", sp.getString("imageVersion","0"));
         WebServiceLogionUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8012", parImage, "phone_image", getApplicationContext(),
                 new Handler(new Handler.Callback() {
                     @Override
@@ -205,22 +205,27 @@ public class RootActivity extends BaseFragmentActivity {
                             sp.edit().putString("imageVersion", json.getString("version"));
 
                             final String welcomePage_bg = json.getString("welcomePage_bg");
+                            final String login_logo = json.getString("login_logo");
+                            final String loginPage_but = json.getString("loginPage_but");
+                            final String loginPage_bg_bottom_small = json.getString("loginPage_bg_bottom_small");
+                            final String loginPage_bg_bottom = json.getString("loginPage_bg_bottom");
+                            final String loginPage_bg_top = json.getString("loginPage_bg_top");
                             if (json.getBoolean("canUpdate")) {
                                 new Thread() {
                                     public void run() {
                                         sp.edit().putString("welcomePage_bg",
                                                 getImageURI(welcomePage_bg, "welcomePage_bg.png")).commit();
                                         sp.edit().putString("login_logo",
-                                                getImageURI(welcomePage_bg, "login_logo.png")).commit();
+                                                getImageURI(login_logo, "login_logo.png")).commit();
                                         sp.edit().putString("loginPage_but",
-                                                getImageURI(welcomePage_bg, "loginPage_but.png")).commit();
+                                                getImageURI(loginPage_but, "loginPage_but.png")).commit();
 
                                         sp.edit().putString("loginPage_bg_bottom_small",
-                                                getImageURI(welcomePage_bg, "loginPage_bg_bottom_small.png")).commit();
+                                                getImageURI(loginPage_bg_bottom_small, "loginPage_bg_bottom_small.png")).commit();
                                         sp.edit().putString("loginPage_bg_bottom",
-                                                getImageURI(welcomePage_bg, "loginPage_bg_bottom.png")).commit();
+                                                getImageURI(loginPage_bg_bottom, "loginPage_bg_bottom.png")).commit();
                                         sp.edit().putString("loginPage_bg_top",
-                                                getImageURI(welcomePage_bg, "loginPage_bg_top.png")).commit();
+                                                getImageURI(loginPage_bg_top, "loginPage_bg_top.png")).commit();
                                     }
                                 }.start();
                             }
