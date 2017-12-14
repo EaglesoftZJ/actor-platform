@@ -22,22 +22,22 @@ open class AASettingsPrivacyViewController: AAContentTableController {
     
     open override func tableDidLoad() {
         
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             s.headerText = AALocalized("PrivacyHeader")
             
             // Settings: Last seen
-            s.navigate("PrivacyLastSeen", controller: AASettingsLastSeenController.self)
+           _ = s.navigate(AALocalized("PrivacyLastSeen"), controller: AASettingsLastSeenController.self)
             
             s.footerText = AALocalized("PrivacyLastSeenHint")
         }
         
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             s.headerText = AALocalized("PrivacySecurityHeader")
             
             // Settings: All sessions
-            s.navigate("PrivacyAllSessions", controller: AASettingsSessionsController.self)
+            _ = s.navigate("PrivacyAllSessions", controller: AASettingsSessionsController.self)
         }
     }
     

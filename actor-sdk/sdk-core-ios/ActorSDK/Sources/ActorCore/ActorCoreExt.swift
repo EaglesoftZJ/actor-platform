@@ -25,7 +25,7 @@ public extension ACCocoaMessenger {
         let descriptor = "/tmp/"+UUID().uuidString
         let path = CocoaFiles.pathFromDescriptor(descriptor);
         
-        animated ? ((try? image.write(to: URL(fileURLWithPath: path), options: [.atomic])) != nil) : ((try? UIImageJPEGRepresentation(resized, 0.80)!.write(to: URL(fileURLWithPath: path), options: [.atomic])) != nil)
+        _ = animated ? ((try? image.write(to: URL(fileURLWithPath: path), options: [.atomic])) != nil) : ((try? UIImageJPEGRepresentation(resized, 0.80)!.write(to: URL(fileURLWithPath: path), options: [.atomic])) != nil)
         
         animated ? sendAnimation(with: peer, withName: "image.gif", withW: jint(resized.size.width), withH:jint(resized.size.height), with: fastThumb, withDescriptor: descriptor) : sendPhoto(with: peer, withName: "image.jpg", withW: jint(resized.size.width), withH: jint(resized.size.height), with: fastThumb, withDescriptor: descriptor)
     }

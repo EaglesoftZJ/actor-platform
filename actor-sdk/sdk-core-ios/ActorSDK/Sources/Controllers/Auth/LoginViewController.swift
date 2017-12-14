@@ -44,7 +44,7 @@ class LoginViewController: AAAuthViewController,UITextFieldDelegate {
         
         companyLabel.textColor = UIColor.white
         companyLabel.font = UIFont.systemFont(ofSize: 16)
-        companyLabel.text = "MOA试用接入点"
+        companyLabel.text = "宁波舟山港舟山港务有限公司"
         
         companyBtn.setImage(UIImage.bundled("选择"), for: .normal)
         companyBtn.addTarget(self, action: #selector(chooseCompany), for: .touchUpInside)

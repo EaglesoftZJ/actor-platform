@@ -328,7 +328,7 @@ open class ConversationViewController:
                         self.subtitleView.textColor = self.appStyle.userOnlineNavigationColor
                     } else {
                         let stateText = Actor.getFormatter().formatPresence(presence, with: user.getSex())
-                        self.subtitleView.text = stateText;
+                        self.subtitleView.text = stateText
                         let state = presence!.state.ordinal()
                         if (state == ACUserPresence_State.online().ordinal()) {
                             self.subtitleView.textColor = self.appStyle.userOnlineNavigationColor
