@@ -86,7 +86,7 @@ public class MapPickerActivity extends AppCompatActivity
         setContentView(R.layout.picker_activity_map_picker);
         list = (ListView) findViewById(R.id.list);
         list.setOnScrollListener(this);
-        list.setOnItemClickListener(this);
+        list.setOnItemClickListener(this);list
         list.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         loading = (ProgressBar) findViewById(R.id.loading);
         status = (TextView) findViewById(R.id.status);

@@ -1,3 +1,4 @@
+include ':android-gaode-maps'
 //
 // SDK Core
 //
@@ -29,6 +30,7 @@ include ":actor-sdk:sdk-core-android:android-sdk"
 //include ":actor-sdk:sdk-core-android:android-google-maps"
 ////eaglesoft push for Android SDk
 include ":actor-sdk:sdk-core-android:android-eaglesoft-push"
+include ":actor-sdk:sdk-core-android:android-gaode-maps"
 
 //
 // SDK iOS

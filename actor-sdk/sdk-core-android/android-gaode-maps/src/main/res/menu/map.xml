@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/map_send"
+        android:title="@string/map_send"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/roadmap"
+        android:title="@string/map_type_normal"
+        android:visible="false"/>
+    <item
+        android:id="@+id/satellite"
+        android:title="@string/map_type_satellite"
+        android:visible="false"/>
+    <item
+        android:id="@+id/hybrid"
+        android:title="@string/map_type_hybrid"
+        android:visible="false"/>
+
+</menu>

@@ -97,8 +97,15 @@ public class MediaPickerFragment extends BaseFragment {
         if (pendingFile == null) {
             return;
         }
-
-
+        Activity activity = getActivity();
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        PERMISSIONS_REQUEST_CAMERA);
+                return;
+            }
+        }
         //
         // Requesting Video
         //

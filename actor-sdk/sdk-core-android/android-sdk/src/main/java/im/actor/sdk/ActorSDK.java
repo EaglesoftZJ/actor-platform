@@ -242,12 +242,12 @@ public class ActorSDK {
 //    public static String webServiceUri = "http://220.189.207.21:8709";
 //   http://61.175.100.14:8012/ActorServices-Maven/services/ActorService?wsdl";
 
-    public static String webServiceUri = "http://61.175.100.14";
+//    public static String webServiceUri = "http://61.175.100.14";
 
 
     public static String getWebServiceUri(Context context) {
         SharedPreferences sp = context.getSharedPreferences("ipLogin", Context.MODE_PRIVATE);
-        return sp.getString("url", webServiceUri);
+        return sp.getString("url", context.getString(R.string.url));
     }
 
     /**
