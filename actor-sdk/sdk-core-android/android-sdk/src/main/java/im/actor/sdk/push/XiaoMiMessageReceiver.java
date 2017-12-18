@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.Toast;
 
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -142,10 +143,13 @@ public class XiaoMiMessageReceiver extends com.xiaomi.mipush.sdk.PushMessageRece
         if (MiPushClient.COMMAND_REGISTER.equals(command)) {
             if (message.getResultCode() == ErrorCode.SUCCESS) {
                 mRegId = cmdArg1;
-                String url = "http://127.0.0.1:8080/ActorPush/getMessage" + "?pushType=xiaomi&id=" + Uri.encode(cmdArg1, "UTF-8");
+                String url =  context.getString(R.string.pushUrl)+"/ActorPush/getMessage" + "?pushType=xiaomi&id=" + Uri.encode(cmdArg1, "UTF-8");
                 ActorSDK.sharedActor().getMessenger().registerActorPush(url);
 //                log = context.getString(R.string.register_success);
+//                Toast.makeText(context,"连接成功"+command,Toast.LENGTH_SHORT).show();
+
             } else {
+//                Toast.makeText(context,"连接失败"+command,Toast.LENGTH_SHORT).show();
 //                log = context.getString(R.string.register_fail);
             }
         }

@@ -27,6 +27,8 @@ import im.actor.runtime.bser.BserValues;
 import im.actor.runtime.bser.BserWriter;
 import im.actor.runtime.storage.KeyValueItem;
 
+import static im.actor.sdk.util.ActorSDKMessenger.messenger;
+
 public class Group extends WrapperExtEntity<ApiGroupFull, ApiGroup> implements KeyValueItem {
 
     private static final int RECORD_ID = 10;
@@ -833,6 +835,7 @@ public class Group extends WrapperExtEntity<ApiGroupFull, ApiGroup> implements K
             this.isCanDeleteForeign = BitMaskUtil.getBitValue(fullPermissions, ApiGroupFullPermissions.DELETE_FOREIGN);
 
             this.members = new ArrayList<>();
+
             for (ApiMember m : ext.getMembers()) {
                 this.members.add(new GroupMember(m.getUid(), m.getInviterUid(), m.getDate(),
                         m.isAdmin() != null ? m.isAdmin() : false));

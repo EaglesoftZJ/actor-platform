@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 
 import im.actor.sdk.ActorSDK;
+import im.actor.sdk.R;
 
 /*
  * 接收Push所有消息的广播接收器
@@ -41,7 +42,7 @@ public class HuaWeiPushReceiver extends PushReceiver {
     public void onToken(Context context, String token, Bundle extras) {
         Log.i("PushMoa", "进入token2:" + token);
 
-        String url = "http://127.0.0.1:8080/ActorPush/getMessage" + "?pushType=huawei&id=" + token;
+        String url = context.getString(R.string.pushUrl)+"/ActorPush/getMessage" + "?pushType=huawei&id=" + token;
         ActorSDK.sharedActor().getMessenger().registerActorPush(url);
     }
 
@@ -49,7 +50,7 @@ public class HuaWeiPushReceiver extends PushReceiver {
     @Override
     public boolean onPushMsg(Context context, byte[] msg, Bundle bundle) {
         try {
-            Toast.makeText(context.getApplicationContext(), "收到一条Push消息：", Toast.LENGTH_LONG).show();
+//            Toast.makeText(context.getApplicationContext(), "收到一条Push消息：", Toast.LENGTH_LONG).show();
             String message = new String(msg, "UTF-8");
 
             Utils.writeTxtToFile("收到一条Push消息："+message, "log.txt");

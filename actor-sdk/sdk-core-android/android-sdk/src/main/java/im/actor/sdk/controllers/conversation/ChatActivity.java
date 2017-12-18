@@ -18,12 +18,17 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import im.actor.core.entity.Group;
 import im.actor.core.entity.Peer;
+import im.actor.core.entity.PeerType;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseActivity;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.view.ActorToolbar;
+
+import static im.actor.sdk.util.ActorSDKMessenger.groups;
+import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class ChatActivity extends BaseActivity {
 
@@ -118,6 +123,17 @@ public class ChatActivity extends BaseActivity {
                 .add(R.id.chatFragment, chatFragment)
                 .commitNow();
         quote = intent.getStringExtra("forward_text_raw");
+
+        if (peer.getPeerType() == PeerType.GROUP) {
+            Group group = groups().getEngine().getValue(peer.getPeerId());
+            if (group.getMembers() != null && group.getMembers().size() == 1) {
+                messenger().loadMembers(peer.getPeerId(), 9999, null)
+                        .then(groupMembersSlice -> {
+                            group.getMembers().clear();
+                            group.getMembers().addAll(groupMembersSlice.getMembers());
+                        });
+            }
+        }
     }
 
     @Override

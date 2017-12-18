@@ -5,6 +5,11 @@
 <resources>
     <string name="hwpush_ability_value" translatable="false">successRateAnalytics</string>
 
+    <string name="urlForCompany">宁波舟山港舟山港务有限公司</string>
+    <string name="url">http://61.175.100.14</string>
+    <string name="pushUrl">http://192.168.2.109:8080</string>
+
+
     <string name="app_name">Actor</string>
     <string name="app_locale">En</string>
 
