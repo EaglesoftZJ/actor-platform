@@ -229,15 +229,15 @@ public class ActorSDK {
 //        };
 //    }
 //
-//    private ActorSDK() {
-//        endpoints = new String[]{"tcp://61.175.100.14:9070"};
-//        trustedKeys = new String[]{"508D39F2BBDAB7776172478939362CD5127871B60151E9B86CD6D61AD1A75849"};
-//    }
-
     private ActorSDK() {
-        endpoints = new String[]{"tcp://220.189.207.18:9070"};
+        endpoints = new String[]{"tcp://61.175.100.14:9070"};
         trustedKeys = new String[]{"508D39F2BBDAB7776172478939362CD5127871B60151E9B86CD6D61AD1A75849"};
     }
+
+//    private ActorSDK() {
+//        endpoints = new String[]{"tcp://220.189.207.18:9070"};
+//        trustedKeys = new String[]{"508D39F2BBDAB7776172478939362CD5127871B60151E9B86CD6D61AD1A75849"};
+//    }
 
 //    public static String webServiceUri = "http://220.189.207.21:8709";
 //   http://61.175.100.14:8012/ActorServices-Maven/services/ActorService?wsdl";
