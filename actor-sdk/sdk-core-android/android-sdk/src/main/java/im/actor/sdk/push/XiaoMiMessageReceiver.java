@@ -146,7 +146,7 @@ public class XiaoMiMessageReceiver extends com.xiaomi.mipush.sdk.PushMessageRece
                 String url =  context.getString(R.string.pushUrl)+"/ActorPush/getMessage" + "?pushType=xiaomi&id=" + Uri.encode(cmdArg1, "UTF-8");
                 ActorSDK.sharedActor().getMessenger().registerActorPush(url);
 //                log = context.getString(R.string.register_success);
-//                Toast.makeText(context,"连接成功"+command,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"连接成功:"+url,Toast.LENGTH_SHORT).show();
 
             } else {
 //                Toast.makeText(context,"连接失败"+command,Toast.LENGTH_SHORT).show();

@@ -230,8 +230,6 @@ public class ChatListProcessor implements ListProcessor<Message> {
         Matcher m = p.matcher(spannable.toString());
         boolean res = false;
         while (m.find()) {
-
-
             boolean found = false;
             String nick = "";
             UserVM user;

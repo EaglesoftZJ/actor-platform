@@ -5,12 +5,12 @@ include ':android-gaode-maps'
 include ":actor-sdk:sdk-core"
 include ":actor-sdk:sdk-core:core:"
 include ":actor-sdk:sdk-core:core:core-shared"
-//include ":actor-sdk:sdk-core:core:core-android"
+include ":actor-sdk:sdk-core:core:core-android"
 include ":actor-sdk:sdk-core:core:core-cocoa"
 include ":actor-sdk:sdk-core:core:core-js"
 include ":actor-sdk:sdk-core:runtime:"
 include ":actor-sdk:sdk-core:runtime:runtime-shared"
-//include ":actor-sdk:sdk-core:runtime:runtime-android"
+include ":actor-sdk:sdk-core:runtime:runtime-android"
 include ":actor-sdk:sdk-core:runtime:runtime-cocoa"
 include ":actor-sdk:sdk-core:runtime:runtime-js"
 include ":actor-sdk:sdk-core:runtime:runtime-generic"
@@ -23,14 +23,13 @@ include ":actor-sdk:sdk-api:api-codegen"
 include ":actor-sdk:sdk-core-android:android-app"
 include ":actor-sdk:sdk-core-android:android-sdk"
 //
-////Google push for Android SDk
-//include ":actor-sdk:sdk-core-android:android-google-push"
+//Google push for Android SDk
+include ":actor-sdk:sdk-core-android:android-google-push"
 //
 ////Google maps for Android SDk
 //include ":actor-sdk:sdk-core-android:android-google-maps"
 ////eaglesoft push for Android SDk
 include ":actor-sdk:sdk-core-android:android-eaglesoft-push"
-include ":actor-sdk:sdk-core-android:android-gaode-maps"
 
 //
 // SDK iOS

@@ -11,12 +11,16 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import im.actor.core.entity.Group;
 import im.actor.core.entity.Peer;
@@ -123,17 +127,6 @@ public class ChatActivity extends BaseActivity {
                 .add(R.id.chatFragment, chatFragment)
                 .commitNow();
         quote = intent.getStringExtra("forward_text_raw");
-
-        if (peer.getPeerType() == PeerType.GROUP) {
-            Group group = groups().getEngine().getValue(peer.getPeerId());
-            if (group.getMembers() != null && group.getMembers().size() == 1) {
-                messenger().loadMembers(peer.getPeerId(), 9999, null)
-                        .then(groupMembersSlice -> {
-                            group.getMembers().clear();
-                            group.getMembers().addAll(groupMembersSlice.getMembers());
-                        });
-            }
-        }
     }
 
     @Override

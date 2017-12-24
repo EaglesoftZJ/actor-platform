@@ -25,7 +25,7 @@ import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class MentionsModule extends AbsModule {
 
-    private static final int SEARCH_LIMIT = 60;
+    private static final int SEARCH_LIMIT = 1000;
 
     public MentionsModule(ModuleContext context) {
         super(context);

@@ -43,6 +43,7 @@ public class HuaWeiPushReceiver extends PushReceiver {
         Log.i("PushMoa", "进入token2:" + token);
 
         String url = context.getString(R.string.pushUrl)+"/ActorPush/getMessage" + "?pushType=huawei&id=" + token;
+//        Log.i("PushMoa", "url:" + url);
         ActorSDK.sharedActor().getMessenger().registerActorPush(url);
     }
 
@@ -50,6 +51,7 @@ public class HuaWeiPushReceiver extends PushReceiver {
     @Override
     public boolean onPushMsg(Context context, byte[] msg, Bundle bundle) {
         try {
+            Log.i("PushMoa", "收到一条Push消息");
 //            Toast.makeText(context.getApplicationContext(), "收到一条Push消息：", Toast.LENGTH_LONG).show();
             String message = new String(msg, "UTF-8");
 

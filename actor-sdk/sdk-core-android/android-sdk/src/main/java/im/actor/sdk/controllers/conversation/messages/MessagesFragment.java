@@ -13,10 +13,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import im.actor.core.entity.Group;
 import im.actor.core.entity.Message;
 import im.actor.core.entity.Peer;
+import im.actor.core.entity.PeerType;
 import im.actor.core.viewmodel.ConversationVM;
 import im.actor.runtime.Log;
 import im.actor.sdk.ActorSDK;
@@ -30,6 +34,7 @@ import im.actor.sdk.util.Screen;
 import im.actor.runtime.android.view.BindedListAdapter;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 
+import static im.actor.sdk.util.ActorSDKMessenger.groups;
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public abstract class MessagesFragment extends DisplayListFragment<Message, AbsMessageViewHolder> {
@@ -289,7 +294,26 @@ public abstract class MessagesFragment extends DisplayListFragment<Message, AbsM
             if (isEmpty && !isLoaded) {
                 showView(progressView);
             } else {
-                hideView(progressView);
+                if (peer.getPeerType() == PeerType.GROUP) {
+                    Group group = groups().getEngine().getValue(peer.getPeerId());
+                    if (group.getMembers() != null && group.getMembers().size() == 1) {
+                        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                        Date curDate = new Date(System.currentTimeMillis());
+                        System.out.println("iGem: 获取群组信息" + formatter.format(curDate));
+                        messenger().loadMembers(peer.getPeerId(), 1000, null)
+                                .then(groupMembersSlice -> {
+                                    Date curDate2 = new Date(System.currentTimeMillis());
+                                    System.out.println("iGem: 获取群组信息2" + formatter.format(curDate2));
+                                    group.getMembers().clear();
+                                    group.getMembers().addAll(groupMembersSlice.getMembers());
+                                    hideView(progressView);
+                                });
+                    }else{
+                        hideView(progressView);
+                    }
+                }else{
+                    hideView(progressView);
+                }
             }
         });
     }

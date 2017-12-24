@@ -49,10 +49,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':actor-sdk:sdk-core-android:android-sdk')
-    // compile project(':actor-sdk:sdk-core-android:android-google-push')
-//    compile project(':actor-sdk:sdk-core-android:android-google-maps')
+    compile project(':actor-sdk:sdk-core-android:android-google-push')
     compile project(':actor-sdk:sdk-core-android:android-eaglesoft-push')
-    compile project(':actor-sdk:sdk-core-android:android-gaode-maps')
+//    compile project(':actor-sdk:sdk-core-android:android-gaode-maps')
     compile 'com.roughike:bottom-bar:1.3.9'
     compile 'com.android.support:multidex:1.0.1'
     compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
