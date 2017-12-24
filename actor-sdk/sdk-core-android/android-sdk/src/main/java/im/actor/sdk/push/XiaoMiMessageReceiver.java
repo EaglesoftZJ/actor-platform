@@ -43,8 +43,8 @@ import im.actor.sdk.R;
  * 6、DemoMessageReceiver 的 onCommandResult 方法用来接收客户端向服务器发送命令后的响应结果。<br/>
  * 7、DemoMessageReceiver 的 onReceiveRegisterResult 方法用来接收客户端向服务器发送注册命令后的响应结果。<br/>
  * 8、以上这些方法运行在非 UI 线程中。
- *
- * @author mayixiang
+ * 小米手机需要允许自启动
+ * @author
  */
 public class XiaoMiMessageReceiver extends com.xiaomi.mipush.sdk.PushMessageReceiver {
 
