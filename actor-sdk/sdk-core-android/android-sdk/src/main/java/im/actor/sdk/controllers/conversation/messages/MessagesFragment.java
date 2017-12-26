@@ -15,14 +15,18 @@ import android.widget.ImageView;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import im.actor.core.entity.Group;
+import im.actor.core.entity.GroupMember;
 import im.actor.core.entity.Message;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.PeerType;
 import im.actor.core.viewmodel.ConversationVM;
+import im.actor.core.viewmodel.GroupVM;
 import im.actor.runtime.Log;
+import im.actor.runtime.mvvm.ValueModel;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.conversation.messages.content.AudioHolder;
@@ -36,6 +40,7 @@ import im.actor.runtime.generic.mvvm.BindedDisplayList;
 
 import static im.actor.sdk.util.ActorSDKMessenger.groups;
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
+import static im.actor.sdk.util.ActorSDKMessenger.users;
 
 public abstract class MessagesFragment extends DisplayListFragment<Message, AbsMessageViewHolder> {
 
@@ -295,23 +300,27 @@ public abstract class MessagesFragment extends DisplayListFragment<Message, AbsM
                 showView(progressView);
             } else {
                 if (peer.getPeerType() == PeerType.GROUP) {
-                    Group group = groups().getEngine().getValue(peer.getPeerId());
-                    if (group.getMembers() != null && group.getMembers().size() == 1) {
+//                    Group group = groups().getEngine().getValue(peer.getPeerId());
+                    if (messenger().isHaveToLoadMembers(peer.getPeerId(), messenger().myUid()) == 1) {
                         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
                         Date curDate = new Date(System.currentTimeMillis());
                         System.out.println("iGem: 获取群组信息" + formatter.format(curDate));
+                        ActorSDK.sharedActor().waitForReady();
                         messenger().loadMembers(peer.getPeerId(), 1000, null)
                                 .then(groupMembersSlice -> {
                                     Date curDate2 = new Date(System.currentTimeMillis());
                                     System.out.println("iGem: 获取群组信息2" + formatter.format(curDate2));
-                                    group.getMembers().clear();
-                                    group.getMembers().addAll(groupMembersSlice.getMembers());
+                                    messenger().changeGroupMembers(peer.getPeerId(), groupMembersSlice.getMembers());
+//                                    group.getMembers().clear();
+//                                    group.getMembers().addAll(groupMembersSlice.getMembers());
+//                                    GroupVM groupVM = groups().get(peer.getPeerId());
+//                                    groupVM.getMembers().change(new HashSet<>(group.getMembers()));
                                     hideView(progressView);
                                 });
-                    }else{
+                    } else {
                         hideView(progressView);
                     }
-                }else{
+                } else {
                     hideView(progressView);
                 }
             }

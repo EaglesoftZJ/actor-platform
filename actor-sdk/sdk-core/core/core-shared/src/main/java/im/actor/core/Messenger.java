@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import im.actor.core.api.ApiRawValue;
@@ -21,6 +22,7 @@ import im.actor.core.entity.AuthRes;
 import im.actor.core.entity.AuthStartRes;
 import im.actor.core.entity.FileReference;
 import im.actor.core.entity.Group;
+import im.actor.core.entity.GroupMember;
 import im.actor.core.entity.GroupMembersSlice;
 import im.actor.core.entity.GroupPermissions;
 import im.actor.core.entity.MentionFilterResult;
@@ -212,7 +214,6 @@ public class Messenger {
     }
 
 
-
     /**
      * Sending activation code via voice
      *
@@ -249,8 +250,8 @@ public class Messenger {
      */
     @NotNull
     @ObjectiveCName("doSignUpCommandWithName:WithSex:withAvatar:withPassword:")
-    public Promise<AuthRes> doSignup(String name, Sex sex, String avatarPath,String password) {
-        return modules.getAuthModule().doSignup(name, sex, avatarPath,password);
+    public Promise<AuthRes> doSignup(String name, Sex sex, String avatarPath, String password) {
+        return modules.getAuthModule().doSignup(name, sex, avatarPath, password);
     }
 
     /**
@@ -412,8 +413,8 @@ public class Messenger {
      */
     @NotNull
     @ObjectiveCName("signUpCommandWithName:WithSex:withAvatar:withPassword:")
-    public Command<AuthState> signUp(String name, Sex sex, String avatarPath , String password) {
-        return modules.getAuthModule().signUp(name, ApiSex.UNKNOWN, avatarPath,password);
+    public Command<AuthState> signUp(String name, Sex sex, String avatarPath, String password) {
+        return modules.getAuthModule().signUp(name, ApiSex.UNKNOWN, avatarPath, password);
     }
 
 
@@ -1200,6 +1201,39 @@ public class Messenger {
     @ObjectiveCName("findMentionsWithGid:withQuery:")
     public List<MentionFilterResult> findMentions(int gid, String query) {
         return modules.getMentions().findMentions(gid, query);
+    }
+
+    /**
+     * 是否需要去请求members
+     *
+     * @param gid gid of group
+     * @param uid uid of user
+     * @return 1表示需要加载，-1表示member还没去获取，0表示正常
+     */
+    @ObjectiveCName("isHaveToLoadMembersWithGid:witUid:")
+    public int isHaveToLoadMembers(int gid, int uid) {
+        Group group = getGroups().getEngine().getValue(gid);
+        if (group.getMembers() != null && group.getMembers().size() == 1 && group.getMembers().get(0).getUid() == uid) {
+            return 1;
+        }
+        if (group.getMembers() == null || group.getMembers().size() == 0) {
+            return -1;
+        }
+        return 0;
+    }
+
+    /**
+     * 改变group中成员的值
+     * @param gid
+     * @param addMembers
+     */
+    @ObjectiveCName("changeGroupMembersWithGid:withAddMembers:")
+    public void changeGroupMembers(int gid, List<GroupMember> addMembers) {
+        List<GroupMember> members = getGroups().getEngine().getValue(gid).getMembers();
+        members.clear();
+        members.addAll(addMembers);
+        GroupVM groupVM =  getGroups().get(gid);
+        groupVM.getMembers().change(new HashSet<>(members));
     }
 
     /**
