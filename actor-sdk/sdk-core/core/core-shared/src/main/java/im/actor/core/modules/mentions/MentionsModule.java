@@ -6,22 +6,16 @@ package im.actor.core.modules.mentions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 import im.actor.core.entity.Group;
 import im.actor.core.entity.GroupMember;
-import im.actor.core.entity.GroupMembersSlice;
 import im.actor.core.entity.MentionFilterResult;
 import im.actor.core.entity.User;
 import im.actor.core.modules.AbsModule;
 import im.actor.core.modules.ModuleContext;
 import im.actor.core.util.StringMatch;
 import im.actor.core.util.StringMatcher;
-import im.actor.runtime.promise.Promise;
-
-//import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class MentionsModule extends AbsModule {
 

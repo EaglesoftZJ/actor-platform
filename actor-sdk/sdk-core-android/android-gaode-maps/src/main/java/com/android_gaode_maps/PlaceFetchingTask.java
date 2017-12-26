@@ -65,6 +65,7 @@ public class PlaceFetchingTask extends AsyncTask<Void, Void, Object> {
             sb.append("&batch=false");
             sb.append("&roadlevel=0");
             URL url = new URL(sb.toString());
+            Log.i(LOG_TAG, "url: " + sb.toString());
             conn = (HttpURLConnection) url.openConnection();
             InputStreamReader in = new InputStreamReader(conn.getInputStream());
 
