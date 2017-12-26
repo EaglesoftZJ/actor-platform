@@ -21,7 +21,7 @@ import im.actor.core.util.StringMatch;
 import im.actor.core.util.StringMatcher;
 import im.actor.runtime.promise.Promise;
 
-import static im.actor.sdk.util.ActorSDKMessenger.messenger;
+//import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class MentionsModule extends AbsModule {
 

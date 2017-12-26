@@ -27,7 +27,7 @@ import im.actor.runtime.bser.BserValues;
 import im.actor.runtime.bser.BserWriter;
 import im.actor.runtime.storage.KeyValueItem;
 
-import static im.actor.sdk.util.ActorSDKMessenger.messenger;
+//import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class Group extends WrapperExtEntity<ApiGroupFull, ApiGroup> implements KeyValueItem {
 
