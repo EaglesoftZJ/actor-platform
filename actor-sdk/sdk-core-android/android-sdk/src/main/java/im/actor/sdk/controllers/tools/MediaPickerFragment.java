@@ -29,6 +29,7 @@ import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.pickers.file.FilePickerActivity;
+import im.actor.sdk.permisson_interface.OnPermissionListener;
 import im.actor.sdk.util.Randoms;
 
 public class MediaPickerFragment extends BaseFragment {
@@ -41,6 +42,8 @@ public class MediaPickerFragment extends BaseFragment {
     private static final int REQUEST_CONTACT = 5;
     private static final int PERMISSIONS_REQUEST_CAMERA = 6;
     private static final int PERMISSIONS_REQUEST_CONTACTS = 7;
+
+    private static final int PERMISSIONS_REQUEST_LOCATION = 8;
 
     private String pendingFile;
     private boolean pickCropped;
@@ -134,6 +137,23 @@ public class MediaPickerFragment extends BaseFragment {
     }
 
     public void requestLocation() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                String[] PERMISSIONS_CONTACT = {
+                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE
+                };
+                if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(PERMISSIONS_CONTACT,PERMISSIONS_REQUEST_LOCATION);
+                    return;
+                }
+            }
+        } else {
+            return;
+        }
         this.pickCropped = false;
 
         Intent intent = new Intent("im.actor.pickLocation_" + AndroidContext.getContext().getPackageName());
@@ -307,6 +327,10 @@ public class MediaPickerFragment extends BaseFragment {
                 requestContact();
             }
         }
+        if (requestCode == PERMISSIONS_REQUEST_LOCATION) {
+            requestLocation();
+        }
+
     }
 
     @Override
