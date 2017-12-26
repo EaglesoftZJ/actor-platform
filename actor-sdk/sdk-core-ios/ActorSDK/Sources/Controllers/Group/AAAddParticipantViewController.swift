@@ -30,7 +30,7 @@ open class AAAddParticipantViewController: AAContactsListContentController, AACo
     
     open func willAddContacts(_ controller: AAContactsListContentController, section: AAManagedSection) {
         if group.isCanInviteViaLink.get().booleanValue() {
-            section.custom { (r:AACustomRow<AAContactActionCell>) -> () in
+           _ = section.custom { (r:AACustomRow<AAContactActionCell>) -> () in
                 r.height = 56
                 r.closure = { (cell) -> () in
                     cell.bind("ic_invite_user", actionTitle: AALocalized("GroupAddParticipantUrl"))
@@ -51,7 +51,8 @@ open class AAAddParticipantViewController: AAContactsListContentController, AACo
         
         if !isAlreadyMember(contact.uid) {
             self.executeSafeOnlySuccess(Actor.inviteMemberCommand(withGid: jint(gid), withUid: jint(contact.uid))) { (val) -> () in
-                self.dismissController()
+//                self.dismissController()
+                self.navigateBack()
             }
         }
         return true

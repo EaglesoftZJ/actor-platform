@@ -11,7 +11,7 @@ open class AAGroupViewMembersController: AAContentTableController {
     fileprivate var isLoaded = false
     fileprivate var isLoading = false
     open var nextBatch: IOSByteArray! = nil
-    
+    let hud = WaitMBProgress()
     public init(gid: Int) {
         super.init(style: .plain)
         self.gid = gid
@@ -28,7 +28,7 @@ open class AAGroupViewMembersController: AAContentTableController {
     }
     
     open override func tableDidLoad() {
-        section { (s) in
+        _ = section { (s) in
             self.membersRow = s.arrays({ (r: AAManagedArrayRows<ACGroupMember, AAGroupMemberCell>) -> () in
                 r.height = 48
                 r.data = [ACGroupMember]()
@@ -135,7 +135,9 @@ open class AAGroupViewMembersController: AAContentTableController {
         }
         
         isLoading = true
-        Actor.loadMembers(withGid: jint(gid), withLimit: 20, withNext: nextBatch).then { (slice: ACGroupMembersSlice!) in
+        hud.show(view: self.view)
+        _ = Actor.loadMembers(withGid: jint(gid), withLimit: 10000, withNext: nextBatch).then { (slice: ACGroupMembersSlice!) in
+            self.hud.hide()
             for i in 0..<slice.members.size() {
                 self.membersRow.data.append(slice.members.getWith(i) as! ACGroupMember)
             }

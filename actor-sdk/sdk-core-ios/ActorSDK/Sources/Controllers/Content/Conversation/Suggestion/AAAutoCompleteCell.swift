@@ -53,13 +53,16 @@ class AAAutoCompleteCell: AATableViewCell {
         nameAttrs.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 14), range: NSMakeRange(0, nameText.length))
         nameAttrs.addAttribute(NSForegroundColorAttributeName, value: ActorSDK.sharedActor().style.cellHintColor, range: NSMakeRange(0, nameText.length))
         
-        for i in 0..<user.mentionMatches.size() {
-            let match = user.mentionMatches.getWith(i) as! ACStringMatch
-            let nsRange = NSMakeRange(Int(match.getStart()), Int(match.getLength()))
-            nickAttrs.addAttribute(NSForegroundColorAttributeName, value: appStyle.chatAutocompleteHighlight, range: nsRange)
+        if user.mentionMatches != nil {
+            for i in 0..<user.mentionMatches.size() {
+                let match = user.mentionMatches.getWith(i) as! ACStringMatch
+                let nsRange = NSMakeRange(Int(match.getStart()), Int(match.getLength()))
+                nickAttrs.addAttribute(NSForegroundColorAttributeName, value: appStyle.chatAutocompleteHighlight, range: nsRange)
+            }
         }
-        
-        if user.originalString != nil {
+
+//        if user.originalString != nil {
+        if user.originalMatches != nil {
             for i in 0..<user.originalMatches.size() {
                 let match = user.originalMatches.getWith(i) as! ACStringMatch
                 let nsRange = NSMakeRange(Int(match.getStart()) + 3, Int(match.getLength()))

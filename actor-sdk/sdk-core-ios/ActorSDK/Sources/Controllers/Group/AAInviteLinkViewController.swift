@@ -30,7 +30,7 @@ open class AAInviteLinkViewController: AAContentTableController {
         
         tableView.isHidden = true
         
-        section { (s) -> () in
+        _ = section { (s) -> () in
             s.headerText = AALocalized("GroupInviteLinkTitle")
             s.footerText = AALocalized("GroupInviteLinkHint")
             
@@ -41,15 +41,15 @@ open class AAInviteLinkViewController: AAContentTableController {
             }
         }
         
-        section { (s) -> () in
-            s.action("ActionCopyLink") { (r) -> () in
+        _ = section { (s) -> () in
+            _ = s.action("ActionCopyLink") { (r) -> () in
                 r.selectAction = { () -> Bool in
                     UIPasteboard.general.string = self.currentUrl
                     self.alertUser("AlertLinkCopied")
                     return true
                 }
             }
-            s.action("ActionShareLink") { (r) -> () in
+            _ = s.action("ActionShareLink") { (r) -> () in
                 r.selectAction = { () -> Bool in
                     var sharingItems = [AnyObject]()
                     sharingItems.append(self.currentUrl! as AnyObject)
@@ -60,8 +60,8 @@ open class AAInviteLinkViewController: AAContentTableController {
             }
         }
         
-        section { (s) -> () in
-            s.danger("ActionRevokeLink") { (r) -> () in
+        _ = section { (s) -> () in
+            _ = s.danger("ActionRevokeLink") { (r) -> () in
                 r.selectAction = { () -> Bool in
                     self.confirmDestructive(AALocalized("GroupInviteLinkRevokeMessage"), action: AALocalized("GroupInviteLinkRevokeAction"), yes: { () -> () in
                         self.reloadLink()

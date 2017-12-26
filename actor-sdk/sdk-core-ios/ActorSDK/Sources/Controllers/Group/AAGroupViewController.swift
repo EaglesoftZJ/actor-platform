@@ -40,7 +40,7 @@ open class AAGroupViewController: AAContentTableController {
         }
         
         // Header
-        section { (s) -> () in
+        _ = section { (s) -> () in
             self.headerRow = s.avatar { (r) -> () in
                 
                 r.id = self.gid
@@ -67,20 +67,20 @@ open class AAGroupViewController: AAContentTableController {
         
         // About
         if let about = self.group.about.get() {
-            section { (s) in
+            _ = section { (s) in
                 
                 s.autoSeparatorTopOffset = 1
                 
                 s.header(AALocalized("GroupDescription").uppercased()).height = 22
                 
-                s.text(nil, content: about)
+                _ = s.text(nil, content: about)
             }
         }
         
         // Link
         if let shortName = self.group.shortName.get(), let prefix = ActorSDK.sharedActor().invitePrefix {
-            section { (s) in
-                s.text(nil, content: prefix + shortName)
+            _ = section { (s) in
+                _ = s.text(nil, content: prefix + shortName)
             }
         }
         
@@ -89,8 +89,8 @@ open class AAGroupViewController: AAContentTableController {
             let members = (group.members.get() as! JavaUtilHashSet).size()
             if (members <= 20) { // Temporary limitation
                 if group.groupType == ACGroupType.group() {
-                    section { (s) -> () in
-                        s.action("CallsStartGroupAudio") { (r) -> () in
+                    _ = section { (s) -> () in
+                        _ = s.action("CallsStartGroupAudio") { (r) -> () in
                             r.selectAction = { () -> Bool in
                                 self.execute(Actor.doCall(withGid: jint(self.gid)))
                                 return true
@@ -102,10 +102,10 @@ open class AAGroupViewController: AAContentTableController {
         }
         
         // Actions and Settings
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             // Notifications
-            s.common { (r) -> () in
+            _ = s.common { (r) -> () in
                 
                 let groupPeer: ACPeer! = ACPeer.group(with: jint(self.gid))
                 
@@ -145,7 +145,7 @@ open class AAGroupViewController: AAContentTableController {
             
             // Admininstration
             if group.isCanEditAdministration.get().booleanValue() || group.isCanDelete.get().booleanValue() {
-                s.common({ (r) in
+                _ = s.common({ (r) in
                     r.content = AALocalized("GroupAdministration")
                     r.selectAction = { () -> Bool in
                         self.navigateNext(AAGroupAdministrationViewController(gid: self.gid))
@@ -156,7 +156,7 @@ open class AAGroupViewController: AAContentTableController {
             
             // View Members
             if self.group.isCanViewMembers.get().booleanValue() && self.group.isAsyncMembers.get().booleanValue() {
-                s.common({ (r) -> () in
+                _ = s.common({ (r) -> () in
                     r.content = AALocalized("GroupViewMembers")
                     r.style = .normal
                     r.selectAction = { () -> Bool in
@@ -165,16 +165,17 @@ open class AAGroupViewController: AAContentTableController {
                     }
                 })
                 
-                s.action("GroupAddParticipant") { (r) -> () in
+                _ = s.action("GroupAddParticipant") { (r) -> () in
                     
                     r.selectAction = { () -> Bool in
                         let addParticipantController = AAAddParticipantViewController(gid: self.gid)
-                        let navigationController = AANavigationController(rootViewController: addParticipantController)
-                        if (AADevice.isiPad) {
-                            navigationController.isModalInPopover = true
-                            navigationController.modalPresentationStyle = UIModalPresentationStyle.currentContext
-                        }
-                        self.present(navigationController, animated: true, completion: nil)
+//                        let navigationController = AANavigationController(rootViewController: addParticipantController)
+//                        if (AADevice.isiPad) {
+//                            navigationController.isModalInPopover = true
+//                            navigationController.modalPresentationStyle = UIModalPresentationStyle.currentContext
+//                        }
+                        self.navigateNext(addParticipantController)
+//                        self.present(navigationController, animated: true, completion: nil)
                         return false
                         
                     }
@@ -187,17 +188,17 @@ open class AAGroupViewController: AAContentTableController {
         
         if group.isCanViewMembers.get().booleanValue() && !group.isAsyncMembers.get().booleanValue() {
             
-            section { (s) -> () in
+            _ = section { (s) -> () in
                 
                 s.autoSeparatorsInset = 65
                 s.autoSeparatorTopOffset = 1
                 s.headerHeight = 0
                 
                 // Members: Header
-                s.header(AALocalized("GroupViewMembers").uppercased())
+                _ = s.header(AALocalized("GroupViewMembers").uppercased())
                 
                 // Members: Add
-                s.action("GroupAddParticipant") { (r) -> () in
+                _ = s.action("GroupAddParticipant") { (r) -> () in
                     
                     r.contentInset = 65
                     
@@ -306,8 +307,8 @@ open class AAGroupViewController: AAContentTableController {
         
         // Leave group
         if group.isCanLeave.get().booleanValue() {
-            section { (s) -> () in
-                s.common({ (r) -> () in
+            _ = section { (s) -> () in
+                _ = s.common({ (r) -> () in
                     
                     if self.group.groupType == ACGroupType.channel() {
                         r.content = AALocalized("ActionLeaveChannel")

@@ -28,9 +28,11 @@ open class ConversationViewController:
     // Internal state
     // Members for autocomplete
     var filteredMembers = [ACMentionFilterResult]()
+    var groupMembers = [ACMentionFilterResult]()
     let content: ACPage!
     var appStyle: ActorStyle { get { return ActorSDK.sharedActor().style } }
     
+    open var nextBatch: IOSByteArray! = nil
     
     //
     // Views
@@ -46,6 +48,7 @@ open class ConversationViewController:
     fileprivate let inputOverlay = UIView()
     fileprivate let inputOverlayLabel = UILabel()
     
+    let hud = WaitMBProgress()
     //
     // Stickers
     //
@@ -226,7 +229,7 @@ open class ConversationViewController:
         // Navigation Avatar
         //
         avatarView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        avatarView.viewDidTap = onAvatarTap
+        avatarView.viewDidTap = onAvatarTap //右上角详细资料点击事件
         
         let barItem = UIBarButtonItem(customView: avatarView)
         let isBot: Bool
@@ -284,8 +287,45 @@ open class ConversationViewController:
             selector: #selector(ConversationViewController.updateStickersStateOnCloseKeyboard),
             name: NSNotification.Name.SLKKeyboardWillHide,
             object: nil)
+        
+        let res = Actor.findMentions(withGid: peer.peerId, withQuery: "")!
+        if res.size() == 0 {getMemberInfo()}
+        
     }
     
+    open func getMemberInfo() {
+        let uid = Int(Actor.myUid())
+        let gid = Int(peer.peerId)
+        hud.show(view: view)
+        _ = Actor.loadMembers(withGid: jint(gid), withLimit: 10000, withNext: nextBatch).then { (slice: ACGroupMembersSlice!) in
+                for i in 0..<slice.members.size(){
+                    let member:ACGroupMember = slice.members.getWith(i) as! ACGroupMember
+                    if member.uid != uid{
+                        let user:ACUserVM = Actor.getUserWithUid(jint(member.uid))
+                        let isNickname:Bool;let originalString:String;var avatar:ACAvatar? = nil
+                        if user.getNickModel().get() == nil{isNickname = false;originalString = ""}
+                        else{isNickname = true;originalString = user.getNickModel().get()}
+                        let mentionString:String = "@" + user.getNameModel().get()
+                        if user.getAvatarModel().get() != nil {avatar = user.getAvatarModel().get()}
+
+                        let filterResult = ACMentionFilterResult(int:member.uid,with:avatar,with:mentionString,with:nil,with:originalString,with:nil,withBoolean:isNickname)
+                        self.groupMembers.append(filterResult!)
+                    }
+                }
+            self.hud.hide()
+        }
+    }
+    
+    open func isAlreadyMember(_ uid: jint) -> Bool {
+        let group = Actor.getGroupWithGid(peer.peerId)
+        let members: [ACGroupMember] = (group.getMembersModel().get() as AnyObject).toArray().toSwiftArray()
+        for m in members {
+            if m.uid == uid {
+                return true
+            }
+        }
+        return false
+    }
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -619,6 +659,7 @@ open class ConversationViewController:
     override open func didPressRightButton(_ sender: Any!) {
         if !self.textView.text.isEmpty {
             Actor.sendMessage(withMentionsDetect: peer, withText: textView.text)
+
             super.didPressRightButton(sender)
         }
     }
@@ -646,20 +687,26 @@ open class ConversationViewController:
     
     override open func didChangeAutoCompletionPrefix(_ prefix: String!, andWord word: String!) {
         if self.peer.peerType.ordinal() == ACPeerType.group().ordinal() {
-            if prefix == "@" {
+            if prefix == "@" { //@人
                 
                 let oldCount = filteredMembers.count
                 filteredMembers.removeAll(keepingCapacity: true)
                 
                 let res = Actor.findMentions(withGid: self.peer.peerId, withQuery: word)!
-                for index in 0..<res.size() {
-                    filteredMembers.append(res.getWith(index) as! ACMentionFilterResult)
-                }
                 
+                //如果res数组size为0,就去请求组员列表
+                if res.size() == 0{
+                    self.filteredMembers = self.groupMembers
+                }
+                else{
+                    for index in 0..<res.size() {
+                        let memberInfo = res.getWith(index) as! ACMentionFilterResult
+                        filteredMembers.append(memberInfo)
+                    }
+                }
                 if oldCount == filteredMembers.count {
                     self.autoCompletionView.reloadData()
                 }
-                
                 dispatchOnUi { () -> Void in
                     self.showAutoCompletionView(self.filteredMembers.count > 0)
                 }

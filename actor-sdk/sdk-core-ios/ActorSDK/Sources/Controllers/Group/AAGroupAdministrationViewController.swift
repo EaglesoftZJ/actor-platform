@@ -23,7 +23,7 @@ open class AAGroupAdministrationViewController: AAContentTableController {
     
     open override func tableDidLoad() {
         
-        section { (s) in
+        _ = section { (s) in
             if isChannel {
                 s.footerText = AALocalized("GroupPermissionsHintChannel")
             } else {

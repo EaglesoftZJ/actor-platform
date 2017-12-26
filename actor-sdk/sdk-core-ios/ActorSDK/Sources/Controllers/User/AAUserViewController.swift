@@ -25,7 +25,7 @@ class AAUserViewController: AAContentTableController {
     override func tableDidLoad() {
         
         // Profile
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             // Profile: Avatar
             self.headerRow = s.avatar { (r) -> () in
@@ -66,7 +66,7 @@ class AAUserViewController: AAContentTableController {
             
             if (ActorSDK.sharedActor().enableCalls && !self.isBot) {
                 // Profile: Starting Voice Call
-                s.action("CallsStartAudio") { (r) -> () in
+                _ = s.action("CallsStartAudio") { (r) -> () in
                     r.selectAction = { () -> Bool in
                         self.execute(Actor.doCall(withUid: jint(self.uid)))
                         return false
@@ -75,7 +75,7 @@ class AAUserViewController: AAContentTableController {
             }
             
             // Profile: Send messages
-            s.action("ProfileSendMessage") { (r) -> () in
+            _ = s.action("ProfileSendMessage") { (r) -> () in
                 r.selectAction = { () -> Bool in
                     if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer.user(with: jint(self.uid))) {
                         self.navigateDetail(customController)
@@ -94,15 +94,15 @@ class AAUserViewController: AAContentTableController {
         if !self.isBot || nick != nil || about != nil {
             
             // Contact
-            section { (s) -> () in
+            _ = section { (s) -> () in
                 
                 // Contact: Nickname
                 if let n = nick {
-                    s.titled("ProfileUsername", content: "@\(n)")
+                    _ = s.titled("ProfileUsername", content: "@\(n)")
                 }
                 
                 // Contact: Phones
-                s.arrays { (r: AAManagedArrayRows<ACUserPhone, AATitledCell>) -> () in
+                _ = s.arrays { (r: AAManagedArrayRows<ACUserPhone, AATitledCell>) -> () in
                     r.height = 55
                     r.data = self.user.getPhonesModel().get().toSwiftArray()
                     r.bindData = { (c: AATitledCell, d: ACUserPhone) -> () in
@@ -125,7 +125,7 @@ class AAUserViewController: AAContentTableController {
                 }
                 
                 // Contact: Emails
-                s.arrays { (r: AAManagedArrayRows<ACUserEmail, AATitledCell>) -> () in
+                _ = s.arrays { (r: AAManagedArrayRows<ACUserEmail, AATitledCell>) -> () in
                     r.height = 55
                     r.data = self.user.getEmailsModel().get().toSwiftArray()
                     r.bindData = { (c: AATitledCell, d: ACUserEmail) -> () in
@@ -142,13 +142,13 @@ class AAUserViewController: AAContentTableController {
                 
                 // Contact: About
                 if let a = about {
-                    s.text("ProfileAbout", content: a)
+                    _ = s.text("ProfileAbout", content: a)
                 }
             }
         }
         
-        section { (s) -> () in
-            s.common { (r) -> () in
+        _ = section { (s) -> () in
+            _ = s.common { (r) -> () in
                 let peer = ACPeer.user(with: jint(self.uid))
                 r.style = .switch
                 r.content = AALocalized("ProfileNotifications")
@@ -197,7 +197,7 @@ class AAUserViewController: AAContentTableController {
         }
         
         // Edit contact
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             // Edit contact: Add/Remove
             self.isContactRow = s.common { (r) -> () in
@@ -223,7 +223,7 @@ class AAUserViewController: AAContentTableController {
             
             if !self.isBot {
                 // Edit contact: Renaming
-                s.action("ProfileRename") { (r) -> () in
+                _ = s.action("ProfileRename") { (r) -> () in
                     r.selectAction = { () -> Bool in
                         
                         func renameUser() {
@@ -259,8 +259,8 @@ class AAUserViewController: AAContentTableController {
         }
         
         // Block Contact
-        section { (s) -> () in
-            s.common { (r) -> () in
+        _ = section { (s) -> () in
+            _ = s.common { (r) -> () in
                 r.bindAction = { (r) -> () in
                     if !self.user.isBlockedModel().get().booleanValue() {
                         r.content = AALocalized("ProfileBlockContact")

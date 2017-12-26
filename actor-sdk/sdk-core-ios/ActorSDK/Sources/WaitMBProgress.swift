@@ -35,3 +35,5 @@ class WaitMBProgress: NSObject {
         hud.hide(animated: true, afterDelay: 1)
     }
 }
+
+

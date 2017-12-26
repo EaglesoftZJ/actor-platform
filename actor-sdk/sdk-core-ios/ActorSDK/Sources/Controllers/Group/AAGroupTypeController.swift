@@ -39,7 +39,7 @@ open class AAGroupTypeViewController: AAContentTableController {
         
         self.isPublic = group.shortName.get() != nil
 
-        section { (s) in
+        _ = section { (s) in
 
             if isChannel {
                 s.headerText = AALocalized("GroupTypeTitleChannel").uppercased()
@@ -156,7 +156,7 @@ open class AAGroupTypeViewController: AAContentTableController {
         }
         
         if nShortName != group.shortName.get() {
-            executePromise(Actor.editGroupShortName(withGid: jint(self.gid), withAbout: nShortName).then({ (r:ARVoid!) in
+           _ = executePromise(Actor.editGroupShortName(withGid: jint(self.gid), withAbout: nShortName).then({ (r:ARVoid!) in
                 if (self.isCreation) {
                     if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer.group(with: jint(self.gid))) {
                         self.navigateDetail(customController)
