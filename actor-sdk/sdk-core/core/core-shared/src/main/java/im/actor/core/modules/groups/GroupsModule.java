@@ -70,6 +70,7 @@ import im.actor.runtime.promise.Promises;
 import im.actor.runtime.storage.KeyValueEngine;
 
 import static im.actor.runtime.actors.ActorSystem.system;
+import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class GroupsModule extends AbsModule implements BusSubscriber {
 

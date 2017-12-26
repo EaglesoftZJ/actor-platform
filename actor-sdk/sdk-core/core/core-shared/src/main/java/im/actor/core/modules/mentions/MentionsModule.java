@@ -7,20 +7,25 @@ package im.actor.core.modules.mentions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 import im.actor.core.entity.Group;
 import im.actor.core.entity.GroupMember;
+import im.actor.core.entity.GroupMembersSlice;
 import im.actor.core.entity.MentionFilterResult;
 import im.actor.core.entity.User;
 import im.actor.core.modules.AbsModule;
 import im.actor.core.modules.ModuleContext;
 import im.actor.core.util.StringMatch;
 import im.actor.core.util.StringMatcher;
+import im.actor.runtime.promise.Promise;
+
+import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class MentionsModule extends AbsModule {
 
-    private static final int SEARCH_LIMIT = 30;
+    private static final int SEARCH_LIMIT = 1000;
 
     public MentionsModule(ModuleContext context) {
         super(context);
@@ -30,7 +35,8 @@ public class MentionsModule extends AbsModule {
         query = query.trim().toLowerCase();
 
         ArrayList<MentionFilterResult> results = new ArrayList<MentionFilterResult>();
-        final Group group = groups().getValue(gid);
+        Group group = groups().getValue(gid);
+
         GroupMember[] members = group.getMembers().toArray(new GroupMember[group.getMembers().size()]);
         Arrays.sort(members, (a, b) -> {
             User ua = users().getValue(a.getUid());
@@ -41,6 +47,9 @@ public class MentionsModule extends AbsModule {
         for (GroupMember member : members) {
             if (member.getUid() == myUid()) {
                 continue;
+            }
+            if (results.size() == SEARCH_LIMIT) {
+                break;
             }
 
             User user = users().getValue(member.getUid());

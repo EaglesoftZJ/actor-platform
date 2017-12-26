@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
@@ -145,8 +146,11 @@ public class LocationHolder extends MessageHolder {
         setTimeAndReactions(time);
 
         previewView.setTag(message.getRid());
+//        new DownloadImageTask(previewView, message.getRid())
+//                .execute("https://maps.googleapis.com/maps/api/staticmap?center=" + locationContent.getLatitude() + "," + locationContent.getLongitude() + "&zoom=15&size=200x100&scale=2&maptype=roadmap&markers=color:red%7C" + locationContent.getLatitude() + "," + locationContent.getLongitude());
+//        http://restapi.amap.com/v3/staticmap?location=116.481485,39.990464&zoom=10&size=750*300&markers=mid,,A:116.481485,39.990464&key=<用户的key>
         new DownloadImageTask(previewView, message.getRid())
-                .execute("https://maps.googleapis.com/maps/api/staticmap?center=" + locationContent.getLatitude() + "," + locationContent.getLongitude() + "&zoom=15&size=200x100&scale=2&maptype=roadmap&markers=color:red%7C" + locationContent.getLatitude() + "," + locationContent.getLongitude());
+                .execute("http://restapi.amap.com/v3/staticmap?scale=2&location=" + locationContent.getLongitude() + "," + locationContent.getLatitude() + "&zoom=15&size=300*150&markers=mid,,:" + locationContent.getLongitude() + "," + locationContent.getLatitude()+"&key=2c676be192641e1611b4e44087061878");
 
 
     }
@@ -154,6 +158,7 @@ public class LocationHolder extends MessageHolder {
     @Override
     public void onClick(final Message currentMessage) {
         try {
+//            Toast.makeText(context,"测试点击",Toast.LENGTH_SHORT).show();
             ApplicationInfo app = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             Bundle bundle = app.metaData;
 
@@ -161,12 +166,12 @@ public class LocationHolder extends MessageHolder {
             double longitude = ((LocationContent) currentMessage.getContent()).getLongitude();
 
             try {
-                Class.forName("com.google.android.gms.maps.GoogleMap");
+//                Class.forName("com.google.android.gms.maps.GoogleMap");
                 Intent intent = new Intent("im.actor.locationPreview_" + context.getPackageName());
                 intent.putExtra("latitude", latitude);
                 intent.putExtra("longitude", longitude);
                 context.startActivity(intent);
-            } catch (ClassNotFoundException e) {
+            } catch (Exception e) {
                 String uri = "geo:" + latitude + ","
                         + longitude + "?q=" + latitude
                         + "," + longitude;

@@ -140,17 +140,17 @@ public class AuthActivity extends BaseFragmentActivity {
                     updateState(AuthState.SIGN_UP);
                 } else if (signType == SIGN_TYPE_IN) {
 //                    showFragment(new SignInFragment(), false);
-                    showFragment(new SignInForOAFragment(), false);
+                    showFragment(ActorSDK.sharedActor().getDelegatedFragment(ActorSDK.sharedActor().getDelegate().getAuthStartIntent(), new SignInForOAFragment(), BaseAuthFragment.class), false);
                 }
 
                 break;
             case SIGN_UP:
                 if (currentName != null && !currentName.isEmpty()) {
 //                    startAuth(currentName);
-                    showFragment(new SignInForOAFragment(), false);
+//                    showFragment(ActorSDK.sharedActor().getDelegatedFragment(ActorSDK.sharedActor().getDelegate().getAuthStartIntent(), new SignInForOAFragment(), BaseAuthFragment.class), false);
                 } else {
 //                    showFragment(new SignUpFragment(), false);
-                    showFragment(new SignInForOAFragment(), false);
+                    showFragment(ActorSDK.sharedActor().getDelegatedFragment(ActorSDK.sharedActor().getDelegate().getAuthStartIntent(), new SignInForOAFragment(), BaseAuthFragment.class), false);
                 }
                 break;
             case AUTH_CUSTOM:
@@ -457,10 +457,8 @@ public class AuthActivity extends BaseFragmentActivity {
                                                         case AUTH_TYPE_PHONE:
                                                             startAuth(messenger().doStartPhoneAuth(currentPhone));
                                                             break;
-
                                                         case AUTH_TYPE_EMAIL:
                                                             startAuth(messenger().doStartEmailAuth(currentEmail));
-
                                                             break;
                                                     }
                                                     break;

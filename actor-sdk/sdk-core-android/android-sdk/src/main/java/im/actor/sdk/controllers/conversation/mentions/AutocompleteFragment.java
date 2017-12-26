@@ -82,7 +82,7 @@ public class AutocompleteFragment extends BaseFragment {
                 String mention = ((MentionFilterResult) item).getMentionString();
                 Fragment parent = getParentFragment();
                 if (parent instanceof AutocompleteCallback) {
-                    ((AutocompleteCallback) parent).onMentionPicked(mention);
+                    ((AutocompleteCallback) parent).onMentionPicked(mention+":");
                 }
             } else if (item instanceof BotCommand) {
                 String command = ((BotCommand) item).getSlashCommand();

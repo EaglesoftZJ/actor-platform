@@ -56,16 +56,16 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         SharedPreferences spIp = getSharedPreferences("ipList", Context.MODE_PRIVATE);
 
-        spIp.edit().putString("港务集团", "http://61.175.100.14").commit();
+        spIp.edit().putString(getString(R.string.urlForCompany), getString(R.string.url)).commit();
 
         SharedPreferences ipLogin = getSharedPreferences("ipLogin", Context.MODE_PRIVATE);
 
 
-        ipLogin.edit().putString("url", "http://61.175.100.14")
+        ipLogin.edit().putString("url", getString(R.string.url))
                 .commit();
 
         ipLogin.edit()
-                .putString("urlForCompany", "港务集团")
+                .putString("urlForCompany", getString(R.string.urlForCompany))
                 .commit();
         handler.postDelayed(new Runnable() {
             @Override

@@ -4,6 +4,9 @@
   -->
 
 <resources>
+
+    <string name="urlForCompany">宁波舟山港舟山港务有限公司</string>
+    <string name="url">http://61.175.100.14</string>
     <string name="app_name">FlyChat</string>
     <string name="app_locale">Cn</string>
 
@@ -253,6 +256,8 @@
     <string name="map_type_normal">地图</string>
     <string name="map_type_satellite">卫星</string>
     <string name="map_type_hybrid">混合</string>
+    <string name="map_send">发送</string>
+
 
     <!-- Profile -->
     <string name="profile_title">个人信息</string>

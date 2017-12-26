@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,20 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import im.actor.core.entity.Group;
 import im.actor.core.entity.Peer;
+import im.actor.core.entity.PeerType;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseActivity;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.view.ActorToolbar;
+
+import static im.actor.sdk.util.ActorSDKMessenger.groups;
+import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class ChatActivity extends BaseActivity {
 

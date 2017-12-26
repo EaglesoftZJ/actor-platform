@@ -66,10 +66,10 @@ public class MapFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.map, menu);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.map, menu);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

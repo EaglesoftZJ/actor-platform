@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.Toast;
 
 import com.xiaomi.mipush.sdk.ErrorCode;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -42,8 +43,8 @@ import im.actor.sdk.R;
  * 6、DemoMessageReceiver 的 onCommandResult 方法用来接收客户端向服务器发送命令后的响应结果。<br/>
  * 7、DemoMessageReceiver 的 onReceiveRegisterResult 方法用来接收客户端向服务器发送注册命令后的响应结果。<br/>
  * 8、以上这些方法运行在非 UI 线程中。
- *
- * @author mayixiang
+ * 小米手机需要允许自启动
+ * @author
  */
 public class XiaoMiMessageReceiver extends com.xiaomi.mipush.sdk.PushMessageReceiver {
 
@@ -142,10 +143,13 @@ public class XiaoMiMessageReceiver extends com.xiaomi.mipush.sdk.PushMessageRece
         if (MiPushClient.COMMAND_REGISTER.equals(command)) {
             if (message.getResultCode() == ErrorCode.SUCCESS) {
                 mRegId = cmdArg1;
-                String url = "http://127.0.0.1:8080/ActorPush/getMessage" + "?pushType=xiaomi&id=" + Uri.encode(cmdArg1, "UTF-8");
+                String url =  context.getString(R.string.pushUrl)+"/ActorPush/getMessage" + "?pushType=xiaomi&id=" + Uri.encode(cmdArg1, "UTF-8");
                 ActorSDK.sharedActor().getMessenger().registerActorPush(url);
 //                log = context.getString(R.string.register_success);
+//                Toast.makeText(context,"连接成功:"+url,Toast.LENGTH_SHORT).show();
+
             } else {
+//                Toast.makeText(context,"连接失败"+command,Toast.LENGTH_SHORT).show();
 //                log = context.getString(R.string.register_fail);
             }
         }

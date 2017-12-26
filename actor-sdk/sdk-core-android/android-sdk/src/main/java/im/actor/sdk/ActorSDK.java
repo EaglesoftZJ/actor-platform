@@ -233,7 +233,7 @@ public class ActorSDK {
         endpoints = new String[]{"tcp://61.175.100.14:9070"};
         trustedKeys = new String[]{"508D39F2BBDAB7776172478939362CD5127871B60151E9B86CD6D61AD1A75849"};
     }
-//
+
 //    private ActorSDK() {
 //        endpoints = new String[]{"tcp://220.189.207.18:9070"};
 //        trustedKeys = new String[]{"508D39F2BBDAB7776172478939362CD5127871B60151E9B86CD6D61AD1A75849"};
@@ -242,12 +242,12 @@ public class ActorSDK {
 //    public static String webServiceUri = "http://220.189.207.21:8709";
 //   http://61.175.100.14:8012/ActorServices-Maven/services/ActorService?wsdl";
 
-    public static String webServiceUri = "http://61.175.100.14";
+//    public static String webServiceUri = "http://61.175.100.14";
 
 
     public static String getWebServiceUri(Context context) {
         SharedPreferences sp = context.getSharedPreferences("ipLogin", Context.MODE_PRIVATE);
-        return sp.getString("url", webServiceUri);
+        return sp.getString("url", context.getString(R.string.url));
     }
 
     /**
@@ -369,26 +369,26 @@ public class ActorSDK {
             //
             // Actor Push
             //
-//            if (actorPushEndpoint != null) {
-//                ActorPushRegister.registerForPush(application, actorPushEndpoint, endpoint -> {
-//                    Log.d(TAG, "On Actor push registered: " + endpoint);
-//                    endpoint = "";
-//                    messenger.registerActorPush(endpoint);
-//                });
-//            }
+            if (actorPushEndpoint != null) {
+                ActorPushRegister.registerForPush(application, actorPushEndpoint, endpoint -> {
+                    Log.d(TAG, "On Actor push registered: " + endpoint);
+                    endpoint = "";
+                    messenger.registerActorPush(endpoint);
+                });
+            }
 
 
             //
             // GCM
             //
-//            try {
-//                if (pushId != 0) {
-//                    final ActorPushManager pushManager = (ActorPushManager) Class.forName("im.actor.push.PushManager").newInstance();
-//                    pushManager.registerPush(application);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            try {
+                if (pushId != 0) {
+                    final ActorPushManager pushManager = (ActorPushManager) Class.forName("im.actor.push.PushManager").newInstance();
+                    pushManager.registerPush(application);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             synchronized (LOAD_LOCK) {
                 isLoaded = true;

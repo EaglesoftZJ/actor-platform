@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import im.actor.sdk.ActorSDK;
+import im.actor.sdk.R;
 
 /*
  * Push消息处理receiver。请编写您需要的回调函数， 一般来说： onBind是必须的，用来处理startWork返回值；
@@ -66,7 +67,7 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
         if (errorCode == 0) {
             // 绑定成功
             Log.d(TAG, "绑定成功");
-            String url = "http://127.0.0.1:8080/ActorPush/getMessage" + "?pushType=baidu&id=" + userId;
+            String url = context.getString(R.string.pushUrl)+"/ActorPush/getMessage" + "?pushType=baidu&id=" + userId;
             ActorSDK.sharedActor().getMessenger().registerActorPush(url);
         }
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
