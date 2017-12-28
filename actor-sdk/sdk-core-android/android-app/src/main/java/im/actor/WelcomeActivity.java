@@ -28,13 +28,10 @@ import java.util.HashMap;
 import im.actor.develop.R;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.controllers.auth.AuthActivity;
-import im.actor.sdk.intents.WebServiceLogionUtil;
-import im.actor.sdk.intents.WebServiceUtil;
-import im.actor.tour.TourActivity;
 
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends Activity {
     private long SPLASH_LENGTH = 1000;
     Handler handler = new Handler();
 

@@ -381,14 +381,14 @@ public class ActorSDK {
             //
             // GCM
             //
-            try {
-                if (pushId != 0) {
-                    final ActorPushManager pushManager = (ActorPushManager) Class.forName("im.actor.push.PushManager").newInstance();
-                    pushManager.registerPush(application);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                if (pushId != 0) {
+//                    final ActorPushManager pushManager = (ActorPushManager) Class.forName("im.actor.push.PushManager").newInstance();
+//                    pushManager.registerPush(application);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
             synchronized (LOAD_LOCK) {
                 isLoaded = true;

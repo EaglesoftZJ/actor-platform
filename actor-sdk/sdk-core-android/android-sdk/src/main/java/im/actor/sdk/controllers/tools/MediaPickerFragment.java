@@ -2,6 +2,7 @@ package im.actor.sdk.controllers.tools;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -86,7 +87,14 @@ public class MediaPickerFragment extends BaseFragment {
         // Requesting Photo
         //
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(pendingFile)));
+        File photoFile = new File(pendingFile);
+        Uri photoUri = Uri.fromFile(photoFile);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果是7.0android系统
+            ContentValues contentValues = new ContentValues(1);
+            contentValues.put(MediaStore.Images.Media.DATA, photoFile.getAbsolutePath());
+            photoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
         startActivityForResult(intent, REQUEST_PHOTO);
     }
 
@@ -113,7 +121,16 @@ public class MediaPickerFragment extends BaseFragment {
         // Requesting Video
         //
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(pendingFile)));
+
+        File pvideoFile = new File(pendingFile);
+        Uri videoUri = Uri.fromFile(pvideoFile);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果是7.0android系统
+            ContentValues contentValues = new ContentValues(1);
+            contentValues.put(MediaStore.Images.Media.DATA, pvideoFile.getAbsolutePath());
+            videoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        }
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
         startActivityForResult(intent, REQUEST_VIDEO);
     }
 
@@ -147,7 +164,7 @@ public class MediaPickerFragment extends BaseFragment {
                         Manifest.permission.READ_PHONE_STATE
                 };
                 if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(PERMISSIONS_CONTACT,PERMISSIONS_REQUEST_LOCATION);
+                    requestPermissions(PERMISSIONS_CONTACT, PERMISSIONS_REQUEST_LOCATION);
                     return;
                 }
             }
