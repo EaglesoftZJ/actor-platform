@@ -2,6 +2,7 @@ package im.actor.sdk.controllers.tools;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,6 +30,7 @@ import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.pickers.file.FilePickerActivity;
+import im.actor.sdk.permisson_interface.OnPermissionListener;
 import im.actor.sdk.util.Randoms;
 
 public class MediaPickerFragment extends BaseFragment {
@@ -41,6 +43,8 @@ public class MediaPickerFragment extends BaseFragment {
     private static final int REQUEST_CONTACT = 5;
     private static final int PERMISSIONS_REQUEST_CAMERA = 6;
     private static final int PERMISSIONS_REQUEST_CONTACTS = 7;
+
+    private static final int PERMISSIONS_REQUEST_LOCATION = 8;
 
     private String pendingFile;
     private boolean pickCropped;
@@ -83,7 +87,14 @@ public class MediaPickerFragment extends BaseFragment {
         // Requesting Photo
         //
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(pendingFile)));
+        File photoFile = new File(pendingFile);
+        Uri photoUri = Uri.fromFile(photoFile);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果是7.0android系统
+            ContentValues contentValues = new ContentValues(1);
+            contentValues.put(MediaStore.Images.Media.DATA, photoFile.getAbsolutePath());
+            photoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
         startActivityForResult(intent, REQUEST_PHOTO);
     }
 
@@ -110,7 +121,16 @@ public class MediaPickerFragment extends BaseFragment {
         // Requesting Video
         //
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(pendingFile)));
+
+        File pvideoFile = new File(pendingFile);
+        Uri videoUri = Uri.fromFile(pvideoFile);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果是7.0android系统
+            ContentValues contentValues = new ContentValues(1);
+            contentValues.put(MediaStore.Images.Media.DATA, pvideoFile.getAbsolutePath());
+            videoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        }
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
         startActivityForResult(intent, REQUEST_VIDEO);
     }
 
@@ -134,6 +154,23 @@ public class MediaPickerFragment extends BaseFragment {
     }
 
     public void requestLocation() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                String[] PERMISSIONS_CONTACT = {
+                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE
+                };
+                if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(PERMISSIONS_CONTACT, PERMISSIONS_REQUEST_LOCATION);
+                    return;
+                }
+            }
+        } else {
+            return;
+        }
         this.pickCropped = false;
 
         Intent intent = new Intent("im.actor.pickLocation_" + AndroidContext.getContext().getPackageName());
@@ -307,6 +344,10 @@ public class MediaPickerFragment extends BaseFragment {
                 requestContact();
             }
         }
+        if (requestCode == PERMISSIONS_REQUEST_LOCATION) {
+            requestLocation();
+        }
+
     }
 
     @Override

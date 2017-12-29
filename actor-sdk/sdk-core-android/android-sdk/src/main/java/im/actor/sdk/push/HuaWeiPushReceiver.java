@@ -26,7 +26,7 @@ public class HuaWeiPushReceiver extends PushReceiver {
         super.onPushState(context, b);
         try {
             String content = "查询push通道状态： " + (b ? "已连接" : "未连接");
-            Log.d("PushLog", content);
+            Log.d("PushMoa", content);
         } catch (Exception e) {
             e.printStackTrace();
         }

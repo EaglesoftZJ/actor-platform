@@ -63,6 +63,11 @@ public class MapFragment extends BaseFragment implements
         return res;
     }
 
+    public static MapFragment create() {
+        MapFragment res = new MapFragment();
+        return res;
+    }
+
     //    GoogleMap mapController;
     private AMap mapController;
     MapView mMapView;
@@ -201,6 +206,16 @@ public class MapFragment extends BaseFragment implements
                     callBackListener.setLocationCenterText(target);
                 }
 
+            }
+        });
+
+        mapController.setOnMapLoadedListener(new AMap.OnMapLoadedListener() {
+            @Override
+            public void onMapLoaded() {
+//                CameraUpdateFactory.zoomTo(17);
+
+                mapController.moveCamera(CameraUpdateFactory.newCameraPosition(
+                        new CameraPosition(new LatLng(latitude, longitude), 17, 0, 0)));
             }
         });
 

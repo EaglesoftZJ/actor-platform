@@ -40,8 +40,7 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
     /**
      * TAG to Log
      */
-    public static final String TAG = BaiDuPushMessageReceiver.class
-            .getSimpleName();
+    public static final String TAG = "PushMoa";
 
     /**
      * 调用PushManager.startWork后，sdk将对push
@@ -62,12 +61,12 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
         String responseString = "onBind errorCode=" + errorCode + " appid="
                 + appid + " userId=" + userId + " channelId=" + channelId
                 + " requestId=" + requestId;
-        Log.d(TAG, responseString);
+        Log.i(TAG, responseString);
 
         if (errorCode == 0) {
             // 绑定成功
-            Log.d(TAG, "绑定成功");
-            String url = context.getString(R.string.pushUrl)+"/ActorPush/getMessage" + "?pushType=baidu&id=" + userId;
+            Log.i(TAG, "绑定成功");
+            String url = context.getString(R.string.pushUrl)+"/ActorPush/getMessage" + "?pushType=baidu&id=" + channelId;
             ActorSDK.sharedActor().getMessenger().registerActorPush(url);
         }
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
@@ -86,7 +85,7 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
                           String customContentString) {
         String messageString = "透传消息 onMessage=\"" + message
                 + "\" customContentString=" + customContentString;
-        Log.d(TAG, messageString);
+        Log.i(TAG, messageString);
         System.out.println(messageString);
         try {
             im.actor.runtime.json.JSONObject object = new im.actor.runtime.json.JSONObject(message);
@@ -133,7 +132,7 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
         String notifyString = "通知到达 onNotificationArrived  title=\"" + title
                 + "\" description=\"" + description + "\" customContent="
                 + customContentString;
-        Log.d(TAG, notifyString);
+        Log.i(TAG, notifyString);
         try {
             im.actor.runtime.json.JSONObject object = new im.actor.runtime.json.JSONObject(customContentString);
             if (object.has("data")) {
@@ -172,7 +171,7 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
                                       String description, String customContentString) {
         String notifyString = "通知点击 onNotificationClicked title=\"" + title + "\" description=\""
                 + description + "\" customContent=" + customContentString;
-        Log.d(TAG, notifyString);
+        Log.i(TAG, notifyString);
 
         // 自定义内容获取方式，mykey和myvalue对应通知推送时自定义内容中设置的键和值
         if (!TextUtils.isEmpty(customContentString)) {
@@ -207,7 +206,7 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
         String responseString = "onSetTags errorCode=" + errorCode
                 + " sucessTags=" + sucessTags + " failTags=" + failTags
                 + " requestId=" + requestId;
-        Log.d(TAG, responseString);
+        Log.i(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
     }
@@ -227,7 +226,7 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
         String responseString = "onDelTags errorCode=" + errorCode
                 + " sucessTags=" + sucessTags + " failTags=" + failTags
                 + " requestId=" + requestId;
-        Log.d(TAG, responseString);
+        Log.i(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
     }
@@ -245,7 +244,7 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
                            String requestId) {
         String responseString = "onListTags errorCode=" + errorCode + " tags="
                 + tags;
-        Log.d(TAG, responseString);
+        Log.i(TAG, responseString);
 
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
     }
@@ -261,11 +260,11 @@ public class BaiDuPushMessageReceiver extends com.baidu.android.pushservice.Push
     public void onUnbind(Context context, int errorCode, String requestId) {
         String responseString = "onUnbind errorCode=" + errorCode
                 + " requestId = " + requestId;
-        Log.d(TAG, responseString);
+        Log.i(TAG, responseString);
 
         if (errorCode == 0) {
             // 解绑定成功
-            Log.d(TAG, "解绑成功");
+            Log.i(TAG, "解绑成功");
         }
         // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
     }

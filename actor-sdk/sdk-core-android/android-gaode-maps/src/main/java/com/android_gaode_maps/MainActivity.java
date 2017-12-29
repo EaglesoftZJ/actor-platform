@@ -52,28 +52,9 @@ public class MainActivity extends AppCompatActivity implements MapFragment.MapCa
         getSupportActionBar().setTitle(R.string.map_title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String[] PERMISSIONS_CONTACT = {
-                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_PHONE_STATE
-            };
 
-            requestPermission(PERMISSIONS_CONTACT, new OnPermissionListener() {
-                @Override
-                public void permissionGranted() {
-                    getSupportFragmentManager().beginTransaction()
-//                            .add(R.id.search_framelayout, new MapSearchFragment())
-                            .add(R.id.map, new MapFragment())
-                            .commit();
-                }
-            });
-        }
         locationCenter = (TextView) findViewById(R.id.location_center_text);
         list = (ListView) findViewById(R.id.list);
-//        list.setOnScrollListener(this);
-//        list.setOnItemClickListener(this);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -85,95 +66,15 @@ public class MainActivity extends AppCompatActivity implements MapFragment.MapCa
         status = (TextView) findViewById(R.id.status);
         header = findViewById(R.id.location_center_lay);
         location_center_text = (TextView) findViewById(R.id.location_center_text);
-    }
 
 
-    //6.0之后权限返回方法
-
-    public static final int PERMISSIONS_REQUEST = 0;
-    private OnPermissionListener activitylistener;
-
-    public void requestPermission(String[] permission, OnPermissionListener listener) {
-        boolean flag = true;
-        activitylistener = listener;
-        for (int i = 0; i < permission.length; i++) {
-            if (android.support.v4.app.ActivityCompat.checkSelfPermission(this, permission[i])
-                    != PackageManager.PERMISSION_GRANTED) {
-                flag = false;
-                break;
-            }
-        }
-        if (!flag) {
-            requestContactsPermissions(permission);
-        } else {
-            listener.permissionGranted();
-        }
+        getSupportFragmentManager().beginTransaction()
+//                            .add(R.id.search_framelayout, new MapSearchFragment())
+                .add(R.id.map_fray, new MapFragment())
+                .commit();
 
     }
 
-    private boolean requestShowRequestPermission(String[] permission) {
-        boolean flag = false;
-        for (int i = 0; i < permission.length; i++) {
-            if (android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale(this, permission[i])) {
-                flag = true;
-                break;
-            }
-        }
-        return flag;
-    }
-
-    private void requestContactsPermissions(String[] permission) {
-        // BEGIN_INCLUDE(contacts_permission_request)
-        if (requestShowRequestPermission(permission)) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example, if the request has been denied previously.
-            // Display a SnackBar with an explanation and a button to trigger the request.
-            android.support.v4.app.ActivityCompat.requestPermissions(this, permission,
-                    PERMISSIONS_REQUEST);
-
-        } else {
-            // Contact permissions have not been granted yet. Request them directly.
-            android.support.v4.app.ActivityCompat.requestPermissions(this, permission, PERMISSIONS_REQUEST);
-        }
-        // END_INCLUDE(contacts_permission_request)
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST) {
-            boolean flag = true;
-            for (int i = 0; i < grantResults.length; i++) {
-                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                    flag = false;
-                    if (permissions[i].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        Toast.makeText(this, "因位置权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
-                        break;
-                    } else if (permissions[i].equals(Manifest.permission.CAMERA)) {
-                        Toast.makeText(this, "因相机权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
-                        break;
-                    } else if (permissions[i].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        Toast.makeText(this, "因存储权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
-                        break;
-                    } else if (permissions[i].equals(Manifest.permission.READ_PHONE_STATE)) {
-                        Toast.makeText(this, "因使用电话权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
-                        break;
-                    } else {
-                        Toast.makeText(this, "因部分权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                }
-            }
-            if (flag) {
-                activitylistener.permissionGranted();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        }
-    }
 
     @Override
     public void setLocationCenterText(LatLng target) {
