@@ -101,7 +101,7 @@ class AtGroupMemberController: UIViewController,UITableViewDelegate,UITableViewD
         table.frame = CGRect(x:0,y:0,width:view.frame.width,height:view.frame.height)
         table.delegate = self
         table.dataSource = self
-        
+        table.tableFooterView = UIView()
     }
 
 
