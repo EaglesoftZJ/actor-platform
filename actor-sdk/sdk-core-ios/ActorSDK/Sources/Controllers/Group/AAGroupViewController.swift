@@ -181,7 +181,6 @@ open class AAGroupViewController: AAContentTableController {
                     }
                 }
             }
-
         }
         
         // Members
@@ -204,12 +203,13 @@ open class AAGroupViewController: AAContentTableController {
                     
                     r.selectAction = { () -> Bool in
                         let addParticipantController = AAAddParticipantViewController(gid: self.gid)
-                        let navigationController = AANavigationController(rootViewController: addParticipantController)
-                        if (AADevice.isiPad) {
-                            navigationController.isModalInPopover = true
-                            navigationController.modalPresentationStyle = UIModalPresentationStyle.currentContext
-                        }
-                        self.present(navigationController, animated: true, completion: nil)
+//                        let navigationController = AANavigationController(rootViewController: addParticipantController)
+//                        if (AADevice.isiPad) {
+//                            navigationController.isModalInPopover = true
+//                            navigationController.modalPresentationStyle = UIModalPresentationStyle.currentContext
+//                        }
+//                        self.present(navigationController, animated: true, completion: nil)
+                        self.navigateNext(addParticipantController)
                         return false
                     }
                 }

@@ -1136,7 +1136,6 @@ SLKPastableMediaType SLKPastableMediaTypeFromNSString(NSString *string)
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
 
-
 #pragma mark - Lifeterm
 
 - (void)dealloc

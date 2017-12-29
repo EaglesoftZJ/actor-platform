@@ -347,6 +347,9 @@
 		3504FD231FBEC92A00E7F177 /* ZZJGModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504FD221FBEC92A00E7F177 /* ZZJGModel.swift */; };
 		3504FD251FC264F200E7F177 /* BMJGTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504FD241FC264F200E7F177 /* BMJGTableViewController.swift */; };
 		3504FD271FC2653300E7F177 /* YGJGTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504FD261FC2653300E7F177 /* YGJGTableViewController.swift */; };
+		355AB4E71FF48F5C00938806 /* AtGroupMemberController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355AB4E61FF48F5C00938806 /* AtGroupMemberController.swift */; };
+		355AB4E91FF4CBF000938806 /* MemberSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355AB4E81FF4CBF000938806 /* MemberSearchCell.swift */; };
+		355AB4EB1FF4DCD700938806 /* SearchResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355AB4EA1FF4DCD700938806 /* SearchResultController.swift */; };
 		3567C7B81FBE6D5800103066 /* CompanyService.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7B61FBE6D5800103066 /* CompanyService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3567C7B91FBE6D5800103066 /* CompanyService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7B71FBE6D5800103066 /* CompanyService.m */; };
 		3567C7D71FBE71F700103066 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7BD1FBE71F700103066 /* JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -783,6 +786,9 @@
 		3504FD241FC264F200E7F177 /* BMJGTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMJGTableViewController.swift; sourceTree = "<group>"; };
 		3504FD261FC2653300E7F177 /* YGJGTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YGJGTableViewController.swift; sourceTree = "<group>"; };
 		354C3EFA48FBFAEAD0DEEE17 /* Pods_ActorSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ActorSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		355AB4E61FF48F5C00938806 /* AtGroupMemberController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtGroupMemberController.swift; sourceTree = "<group>"; };
+		355AB4E81FF4CBF000938806 /* MemberSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSearchCell.swift; sourceTree = "<group>"; };
+		355AB4EA1FF4DCD700938806 /* SearchResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultController.swift; sourceTree = "<group>"; };
 		3567C7B61FBE6D5800103066 /* CompanyService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompanyService.h; sourceTree = "<group>"; };
 		3567C7B71FBE6D5800103066 /* CompanyService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompanyService.m; sourceTree = "<group>"; };
 		3567C7BD1FBE71F700103066 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -1488,6 +1494,9 @@
 			isa = PBXGroup;
 			children = (
 				066A53361BC537CA000E606E /* ConversationViewController.swift */,
+				355AB4E61FF48F5C00938806 /* AtGroupMemberController.swift */,
+				355AB4EA1FF4DCD700938806 /* SearchResultController.swift */,
+				355AB4E81FF4CBF000938806 /* MemberSearchCell.swift */,
 			);
 			path = Conversation;
 			sourceTree = "<group>";
@@ -1613,7 +1622,6 @@
 		152AA8911C29891B0030DEEE /* SlackTextViewController */ = {
 			isa = PBXGroup;
 			children = (
-				153F6B471C2B03A400C0B960 /* Ext */,
 				152AA8921C2989270030DEEE /* SLKInputAccessoryView.h */,
 				152AA8931C2989270030DEEE /* SLKInputAccessoryView.m */,
 				152AA8941C2989270030DEEE /* SLKTextInputbar.h */,
@@ -1636,13 +1644,6 @@
 				152AA8A51C2989270030DEEE /* UIView+SLKAdditions.m */,
 			);
 			path = SlackTextViewController;
-			sourceTree = "<group>";
-		};
-		153F6B471C2B03A400C0B960 /* Ext */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Ext;
 			sourceTree = "<group>";
 		};
 		153F6B871C2D7B9700C0B960 /* TapedLabel */ = {
@@ -2342,6 +2343,7 @@
 				066A51921BC4C383000E606E /* CocoaFileSystemRuntime.swift in Sources */,
 				3567C7E41FBE71F700103066 /* SBJsonStreamParserState.m in Sources */,
 				066A52DC1BC52385000E606E /* AAContactCell.swift in Sources */,
+				355AB4EB1FF4DCD700938806 /* SearchResultController.swift in Sources */,
 				065975071BC7BB4000B8C7DF /* AANavigationBadge.swift in Sources */,
 				066A518D1BC4C383000E606E /* CocoaStorageRuntime.swift in Sources */,
 				066A52F01BC52B02000E606E /* AASettingsViewController.swift in Sources */,
@@ -2500,6 +2502,7 @@
 				BEE6EB011C4D7B7500A2280E /* AASettingsWallpapersController.swift in Sources */,
 				BED5A2011C48396A0045FDB0 /* NYTScalingImageView.m in Sources */,
 				066A53331BC534F5000E606E /* AAFileTypes.swift in Sources */,
+				355AB4E71FF48F5C00938806 /* AtGroupMemberController.swift in Sources */,
 				3567C7DE1FBE71F700103066 /* SBJsonStreamParser.m in Sources */,
 				3567C7EA1FBE71F700103066 /* SBJsonStreamWriterState.m in Sources */,
 				066A52FE1BC52FA9000E606E /* AAGroupCreateViewController.swift in Sources */,
@@ -2520,6 +2523,7 @@
 				066A52221BC4EEAC000E606E /* AAManagedTable.swift in Sources */,
 				152AA8B51C2989270030DEEE /* UIResponder+SLKAdditions.m in Sources */,
 				066A52EA1BC52A2B000E606E /* AAGroupMemberCell.swift in Sources */,
+				355AB4E91FF4CBF000938806 /* MemberSearchCell.swift in Sources */,
 				066A52291BC4EEAC000E606E /* ManagedTableExtensions.swift in Sources */,
 				BED5A1FD1C48396A0045FDB0 /* NYTPhotoTransitionController.m in Sources */,
 				066A514C1BC4BD05000E606E /* Collections.swift in Sources */,

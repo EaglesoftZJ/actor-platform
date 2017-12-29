@@ -63,6 +63,7 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
         //#注册切换Root控制器通知
         NotificationCenter.default.addObserver(self, selector: #selector(switchRootViewController), name: ActorSDK.sharedActor().switchRootController, object: nil)
 //        ActorSDK.sharedActor().presentMessengerInNewWindow()
+        
         window = UIWindow(frame:UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
         window?.rootViewController = WelcomeViewController()

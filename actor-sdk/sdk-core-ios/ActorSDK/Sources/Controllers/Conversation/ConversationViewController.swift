@@ -20,7 +20,8 @@ open class ConversationViewController:
     AAAudioRecorderDelegate,
     AAConvActionSheetDelegate,
     AAStickersKeyboardDelegate,
-    ISEmojiViewDelegate {
+    ISEmojiViewDelegate,
+    AtMemberDelegate{
     
     // Data binder
     fileprivate let binder = AABinder()
@@ -49,6 +50,7 @@ open class ConversationViewController:
     fileprivate let inputOverlayLabel = UILabel()
     
     let hud = WaitMBProgress()
+    var oldNumber:Int = 0 //textView记录旧的字符串长度
     //
     // Stickers
     //
@@ -122,7 +124,7 @@ open class ConversationViewController:
         // Text Input
         //
         self.textInputbar.backgroundColor = appStyle.chatInputFieldBgColor
-        self.textInputbar.autoHideRightButton = false;
+        self.textInputbar.autoHideRightButton = false
         self.textInputbar.isTranslucent = false
         
         
@@ -131,7 +133,8 @@ open class ConversationViewController:
         //
         self.textView.placeholder = AALocalized("ChatPlaceholder")
         self.textView.keyboardAppearance = ActorSDK.sharedActor().style.isDarkApp ? .dark : .light
-        
+        self.textView.delegate = self
+        self.textView.keyboardType = .default
         
         //
         // Overlay
@@ -264,6 +267,53 @@ open class ConversationViewController:
         fatalError("init(coder:) has not been implemented")
     }
     
+    override open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let editText = textView.text ?? ""
+        let str:String = (editText as NSString).replacingCharacters(in: range, with: text)
+        
+        if (peer.peerType.ordinal() == ACPeerType.group().ordinal())
+        {
+            let newNumber:Int = str.length
+            if newNumber > oldNumber
+            {
+                //如果字数是增加的
+                if str.length > 0 {//取得到的最后一个字符
+                    let index = str.index(str.startIndex, offsetBy: str.length-1)
+                    let lastStr = str.substring(from: index)
+                    if lastStr == "@"
+                    {
+                        let atGroupMemberController = AtGroupMemberController()
+                        let res = Actor.findMentions(withGid: peer.peerId, withQuery: "")!
+                        if res.size() == 0 {
+                            
+                        }
+                        else{
+                            groupMembers.removeAll(keepingCapacity: true)
+                            for index in 0..<res.size() {
+                                let memberInfo = res.getWith(index) as! ACMentionFilterResult
+                                groupMembers.append(memberInfo)
+                            }
+                            atGroupMemberController.delegate = self
+                            atGroupMemberController.groupMembers = groupMembers
+                            self.navigateNext(atGroupMemberController)
+                        }
+                    }
+                }
+            }
+            oldNumber = newNumber
+        }
+        return true
+    }
+    //@返回界面接收
+    func AtMemberId(memberId: String) {
+        let oldText = self.textInputbar.textView.text
+        self.textInputbar.textView.text = oldText! + memberId + ":" + " "
+        if !self.textInputbar.textView.isFirstResponder{
+            self.textInputbar.textView.becomeFirstResponder()
+            
+        }
+    }
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
         
@@ -288,44 +338,8 @@ open class ConversationViewController:
             name: NSNotification.Name.SLKKeyboardWillHide,
             object: nil)
         
-        let res = Actor.findMentions(withGid: peer.peerId, withQuery: "")!
-        if res.size() == 0 {getMemberInfo()}
-        
     }
     
-    open func getMemberInfo() {
-        let uid = Int(Actor.myUid())
-        let gid = Int(peer.peerId)
-        hud.show(view: view)
-        _ = Actor.loadMembers(withGid: jint(gid), withLimit: 10000, withNext: nextBatch).then { (slice: ACGroupMembersSlice!) in
-                for i in 0..<slice.members.size(){
-                    let member:ACGroupMember = slice.members.getWith(i) as! ACGroupMember
-                    if member.uid != uid{
-                        let user:ACUserVM = Actor.getUserWithUid(jint(member.uid))
-                        let isNickname:Bool;let originalString:String;var avatar:ACAvatar? = nil
-                        if user.getNickModel().get() == nil{isNickname = false;originalString = ""}
-                        else{isNickname = true;originalString = user.getNickModel().get()}
-                        let mentionString:String = "@" + user.getNameModel().get()
-                        if user.getAvatarModel().get() != nil {avatar = user.getAvatarModel().get()}
-
-                        let filterResult = ACMentionFilterResult(int:member.uid,with:avatar,with:mentionString,with:nil,with:originalString,with:nil,withBoolean:isNickname)
-                        self.groupMembers.append(filterResult!)
-                    }
-                }
-            self.hud.hide()
-        }
-    }
-    
-    open func isAlreadyMember(_ uid: jint) -> Bool {
-        let group = Actor.getGroupWithGid(peer.peerId)
-        let members: [ACGroupMember] = (group.getMembersModel().get() as AnyObject).toArray().toSwiftArray()
-        for m in members {
-            if m.uid == uid {
-                return true
-            }
-        }
-        return false
-    }
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -341,6 +355,17 @@ open class ConversationViewController:
     
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if (peer.peerType.ordinal() == ACPeerType.group().ordinal())
+        {
+            let gid = Int(peer.peerId)
+            let res = Actor.findMentions(withGid: peer.peerId, withQuery: "")!
+            if res.size() == 0 {
+                _ = Actor.loadMembers(withGid: jint(gid), withLimit: 10000, withNext: nextBatch).then { (slice: ACGroupMembersSlice!) in
+                    Actor.changeGroupMembers(withGid: jint(gid), withAddMembers: slice.members)
+                }
+            }
+        }
         
         // Installing bindings
         if (peer.peerType.ordinal() == ACPeerType.private().ordinal()) {
@@ -468,7 +493,7 @@ open class ConversationViewController:
             textView.resignFirstResponder()
         }
         
-        textView.text = Actor.loadDraft(with: peer)
+//        textView.text = Actor.loadDraft(with: peer)
         
     }
     
@@ -531,7 +556,7 @@ open class ConversationViewController:
         }
         
         // Closing keyboard
-        self.textView.resignFirstResponder()
+//        self.textView.resignFirstResponder()
     }
 
     override open func viewDidDisappear(_ animated: Bool) {
@@ -684,8 +709,8 @@ open class ConversationViewController:
     ////////////////////////////////////////////////////////////
     // MARK: - Completition
     ////////////////////////////////////////////////////////////
-    
-    override open func didChangeAutoCompletionPrefix(_ prefix: String!, andWord word: String!) {
+    open func didChangeAutoCompletionPrefixed(_ prefix: String!, andWord word: String!) {
+//    override open func didChangeAutoCompletionPrefix(_ prefix: String!, andWord word: String!) {
         if self.peer.peerType.ordinal() == ACPeerType.group().ordinal() {
             if prefix == "@" { //@人
                 
@@ -1097,6 +1122,7 @@ open class ConversationViewController:
         self.stickersOpen = false
         self.stickersButton.setImage(UIImage.bundled("sticker_button"), for: UIControlState())
         self.textInputbar.textView.inputView = nil
+        log("键盘消失")
     }
     
     func changeKeyboard() {

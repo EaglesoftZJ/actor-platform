@@ -36,6 +36,7 @@ class LoginViewController: AAAuthViewController,UITextFieldDelegate {
         
         userField.placeholder = "用户名"
         userField.setValue(UIColor.white, forKeyPath: "_placeholderLabel.textColor")
+        userField.keyboardType = .default
         
         pwdField.placeholder = "密码"
         pwdField.isSecureTextEntry = true

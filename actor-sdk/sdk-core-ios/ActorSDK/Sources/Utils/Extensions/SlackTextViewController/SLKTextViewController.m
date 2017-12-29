@@ -705,6 +705,7 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
     
     // Clears cache
     [self clearCachedText];
+    [self.textInputbar.textView resignFirstResponder];
 }
 
 - (void)editText:(NSString *)text
