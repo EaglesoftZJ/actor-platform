@@ -242,9 +242,9 @@ public class TreeDanWeiAdapter extends BaseAdapter {
             //显示部门和人员之间的间隔
             if (n.getValue().equals("-9999")) {
                 holder.tvText.setBackgroundColor(Color.parseColor("#dddddd"));
-                holder.tvText.setHeight(Screen.dip2px(con, 10));
+                holder.tvText.setHeight(Screen.dp(10));
                 holder.tvText.setText("");
-                holder.dividerView.setHeight(Screen.dip2px(con, 10));
+                holder.dividerView.setHeight(Screen.dp(10));
 //                holder.ivExEc.setImageDrawable(con.getResources().getDrawable(R.drawable.department));
                 holder.chbSelect.setVisibility(View.GONE);
 //                holder.ivExEc.setVisibility(View.VISIBLE);
@@ -254,7 +254,7 @@ public class TreeDanWeiAdapter extends BaseAdapter {
                 holder.tvText.setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
 
-            holder.tvText.setMinHeight(Screen.dip2px(con, 50));
+            holder.tvText.setMinHeight(Screen.dp(50));
             int childrenSize = n.getChildrenSize();
 //            System.out.println("iGem:size:"+n.getText()+":"+childrenSize);
             if (childrenSize == 0) {

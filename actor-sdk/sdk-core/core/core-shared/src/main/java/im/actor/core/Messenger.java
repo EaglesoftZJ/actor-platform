@@ -1169,6 +1169,29 @@ public class Messenger {
     }
 
     /**
+     * Save message PeerAtInfo
+     *
+     * @param peer  destination peer
+     * @param info message info
+     */
+    @ObjectiveCName("savePeerAtInfoWithPeer:withInfo:")
+    public void savePeerAtInfo(Peer peer, String info) {
+        modules.getMessagesModule().savePeerAtInfo(peer, info);
+    }
+
+    /**
+     * Load message acinfo
+     *
+     * @param peer destination peer
+     * @return null if no draft available
+     */
+    @Nullable
+    @ObjectiveCName("loadPeerAtInfoWithPeer:")
+    public String loadPeerAtInfo(Peer peer) {
+        return modules.getMessagesModule().loadPeerAtInfo(peer);
+    }
+
+    /**
      * Loading last read messages
      *
      * @param peer destination peer

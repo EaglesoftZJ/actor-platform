@@ -345,6 +345,18 @@ public class MessagesModule extends AbsModule implements BusSubscriber {
         }
     }
 
+    public void savePeerAtInfo(Peer peer, String draft) {
+        context().getSettingsModule().setStringValue("PeerAtInfo_" + peer.getUnuqueId(), draft);
+    }
+
+    public String loadPeerAtInfo(Peer peer) {
+        String res = context().getSettingsModule().getStringValue("PeerAtInfo_" + peer.getUnuqueId(), null);
+        if (res == null) {
+            return "";
+        } else {
+            return res;
+        }
+    }
 
     public Promise<Void> addReaction(final Peer peer, final long rid, final String reaction) {
         return buildOutPeer(peer)

@@ -143,7 +143,6 @@ public class ChatFragment extends BaseFragment implements InputBarCallback, Mess
 
         if (peer.getPeerType() == PeerType.PRIVATE) {
             UserVM userVM = users().get(peer.getPeerId());
-
             if (userVM.isBot()) {
                 ConversationVM conversationVM = messenger().getConversationVM(peer);
                 bind(conversationVM.getIsEmpty(), conversationVM.getIsLoaded(), (isEmpty, valueModel, isLoaded, valueModel2) -> {
@@ -298,14 +297,32 @@ public class ChatFragment extends BaseFragment implements InputBarCallback, Mess
         messenger().onTyping(peer);
     }
 
+    boolean isWordAdd = false;
     @Override
     public void onTextChanged(String text) {
-
+        if (oldText.length() > text.length()) {
+            isWordAdd = false;
+        }else{
+            isWordAdd = true;
+        }
     }
+
 
     @Override
     public void onAutoCompleteWordChanged(String text) {
-        findAutocomplete().onCurrentWordChanged(text);
+        if(isWordAdd){
+            findAutocomplete().onCurrentWordChanged(text);
+        }
+    }
+
+    String oldText = "";
+
+    @Override
+    public void onBeforeTextChanged(String text) {
+        oldText = text;
+        if(text.length() == 0){
+            messenger().savePeerAtInfo(peer, "at");
+        }
     }
 
     @Override

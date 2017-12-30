@@ -297,9 +297,8 @@
 
         <!-- apk跟新后台服务 -->
         <service
-            android:name="im.actor.sdk.services.UpdataService"
+            android:name=".services.UpdataService"
             android:enabled="true"/>
-
         <service
             android:name=".services.KeepAliveService"
             android:enabled="true"
@@ -487,6 +486,7 @@
 
         <!-- 小米推送结束 -->
 
+
         <!-- 在百度开发者中心查询应用的API Key -->
         <meta-data
             android:name="api_key"
@@ -502,9 +502,10 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c9bb6ed25a8f1ba46bf0daffb4571e7a">
-
         </meta-data>
 
+        <activity android:name=".controllers.conversation.GroupMemberActivity">
+        </activity>
     </application>
 
 </manifest>

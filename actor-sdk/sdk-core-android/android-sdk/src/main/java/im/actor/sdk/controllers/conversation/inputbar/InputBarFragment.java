@@ -401,7 +401,8 @@ public class InputBarFragment extends BaseFragment implements MessagesDefaultFra
         Fragment parent = getParentFragment();
         if (parent instanceof InputBarCallback) {
             if (after > count && !isTypingDisabled) {
-                ((InputBarCallback) parent).onTyping();
+//                ((InputBarCallback) parent).onTyping();
+                ((InputBarCallback) parent).onBeforeTextChanged(s.toString());
             }
         }
     }

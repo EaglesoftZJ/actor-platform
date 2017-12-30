@@ -1,6 +1,5 @@
 package im.actor.sdk.controllers.conversation.mentions;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,31 +7,27 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
+import android.widget.SearchView;
 
 import im.actor.core.entity.BotCommand;
 import im.actor.core.entity.MentionFilterResult;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.PeerType;
+import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
-import im.actor.sdk.controllers.conversation.GroupMemberActivity;
 import im.actor.sdk.controllers.group.MembersActivity;
 import im.actor.sdk.util.Screen;
-import im.actor.sdk.view.MaterialInterpolator;
 import im.actor.sdk.view.adapters.BottomSheetListView;
 import im.actor.sdk.view.adapters.HolderAdapter;
-import im.actor.sdk.view.adapters.RecyclerListView;
 
-import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 import static im.actor.sdk.util.ActorSDKMessenger.users;
 
-public class AutocompleteFragment extends BaseFragment {
+public class AutomemberFragment extends BaseFragment {
 
     private Peer peer;
     private boolean isBot;
@@ -41,18 +36,52 @@ public class AutocompleteFragment extends BaseFragment {
     private HolderAdapter autocompleteAdapter;
     private BottomSheetListView autocompleteList;
     private View underlyingView;
-    int GroupMemberResult = 1;
 
-    public static AutocompleteFragment create(Peer peer) {
-        AutocompleteFragment res = new AutocompleteFragment();
+    public static AutomemberFragment create(Peer peer) {
+        AutomemberFragment res = new AutomemberFragment();
         Bundle bundle = new Bundle();
         bundle.putLong("peer", peer.getUnuqueId());
         res.setArguments(bundle);
         return res;
     }
 
-    public AutocompleteFragment() {
+    public AutomemberFragment() {
+//        setShowTitle(true);
+        setHomeAsUp(true);
+        setHasOptionsMenu(true);
+        setRootFragment(true);
+        setTitle("选择提醒的人");
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.contacts_search, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setIconifiedByDefault(true); // 缺省值就是true，可能不专门进行设置，false和true的效果图如下，true的输入框更大
+
+        // 设置搜索文本监听
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            // 当点击搜索按钮时触发该方法
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                int oldCount = autocompleteList.getCount();
+                ((MentionsAdapter) autocompleteAdapter).setQuery(query);
+                expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
+                return false;
+            }
+
+            // 当搜索内容改变时触发该方法
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                int oldCount = autocompleteList.getCount();
+                ((MentionsAdapter) autocompleteAdapter).setQuery(newText);
+                expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
+
+                return false;
+            }
+        });
     }
 
     @Override
@@ -101,50 +130,15 @@ public class AutocompleteFragment extends BaseFragment {
 
         // Initial zero height
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.gravity = Gravity.BOTTOM;
+        params.gravity = Gravity.TOP;
         autocompleteList.setLayoutParams(params);
 
+        int oldCount = autocompleteList.getCount();
+        ((MentionsAdapter) autocompleteAdapter).setQuery("");
+        expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
+
+
         return autocompleteList;
-    }
-
-
-    public void onCurrentWordChanged(String text) {
-        if (isBot) {
-            if (text.startsWith("/")) {
-                String query = text.substring(1);
-                int oldCount = autocompleteList.getCount();
-                ((CommandsAdapter) autocompleteAdapter).setQuery(query);
-                expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
-            } else {
-                int oldCount = autocompleteList.getCount();
-                ((CommandsAdapter) autocompleteAdapter).clearQuery();
-                expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
-            }
-        } else if (isGroup) {
-            String isAt = messenger().loadPeerAtInfo(peer);
-            if (text.startsWith("@") && text.equals("@") && isAt.equals("at")) {
-//                messenger()
-                Intent intent = new Intent(getContext(), GroupMemberActivity.class);
-                intent.putExtra("peer", peer.getUnuqueId());
-
-                startActivityForResult(intent, GroupMemberResult);
-                int oldCount = autocompleteList.getCount();
-                ((MentionsAdapter) autocompleteAdapter).clearQuery();
-                expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
-
-//                String query = text.substring(1);
-//                int oldCount = autocompleteList.getCount();
-//                ((MentionsAdapter) autocompleteAdapter).setQuery(query);
-//                expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
-            } else {
-                if (text.length() > 0) {
-                    messenger().savePeerAtInfo(peer, "at");
-                }
-                int oldCount = autocompleteList.getCount();
-                ((MentionsAdapter) autocompleteAdapter).clearQuery();
-                expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
-            }
-        }
     }
 
 
@@ -167,9 +161,8 @@ public class AutocompleteFragment extends BaseFragment {
             if (newRowsCount == oldRowsCount) {
                 return;
             }
-
-//            list.setMinHeight(0);
-            list.setMinHeight(newRowsCount == 0 ? 0 : newRowsCount == 1 ? Screen.dp(48) + 1 : newRowsCount == 2 ? Screen.dp(96) + 2 : Screen.dp(122));
+            list.setMinHeight(Screen.dp(Screen.getHeight()));
+//            list.setMinHeight(newRowsCount == 0 ? 0 : newRowsCount == 1 ? Screen.dp(48) + 1 : newRowsCount == 2 ? Screen.dp(96) + 2 : Screen.dp(122));
             list.setVisibility(View.VISIBLE);
 //        Animation a = new ExpandAnimation(list, targetHeight, initialHeight);
 //
@@ -182,26 +175,5 @@ public class AutocompleteFragment extends BaseFragment {
 
     public void setUnderlyingView(View underlyingView) {
         this.underlyingView = underlyingView;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK
-                && requestCode == GroupMemberResult && data != null) {
-            messenger().savePeerAtInfo(peer, data.getStringExtra("resultAt"));
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        messenger().savePeerAtInfo(peer, "notAt");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        messenger().savePeerAtInfo(peer, "notAt");
     }
 }

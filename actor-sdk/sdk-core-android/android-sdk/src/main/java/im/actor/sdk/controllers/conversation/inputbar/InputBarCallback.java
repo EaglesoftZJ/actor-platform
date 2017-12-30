@@ -8,6 +8,8 @@ public interface InputBarCallback {
 
     void onTyping();
 
+    void onBeforeTextChanged(String text);
+
     void onTextChanged(String text);
 
     void onAutoCompleteWordChanged(String text);
