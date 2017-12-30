@@ -1,11 +1,19 @@
 package im.actor.sdk.controllers;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -16,6 +24,7 @@ import java.io.FileOutputStream;
 import im.actor.core.entity.FileReference;
 import im.actor.core.entity.Peer;
 import im.actor.core.utils.IOUtils;
+import im.actor.runtime.files.FileSystemReference;
 import im.actor.sdk.controllers.contacts.AddContactActivity;
 import im.actor.sdk.controllers.pickers.TakePhotoActivity;
 import im.actor.sdk.controllers.conversation.ChatActivity;
@@ -144,44 +153,87 @@ public class Intents {
         return Uri.parse("content://im.actor.avatar/" + location.getFileId());
     }
 
-    public static Intent openDoc(String fileName, String downloadFileName) {
-        String mimeType = MimeTypeMap.getSingleton()
-                .getMimeTypeFromExtension(IOUtils.getFileExtension(fileName));
-        if (mimeType == null) {
-            mimeType = "*/*";
+    private static Uri getAvatarUri(Activity activity, String downloadFileName) {
+        File file = new File(downloadFileName);
+        Uri uri = Uri.fromFile(file);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果是7.0android系统
+//            ContentValues contentValues = new ContentValues(1);
+//            contentValues.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
+            uri = FileProvider.getUriForFile(activity, "im.actor.develop.myFileProvider", file);
         }
 
-        return new Intent(Intent.ACTION_VIEW)
-                .setDataAndType(Uri.fromFile(new File(downloadFileName)), mimeType);
+        return uri;
     }
 
-    public static Intent shareDoc(String fileName, String downloadFileName) {
+    public static Intent openDoc(Activity activity, String fileName, String downloadFileName) {
         String mimeType = MimeTypeMap.getSingleton()
                 .getMimeTypeFromExtension(IOUtils.getFileExtension(fileName));
         if (mimeType == null) {
             mimeType = "*/*";
         }
+//        System.out.println("iGem:openDoc:mimeType=" + mimeType);
+//        File file = new File(downloadFileName);
+//        System.out.println("iGem:openDoc:downloadFileName=" + downloadFileName);
+        Uri uri = getAvatarUri(activity, downloadFileName);
+//        System.out.println("iGem:openVideo:uri=" + uri.toString());
+//        Uri uri = Uri.fromFile(file);
+        return new Intent(Intent.ACTION_VIEW)
+                .setDataAndType(uri, mimeType)
+                .addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        return new Intent(Intent.ACTION_SEND)
-                .putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(downloadFileName)))
-                .setType(mimeType);
+    }
+
+    public static Intent openVideo(Activity activity, String fileName, String downloadFileName) {
+        String mimeType = MimeTypeMap.getSingleton()
+                .getMimeTypeFromExtension(IOUtils.getFileExtension(fileName));
+        if (mimeType == null) {
+            mimeType = "*/*";
+        }
+//        System.out.println("iGem:openVideo:downloadFileName=" + downloadFileName);
+        Uri uri = getAvatarUri(activity, downloadFileName);
+//        System.out.println("iGem:openVideo:uri=" + uri.toString());
+//        String path = getPath(activity.getApplicationContext(),uri);
+//        System.out.println("iGem:uriPath:"+path);
+        return new Intent(Intent.ACTION_VIEW)
+                .setDataAndType(uri, mimeType)
+                .addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+    }
+
+
+    public static Intent shareDoc(Activity activity, String fileName, String downloadFileName) {
+        String mimeType = MimeTypeMap.getSingleton()
+                .getMimeTypeFromExtension(IOUtils.getFileExtension(fileName));
+        if (mimeType == null) {
+            mimeType = "*/*";
+        }
+        Uri uri = getAvatarUri(activity, downloadFileName);
+        Intent intent = new Intent(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_STREAM, uri)
+                .setType(mimeType)
+                .addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        return Intent.createChooser(intent,"分享");
     }
 
     public static Intent shareAvatar(FileReference location) {
         return new Intent(Intent.ACTION_SEND)
                 .putExtra(Intent.EXTRA_STREAM, getAvatarUri(location))
-                .setType("image/jpeg");
+                .setType("image/jpeg")
+                .addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
 
     public static Intent openAvatar(FileReference location) {
         return new Intent(Intent.ACTION_VIEW)
-                .setDataAndType(getAvatarUri(location), "image/jpeg");
+                .setDataAndType(getAvatarUri(location), "image/jpeg")
+                .addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
 
     public static Intent setAsAvatar(FileReference location) {
         Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
         intent.setDataAndType(getAvatarUri(location), "image/jpg");
         intent.putExtra("mimeType", "image/jpg");
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         return intent;
     }
 

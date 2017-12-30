@@ -245,7 +245,7 @@ public class RootActivity extends BaseFragmentActivity {
                         String datasource = b.getString("datasource");
                         try {
                             JSONObject json = new JSONObject(datasource);
-                            System.out.println("iGem:" + json.toString());
+//                            System.out.println("iGem:" + json.toString());
                             sp.edit().putString("imageVersion", json.getString("version"));
 
                             final String welcomePage_bg = json.getString("welcomePage_bg");

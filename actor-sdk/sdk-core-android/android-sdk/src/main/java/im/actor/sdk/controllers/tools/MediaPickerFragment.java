@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.soundcloud.android.crop.Crop;
@@ -81,19 +82,19 @@ public class MediaPickerFragment extends BaseFragment {
         if (pendingFile == null) {
             return;
         }
-
-
         //
         // Requesting Photo
         //
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File photoFile = new File(pendingFile);
         Uri photoUri = Uri.fromFile(photoFile);
+//        System.out.println("iGem:"+photoUri.toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果是7.0android系统
             ContentValues contentValues = new ContentValues(1);
             contentValues.put(MediaStore.Images.Media.DATA, photoFile.getAbsolutePath());
             photoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
         }
+//        System.out.println("iGem:"+photoUri.toString());
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
         startActivityForResult(intent, REQUEST_PHOTO);
     }
@@ -110,9 +111,14 @@ public class MediaPickerFragment extends BaseFragment {
         }
         Activity activity = getActivity();
         if (Build.VERSION.SDK_INT >= 23) {
+
+            String[] PERMISSIONS_CONTACT = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
+
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(PERMISSIONS_CONTACT,
                         PERMISSIONS_REQUEST_CAMERA);
                 return;
             }
@@ -122,14 +128,15 @@ public class MediaPickerFragment extends BaseFragment {
         //
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
-        File pvideoFile = new File(pendingFile);
-        Uri videoUri = Uri.fromFile(pvideoFile);
+        File videoFile = new File(pendingFile);
+        Uri videoUri = Uri.fromFile(videoFile);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果是7.0android系统
-            ContentValues contentValues = new ContentValues(1);
-            contentValues.put(MediaStore.Images.Media.DATA, pvideoFile.getAbsolutePath());
-            videoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+//            ContentValues contentValues = new ContentValues(1);
+//            contentValues.put(MediaStore.Images.Media.DATA, videoFile.getAbsolutePath());
+//            videoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            videoUri = FileProvider.getUriForFile(activity,"im.actor.develop.myFileProvider",videoFile);
         }
-
+//        System.out.println("iGem:videoUri:"+videoUri.toString());
         intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
         startActivityForResult(intent, REQUEST_VIDEO);
     }
@@ -240,6 +247,7 @@ public class MediaPickerFragment extends BaseFragment {
                 }
             } else if (requestCode == REQUEST_VIDEO) {
                 if (pendingFile != null) {
+//                    System.out.println("iGem:pendingFile:"+pendingFile);
                     getCallback().onVideoPicked(pendingFile);
                     Context context = getContext();
                     if (context != null) {

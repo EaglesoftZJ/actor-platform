@@ -17,7 +17,7 @@ public class PushReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        System.out.println("iGem:谷歌push进入");
+//        System.out.println("iGem:谷歌push进入");
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
         Bundle extras = intent.getExtras();
         String messageType = gcm.getMessageType(intent);

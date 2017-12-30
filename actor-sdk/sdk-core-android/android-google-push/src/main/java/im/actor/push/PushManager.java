@@ -65,7 +65,7 @@ public class PushManager implements ActorPushManager {
     }
 
     private String tryRegisterPush(Context context) {
-        System.out.println("iGem:谷歌push进入tryRegisterPush");
+//        System.out.println("iGem:谷歌push进入tryRegisterPush");
         GoogleCloudMessaging cloudMessaging = GoogleCloudMessaging.getInstance(context);
         Log.d(TAG, "Requesting push token iteration...");
         try {

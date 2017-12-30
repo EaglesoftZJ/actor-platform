@@ -12,7 +12,7 @@ public class ActorStyle {
     //     BACKGROUNDS      //
     //////////////////////////
 
-    private int[] defaultBackgrouds = new int[]{R.drawable.bg_4, R.drawable.bg_1, R.drawable.bg_2, R.drawable.bg_3};
+    private int[] defaultBackgrouds = new int[]{R.drawable.bg_default_flychat,R.drawable.bg_4, R.drawable.bg_1, R.drawable.bg_2, R.drawable.bg_3};
 
     public int[] getDefaultBackgrouds() {
         return defaultBackgrouds;

@@ -273,7 +273,7 @@ public class ZzjgFragment extends BaseFragment {
                     if (ryNodes != null) {
                         node.setChildrenSize(ryNodes.size());
                     } else {
-                        System.out.println("iGem:" + node.getText() + "setChildrenSize:0");
+//                        System.out.println("iGem:" + node.getText() + "setChildrenSize:0");
                         node.setChildrenSize(0);
                     }
                 }
@@ -294,7 +294,7 @@ public class ZzjgFragment extends BaseFragment {
                     for (Node node : list) {
                         if (node.getChildrenSize() == 0 && node.getChildren() != null) {
                             node.setChildrenSize(node.getChildren().size());
-                            System.out.println("iGem:" + node.getText() + ":node.getChildren().size():" + node.getChildren().size());
+//                            System.out.println("iGem:" + node.getText() + ":node.getChildren().size():" + node.getChildren().size());
                         }
                     }
                     bmMap.get(szk).put(dwid, list);
@@ -373,7 +373,7 @@ public class ZzjgFragment extends BaseFragment {
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            System.out.println("iGem:" + e.getMessage());
+//                            System.out.println("iGem:" + e.getMessage());
                         }
                     } else if (treeSize == 0) {
                         //从单位进入部门。

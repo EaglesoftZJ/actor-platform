@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -493,10 +494,11 @@ public class PictureActivity extends BaseActivity {
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             if (item.getItemId() == R.id.share) {
-                startActivity(Intents.shareDoc("picture.jpeg", path));
-            /*startActivity(new Intent(Intent.ACTION_SEND)
-                    .setType("image/jpeg")
-                    .putExtra(Intent.EXTRA_STREAM,Uri.parse(path)));*/
+                startActivity(Intents.shareDoc(getActivity(),"picture.jpeg", path));
+//                System.out.println("iGem:path="+path);
+//                startActivity(new Intent(Intent.ACTION_SEND)
+//                        .setType("image/jpeg")
+//                        .putExtra(Intent.EXTRA_STREAM, Uri.parse(path)));
                 return true;
             } else if (item.getItemId() == R.id.save) {
                 savePicture();

@@ -1,11 +1,14 @@
 package im.actor.sdk.controllers.conversation.messages.content;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -354,6 +357,9 @@ public class PhotoHolder extends MessageHolder {
                             if (document instanceof PhotoContent) {
                                 Intents.openMedia(getAdapter().getMessagesFragment().getActivity(), previewView, reference.getDescriptor(), currentMessage.getSenderId());
                             } else if (document instanceof VideoContent) {
+//                                ContentValues contentValues = new ContentValues(1);
+//                                contentValues.put(MediaStore.Images.Media.DATA, reference.getDescriptor());
+//                                context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
                                 playVideo(document, reference);
                             } else if (document instanceof AnimationContent) {
                                 toggleAnimation();
@@ -409,7 +415,7 @@ public class PhotoHolder extends MessageHolder {
     public void playVideo(DocumentContent document, FileSystemReference reference) {
         Activity activity = getAdapter().getMessagesFragment().getActivity();
         if (activity != null) {
-            activity.startActivity(Intents.openDoc(document.getName(), reference.getDescriptor()));
+            activity.startActivity(Intents.openVideo(activity, document.getName(), reference.getDescriptor()));
         }
     }
 

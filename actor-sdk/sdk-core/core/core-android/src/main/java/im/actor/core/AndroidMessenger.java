@@ -1,6 +1,7 @@
 package im.actor.core;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,6 +18,7 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.view.Display;
 import android.webkit.MimeTypeMap;
 
@@ -284,7 +286,7 @@ public class AndroidMessenger extends im.actor.core.Messenger {
         File f = new File(fullFilePath);
         sendAudio(peer, f.getName(), duration, fullFilePath);
     }
-    
+
     public void sendVideo(Peer peer, String fullFilePath) {
         sendVideo(peer, fullFilePath, new File(fullFilePath).getName());
     }
@@ -316,19 +318,45 @@ public class AndroidMessenger extends im.actor.core.Messenger {
         return callback -> fileDownloader.execute(() -> {
             String[] filePathColumn = {MediaStore.Images.Media.DATA, MediaStore.Video.Media.MIME_TYPE,
                     MediaStore.Video.Media.TITLE};
-            String picturePath;
-            String mimeType;
-            String fileName;
+            String picturePath = null;
+            String mimeType = null;
+            String fileName = null;
 
             String ext = "";
 
             Cursor cursor = context.getContentResolver().query(uri, filePathColumn, null, null, null);
             if (cursor != null) {
-                cursor.moveToFirst();
-                picturePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
-                mimeType = cursor.getString(cursor.getColumnIndex(filePathColumn[1]));
-                fileName = cursor.getString(cursor.getColumnIndex(filePathColumn[2]));
+                if (cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(filePathColumn[0]);
+                    if (index > -1) {
+                        picturePath = cursor.getString(index);
+                    }
+                    int minIndex = cursor.getColumnIndex(filePathColumn[1]);
+                    if (minIndex > -1) {
+                        mimeType = cursor.getString(minIndex);
+                    }
+                    int fileIndex = cursor.getColumnIndex(filePathColumn[2]);
+                    if (fileIndex > -1) {
+                        fileName = cursor.getString(fileIndex);
+                    }
+                }
                 cursor.close();
+                if (picturePath == null) {
+//                    System.out.println("iGem:uri=" + uri.getPath());
+                }
+                if (fileName == null) {
+                    fileName = new File(uri.getPath()).getName();
+//                    System.out.println("iGem:fileName=" + fileName);
+                }
+                if (mimeType == null) {
+                    mimeType = MimeTypeMap.getSingleton()
+                            .getMimeTypeFromExtension(IOUtils.getFileExtension(fileName));
+                    if (mimeType == null) {
+                        mimeType = "*/*";
+                    }
+//                    System.out.println("iGem:mimeType=" + mimeType);
+                }
+
             } else {
                 picturePath = uri.getPath();
                 fileName = new File(uri.getPath()).getName();
@@ -362,9 +390,11 @@ public class AndroidMessenger extends im.actor.core.Messenger {
                     int index = picturePath.lastIndexOf(".");
                     ext = picturePath.substring(index + 1);
                 }
-                File outputFile = new File(dest, "upload_" + random.nextLong() + "." + ext);
-                picturePath = outputFile.getAbsolutePath();
+                File outputFile = new File(dest, fileName);
 
+//                File outputFile = new File(dest, "upload_" + random.nextLong() + "." + ext);
+                picturePath = outputFile.getAbsolutePath();
+                fileName = picturePath;
                 try {
                     IOUtils.copy(context.getContentResolver().openInputStream(uri), new File(picturePath));
                 } catch (IOException e) {

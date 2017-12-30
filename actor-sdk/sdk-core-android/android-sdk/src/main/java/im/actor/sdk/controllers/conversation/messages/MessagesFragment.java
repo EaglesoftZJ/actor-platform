@@ -304,12 +304,12 @@ public abstract class MessagesFragment extends DisplayListFragment<Message, AbsM
                     if (messenger().isHaveToLoadMembers(peer.getPeerId(), messenger().myUid()) == 1) {
                         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
                         Date curDate = new Date(System.currentTimeMillis());
-                        System.out.println("iGem: 获取群组信息" + formatter.format(curDate));
+//                        System.out.println("iGem: 获取群组信息" + formatter.format(curDate));
                         ActorSDK.sharedActor().waitForReady();
                         messenger().loadMembers(peer.getPeerId(), 1000, null)
                                 .then(groupMembersSlice -> {
                                     Date curDate2 = new Date(System.currentTimeMillis());
-                                    System.out.println("iGem: 获取群组信息2" + formatter.format(curDate2));
+//                                    System.out.println("iGem: 获取群组信息2" + formatter.format(curDate2));
                                     messenger().changeGroupMembers(peer.getPeerId(), groupMembersSlice.getMembers());
 //                                    group.getMembers().clear();
 //                                    group.getMembers().addAll(groupMembersSlice.getMembers());
