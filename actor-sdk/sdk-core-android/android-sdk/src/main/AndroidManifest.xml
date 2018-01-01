@@ -119,6 +119,11 @@
             android:theme="@style/ChatActivityTheme"
             android:windowSoftInputMode="adjustResize"/>
 
+        <activity
+            android:name=".controllers.conversation.GroupMemberActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
         <!-- Profiles -->
 
         <activity
@@ -294,6 +299,7 @@
             android:screenOrientation="portrait"
             android:showOnLockScreen="true"
             android:theme="@style/CallTheme"/>
+
 
         <!-- apk跟新后台服务 -->
         <service
@@ -504,8 +510,7 @@
             android:value="c9bb6ed25a8f1ba46bf0daffb4571e7a">
         </meta-data>
 
-        <activity android:name=".controllers.conversation.GroupMemberActivity">
-        </activity>
+
     </application>
 
 </manifest>

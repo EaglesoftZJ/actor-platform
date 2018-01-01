@@ -1,6 +1,7 @@
 package im.actor.sdk.controllers.conversation;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +65,8 @@ public class ChatFragment extends BaseFragment implements InputBarCallback, Mess
     private Peer peer;
     private long editRid;
     private String currentQuote;
+
+    private boolean isFromMember = false;
 
     public ChatFragment() {
         setUnbindOnPause(true);
@@ -139,7 +143,12 @@ public class ChatFragment extends BaseFragment implements InputBarCallback, Mess
     @Override
     public void onResume() {
         super.onResume();
-        findInputBar().setText(messenger().loadDraft(peer), true);
+        if(!isFromMember){
+            findInputBar().setText(messenger().loadDraft(peer), true);
+        }else{
+            isFromMember = false;
+            findInputBar().requestFocus();
+        }
 
         if (peer.getPeerType() == PeerType.PRIVATE) {
             UserVM userVM = users().get(peer.getPeerId());
@@ -304,6 +313,7 @@ public class ChatFragment extends BaseFragment implements InputBarCallback, Mess
             isWordAdd = false;
         }else{
             isWordAdd = true;
+            oldText= text;
         }
     }
 
@@ -324,6 +334,7 @@ public class ChatFragment extends BaseFragment implements InputBarCallback, Mess
             messenger().savePeerAtInfo(peer, "at");
         }
     }
+
 
     @Override
     public void onTextSent(String sequence) {
@@ -389,13 +400,16 @@ public class ChatFragment extends BaseFragment implements InputBarCallback, Mess
         insertMention(uid);
     }
 
+
     @Override
     public void onMentionPicked(String name) {
+        isFromMember = true;
         findInputBar().replaceCurrentWord(name);
     }
 
     @Override
     public void onCommandPicked(String command) {
+        isFromMember = true;
         messenger().sendMessage(peer, "/" + command);
         findInputBar().setText("");
         findAutocomplete().onCurrentWordChanged("");

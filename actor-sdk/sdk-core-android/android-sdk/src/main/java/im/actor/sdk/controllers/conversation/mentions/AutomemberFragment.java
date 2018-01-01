@@ -1,5 +1,7 @@
 package im.actor.sdk.controllers.conversation.mentions;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,8 +11,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 
@@ -20,7 +24,6 @@ import im.actor.core.entity.Peer;
 import im.actor.core.entity.PeerType;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
-import im.actor.sdk.controllers.group.MembersActivity;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.view.adapters.BottomSheetListView;
 import im.actor.sdk.view.adapters.HolderAdapter;
@@ -52,14 +55,20 @@ public class AutomemberFragment extends BaseFragment {
         setRootFragment(true);
         setTitle("选择提醒的人");
     }
-
+    SearchView searchView;
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.contacts_search, menu);
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setIconifiedByDefault(true); // 缺省值就是true，可能不专门进行设置，false和true的效果图如下，true的输入框更大
+//        searchView.setSubmitButtonEnabled(true);
+        searchView.setQueryHint("搜索");
+        searchView.onActionViewExpanded();
+//        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(searchView, InputMethodManager.HIDE_NOT_ALWAYS);
+
 
         // 设置搜索文本监听
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -67,7 +76,7 @@ public class AutomemberFragment extends BaseFragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 int oldCount = autocompleteList.getCount();
-                ((MentionsAdapter) autocompleteAdapter).setQuery(query);
+                ((MemberEaglesoftAdapter) autocompleteAdapter).setQuery(query);
                 expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
                 return false;
             }
@@ -76,12 +85,12 @@ public class AutomemberFragment extends BaseFragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 int oldCount = autocompleteList.getCount();
-                ((MentionsAdapter) autocompleteAdapter).setQuery(newText);
+                ((MemberEaglesoftAdapter) autocompleteAdapter).setQuery(newText);
                 expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
-
                 return false;
             }
         });
+        searchView.clearFocus();
     }
 
     @Override
@@ -93,8 +102,26 @@ public class AutomemberFragment extends BaseFragment {
             autocompleteAdapter = new CommandsAdapter(peer.getPeerId(), getContext());
         } else if (peer.getPeerType() == PeerType.GROUP) {
             isGroup = true;
-            autocompleteAdapter = new MentionsAdapter(peer.getPeerId(), getContext());
+            autocompleteAdapter = new MemberEaglesoftAdapter(peer.getPeerId(), getContext());
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int i = item.getItemId();
+        if (i == android.R.id.home) {
+            finishActivity();
+            return true;
+        }else if (i == R.id.search) {
+            searchView.setFocusable(true);
+            searchView.requestFocus();
+            InputMethodManager imm = (InputMethodManager)
+                    getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            if (imm != null) {
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);               }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Nullable
@@ -115,15 +142,20 @@ public class AutomemberFragment extends BaseFragment {
             Object item = autocompleteAdapter.getItem(i);
             if (item instanceof MentionFilterResult) {
                 String mention = ((MentionFilterResult) item).getMentionString();
-                Fragment parent = getParentFragment();
-                if (parent instanceof AutocompleteCallback) {
-                    ((AutocompleteCallback) parent).onMentionPicked(mention + ":");
+                Activity activity = getActivity();
+                if (activity instanceof AutocompleteCallback) {
+                    ((AutocompleteCallback) activity).onMentionPicked(mention + ":");
                 }
+
             } else if (item instanceof BotCommand) {
                 String command = ((BotCommand) item).getSlashCommand();
-                Fragment parent = getParentFragment();
-                if (parent instanceof AutocompleteCallback) {
-                    ((AutocompleteCallback) parent).onCommandPicked(command);
+//                Fragment parent = getParentFragment();
+//                if (parent instanceof AutocompleteCallback) {
+//                    ((AutocompleteCallback) parent).onCommandPicked(command);
+//                }
+                Activity activity = getActivity();
+                if (activity instanceof AutocompleteCallback) {
+                    ((AutocompleteCallback) activity).onCommandPicked(command);
                 }
             }
         });
@@ -134,7 +166,7 @@ public class AutomemberFragment extends BaseFragment {
         autocompleteList.setLayoutParams(params);
 
         int oldCount = autocompleteList.getCount();
-        ((MentionsAdapter) autocompleteAdapter).setQuery("");
+        ((MemberEaglesoftAdapter) autocompleteAdapter).setQuery("");
         expandMentions(autocompleteList, oldCount, autocompleteList.getCount());
 
 

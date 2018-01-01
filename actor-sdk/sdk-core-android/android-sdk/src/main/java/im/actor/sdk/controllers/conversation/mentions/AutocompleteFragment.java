@@ -190,6 +190,29 @@ public class AutocompleteFragment extends BaseFragment {
         if (resultCode == Activity.RESULT_OK
                 && requestCode == GroupMemberResult && data != null) {
             messenger().savePeerAtInfo(peer, data.getStringExtra("resultAt"));
+            try {
+                String mention = data.getStringExtra("mention");
+                if (mention != null) {
+                    Fragment parent = getParentFragment();
+                    if (parent instanceof AutocompleteCallback) {
+                        ((AutocompleteCallback) parent).onMentionPicked(mention);
+                    }
+                }
+            } catch (Exception e) {
+
+            }
+            try {
+                String command = data.getStringExtra("command");
+                if (command != null) {
+                    Fragment parent = getParentFragment();
+                    if (parent instanceof AutocompleteCallback) {
+                        ((AutocompleteCallback) parent).onCommandPicked(command);
+                    }
+                }
+            } catch (Exception e) {
+
+            }
+
         }
     }
 
