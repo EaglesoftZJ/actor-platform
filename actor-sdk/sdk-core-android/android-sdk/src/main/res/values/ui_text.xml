@@ -7,6 +7,7 @@
 
     <string name="urlForCompany">宁波舟山港舟山港务有限公司</string>
     <string name="url">http://61.175.100.14</string>
+    <!--<string name="url">http://220.189.207.21:8709</string>-->
     <string name="pushUrl">http://10.169.204.9:8012</string>
     <!--<string name="pushUrl">http://127.0.0.1:8080</string>-->
 

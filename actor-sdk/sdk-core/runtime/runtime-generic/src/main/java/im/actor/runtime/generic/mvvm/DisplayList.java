@@ -85,6 +85,12 @@ public class DisplayList<T> {
         return lists[currentList].get(index);
     }
 
+    @ObjectiveCName("list:")
+    public List<T> getList() {
+        // im.actor.runtime.Runtime.checkMainThread();
+        return lists[currentList];
+    }
+
     @ObjectiveCName("positionWithFind:")
     public int getPosition(Object find) {
         for (int i = 0; i < lists[currentList].size(); i++) {

@@ -33,6 +33,7 @@ import java.util.List;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
+import im.actor.sdk.controllers.compose.ComposeEaglesoftFragment;
 import im.actor.sdk.controllers.compose.ComposeFabFragment;
 import im.actor.sdk.controllers.compose.ComposeFragment;
 import im.actor.sdk.controllers.contacts.ContactsActivity;
@@ -57,6 +58,7 @@ public class RootPageFragment extends BaseFragment {
     private HomePagerAdapter homePagerAdapter;
 
     RootFragment rootFragment;//消息页面
+    Fragment contactsFram;//通讯录页面
 
     RootZzjgFragment zzjgFragment;//组织结构
 
@@ -75,8 +77,6 @@ public class RootPageFragment extends BaseFragment {
         if (saveInstance != null) {
             isInited = saveInstance.getBoolean("is_inited");
         }
-
-
     }
 
     @Nullable
@@ -293,6 +293,9 @@ public class RootPageFragment extends BaseFragment {
         @NonNull
         public Fragment getContactsFragment() {
             ComposeFragment res2 = new ComposeFragment();
+            if(contactsFram == null){
+                contactsFram= new ComposeEaglesoftFragment();
+            }
 //            res2.setHasOptionsMenu(false);
 //            ComposeFragment
             return res2;
@@ -313,8 +316,6 @@ public class RootPageFragment extends BaseFragment {
         public Fragment getZzjg() {
             if (zzjgFragment == null)
                 zzjgFragment = new RootZzjgFragment();
-
-
             return zzjgFragment;
         }
 

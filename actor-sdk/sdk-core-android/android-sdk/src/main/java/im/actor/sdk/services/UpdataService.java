@@ -17,6 +17,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
@@ -237,12 +238,23 @@ public class UpdataService extends Service {
         Intent var2 = new Intent();
         var2.setAction(Intent.ACTION_VIEW);
         String var3 = getMIMEType(var0);
-        var2.setDataAndType(Uri.fromFile(var0), var3);
+
+        Uri uri = Uri.fromFile(var0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果是7.0android系统
+//            ContentValues contentValues = new ContentValues(1);
+//            contentValues.put(MediaStore.Images.Media.DATA, videoFile.getAbsolutePath());
+//            videoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            uri = FileProvider.getUriForFile(this,"im.actor.develop.myFileProvider",var0);
+        }
+        System.out.println("iGem:filePath="+uri.getPath());
+        var2.setDataAndType(uri, var3);
         var2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        var2.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         try {
             startActivity(var2);
         } catch (Exception var5) {
             var5.printStackTrace();
+            System.out.println("iGem:var5="+var5.toString());
             Toast.makeText(this, "没有找到打开此类文件的程序", Toast.LENGTH_SHORT).show();
         }
 

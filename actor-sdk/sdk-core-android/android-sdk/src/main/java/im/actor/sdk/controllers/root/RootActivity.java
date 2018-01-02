@@ -62,6 +62,7 @@ import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseActivity;
 import im.actor.sdk.controllers.activity.BaseFragmentActivity;
+import im.actor.sdk.controllers.compose.ComposeEaglesoftFragment;
 import im.actor.sdk.controllers.tools.InviteHandler;
 import im.actor.sdk.intents.WebServiceLogionUtil;
 import im.actor.sdk.intents.WebServiceUtil;
@@ -85,6 +86,7 @@ public class RootActivity extends BaseFragmentActivity {
     private static final String APP_ID = "2882303761517562000";
     // user your appid the key.
     private static final String APP_KEY = "5731756231000";
+
     //    ViewPager pager;
 //    private HomePagerAdapter homePagerAdapter;
     @Override
@@ -132,7 +134,12 @@ public class RootActivity extends BaseFragmentActivity {
             }
         });
 //        }
-
+        execute(new Command<String>() {
+            @Override
+            public void start(CommandCallback<String> callback) {
+                zjjgData(callback);
+            }
+        });
 
         //
         // Configure Toolbar
@@ -156,13 +163,6 @@ public class RootActivity extends BaseFragmentActivity {
         }
 
         InviteHandler.handleIntent(this, getIntent());
-        execute(new Command<String>() {
-            @Override
-            public void start(CommandCallback<String> callback) {
-                zjjgData(callback);
-            }
-        });
-
 
         HashMap<String, Object> par = new HashMap<>();
         PackageInfo info = null;
@@ -236,7 +236,7 @@ public class RootActivity extends BaseFragmentActivity {
 
 
         HashMap<String, Object> parImage = new HashMap<>();
-        parImage.put("version", sp.getString("imageVersion","0"));
+        parImage.put("version", sp.getString("imageVersion", "0"));
         WebServiceLogionUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8012", parImage, "phone_image", getApplicationContext(),
                 new Handler(new Handler.Callback() {
                     @Override
@@ -293,7 +293,8 @@ public class RootActivity extends BaseFragmentActivity {
                             try {
                                 JSONObject json = new JSONObject(datasource);
                                 ActorSDK.setZjjgData(json);
-//                                zzjgFragment.ZzjgData(json);
+//                                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
+//                                fragment.changeAdapter(callback);
                                 callback.onResult("");
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -447,7 +448,6 @@ public class RootActivity extends BaseFragmentActivity {
 //        }
         return null;
     }
-
 
 
     private static final int REQUEST_RESOLVE_ERROR = 1001;

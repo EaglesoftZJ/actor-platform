@@ -23,7 +23,6 @@ public class ComposeFragment extends BaseContactFragment {
     protected void addFootersAndHeaders() {
         super.addFootersAndHeaders();
 
-
         addFooterOrHeaderAction(ActorSDK.sharedActor().style.getActionShareColor(),
                 R.drawable.ic_megaphone_18dp_black, R.string.main_bar_organizational, false, () -> {
                     startActivity(new Intent(getActivity(), ZuzhijiagouActivity.class));
@@ -56,4 +55,5 @@ public class ComposeFragment extends BaseContactFragment {
     public void onResume() {
         super.onResume();
     }
+
 }

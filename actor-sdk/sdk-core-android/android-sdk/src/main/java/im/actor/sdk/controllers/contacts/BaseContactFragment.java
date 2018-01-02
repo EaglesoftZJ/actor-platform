@@ -18,6 +18,12 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.github.stuxuhai.jpinyin.PinyinException;
+import com.github.stuxuhai.jpinyin.PinyinHelper;
+
+import java.util.Collections;
+import java.util.Comparator;
+
 import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.sdk.ActorSDK;
@@ -239,8 +245,45 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         }
     }
 
+    String[] b = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
+            "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
+            "Y", "Z", "#"};
+
     @Override
     protected BindedListAdapter<Contact, ContactHolder> onCreateAdapter(BindedDisplayList<Contact> displayList, Activity activity) {
+//        Collections.sort(displayList.getList(), new Comparator<Contact>() {
+//            @Override
+//            public int compare(Contact lhs, Contact rhs) {
+//                String l = null;
+//                try {
+//                    l = PinyinHelper.getShortPinyin(lhs.getName());
+//                    String r = PinyinHelper.getShortPinyin(rhs.getName());
+//                    int minLength = Math.min(l.length(), r.length());
+//                    int result = 0;
+//                    for (int i = 0; i < minLength; i++) {
+//                        if (l.charAt(i) < r.charAt(i)) {
+//                            result = -1;
+//                            break;
+//                        } else if (l.charAt(i) > r.charAt(i)) {
+//                            result = 1;
+//                            break;
+//                        } else {
+//                            result = 0;
+//                            continue;
+//                        }
+//
+//                    }
+//
+//                    if (result == 0) {
+//                        return l.length() > r.length() ? 1 : -1;
+//                    }
+//                    return result;
+//                } catch (PinyinException e) {
+//                    e.printStackTrace();
+//                }
+//                return 0;
+//            }
+//        });
         return new ContactsAdapter(displayList, activity, useSelection, new OnItemClickedListener<Contact>() {
             @Override
             public void onClicked(Contact item) {

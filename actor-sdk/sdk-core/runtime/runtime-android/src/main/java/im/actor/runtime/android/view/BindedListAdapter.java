@@ -7,6 +7,7 @@ package im.actor.runtime.android.view;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.AndroidListUpdate;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.runtime.generic.mvvm.ChangeDescription;

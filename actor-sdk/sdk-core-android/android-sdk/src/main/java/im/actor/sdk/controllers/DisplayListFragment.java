@@ -45,7 +45,6 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
         configureRecyclerView(collection);
 
         // emptyCollection = res.findViewById(R.id.emptyCollection);
-
         adapter = onCreateAdapter(displayList, getActivity());
 
         collection.setAdapter(adapter);
