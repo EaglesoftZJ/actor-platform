@@ -3,6 +3,7 @@ package im.actor.sdk.controllers.compose;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,9 +24,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import im.actor.core.entity.Avatar;
@@ -56,19 +60,41 @@ public class ComposeEaglesoftFragment extends BaseFragment {
     private RecyclerView collection;
     private RecyclerView.Adapter adapter;
     View emptyView;
-    List contactList;
+    List<Contact> contactList;
 
+    //    MemberHander hander;
     public ComposeEaglesoftFragment() {
 //        setRootFragment(true);
 //        setHomeAsUp(true);
         super();
     }
 
+    Handler handler;
+
+    @Override
+    public void onCreate(Bundle saveInstance) {
+        super.onCreate(saveInstance);
+//        hander = new MemberHander();
+        handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                try {
+                    System.out.println("iGem:size=" + contactList.size());
+                    adapter.notifyDataSetChanged();
+                    collection.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("iGem:" + e.toString());
+                }
+                return false;
+            }
+        });
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View res = inflater.inflate(R.layout.fragment_base_contacts_eaglesoft, container, false);
-
         collection = (RecyclerView) res.findViewById(R.id.eaglesoft_collection);
         collection.setVisibility(View.INVISIBLE);
         setAnimationsEnabled(true);
@@ -142,89 +168,97 @@ public class ComposeEaglesoftFragment extends BaseFragment {
         return res;
     }
 
-    MemberHander hander = new MemberHander();
 
     public void changeAdapter(CommandCallback<String> callback) {
-//        execute(new Command<String>() {
-//            @Override
-//            public void start(CommandCallback<String> callback) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            List<Contact> list = new ArrayList<>();
-                            if (ActorSDK.getZjjgData() != null) {
-                                JSONArray yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
-                                int index = -1;
-                                if (yh_array != null) {
-                                    for (int i = 0; i < yh_array.length(); i++) {
-                                        JSONObject json = yh_array.getJSONObject(i);
-                                        int uid = json.getInt("IGIMID");
-                                        try {
-                                            UserVM userVM = users().get(uid);
-                                            String name = userVM.getName().get();
-                                            Avatar avatar = userVM.getAvatar().get();
-                                            Contact contact = new Contact(uid, (long) index--, avatar, name);
-                                            list.add(contact);
-                                        } catch (Exception e) {
-                                            System.out.println("iGem:id=" + uid + ",name=" + json.getString("xm") + "没有这个人");
-                                        }
-                                    }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (ActorSDK.getZjjgData() != null) {
+//                        List<Contact> list = new ArrayList<>();
+//                        contactList.clear();
+                        JSONArray yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
+                        int index = -1;
+                        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                        Date curDate = new Date(System.currentTimeMillis());
+                        System.out.println("iGem:1=" + formatter.format(curDate));
+                        if (yh_array != null) {
+                            for (int i = 0; i < yh_array.length(); i++) {
+                                JSONObject json = yh_array.getJSONObject(i);
+                                int uid = json.getInt("IGIMID");
+                                try {
+                                    UserVM userVM = users().get(uid);
+                                    String name = userVM.getName().get();
+                                    Avatar avatar = userVM.getAvatar().get();
+                                    Contact contact = new Contact(uid, (long) index--, avatar, name);
+                                    contact.setPyShort(PinyinHelper.getShortPinyin(name));
+                                    contactList.add(contact);
+                                } catch (Exception e) {
+                                    System.out.println("iGem:id=" + uid + ",name=" + json.getString("xm") + "没有这个人");
                                 }
-                                Collections.sort(list, (lhs, rhs) -> {
-                                    String l = null;
-                                    try {
-                                        l = PinyinHelper.getShortPinyin(((Contact) lhs).getName());
-                                        String r = PinyinHelper.getShortPinyin(((Contact) rhs).getName());
-//                                        int minLength = Math.min(l.length(), r.length());
-                                        int result = 0;
-                                        for (int i = 0; i < 1; i++) {
-                                            if (l.charAt(i) < r.charAt(i)) {
-                                                result = -1;
-                                                break;
-                                            } else if (l.charAt(i) > r.charAt(i)) {
-                                                result = 1;
-                                                break;
-                                            } else {
-                                                result = 0;
-                                                continue;
-                                            }
-                                        }
-                                        if (result == 0) {
-                                            return l.length() > r.length() ? 1 : -1;
-                                        }
-                                        return result;
-                                    } catch (PinyinException e) {
-                                        e.printStackTrace();
-                                    }
-                                    return 0;
-                                });
-
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }finally {
-                            Message message = new Message();
-                            Bundle bundle = new Bundle();
-                            message.setData(bundle);
-
-                            hander.handleMessage(message);
-                            callback.onResult("");
                         }
-
+                        curDate = new Date(System.currentTimeMillis());
+                        System.out.println("iGem:2=" + formatter.format(curDate));
+                        Collections.sort(contactList, (lhs, rhs) -> {
+                            String l = null;
+                            try {
+                                l = lhs.getPyShort();
+                                String r = rhs.getPyShort();
+//                                        int minLength = Math.min(l.length(), r.length());
+                                int result = 0;
+                                int i = 0;
+//                                for (int i = 0; i < 1; i++) {
+                                if (l.charAt(i) < r.charAt(i)) {
+                                    result = -1;
+                                } else if (l.charAt(i) > r.charAt(i)) {
+                                    result = 1;
+                                } else {
+                                    result = 0;
+                                }
+//                                }
+                                if (result == 0) {
+                                    return lhs.getName().compareTo(rhs.getName());
+                                }
+                                return result;
+                            } catch (Exception e) {
+                                System.out.println("iGem:" + e.toString());
+                                e.printStackTrace();
+                            }
+                            return 0;
+                        });
+                        curDate = new Date(System.currentTimeMillis());
+                        System.out.println("iGem:3=" + formatter.format(curDate));
                     }
-                }.start();
-//            }
-//        });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    handler.sendEmptyMessage(0);
+                }
+            }
+        }).start();
 
     }
 
     class MemberHander extends Handler {
+        MemberHander() {
+        }
+
+        public MemberHander(Looper L) {
+            super(L);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            adapter.notifyDataSetChanged();
-            collection.setVisibility(View.VISIBLE);
+            try {
+                adapter.notifyDataSetChanged();
+                collection.setVisibility(View.VISIBLE);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("iGem:" + e.toString());
+            }
+
         }
     }
 
@@ -319,7 +353,8 @@ public class ComposeEaglesoftFragment extends BaseFragment {
         });
         {
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Screen.dp(64));
-            params.leftMargin = Screen.dp(40);
+//            params.leftMargin = Screen.dp(40);
+            params.leftMargin = Screen.dp(2);
             invitePanel.setLayoutParams(params);
             container.addView(invitePanel);
         }
@@ -339,6 +374,7 @@ public class ComposeEaglesoftFragment extends BaseFragment {
         TextView inviteText = new TextView(getActivity());
         inviteText.setText(getString(text).replace("{appName}", ActorSDK.sharedActor().getAppName()));
         inviteText.setTextColor(color);
+//        inviteText.setPadding(Screen.dp(72), 0, Screen.dp(8), 0);
         inviteText.setPadding(Screen.dp(72), 0, Screen.dp(8), 0);
         inviteText.setTextSize(16);
         inviteText.setSingleLine(true);

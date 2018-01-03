@@ -293,8 +293,8 @@ public class RootActivity extends BaseFragmentActivity {
                             try {
                                 JSONObject json = new JSONObject(datasource);
                                 ActorSDK.setZjjgData(json);
-//                                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
-//                                fragment.changeAdapter(callback);
+                                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
+                                fragment.changeAdapter(callback);
                                 callback.onResult("");
                             } catch (Exception e) {
                                 e.printStackTrace();

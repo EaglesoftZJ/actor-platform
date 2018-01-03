@@ -246,7 +246,6 @@ public class UpdataService extends Service {
 //            videoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
             uri = FileProvider.getUriForFile(this,"im.actor.develop.myFileProvider",var0);
         }
-        System.out.println("iGem:filePath="+uri.getPath());
         var2.setDataAndType(uri, var3);
         var2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         var2.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -254,7 +253,6 @@ public class UpdataService extends Service {
             startActivity(var2);
         } catch (Exception var5) {
             var5.printStackTrace();
-            System.out.println("iGem:var5="+var5.toString());
             Toast.makeText(this, "没有找到打开此类文件的程序", Toast.LENGTH_SHORT).show();
         }
 

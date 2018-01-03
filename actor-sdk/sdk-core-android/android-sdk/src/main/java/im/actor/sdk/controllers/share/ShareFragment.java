@@ -134,8 +134,6 @@ public class ShareFragment extends BaseFragment implements DialogsFragmentDelega
                     if (shareAction.getForwardTextRaw() != null) {
                         intent.putExtra(Intents.EXTRA_FORWARD_CONTENT, shareAction.getForwardTextRaw());
                     }
-
-
                     if (shareAction.getText() != null) {
                         messenger().sendMessage(peer, shareAction.getText());
                     } else if (shareAction.getUris().size() > 0) {

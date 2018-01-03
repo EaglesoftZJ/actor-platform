@@ -45,6 +45,9 @@ public class Contact extends BserObject implements ListEngineItem {
     @Property("readonly, nonatomic")
     private String name;
 
+    @Property("readonly, nonatomic")
+    private String pyShort;
+
     public Contact(int uid, long sortKey, @Nullable Avatar avatar, @NotNull String name) {
         this.uid = uid;
         this.sortKey = sortKey;
@@ -103,5 +106,13 @@ public class Contact extends BserObject implements ListEngineItem {
     @Override
     public String getEngineSearch() {
         return name;
+    }
+
+    public String getPyShort() {
+        return pyShort;
+    }
+
+    public void setPyShort(String pyShort) {
+        this.pyShort = pyShort;
     }
 }

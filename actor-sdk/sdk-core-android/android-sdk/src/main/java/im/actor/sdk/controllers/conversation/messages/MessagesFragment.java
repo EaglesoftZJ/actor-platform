@@ -302,8 +302,8 @@ public abstract class MessagesFragment extends DisplayListFragment<Message, AbsM
                 if (peer.getPeerType() == PeerType.GROUP) {
 //                    Group group = groups().getEngine().getValue(peer.getPeerId());
                     if (messenger().isHaveToLoadMembers(peer.getPeerId(), messenger().myUid()) == 1) {
-                        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-                        Date curDate = new Date(System.currentTimeMillis());
+//                        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+//                        Date curDate = new Date(System.currentTimeMillis());
 //                        System.out.println("iGem: 获取群组信息" + formatter.format(curDate));
                         ActorSDK.sharedActor().waitForReady();
                         messenger().loadMembers(peer.getPeerId(), 1000, null)

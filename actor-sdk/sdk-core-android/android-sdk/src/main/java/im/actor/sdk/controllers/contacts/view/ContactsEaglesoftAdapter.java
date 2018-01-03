@@ -61,7 +61,7 @@ public class ContactsEaglesoftAdapter extends RecyclerView.Adapter {
         return selectedUsers.size();
     }
 
-    public void onBindViewHolder(ContactHolder contactHolder, int index, Contact item) {
+    public void onBindViewHolder(ContactEaglesoftHolder contactHolder, int index, Contact item) {
         String fastName = null;
         if (index == 0) {
             fastName = messenger().getFormatter().formatFastName(item.getName());
@@ -76,14 +76,13 @@ public class ContactsEaglesoftAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public ContactHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
-        return new ContactHolder(new FrameLayout(context), selectable, context, onItemClickedListener);
+    public ContactEaglesoftHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        return new ContactEaglesoftHolder(new FrameLayout(context), selectable, context, onItemClickedListener);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        onBindViewHolder((ContactHolder)holder, position, getItem(position));
+        onBindViewHolder((ContactEaglesoftHolder)holder, position, getItem(position));
     }
 
     public Contact getItem(int index){
