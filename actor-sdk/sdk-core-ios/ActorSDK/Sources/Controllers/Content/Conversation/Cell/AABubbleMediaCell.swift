@@ -57,6 +57,10 @@ open class AABubbleMediaCell : AABubbleBaseFileCell, NYTPhotosViewControllerDele
         contentInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         
         playView.isUserInteractionEnabled = false
+        
+        let longPressTap = UILongPressGestureRecognizer(target:self,action:#selector(AABubbleCell.longTap(tap:)))
+        self.contentView.isUserInteractionEnabled = true
+        self.contentView.addGestureRecognizer(longPressTap)
     }
 
     public required init(coder aDecoder: NSCoder) {

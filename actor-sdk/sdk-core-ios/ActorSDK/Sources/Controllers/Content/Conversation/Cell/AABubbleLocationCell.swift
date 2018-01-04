@@ -43,6 +43,10 @@ open class AABubbleLocationCell: AABubbleCell {
 
         map.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AABubbleLocationCell.mapDidTap)))
         map.isUserInteractionEnabled = true
+        
+        let longPressTap = UILongPressGestureRecognizer(target:self,action:#selector(AABubbleCell.longTap(tap:)))
+        self.contentView.isUserInteractionEnabled = true
+        self.contentView.addGestureRecognizer(longPressTap)
     }
 
     public required init(coder aDecoder: NSCoder) {

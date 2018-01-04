@@ -31,6 +31,10 @@ open class AABubbleServiceCell : AABubbleCell {
         
         // Setting bubble background
         bindBubbleType(.service, isCompact: false)
+        
+//        let longPressTap = UILongPressGestureRecognizer(target:self,action:#selector(AABubbleCell.longTap(tap:)))
+//        self.contentView.isUserInteractionEnabled = true
+//        self.contentView.addGestureRecognizer(longPressTap)
     }
     
     public required init(coder aDecoder: NSCoder) {

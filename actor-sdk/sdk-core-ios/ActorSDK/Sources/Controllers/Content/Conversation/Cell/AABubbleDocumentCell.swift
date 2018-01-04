@@ -53,6 +53,10 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
         
         self.bubble.isUserInteractionEnabled = true
         self.bubble.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AABubbleDocumentCell.documentDidTap)))
+        
+        let longPressTap = UILongPressGestureRecognizer(target:self,action:#selector(AABubbleCell.longTap(tap:)))
+        self.contentView.isUserInteractionEnabled = true
+        self.contentView.addGestureRecognizer(longPressTap)
     }
 
     public required init(coder aDecoder: NSCoder) {

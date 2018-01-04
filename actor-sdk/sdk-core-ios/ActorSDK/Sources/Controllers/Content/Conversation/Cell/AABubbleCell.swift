@@ -202,7 +202,58 @@ open class AABubbleCell: UICollectionViewCell {
         //self.layer.drawsAsynchronously = true
         //self.contentView.layer.drawsAsynchronously = true
     }
-    
+    open func longTap(tap:UILongPressGestureRecognizer)
+    {
+        if tap.state == .began
+        {
+            self.becomeFirstResponder()
+            let copyMenu = UIMenuItem(title:"复制",action:#selector(copyText))
+            let sendMenu = UIMenuItem(title:"转发",action:#selector(send))
+            let menuController = UIMenuController.shared
+            menuController.menuItems = [copyMenu,sendMenu]
+            menuController.setTargetRect(bubble.frame, in: bubble)
+            menuController.setMenuVisible(true, animated: true)
+        }
+    }
+
+    override open var canBecomeFirstResponder : Bool {
+        return true
+    }
+    override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if [#selector(copyText), #selector(send)].contains(action) {
+            return true
+        }
+        return false
+    }
+    func copyText(){
+        if self.bubbleType == .textIn || self.bubbleType == .textOut//文字
+        {
+            UIPasteboard.general.string = ""
+        }
+    }
+    func send(){
+        //self.bindedMessage?.content
+        let sendController = SendController()
+        if self.bindedMessage != nil
+        {
+            sendController.message = self.bindedMessage
+            getSuperController().navigateNext(sendController)
+        }
+    }
+    func getSuperController () -> (UIViewController){
+        //1.通过响应者链关系，取得此视图的下一个响应者
+        var next:UIResponder?
+        next = self.next!
+        repeat {
+            //2.判断响应者对象是否是视图控制器类型
+            if ((next as?UIViewController) != nil) {
+                return (next as! UIViewController)
+            }else {
+                next = next?.next
+            }
+        } while next != nil
+        return UIViewController()
+    }
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -214,18 +265,7 @@ open class AABubbleCell: UICollectionViewCell {
             self.isGroup = true
         }
     }
-    
-    open override var canBecomeFirstResponder : Bool {
-        return false
-    }
-
-//    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-//        if action == #selector(Object.delete(_:)) {
-//            return true
-//        }
-//        return false
-//    }
-    
+        
 //    open override func delete(_ sender: Any?) {
 //        let rids = IOSLongArray(length: 1)
 //        rids?.replaceLong(at: 0, withLong: bindedMessage!.rid)

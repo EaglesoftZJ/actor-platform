@@ -51,7 +51,6 @@ open class AAConversationContentController: SLKTextViewController, ARDisplayList
             self.collectionView.register(layout.cellClass(), forCellWithReuseIdentifier: layout.cellReuseId())
         }
     }
-    
     public required init!(coder decoder: NSCoder!) {
         fatalError("Not implemented");
     }

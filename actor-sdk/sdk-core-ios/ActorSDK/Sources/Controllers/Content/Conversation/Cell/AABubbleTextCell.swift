@@ -53,7 +53,7 @@ open class AABubbleTextCell : AABubbleCell {
         }
         
         messageText.highlightLongPressAction = { (containerView: UIView, text: NSAttributedString, range: NSRange, rect: CGRect) -> () in
-            self.bubble
+            
             let attributes = text.attributes(at: range.location, effectiveRange: nil)
             if let attrs = attributes["YYTextHighlight"] as? YYTextHighlight {
                 if let url = attrs.userInfo!["url"] as? String {
@@ -84,12 +84,16 @@ open class AABubbleTextCell : AABubbleCell {
         contentView.addSubview(dateText)
         contentView.addSubview(statusView)
         contentView.addSubview(senderNameLabel)
+        
+        let longPressTap = UILongPressGestureRecognizer(target:self,action:#selector(AABubbleCell.longTap(tap:)))
+        self.contentView.isUserInteractionEnabled = true
+        self.contentView.addGestureRecognizer(longPressTap)
     }
     
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // Data binding
     
     open override func bind(_ message: ACMessage, receiveDate: jlong, readDate: jlong, reuse: Bool, cellLayout: AACellLayout, setting: AACellSetting) {

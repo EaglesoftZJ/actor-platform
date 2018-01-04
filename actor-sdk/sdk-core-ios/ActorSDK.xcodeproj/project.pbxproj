@@ -382,6 +382,7 @@
 		3567C7F61FBE723000103066 /* CommonService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7F31FBE723000103066 /* CommonService.m */; };
 		3567C7FB1FBE89A800103066 /* CommonService.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7F11FBE722F00103066 /* CommonService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3567C7FD1FBE924500103066 /* WaitMBProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7FC1FBE924500103066 /* WaitMBProgress.swift */; };
+		35DEBF3C1FFDBAA0006F2102 /* SendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DEBF3B1FFDBAA0006F2102 /* SendController.swift */; };
 		35E500201FC41C6200637253 /* PhoneImageService.h in Headers */ = {isa = PBXBuildFile; fileRef = 35E5001E1FC41C6200637253 /* PhoneImageService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35E500211FC41C6200637253 /* PhoneImageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E5001F1FC41C6200637253 /* PhoneImageService.m */; };
 		35E500251FC50B8E00637253 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E500241FC50B8E00637253 /* WelcomeViewController.swift */; };
@@ -821,6 +822,7 @@
 		3567C7F21FBE722F00103066 /* CommonServiceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonServiceDelegate.h; sourceTree = "<group>"; };
 		3567C7F31FBE723000103066 /* CommonService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonService.m; sourceTree = "<group>"; };
 		3567C7FC1FBE924500103066 /* WaitMBProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitMBProgress.swift; sourceTree = "<group>"; };
+		35DEBF3B1FFDBAA0006F2102 /* SendController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendController.swift; sourceTree = "<group>"; };
 		35E5001E1FC41C6200637253 /* PhoneImageService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhoneImageService.h; sourceTree = "<group>"; };
 		35E5001F1FC41C6200637253 /* PhoneImageService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhoneImageService.m; sourceTree = "<group>"; };
 		35E500241FC50B8E00637253 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -1497,6 +1499,7 @@
 				355AB4E61FF48F5C00938806 /* AtGroupMemberController.swift */,
 				355AB4EA1FF4DCD700938806 /* SearchResultController.swift */,
 				355AB4E81FF4CBF000938806 /* MemberSearchCell.swift */,
+				35DEBF3B1FFDBAA0006F2102 /* SendController.swift */,
 			);
 			path = Conversation;
 			sourceTree = "<group>";
@@ -2466,6 +2469,7 @@
 				066A519D1BC4C390000E606E /* UDPreferencesStorage.swift in Sources */,
 				069CF4CD1BCB909A00C66E12 /* CLBackspaceDetectingTextField.m in Sources */,
 				15D35F1B1C20185500E3717A /* opusenc.m in Sources */,
+				35DEBF3C1FFDBAA0006F2102 /* SendController.swift in Sources */,
 				152AA8BD1C298BF00030DEEE /* AASettingsSessionsController.swift in Sources */,
 				066A515B1BC4C178000E606E /* AAHashMap.swift in Sources */,
 				066A52811BC51ED0000E606E /* AANoSelectionViewController.swift in Sources */,

@@ -46,6 +46,10 @@ open class AABubbleStickerCell: AABubbleBaseFileCell {
         preview.isUserInteractionEnabled = true
         
         contentInsets = UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1)
+        
+        let longPressTap = UILongPressGestureRecognizer(target:self,action:#selector(AABubbleCell.longTap(tap:)))
+        self.contentView.isUserInteractionEnabled = true
+        self.contentView.addGestureRecognizer(longPressTap)
     }
     
     public required init(coder aDecoder: NSCoder) {

@@ -47,7 +47,7 @@ import ReachabilitySwift
     open var ERR_HTTP_REQUEST = "MOA连接出错，请稍后再试，或者联系管理员"
     /// Server Endpoints
     open var endpoints = [
-        "tcp://61.175.100.14:9070" //"tcp://61.175.100.14:9070" 正式地址 tcp://220.189.207.18:9070 测试地址
+        "tcp://220.189.207.18:9070" //"tcp://61.175.100.14:9070" 正式地址 tcp://220.189.207.18:9070 测试地址
     ] {
         didSet {
             trustedKeys = []
