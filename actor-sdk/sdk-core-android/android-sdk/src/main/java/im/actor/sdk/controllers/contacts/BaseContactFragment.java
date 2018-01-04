@@ -115,7 +115,6 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         });
         res.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
 
-
         //右边的side
         sideBar.setOnStrSelectCallBack(new MemberSideBar.ISideBarSelectCallBack() {
             @Override

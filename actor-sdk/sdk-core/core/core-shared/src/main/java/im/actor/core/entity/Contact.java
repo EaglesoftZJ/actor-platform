@@ -4,7 +4,6 @@
 
 package im.actor.core.entity;
 
-import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.google.j2objc.annotations.Property;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
+import im.actor.core.jpinyin.PinyinHelper;
 import im.actor.runtime.bser.BserCreator;
 import im.actor.runtime.bser.BserObject;
 import im.actor.runtime.bser.BserValues;
