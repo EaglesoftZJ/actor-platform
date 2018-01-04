@@ -21,4 +21,11 @@
         <attr name="tintColor" format="color" />
         <attr name="src" format="reference" />
     </declare-styleable>
+
+
+    <declare-styleable name="MemberSideBar">
+        <attr name="scaleSize" format="integer"/>
+        <attr name="scaleItemCount" format="integer"/>
+        <attr name="scaleWidth" format="dimension"/>
+    </declare-styleable>
 </resources>

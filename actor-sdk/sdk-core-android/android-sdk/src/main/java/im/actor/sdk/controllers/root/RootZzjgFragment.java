@@ -34,6 +34,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import im.actor.core.entity.SearchEntity;
+import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
@@ -53,7 +55,7 @@ public class RootZzjgFragment extends BaseFragment {
     private View emptyView;
 
     ListView dwcollection;
-//    ListView bmcollection;
+    //    ListView bmcollection;
 //    ListView rycollection;
 //    TextView zuZhiTitleText;
 //    ImageView backImage;
@@ -229,14 +231,14 @@ public class RootZzjgFragment extends BaseFragment {
 //                }
                 if (mapSzks.get(dwid) != null)
                     bmNodes = mapSzks.get(dwid);
-                if(ryMap.get(szk).get(dwid)!=null){
+                if (ryMap.get(szk).get(dwid) != null) {
                     List<Node> ryNodes = ryMap.get(szk).get(dwid).get(node.getValue());
                     if (ryNodes != null) {
                         node.setChildrenSize(ryNodes.size());
                     } else {
                         node.setChildrenSize(0);
                     }
-                }else{
+                } else {
                     node.setChildrenSize(0);
                 }
 

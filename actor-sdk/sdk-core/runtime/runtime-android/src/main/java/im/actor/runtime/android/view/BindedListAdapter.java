@@ -7,6 +7,10 @@ package im.actor.runtime.android.view;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+
 import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.AndroidListUpdate;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
@@ -19,7 +23,7 @@ public abstract class BindedListAdapter<V extends BserObject & ListEngineItem,
         T extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<T> {
 
-    private BindedDisplayList<V> displayList;
+    public BindedDisplayList<V> displayList;
 
     private DisplayList.AndroidChangeListener<V> listener;
     // private DisplayList.Listener listener;
@@ -37,6 +41,46 @@ public abstract class BindedListAdapter<V extends BserObject & ListEngineItem,
         listener = new DisplayList.AndroidChangeListener<V>() {
             @Override
             public void onCollectionChanged(AndroidListUpdate<V> modification) {
+                if (displayList != null && displayList.getSize() > 0
+                        && displayList.getItem(0) instanceof Contact) {
+                    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+                    Date curDate = new Date(System.currentTimeMillis());
+                    System.out.println("iGem: 1" + format.format(curDate));
+                    Collections.sort(displayList.getList(), (vo1, vo2) -> {
+                        String l = null;
+                        try {
+                            Contact lhs = (Contact) vo1;
+                            Contact rhs = (Contact) vo2;
+                            l = lhs.getPyShort();
+                            String r = rhs.getPyShort();
+                            if (r.equals("#")) {
+                                return -1;
+                            } else if (l.equals("#")) {
+                                return 1;
+                            }
+                            int result = 0;
+                            int i = 0;
+                            if (l.charAt(i) < r.charAt(i)) {
+                                result = -1;
+                            } else if (l.charAt(i) > r.charAt(i)) {
+                                result = 1;
+                            } else {
+                                result = 0;
+                            }
+
+                            if (result == 0) {
+                                return lhs.getName().compareTo(rhs.getName());
+                            }
+                            return result;
+                        } catch (Exception e) {
+                            System.out.println("iGem:" + e.toString());
+                            e.printStackTrace();
+                        }
+                        return 0;
+                    });
+                    curDate = new Date(System.currentTimeMillis());
+                    System.out.println("iGem: 2" + format.format(curDate));
+                }
                 currentUpdate = modification;
                 ChangeDescription<V> currentChange;
                 while ((currentChange = modification.next()) != null) {

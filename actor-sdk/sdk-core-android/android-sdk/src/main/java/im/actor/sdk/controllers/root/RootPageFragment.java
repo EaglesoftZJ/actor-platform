@@ -292,12 +292,12 @@ public class RootPageFragment extends BaseFragment {
 
         @NonNull
         public Fragment getContactsFragment() {
-//            ComposeFragment res2 = new ComposeFragment();
-            if(contactsFram == null){
-                contactsFram= new ComposeEaglesoftFragment();
-            }
+            ComposeFragment res2 = new ComposeFragment();
+//            if(contactsFram == null){
+//                contactsFram= new ComposeEaglesoftFragment();
+//            }
 //            res2.setHasOptionsMenu(false);
-            return contactsFram;
+            return res2;
         }
 
         @NonNull

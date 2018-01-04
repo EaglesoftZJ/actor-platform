@@ -58,14 +58,16 @@ public class ContactHolder extends BindedViewHolder {
         {
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.leftMargin = Screen.dp(40);
+//            layoutParams.leftMargin = Screen.dp(40);
+            layoutParams.leftMargin = Screen.dp(5);
             fl.addView(cont, layoutParams);
         }
 
         View fastBg = new View(context);
         fastBg.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
         {
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(Screen.dp(40), ViewGroup.LayoutParams.MATCH_PARENT);
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(Screen.dp(5), ViewGroup.LayoutParams.MATCH_PARENT);
+//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(Screen.dp(40), ViewGroup.LayoutParams.MATCH_PARENT);
             fl.addView(fastBg, layoutParams);
         }
 
@@ -80,17 +82,17 @@ public class ContactHolder extends BindedViewHolder {
             cont.addView(avatar, layoutParams);
         }
 
-        fastTitle = new TextView(context);
-        fastTitle.setTextColor(ActorSDK.sharedActor().style.getContactFastTitleColor());
-        fastTitle.setTextSize(18);
-        fastTitle.setGravity(Gravity.CENTER);
-        fastTitle.setTypeface(Fonts.medium());
-        {
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(Screen.dp(40), ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.leftMargin = Screen.dp(6);
-            layoutParams.gravity = Gravity.CENTER_VERTICAL;
-            fl.addView(fastTitle, layoutParams);
-        }
+//        fastTitle = new TextView(context);
+//        fastTitle.setTextColor(ActorSDK.sharedActor().style.getContactFastTitleColor());
+//        fastTitle.setTextSize(18);
+//        fastTitle.setGravity(Gravity.CENTER);
+//        fastTitle.setTypeface(Fonts.medium());
+//        {
+//            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(Screen.dp(40), ViewGroup.LayoutParams.WRAP_CONTENT);
+//            layoutParams.leftMargin = Screen.dp(6);
+//            layoutParams.gravity = Gravity.CENTER_VERTICAL;
+//            fl.addView(fastTitle, layoutParams);
+//        }
 
         title = new TextView(context);
         title.setTextColor(ActorSDK.sharedActor().style.getTextPrimaryColor());
@@ -130,12 +132,12 @@ public class ContactHolder extends BindedViewHolder {
 
     public void bind(final Contact data, String shortName, String query, boolean selected, boolean isLast) {
 
-        if (shortName == null) {
-            fastTitle.setVisibility(View.GONE);
-        } else {
-            fastTitle.setVisibility(View.VISIBLE);
-            fastTitle.setText(shortName);
-        }
+//        if (shortName == null) {
+//            fastTitle.setVisibility(View.GONE);
+//        } else {
+//            fastTitle.setVisibility(View.VISIBLE);
+//            fastTitle.setText(shortName);
+//        }
 
         avatar.bind(data);
 

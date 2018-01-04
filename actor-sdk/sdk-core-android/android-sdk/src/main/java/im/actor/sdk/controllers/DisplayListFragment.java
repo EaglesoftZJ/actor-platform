@@ -23,7 +23,7 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
     private RecyclerView collection;
     // private View emptyCollection;
 
-    private BindedDisplayList<T> displayList;
+    public BindedDisplayList<T> displayList;
     private BindedListAdapter<T, V> adapter;
 
     protected View inflate(LayoutInflater inflater, ViewGroup container, int resource, BindedDisplayList<T> displayList) {

@@ -12,9 +12,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import im.actor.core.entity.SearchEntity;
 import im.actor.core.viewmodel.Command;
 import im.actor.core.viewmodel.CommandCallback;
 import im.actor.runtime.android.AndroidContext;
+import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseFragmentActivity;
@@ -22,6 +24,8 @@ import im.actor.sdk.controllers.compose.ComposeFragment;
 import im.actor.sdk.controllers.root.RootPageFragment;
 import im.actor.sdk.controllers.root.RootZzjgFragment;
 import im.actor.sdk.intents.WebServiceUtil;
+
+import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class ZuzhijiagouActivity extends BaseFragmentActivity {
     ZzjgAllFragment zzjgFragment;
@@ -37,8 +41,6 @@ public class ZuzhijiagouActivity extends BaseFragmentActivity {
         zzjgFragment = new ZzjgAllFragment();
 
         showFragment(zzjgFragment, false);
-
-
     }
 
 

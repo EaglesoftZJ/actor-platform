@@ -6,6 +6,7 @@
 <resources>
 
     <!-- Root colors -->
+    <color name="colorAccent">#FF4081</color>
 
     <color name="primary">#4d74a6</color>
     <color name="primary_hovered">#3d5d85</color>

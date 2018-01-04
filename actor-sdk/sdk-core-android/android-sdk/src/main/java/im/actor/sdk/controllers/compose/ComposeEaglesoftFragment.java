@@ -15,10 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.github.stuxuhai.jpinyin.PinyinException;
-import com.github.stuxuhai.jpinyin.PinyinHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,14 +32,17 @@ import java.util.List;
 
 import im.actor.core.entity.Avatar;
 import im.actor.core.entity.Contact;
+import im.actor.core.entity.SearchEntity;
 import im.actor.core.viewmodel.Command;
 import im.actor.core.viewmodel.CommandCallback;
 import im.actor.core.viewmodel.UserVM;
+import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.contacts.view.ContactsEaglesoftAdapter;
+import im.actor.sdk.controllers.contacts.view.MemberSideBar;
 import im.actor.sdk.controllers.zuzhijiagou.ZuzhijiagouActivity;
 import im.actor.sdk.util.Fonts;
 import im.actor.sdk.util.Screen;
@@ -61,6 +62,7 @@ public class ComposeEaglesoftFragment extends BaseFragment {
     private RecyclerView.Adapter adapter;
     View emptyView;
     List<Contact> contactList;
+    RelativeLayout contactReLay;
 
     //    MemberHander hander;
     public ComposeEaglesoftFragment() {
@@ -82,6 +84,7 @@ public class ComposeEaglesoftFragment extends BaseFragment {
                     System.out.println("iGem:size=" + contactList.size());
                     adapter.notifyDataSetChanged();
                     collection.setVisibility(View.VISIBLE);
+                    contactReLay.setVisibility(View.VISIBLE);
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("iGem:" + e.toString());
@@ -97,27 +100,13 @@ public class ComposeEaglesoftFragment extends BaseFragment {
         View res = inflater.inflate(R.layout.fragment_base_contacts_eaglesoft, container, false);
         collection = (RecyclerView) res.findViewById(R.id.eaglesoft_collection);
         collection.setVisibility(View.INVISIBLE);
+        contactReLay = (RelativeLayout) res.findViewById(R.id.eaglesoft_collection_relay);
+        contactReLay.setVisibility(View.GONE);
         setAnimationsEnabled(true);
         configureRecyclerView(collection);
         contactList = new ArrayList<Contact>();
-        try {
-            if (ActorSDK.getZjjgData() != null) {
-                JSONArray yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
-                int index = -1;
-                if (yh_array != null) {
-                    for (int i = 0; i < yh_array.length(); i++) {
-                        JSONObject json = yh_array.getJSONObject(i);
-                        int uid = json.getInt("IGIMID");
-                        UserVM userVM = users().get(uid);
-                        String name = userVM.getName().get();
-                        Avatar avatar = userVM.getAvatar().get();
-                        Contact contact = new Contact(uid, (long) index--, avatar, name);
-                        contactList.add(contact);
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (ActorSDK.getZjjgData() != null) {
+            changeAdapter();
         }
 
         adapter = new ContactsEaglesoftAdapter(contactList, getActivity(), false, new OnItemClickedListener<Contact>() {
@@ -165,11 +154,45 @@ public class ComposeEaglesoftFragment extends BaseFragment {
         }
         res.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
 
+
+        //右边的side
+        MemberSideBar sideBar = (MemberSideBar) res.findViewById(R.id.side_bar);
+        sideBar.setOnStrSelectCallBack(new MemberSideBar.ISideBarSelectCallBack() {
+            @Override
+            public void onSelectStr(int index, String selectStr) {
+                if (selectStr.equals("↑")) {
+                    collection.scrollToPosition(0);
+                    return;
+                }
+//                Contact contactMatch = contactList.stream().filter(contact ->
+//                        selectStr.equalsIgnoreCase(contact.getPyShort())
+//                ).findFirst().get();
+                for (int i = 0; i < contactList.size(); i++) {
+                    if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
+//                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
+                        LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
+                        int firstItem = manager.findFirstVisibleItemPosition();
+                        int lastItem = manager.findLastVisibleItemPosition();
+                        int n = i + 5;
+                        if (n <= firstItem) {
+                            collection.scrollToPosition(n);
+                        } else if (n <= lastItem) {
+                            int top = collection.getChildAt(n - firstItem).getTop();
+                            collection.scrollBy(0, top);
+                        } else {
+                            collection.scrollToPosition(n);
+                        }
+                        return;
+                    }
+                }
+            }
+        });
+
         return res;
     }
 
 
-    public void changeAdapter(CommandCallback<String> callback) {
+    public void changeAdapter() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -191,7 +214,12 @@ public class ComposeEaglesoftFragment extends BaseFragment {
                                     String name = userVM.getName().get();
                                     Avatar avatar = userVM.getAvatar().get();
                                     Contact contact = new Contact(uid, (long) index--, avatar, name);
-                                    contact.setPyShort(PinyinHelper.getShortPinyin(name));
+//                                    String shortPY = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+//                                    if (shortPY.matches("[A-Z]")) {
+//                                        contact.setPyShort(shortPY);
+//                                    } else {
+//                                        contact.setPyShort("#");
+//                                    }
                                     contactList.add(contact);
                                 } catch (Exception e) {
                                     System.out.println("iGem:id=" + uid + ",name=" + json.getString("xm") + "没有这个人");
@@ -206,9 +234,13 @@ public class ComposeEaglesoftFragment extends BaseFragment {
                                 l = lhs.getPyShort();
                                 String r = rhs.getPyShort();
 //                                        int minLength = Math.min(l.length(), r.length());
+                                if (r.equals("#")) {
+                                    return -1;
+                                } else if (l.equals("#")) {
+                                    return 1;
+                                }
                                 int result = 0;
                                 int i = 0;
-//                                for (int i = 0; i < 1; i++) {
                                 if (l.charAt(i) < r.charAt(i)) {
                                     result = -1;
                                 } else if (l.charAt(i) > r.charAt(i)) {
@@ -216,7 +248,7 @@ public class ComposeEaglesoftFragment extends BaseFragment {
                                 } else {
                                     result = 0;
                                 }
-//                                }
+
                                 if (result == 0) {
                                     return lhs.getName().compareTo(rhs.getName());
                                 }
@@ -240,27 +272,6 @@ public class ComposeEaglesoftFragment extends BaseFragment {
 
     }
 
-    class MemberHander extends Handler {
-        MemberHander() {
-        }
-
-        public MemberHander(Looper L) {
-            super(L);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            try {
-                adapter.notifyDataSetChanged();
-                collection.setVisibility(View.VISIBLE);
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("iGem:" + e.toString());
-            }
-
-        }
-    }
 
     public void setAnimationsEnabled(boolean isEnabled) {
         if (isEnabled) {
@@ -291,6 +302,14 @@ public class ComposeEaglesoftFragment extends BaseFragment {
         addFooterOrHeaderAction(ActorSDK.sharedActor().style.getActionShareColor(),
                 R.drawable.ic_megaphone_18dp_black, R.string.main_bar_organizational, false, () -> {
                     startActivity(new Intent(getActivity(), ZuzhijiagouActivity.class));
+//                    getActivity().finish();
+                }, true);
+
+
+        addFooterOrHeaderAction(ActorSDK.sharedActor().style.getActionShareColor(),
+                R.drawable.ic_group_white_24dp, R.string.main_fab_group, false, () -> {
+                    startActivity(new Intent(getActivity(), CreateGroupActivity.class)
+                            .putExtra(CreateGroupActivity.EXTRA_IS_CHANNEL, false));
 //                    getActivity().finish();
                 }, true);
 

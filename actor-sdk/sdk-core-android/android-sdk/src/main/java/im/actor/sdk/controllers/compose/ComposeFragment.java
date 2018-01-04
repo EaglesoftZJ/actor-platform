@@ -29,6 +29,12 @@ public class ComposeFragment extends BaseContactFragment {
 //                    getActivity().finish();
                 }, true);
 
+        addFooterOrHeaderAction(ActorSDK.sharedActor().style.getActionShareColor(),
+                R.drawable.ic_group_white_24dp, R.string.main_fab_group, false, () -> {
+                    startActivity(new Intent(getActivity(), CreateGroupActivity.class)
+                            .putExtra(CreateGroupActivity.EXTRA_IS_CHANNEL, false));
+//                    getActivity().finish();
+                }, true);
 
         addFooterOrHeaderAction(ActorSDK.sharedActor().style.getActionShareColor(),
                 R.drawable.ic_group_white_24dp, R.string.main_fab_new_group, false, () -> {

@@ -3,6 +3,7 @@ package im.actor.sdk.controllers.contacts.view;
 import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.SectionIndexer;
 
 import java.util.HashSet;
 
@@ -13,7 +14,7 @@ import im.actor.runtime.android.view.BindedListAdapter;
 
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
-public class ContactsAdapter extends BindedListAdapter<Contact, ContactHolder> {
+public class ContactsAdapter extends BindedListAdapter<Contact, ContactHolder> implements SectionIndexer {
 
     private final HashSet<Integer> selectedUsers = new HashSet<Integer>();
 
@@ -76,5 +77,28 @@ public class ContactsAdapter extends BindedListAdapter<Contact, ContactHolder> {
     @Override
     public ContactHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         return new ContactHolder(new FrameLayout(context), selectable, context, onItemClickedListener);
+    }
+
+    @Override
+    public Object[] getSections() {
+        return new Object[0];
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        for (int i = 0; i < getItemCount(); i++) {
+            String sortStr = displayList.getList().get(i).getPyShort();
+            char firstChar = sortStr.toUpperCase().charAt(0);
+            if (firstChar == sectionIndex) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return displayList.getList().get(position).getPyShort().charAt(0);
     }
 }

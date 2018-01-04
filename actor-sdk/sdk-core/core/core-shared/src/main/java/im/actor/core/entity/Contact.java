@@ -4,6 +4,7 @@
 
 package im.actor.core.entity;
 
+import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.google.j2objc.annotations.Property;
 
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +46,9 @@ public class Contact extends BserObject implements ListEngineItem {
     @Property("readonly, nonatomic")
     private String name;
 
+    /**
+     * 名字首字母
+     */
     @Property("readonly, nonatomic")
     private String pyShort;
 
@@ -53,6 +57,12 @@ public class Contact extends BserObject implements ListEngineItem {
         this.sortKey = sortKey;
         this.avatar = avatar;
         this.name = name;
+        try {
+            this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private Contact() {
@@ -81,6 +91,11 @@ public class Contact extends BserObject implements ListEngineItem {
         if (values.optBytes(4) != null) {
             avatar = new Avatar(values.getBytes(4));
         }
+        try {
+            this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -90,6 +105,9 @@ public class Contact extends BserObject implements ListEngineItem {
         writer.writeString(3, name);
         if (avatar != null) {
             writer.writeObject(4, avatar);
+        }
+        if (pyShort != null) {
+            writer.writeString(5, pyShort);
         }
     }
 

@@ -4,18 +4,18 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.SectionIndexer;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 import im.actor.core.entity.Contact;
-import im.actor.runtime.android.view.BindedListAdapter;
-import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.sdk.view.adapters.OnItemClickedListener;
 
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
-public class ContactsEaglesoftAdapter extends RecyclerView.Adapter {
+public class ContactsEaglesoftAdapter extends RecyclerView.Adapter implements SectionIndexer {
 
     private final HashSet<Integer> selectedUsers = new HashSet<Integer>();
 
@@ -72,6 +72,7 @@ public class ContactsEaglesoftAdapter extends RecyclerView.Adapter {
                 fastName = currentFastName;
             }
         }
+
         contactHolder.bind(item, fastName, query, selectedUsers.contains(item.getUid()), index == getItemCount() - 1);
     }
 
@@ -82,14 +83,39 @@ public class ContactsEaglesoftAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        onBindViewHolder((ContactEaglesoftHolder)holder, position, getItem(position));
+        onBindViewHolder((ContactEaglesoftHolder) holder, position, getItem(position));
     }
 
-    public Contact getItem(int index){
+    public Contact getItem(int index) {
         return displayList.get(index);
     }
+
     @Override
     public int getItemCount() {
         return displayList.size();
     }
+
+    @Override
+    public Object[] getSections() {
+        return new Object[0];
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        for (int i = 0; i < getItemCount(); i++) {
+            String sortStr = displayList.get(i).getPyShort();
+            char firstChar = sortStr.toUpperCase().charAt(0);
+            if (firstChar == sectionIndex) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return displayList.get(position).getPyShort().charAt(0);
+    }
+
 }

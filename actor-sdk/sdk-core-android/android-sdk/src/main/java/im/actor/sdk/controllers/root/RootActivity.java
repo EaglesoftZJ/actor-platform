@@ -53,10 +53,12 @@ import java.net.URL;
 import java.util.HashMap;
 
 import im.actor.core.AuthState;
+import im.actor.core.entity.SearchEntity;
 import im.actor.core.viewmodel.AppStateVM;
 import im.actor.core.viewmodel.Command;
 import im.actor.core.viewmodel.CommandCallback;
 import im.actor.runtime.android.AndroidContext;
+import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.runtime.promise.Promise;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
@@ -71,6 +73,8 @@ import im.actor.sdk.push.Utils;
 import im.actor.sdk.services.UpdataService;
 import im.actor.sdk.view.PagerSlidingTabStrip;
 import im.actor.sdk.view.adapters.FragmentNoMenuStatePagerAdapter;
+
+import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 /**
  * Root Activity of Application
@@ -280,6 +284,7 @@ public class RootActivity extends BaseFragmentActivity {
                         return false;
                     }
                 }));
+
     }
 
     private void zjjgData(final CommandCallback<String> callback) {
@@ -294,7 +299,7 @@ public class RootActivity extends BaseFragmentActivity {
                                 JSONObject json = new JSONObject(datasource);
                                 ActorSDK.setZjjgData(json);
                                 ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
-                                fragment.changeAdapter(callback);
+                                fragment.changeAdapter();
                                 callback.onResult("");
                             } catch (Exception e) {
                                 e.printStackTrace();

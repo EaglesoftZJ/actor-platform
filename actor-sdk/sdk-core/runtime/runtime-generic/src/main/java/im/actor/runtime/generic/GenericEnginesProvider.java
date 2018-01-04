@@ -33,6 +33,6 @@ public class GenericEnginesProvider implements EnginesRuntime {
 
     @Override
     public <T extends BserObject & ListEngineItem> PlatformDisplayList<T> createDisplayList(ListEngine<T> listEngine, boolean isSharedInstance, String clazz) {
-        return new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, 20, 20, operationMode);
+        return new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, 10000, 10000, operationMode);
     }
 }

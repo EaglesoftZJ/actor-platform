@@ -36,6 +36,7 @@ dependencies {
 //    compile 'commons-codec:commons-codec:1.9'
     testCompile "junit:junit:4.11"
 
+    compile 'com.github.stuxuhai:jpinyin:1.1.8'
 }
 
 

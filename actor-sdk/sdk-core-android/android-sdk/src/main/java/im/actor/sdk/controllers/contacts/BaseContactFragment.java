@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -16,13 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.stuxuhai.jpinyin.PinyinException;
-import com.github.stuxuhai.jpinyin.PinyinHelper;
-
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.List;
 
 import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
@@ -31,6 +29,7 @@ import im.actor.sdk.R;
 import im.actor.sdk.controllers.DisplayListFragment;
 import im.actor.sdk.controllers.contacts.view.ContactHolder;
 import im.actor.sdk.controllers.contacts.view.ContactsAdapter;
+import im.actor.sdk.controllers.contacts.view.MemberSideBar;
 import im.actor.sdk.controllers.fragment.help.HelpActivity;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.util.Fonts;
@@ -49,6 +48,9 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
     private final boolean userSearch;
     private final boolean useSelection;
     private View emptyView;
+    RelativeLayout contactReLay;
+    private RecyclerView collection;
+    MemberSideBar sideBar;
 
     public BaseContactFragment(boolean useCompactVersion, boolean userSearch, boolean useSelection) {
         this.useCompactVersion = useCompactVersion;
@@ -63,7 +65,12 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
 
     protected View onCreateContactsView(int layoutId, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View res = inflate(inflater, container, layoutId, messenger().buildContactsDisplayList());
-        res.findViewById(R.id.collection).setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
+        collection = (RecyclerView) res.findViewById(R.id.collection);
+        collection.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
+        sideBar = (MemberSideBar) res.findViewById(R.id.side_bar);
+        sideBar.setVisibility(View.GONE);
+        contactReLay = (RelativeLayout) res.findViewById(R.id.eaglesoft_collection_relay);
+        contactReLay.setVisibility(View.GONE);
         emptyView = res.findViewById(R.id.emptyCollection);
         if (emptyView != null) {
             emptyView.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
@@ -100,11 +107,47 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                         emptyView.setVisibility(View.VISIBLE);
                     } else {
                         emptyView.setVisibility(View.GONE);
+                        sideBar.setVisibility(View.VISIBLE);
+                        contactReLay.setVisibility(View.VISIBLE);
                     }
                 }
             }
         });
         res.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
+
+
+        //右边的side
+        sideBar.setOnStrSelectCallBack(new MemberSideBar.ISideBarSelectCallBack() {
+            @Override
+            public void onSelectStr(int index, String selectStr) {
+                if (selectStr.equals("↑")) {
+                    collection.scrollToPosition(0);
+                    return;
+                }
+                List<Contact> contactList = displayList.getList();
+//                Contact contactMatch = contactList.stream().filter(contact ->
+//                        selectStr.equalsIgnoreCase(contact.getPyShort())
+//                ).findFirst().get();
+                for (int i = 0; i < contactList.size(); i++) {
+                    if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
+//                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
+                        LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
+                        int firstItem = manager.findFirstVisibleItemPosition();
+                        int lastItem = manager.findLastVisibleItemPosition();
+                        int n = i + 5;
+                        if (n <= firstItem) {
+                            collection.scrollToPosition(n);
+                        } else if (n <= lastItem) {
+                            int top = collection.getChildAt(n - firstItem).getTop();
+                            collection.scrollBy(0, top);
+                        } else {
+                            collection.scrollToPosition(n);
+                        }
+                        return;
+                    }
+                }
+            }
+        });
 
         return res;
     }
@@ -194,7 +237,8 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         });
         {
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Screen.dp(64));
-            params.leftMargin = Screen.dp(40);
+//            params.leftMargin = Screen.dp(40);
+            params.leftMargin = Screen.dp(5);
             invitePanel.setLayoutParams(params);
             container.addView(invitePanel);
         }
@@ -245,45 +289,8 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         }
     }
 
-    String[] b = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
-            "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
-            "Y", "Z", "#"};
-
     @Override
     protected BindedListAdapter<Contact, ContactHolder> onCreateAdapter(BindedDisplayList<Contact> displayList, Activity activity) {
-//        Collections.sort(displayList.getList(), new Comparator<Contact>() {
-//            @Override
-//            public int compare(Contact lhs, Contact rhs) {
-//                String l = null;
-//                try {
-//                    l = PinyinHelper.getShortPinyin(lhs.getName());
-//                    String r = PinyinHelper.getShortPinyin(rhs.getName());
-//                    int minLength = Math.min(l.length(), r.length());
-//                    int result = 0;
-//                    for (int i = 0; i < minLength; i++) {
-//                        if (l.charAt(i) < r.charAt(i)) {
-//                            result = -1;
-//                            break;
-//                        } else if (l.charAt(i) > r.charAt(i)) {
-//                            result = 1;
-//                            break;
-//                        } else {
-//                            result = 0;
-//                            continue;
-//                        }
-//
-//                    }
-//
-//                    if (result == 0) {
-//                        return l.length() > r.length() ? 1 : -1;
-//                    }
-//                    return result;
-//                } catch (PinyinException e) {
-//                    e.printStackTrace();
-//                }
-//                return 0;
-//            }
-//        });
         return new ContactsAdapter(displayList, activity, useSelection, new OnItemClickedListener<Contact>() {
             @Override
             public void onClicked(Contact item) {
