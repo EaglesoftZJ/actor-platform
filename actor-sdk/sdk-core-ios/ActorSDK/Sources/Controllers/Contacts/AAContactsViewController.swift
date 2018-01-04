@@ -72,7 +72,7 @@ open class AAContactsViewController: AAContactsListContentController, AAContacts
             r.height = 56
             
             r.closure = { (cell: AAContactActionCell)->() in
-                cell.bind("ic_create_channel", actionTitle: "组织架构")//AALocalized("ContactsActionAdd") 添加好友
+                cell.bind("ic_create_channel", actionTitle: "组织架构")
             }
             
             r.selectAction = { () -> Bool in
@@ -81,10 +81,23 @@ open class AAContactsViewController: AAContactsListContentController, AAContacts
             }
         }
         
+        _ = section.custom { (r: AACustomRow<AAContactActionCell>) -> () in
+            
+            r.height = 56
+            
+            r.closure = { (cell: AAContactActionCell)->() in
+                cell.bind("ic_chats_outline", actionTitle: "群组")
+            }
+            
+            r.selectAction = { () -> Bool in
+                
+                return AADevice.isiPad
+            }
+        }
+        
        _ = section.custom { (r: AACustomRow<AAContactActionCell>) -> () in
             
             r.height = 56
-            //\(AALocalized("ContactsActionInvite")) \(ActorSDK.sharedActor().appName)邀请好友使用SDK
             r.closure = { (cell: AAContactActionCell)->() in
                 cell.bind("ic_add_user", actionTitle: "创建群组")
             }
