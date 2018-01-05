@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 
+import im.actor.core.Messenger;
 import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.AndroidListUpdate;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
@@ -41,11 +42,15 @@ public abstract class BindedListAdapter<V extends BserObject & ListEngineItem,
         listener = new DisplayList.AndroidChangeListener<V>() {
             @Override
             public void onCollectionChanged(AndroidListUpdate<V> modification) {
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
                 if (displayList != null && displayList.getSize() > 0
                         && displayList.getItem(0) instanceof Contact) {
-                    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+                    System.out.println("iGem: 0 timne1 = " + Messenger.pyTime);
+                    System.out.println("iGem: 0 timne2 = " + Messenger.pyTime2);
+                    Messenger.pyTime = 0;
+                    Messenger.pyTime2 = 0;
                     Date curDate = new Date(System.currentTimeMillis());
-                    System.out.println("iGem: 1" + format.format(curDate));
+                    System.out.println("iGem: 1=" + format.format(curDate));
                     Collections.sort(displayList.getList(), (vo1, vo2) -> {
                         String l = null;
                         try {
@@ -73,16 +78,18 @@ public abstract class BindedListAdapter<V extends BserObject & ListEngineItem,
                             }
                             return result;
                         } catch (Exception e) {
-                            System.out.println("iGem:" + e.toString());
-                            e.printStackTrace();
+//                            System.out.println("iGem:" + e.toString());
+//                            e.printStackTrace();
                         }
                         return 0;
                     });
                     curDate = new Date(System.currentTimeMillis());
-                    System.out.println("iGem: 2" + format.format(curDate));
+                    System.out.println("iGem: 2=" + format.format(curDate));
                 }
                 currentUpdate = modification;
                 ChangeDescription<V> currentChange;
+                Date curDate = new Date(System.currentTimeMillis());
+                System.out.println("iGem: 3=" + format.format(curDate));
                 while ((currentChange = modification.next()) != null) {
                     switch (currentChange.getOperationType()) {
                         case ADD:
@@ -99,6 +106,8 @@ public abstract class BindedListAdapter<V extends BserObject & ListEngineItem,
                             break;
                     }
                 }
+                curDate = new Date(System.currentTimeMillis());
+                System.out.println("iGem: 4=" + format.format(curDate));
                 currentUpdate = null;
             }
         };

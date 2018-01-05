@@ -85,6 +85,9 @@ import im.actor.runtime.storage.PreferencesStorage;
  */
 public class Messenger {
 
+    public static long pyTime=0;
+    public static long pyTime2=0;
+
     // Do Not Remove! WorkAround for missing j2objc translator include
     private static final Void DUMB = null;
 

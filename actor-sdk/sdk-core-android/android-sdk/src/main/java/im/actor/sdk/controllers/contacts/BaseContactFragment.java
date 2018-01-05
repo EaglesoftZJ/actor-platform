@@ -20,6 +20,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import im.actor.core.entity.Contact;
@@ -99,6 +101,9 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                 emptyView.setVisibility(View.GONE);
             }
         }
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
+        Date curDate = new Date(System.currentTimeMillis());
+        System.out.println("iGem: fragment=" + format.format(curDate));
         bind(messenger().getAppState().getIsContactsEmpty(), new ValueChangedListener<Boolean>() {
             @Override
             public void onChanged(Boolean val, Value<Boolean> Value) {

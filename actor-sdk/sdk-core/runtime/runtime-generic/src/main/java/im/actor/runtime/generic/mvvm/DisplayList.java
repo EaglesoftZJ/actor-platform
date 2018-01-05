@@ -7,7 +7,9 @@ package im.actor.runtime.generic.mvvm;
 import com.google.j2objc.annotations.AutoreleasePool;
 import com.google.j2objc.annotations.ObjectiveCName;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -60,9 +62,16 @@ public class DisplayList<T> {
 
         this.operationMode = operationMode;
 
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
+        Date curDate = new Date(System.currentTimeMillis());
+        System.out.println("iGem: DisplayList1=" + format.format(curDate));
+
         this.executor = system().actorOf(Props.create(new ActorCreator() {
             @Override
             public ListSwitcher create() {
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
+                Date curDate = new Date(System.currentTimeMillis());
+                System.out.println("iGem: DisplayList2=" + format.format(curDate));
                 return new ListSwitcher(DisplayList.this);
             }
         }).changeDispatcher("display_list"), "display_lists/" + DISPLAY_LIST_ID);
@@ -88,7 +97,7 @@ public class DisplayList<T> {
     @ObjectiveCName("getList")
     public List<T> getList() {
         // im.actor.runtime.Runtime.checkMainThread();
-        if(lists != null && currentList >= 0){
+        if (lists != null && currentList >= 0) {
             return lists[currentList];
         }
         return null;
@@ -215,7 +224,8 @@ public class DisplayList<T> {
 
         @AutoreleasePool
         public void onEditList(final Modification<T> modification, final Runnable runnable, boolean isLoadMore) {
-
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
+            Date curDate = new Date(System.currentTimeMillis());
             if (modification != null) {
                 pending.add(new ModificationHolder<T>(modification, runnable, isLoadMore));
             }
@@ -250,6 +260,8 @@ public class DisplayList<T> {
                 List<ChangeDescription<T>> changes = m.modification.modify(backgroundList);
                 modRes.addAll(changes);
             }
+            curDate = new Date(System.currentTimeMillis());
+            System.out.println("iGem: DisplayList3=" + format.format(curDate));
 
             // Build changes
             ArrayList<ChangeDescription<T>> androidChanges = null;
@@ -258,6 +270,7 @@ public class DisplayList<T> {
                     || displayList.operationMode == OperationMode.GENERAL) {
                 androidChanges = ChangeBuilder.processAndroidModifications(modRes, initialList);
             }
+
             if (displayList.operationMode == OperationMode.IOS
                     || displayList.operationMode == OperationMode.GENERAL) {
                 appleChanges = ChangeBuilder.processAppleModifications(modRes, initialList, dest[0].isLoadMore);
@@ -270,6 +283,7 @@ public class DisplayList<T> {
 
             requestListSwitch(dest, initialList, androidChanges, appleChanges, dest[0].isLoadMore,
                     processedList);
+
         }
 
         @AutoreleasePool
@@ -283,6 +297,11 @@ public class DisplayList<T> {
             im.actor.runtime.Runtime.postToMainThread(new Runnable() {
                 @Override
                 public void run() {
+
+                    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
+                    Date curDate = new Date(System.currentTimeMillis());
+                    System.out.println("iGem: DisplayList4=" + format.format(curDate));
+
 
                     displayList.currentList = (displayList.currentList + 1) % 2;
                     displayList.processedList = processedList;
@@ -310,6 +329,11 @@ public class DisplayList<T> {
                     }
 
                     self().send(new ListSwitched<T>(modifications));
+
+                    curDate = new Date(System.currentTimeMillis());
+                    System.out.println("iGem: DisplayList5=" + format.format(curDate));
+
+
                 }
             });
         }

@@ -1,5 +1,8 @@
 package im.actor.runtime.generic;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.runtime.generic.mvvm.DisplayList;
 import im.actor.runtime.generic.storage.AsyncListEngine;
@@ -33,6 +36,10 @@ public class GenericEnginesProvider implements EnginesRuntime {
 
     @Override
     public <T extends BserObject & ListEngineItem> PlatformDisplayList<T> createDisplayList(ListEngine<T> listEngine, boolean isSharedInstance, String clazz) {
-        return new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, 10000, 10000, operationMode);
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
+        Date curDate = new Date(System.currentTimeMillis());
+        System.out.println("iGem: PlatformDisplayList=" + format.format(curDate));
+        BindedDisplayList<T> list = new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, 10000, 10000, operationMode);
+        return list;
     }
 }
