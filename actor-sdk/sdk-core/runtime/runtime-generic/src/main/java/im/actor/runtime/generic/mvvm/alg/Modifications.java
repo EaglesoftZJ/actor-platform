@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import im.actor.runtime.generic.mvvm.ChangeDescription;
 import im.actor.runtime.storage.ListEngineItem;

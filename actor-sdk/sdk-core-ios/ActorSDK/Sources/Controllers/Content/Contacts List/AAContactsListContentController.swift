@@ -13,6 +13,7 @@ open class AAContactsListContentController: AAContentTableController {
     
     public init() {
         super.init(style: .plain)
+        let sortArray = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","#"]
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -25,7 +26,7 @@ open class AAContactsListContentController: AAContentTableController {
             search(AAContactCell.self) { (s) -> () in
             
                 s.searchList = Actor.buildContactsDisplayList()
-            
+                                
                 s.isSearchAutoHide = self.isSearchAutoHide
             
                 s.selectAction = { (contact) -> () in

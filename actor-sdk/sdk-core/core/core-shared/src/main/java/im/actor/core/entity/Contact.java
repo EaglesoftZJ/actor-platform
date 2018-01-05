@@ -60,13 +60,15 @@ public class Contact extends BserObject implements ListEngineItem {
         this.avatar = avatar;
         this.name = name;
         try {
+if(name!=null && name.length()>0){
             this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+}
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Long s = (System.currentTimeMillis() - hqtime);
-        Messenger.pyTime += s;
+//        Long s = (System.currentTimeMillis() - hqtime);
+//        Messenger.pyTime += s;
 
     }
 
@@ -97,13 +99,17 @@ public class Contact extends BserObject implements ListEngineItem {
         if (values.optBytes(4) != null) {
             avatar = new Avatar(values.getBytes(4));
         }
+
         try {
-            this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+if(name!=null && name.length()>0){
+            pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+}
         } catch (Exception e) {
             e.printStackTrace();
         }
         Long s = (System.currentTimeMillis() - hqtime);
         Messenger.pyTime2 += s;
+
     }
 
     @Override
