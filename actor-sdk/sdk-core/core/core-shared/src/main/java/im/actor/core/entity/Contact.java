@@ -57,11 +57,11 @@ public class Contact extends BserObject implements ListEngineItem {
         this.sortKey = sortKey;
         this.avatar = avatar;
         this.name = name;
-        try {
-            this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -91,11 +91,11 @@ public class Contact extends BserObject implements ListEngineItem {
         if (values.optBytes(4) != null) {
             avatar = new Avatar(values.getBytes(4));
         }
-        try {
-            this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -106,9 +106,9 @@ public class Contact extends BserObject implements ListEngineItem {
         if (avatar != null) {
             writer.writeObject(4, avatar);
         }
-        if (pyShort != null) {
-            writer.writeString(5, pyShort);
-        }
+//        if (pyShort != null) {
+//            writer.writeString(5, pyShort);
+//        }
     }
 
     @Override
