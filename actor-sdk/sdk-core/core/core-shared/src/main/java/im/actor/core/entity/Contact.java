@@ -10,13 +10,17 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import im.actor.core.Messenger;
 import im.actor.core.jpinyin.PinyinHelper;
 import im.actor.runtime.bser.BserCreator;
 import im.actor.runtime.bser.BserObject;
 import im.actor.runtime.bser.BserValues;
 import im.actor.runtime.bser.BserWriter;
 import im.actor.runtime.storage.ListEngineItem;
+import im.actor.sdk.ActorSDK;
 
 // Disabling Bounds checks for speeding up calculations
 
@@ -53,6 +57,7 @@ public class Contact extends BserObject implements ListEngineItem {
     private String pyShort;
 
     public Contact(int uid, long sortKey, @Nullable Avatar avatar, @NotNull String name) {
+        long hqtime  = System.currentTimeMillis();
         this.uid = uid;
         this.sortKey = sortKey;
         this.avatar = avatar;
@@ -62,6 +67,9 @@ public class Contact extends BserObject implements ListEngineItem {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Long s = (System.currentTimeMillis() - hqtime);
+        Messenger.pyTime += s;
 
     }
 
@@ -85,6 +93,7 @@ public class Contact extends BserObject implements ListEngineItem {
 
     @Override
     public void parse(BserValues values) throws IOException {
+        long hqtime  = System.currentTimeMillis();
         uid = values.getInt(1);
         sortKey = values.getLong(2);
         name = values.getString(3);
@@ -96,6 +105,8 @@ public class Contact extends BserObject implements ListEngineItem {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Long s = (System.currentTimeMillis() - hqtime);
+        Messenger.pyTime2 += s;
     }
 
     @Override
