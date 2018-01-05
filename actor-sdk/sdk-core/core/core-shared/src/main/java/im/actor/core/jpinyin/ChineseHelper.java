@@ -121,7 +121,7 @@ public final class ChineseHelper {
         return false;
     }
 
-    public static void addChineseDict(String path) throws FileNotFoundException {
-        CHINESE_MAP.putAll(PinyinResource.getResource(PinyinResource.newFileReader(path)));
-    }
+//    public static void addChineseDict(String path) throws FileNotFoundException {
+//        CHINESE_MAP.putAll(PinyinResource.getResource(PinyinResource.newFileReader(path)));
+//    }
 }

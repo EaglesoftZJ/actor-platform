@@ -10,8 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import im.actor.core.Messenger;
 import im.actor.core.jpinyin.PinyinHelper;
@@ -20,7 +18,6 @@ import im.actor.runtime.bser.BserObject;
 import im.actor.runtime.bser.BserValues;
 import im.actor.runtime.bser.BserWriter;
 import im.actor.runtime.storage.ListEngineItem;
-import im.actor.sdk.ActorSDK;
 
 // Disabling Bounds checks for speeding up calculations
 

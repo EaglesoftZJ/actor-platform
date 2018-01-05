@@ -270,20 +270,20 @@ public final class PinyinHelper {
 		return String.valueOf(charArray);
 	}
 
-	public static void addPinyinDict(String path) throws FileNotFoundException {
-		PINYIN_TABLE.putAll(PinyinResource.getResource(PinyinResource.newFileReader(path)));
-	}
+//	public static void addPinyinDict(String path) throws FileNotFoundException {
+//		PINYIN_TABLE.putAll(PinyinResource.getResource(PinyinResource.newFileReader(path)));
+//	}
 
-	public static void addMutilPinyinDict(String path) throws FileNotFoundException {
-		MUTIL_PINYIN_TABLE.putAll(PinyinResource.getResource(PinyinResource.newFileReader(path)));
-		dict.clear();
-		DOUBLE_ARRAY_TRIE.clear();
-		for (String word : MUTIL_PINYIN_TABLE.keySet()) {
-			dict.add(word);
-		}
-		Collections.sort(dict);
-		DOUBLE_ARRAY_TRIE.build(dict);
-	}
+//	public static void addMutilPinyinDict(String path) throws FileNotFoundException {
+//		MUTIL_PINYIN_TABLE.putAll(PinyinResource.getResource(PinyinResource.newFileReader(path)));
+//		dict.clear();
+//		DOUBLE_ARRAY_TRIE.clear();
+//		for (String word : MUTIL_PINYIN_TABLE.keySet()) {
+//			dict.add(word);
+//		}
+//		Collections.sort(dict);
+//		DOUBLE_ARRAY_TRIE.build(dict);
+//	}
 	/**
 	 * 获取指定字符串拼音简码数组　即支持多音字
 	 *
