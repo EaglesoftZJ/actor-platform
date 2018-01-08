@@ -133,22 +133,22 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
 //                        selectStr.equalsIgnoreCase(contact.getPyShort())
 //                ).findFirst().get();
                 for (int i = 0; i < contactList.size(); i++) {
-//                    if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
-////                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
-//                        LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
-//                        int firstItem = manager.findFirstVisibleItemPosition();
-//                        int lastItem = manager.findLastVisibleItemPosition();
-//                        int n = i + 5;
-//                        if (n <= firstItem) {
-//                            collection.scrollToPosition(n);
-//                        } else if (n <= lastItem) {
-//                            int top = collection.getChildAt(n - firstItem).getTop();
-//                            collection.scrollBy(0, top);
-//                        } else {
-//                            collection.scrollToPosition(n);
-//                        }
-//                        return;
-//                    }
+                    if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
+//                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
+                        LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
+                        int firstItem = manager.findFirstVisibleItemPosition();
+                        int lastItem = manager.findLastVisibleItemPosition();
+                        int n = i + 5;
+                        if (n <= firstItem) {
+                            collection.scrollToPosition(n);
+                        } else if (n <= lastItem) {
+                            int top = collection.getChildAt(n - firstItem).getTop();
+                            collection.scrollBy(0, top);
+                        } else {
+                            collection.scrollToPosition(n);
+                        }
+                        return;
+                    }
                 }
             }
         });

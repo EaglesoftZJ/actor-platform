@@ -49,8 +49,8 @@ public class Contact extends BserObject implements ListEngineItem {
     /**
      * 名字首字母
      */
-//    @Property("readonly, nonatomic")
-//    private String pyShort;
+    @Property("readonly, nonatomic")
+    private String pyShort;
 
     public Contact(int uid, long sortKey, @Nullable Avatar avatar, @NotNull String name) {
         long hqtime = System.currentTimeMillis();
@@ -134,12 +134,12 @@ public class Contact extends BserObject implements ListEngineItem {
     public String getEngineSearch() {
         return name;
     }
-//
-//    public String getPyShort() {
-//        return pyShort;
-//    }
-//
-//    public void setPyShort(String pyShort) {
-//        this.pyShort = pyShort;
-//    }
+
+    public String getPyShort() {
+        return pyShort;
+    }
+
+    public void setPyShort(String pyShort) {
+        this.pyShort = pyShort;
+    }
 }
