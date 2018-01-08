@@ -39,7 +39,7 @@ public class GenericEnginesProvider implements EnginesRuntime {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
         Date curDate = new Date(System.currentTimeMillis());
         System.out.println("iGem: PlatformDisplayList=" + format.format(curDate));
-        BindedDisplayList<T> list = new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, 10000, 10000, operationMode);
+        BindedDisplayList<T> list = new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, 20, 20, operationMode);
         return list;
     }
 }
