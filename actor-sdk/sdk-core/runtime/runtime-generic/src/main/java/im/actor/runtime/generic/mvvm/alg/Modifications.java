@@ -172,39 +172,52 @@ public class Modifications {
         // Finding suitable place for item
         int removedIndex = -1;
         int addedIndex = -1;
-        final boolean isHave = false;
+        boolean isHave = false;
+        try {
+            if (sourcePar.get(id) != null) {
+                isHave = true;
+            } else {
+                isHave = false;
+            }
+        } catch (Exception e) {
+            isHave = false;
+        }
 //        Optional<T> isHave = sourceList.stream().filter(srcItem -> srcItem.getEngineId() == id).findFirst();
-        if (sourcePar.get(id) != null) {
-            for (int i = 0; i < sourceList.size(); i++) {
-                T srcItem = sourceList.get(i);
-                if (srcItem.getEngineId() == id) {
-                    if (isLoadMore) {
-                        return;
-                    }
-                    // Remove old item
-                    sourceList.remove(i);
-                    if (addedIndex >= 0) {
-                        removedIndex = i - 1;
-                    } else {
-                        removedIndex = i;
-                    }
-                    i--;
-                    continue;
-                } else {
-                    // TODO: Fix ADD ONLY
-                    if ((addedIndex < 0) && sortKey > srcItem.getEngineSort()) {
-                        addedIndex = i;
-                        sourceList.add(i, item);
-                        sourcePar.put(id, sortKey);
-                        i++;
-                    }
-                }
+        if (!isHave) {
 
-                // Already founded
-                if (addedIndex >= 0 && removedIndex >= 0) {
-                    break;
+            if (sourcePar.get(id) != null) {
+                for (int i = 0; i < sourceList.size(); i++) {
+                    T srcItem = sourceList.get(i);
+                    if (srcItem.getEngineId() == id) {
+                        if (isLoadMore) {
+                            return;
+                        }
+                        // Remove old item
+                        sourceList.remove(i);
+                        if (addedIndex >= 0) {
+                            removedIndex = i - 1;
+                        } else {
+                            removedIndex = i;
+                        }
+                        i--;
+                        continue;
+                    } else {
+                        // TODO: Fix ADD ONLY
+                        if ((addedIndex < 0) && sortKey > srcItem.getEngineSort()) {
+                            addedIndex = i;
+                            sourceList.add(i, item);
+                            sourcePar.put(id, sortKey);
+                            i++;
+                        }
+                    }
+
+                    // Already founded
+                    if (addedIndex >= 0 && removedIndex >= 0) {
+                        break;
+                    }
                 }
             }
+
         }
 
 
@@ -239,38 +252,34 @@ public class Modifications {
         // Finding suitable place for item
         int removedIndex = -1;
         int addedIndex = -1;
-        final boolean isHave = false;
 
-//        Optional<T> isHave = sourceList.stream().filter(srcItem -> srcItem.getEngineId() == id).findFirst();
-        if (isHave) {
-            for (int i = 0; i < sourceList.size(); i++) {
-                T srcItem = sourceList.get(i);
-                if (srcItem.getEngineId() == id) {
-                    if (isLoadMore) {
-                        return;
-                    }
-                    // Remove old item
-                    sourceList.remove(i);
-                    if (addedIndex >= 0) {
-                        removedIndex = i - 1;
-                    } else {
-                        removedIndex = i;
-                    }
-                    i--;
-                    continue;
+        for (int i = 0; i < sourceList.size(); i++) {
+            T srcItem = sourceList.get(i);
+            if (srcItem.getEngineId() == id) {
+                if (isLoadMore) {
+                    return;
+                }
+                // Remove old item
+                sourceList.remove(i);
+                if (addedIndex >= 0) {
+                    removedIndex = i - 1;
                 } else {
-                    // TODO: Fix ADD ONLY
-                    if ((addedIndex < 0) && sortKey > srcItem.getEngineSort()) {
-                        addedIndex = i;
-                        sourceList.add(i, item);
-                        i++;
-                    }
+                    removedIndex = i;
                 }
+                i--;
+                continue;
+            } else {
+                // TODO: Fix ADD ONLY
+                if ((addedIndex < 0) && sortKey > srcItem.getEngineSort()) {
+                    addedIndex = i;
+                    sourceList.add(i, item);
+                    i++;
+                }
+            }
 
-                // Already founded
-                if (addedIndex >= 0 && removedIndex >= 0) {
-                    break;
-                }
+            // Already founded
+            if (addedIndex >= 0 && removedIndex >= 0) {
+                break;
             }
         }
 
