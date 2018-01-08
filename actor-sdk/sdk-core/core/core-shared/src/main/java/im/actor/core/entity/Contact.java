@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 
 import im.actor.core.Messenger;
-import im.actor.core.jpinyin.PinyinHelper;
 import im.actor.runtime.bser.BserCreator;
 import im.actor.runtime.bser.BserObject;
 import im.actor.runtime.bser.BserValues;
@@ -50,8 +49,8 @@ public class Contact extends BserObject implements ListEngineItem {
     /**
      * 名字首字母
      */
-    @Property("readonly, nonatomic")
-    private String pyShort;
+//    @Property("readonly, nonatomic")
+//    private String pyShort;
 
     public Contact(int uid, long sortKey, @Nullable Avatar avatar, @NotNull String name) {
         long hqtime = System.currentTimeMillis();
@@ -59,13 +58,13 @@ public class Contact extends BserObject implements ListEngineItem {
         this.sortKey = sortKey;
         this.avatar = avatar;
         this.name = name;
-        try {
-            if (name != null && name.length() > 0) {
-                this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (name != null && name.length() > 0) {
+//                this.pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private Contact() {
@@ -96,13 +95,13 @@ public class Contact extends BserObject implements ListEngineItem {
             avatar = new Avatar(values.getBytes(4));
         }
 
-        try {
-            if (name != null && name.length() > 0) {
-                pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if (name != null && name.length() > 0) {
+//                pyShort = PinyinHelper.getShortPinyin(name.substring(0, 1)).toUpperCase();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         Long s = (System.currentTimeMillis() - hqtime);
         Messenger.pyTime2 += s;
 
@@ -116,9 +115,9 @@ public class Contact extends BserObject implements ListEngineItem {
         if (avatar != null) {
             writer.writeObject(4, avatar);
         }
-        if (pyShort != null) {
-            writer.writeString(5, pyShort);
-        }
+//        if (pyShort != null) {
+//            writer.writeString(5, pyShort);
+//        }
     }
 
     @Override
@@ -135,12 +134,12 @@ public class Contact extends BserObject implements ListEngineItem {
     public String getEngineSearch() {
         return name;
     }
-
-    public String getPyShort() {
-        return pyShort;
-    }
-
-    public void setPyShort(String pyShort) {
-        this.pyShort = pyShort;
-    }
+//
+//    public String getPyShort() {
+//        return pyShort;
+//    }
+//
+//    public void setPyShort(String pyShort) {
+//        this.pyShort = pyShort;
+//    }
 }

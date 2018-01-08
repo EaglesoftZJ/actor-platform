@@ -168,22 +168,22 @@ public class ComposeEaglesoftFragment extends BaseFragment {
 //                        selectStr.equalsIgnoreCase(contact.getPyShort())
 //                ).findFirst().get();
                 for (int i = 0; i < contactList.size(); i++) {
-                    if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
-//                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
-                        LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
-                        int firstItem = manager.findFirstVisibleItemPosition();
-                        int lastItem = manager.findLastVisibleItemPosition();
-                        int n = i + 5;
-                        if (n <= firstItem) {
-                            collection.scrollToPosition(n);
-                        } else if (n <= lastItem) {
-                            int top = collection.getChildAt(n - firstItem).getTop();
-                            collection.scrollBy(0, top);
-                        } else {
-                            collection.scrollToPosition(n);
-                        }
-                        return;
-                    }
+//                    if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
+////                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
+//                        LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
+//                        int firstItem = manager.findFirstVisibleItemPosition();
+//                        int lastItem = manager.findLastVisibleItemPosition();
+//                        int n = i + 5;
+//                        if (n <= firstItem) {
+//                            collection.scrollToPosition(n);
+//                        } else if (n <= lastItem) {
+//                            int top = collection.getChildAt(n - firstItem).getTop();
+//                            collection.scrollBy(0, top);
+//                        } else {
+//                            collection.scrollToPosition(n);
+//                        }
+//                        return;
+//                    }
                 }
             }
         });
@@ -228,37 +228,37 @@ public class ComposeEaglesoftFragment extends BaseFragment {
                         }
                         curDate = new Date(System.currentTimeMillis());
                         System.out.println("iGem:2=" + formatter.format(curDate));
-                        Collections.sort(contactList, (lhs, rhs) -> {
-                            String l = null;
-                            try {
-                                l = lhs.getPyShort();
-                                String r = rhs.getPyShort();
-//                                        int minLength = Math.min(l.length(), r.length());
-                                if (r.equals("#")) {
-                                    return -1;
-                                } else if (l.equals("#")) {
-                                    return 1;
-                                }
-                                int result = 0;
-                                int i = 0;
-                                if (l.charAt(i) < r.charAt(i)) {
-                                    result = -1;
-                                } else if (l.charAt(i) > r.charAt(i)) {
-                                    result = 1;
-                                } else {
-                                    result = 0;
-                                }
-
-                                if (result == 0) {
-                                    return lhs.getName().compareTo(rhs.getName());
-                                }
-                                return result;
-                            } catch (Exception e) {
-                                System.out.println("iGem:" + e.toString());
-                                e.printStackTrace();
-                            }
-                            return 0;
-                        });
+//                        Collections.sort(contactList, (lhs, rhs) -> {
+//                            String l = null;
+//                            try {
+//                                l = lhs.getPyShort();
+//                                String r = rhs.getPyShort();
+////                                        int minLength = Math.min(l.length(), r.length());
+//                                if (r.equals("#")) {
+//                                    return -1;
+//                                } else if (l.equals("#")) {
+//                                    return 1;
+//                                }
+//                                int result = 0;
+//                                int i = 0;
+//                                if (l.charAt(i) < r.charAt(i)) {
+//                                    result = -1;
+//                                } else if (l.charAt(i) > r.charAt(i)) {
+//                                    result = 1;
+//                                } else {
+//                                    result = 0;
+//                                }
+//
+//                                if (result == 0) {
+//                                    return lhs.getName().compareTo(rhs.getName());
+//                                }
+//                                return result;
+//                            } catch (Exception e) {
+//                                System.out.println("iGem:" + e.toString());
+//                                e.printStackTrace();
+//                            }
+//                            return 0;
+//                        });
                         curDate = new Date(System.currentTimeMillis());
                         System.out.println("iGem:3=" + formatter.format(curDate));
                     }

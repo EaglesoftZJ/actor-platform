@@ -103,11 +103,11 @@ public class ContactsEaglesoftAdapter extends RecyclerView.Adapter implements Se
     @Override
     public int getPositionForSection(int sectionIndex) {
         for (int i = 0; i < getItemCount(); i++) {
-            String sortStr = displayList.get(i).getPyShort();
-            char firstChar = sortStr.toUpperCase().charAt(0);
-            if (firstChar == sectionIndex) {
-                return i;
-            }
+//            String sortStr = displayList.get(i).getPyShort();
+//            char firstChar = sortStr.toUpperCase().charAt(0);
+//            if (firstChar == sectionIndex) {
+//                return i;
+//            }
         }
 
         return -1;
@@ -115,7 +115,8 @@ public class ContactsEaglesoftAdapter extends RecyclerView.Adapter implements Se
 
     @Override
     public int getSectionForPosition(int position) {
-        return displayList.get(position).getPyShort().charAt(0);
+        return 0;
+//        return displayList.get(position).getPyShort().charAt(0);
     }
 
 }

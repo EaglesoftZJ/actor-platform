@@ -43,49 +43,49 @@ public abstract class BindedListAdapter<V extends BserObject & ListEngineItem,
             @Override
             public void onCollectionChanged(AndroidListUpdate<V> modification) {
                 SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
-                if (displayList != null && displayList.getSize() > 0
-                        && displayList.getItem(0) instanceof Contact) {
-                    System.out.println("iGem: 0 timne1 = " + Messenger.pyTime);
-                    System.out.println("iGem: 0 timne2 = " + Messenger.pyTime2);
-                    Messenger.pyTime = 0;
-                    Messenger.pyTime2 = 0;
-                    Date curDate = new Date(System.currentTimeMillis());
-                    System.out.println("iGem: 1=" + format.format(curDate));
-                    Collections.sort(displayList.getList(), (vo1, vo2) -> {
-                        String l = null;
-                        try {
-                            Contact lhs = (Contact) vo1;
-                            Contact rhs = (Contact) vo2;
-                            l = lhs.getPyShort();
-                            String r = rhs.getPyShort();
-                            if (r.equals("#")) {
-                                return -1;
-                            } else if (l.equals("#")) {
-                                return 1;
-                            }
-                            int result = 0;
-                            int i = 0;
-                            if (l.charAt(i) < r.charAt(i)) {
-                                result = -1;
-                            } else if (l.charAt(i) > r.charAt(i)) {
-                                result = 1;
-                            } else {
-                                result = 0;
-                            }
-
-                            if (result == 0) {
-                                return lhs.getName().compareTo(rhs.getName());
-                            }
-                            return result;
-                        } catch (Exception e) {
-//                            System.out.println("iGem:" + e.toString());
-//                            e.printStackTrace();
-                        }
-                        return 0;
-                    });
-                    curDate = new Date(System.currentTimeMillis());
-                    System.out.println("iGem: 2=" + format.format(curDate));
-                }
+//                if (displayList != null && displayList.getSize() > 0
+//                        && displayList.getItem(0) instanceof Contact) {
+//                    System.out.println("iGem: 0 timne1 = " + Messenger.pyTime);
+//                    System.out.println("iGem: 0 timne2 = " + Messenger.pyTime2);
+//                    Messenger.pyTime = 0;
+//                    Messenger.pyTime2 = 0;
+//                    Date curDate = new Date(System.currentTimeMillis());
+//                    System.out.println("iGem: 1=" + format.format(curDate));
+//                    Collections.sort(displayList.getList(), (vo1, vo2) -> {
+//                        String l = null;
+//                        try {
+//                            Contact lhs = (Contact) vo1;
+//                            Contact rhs = (Contact) vo2;
+////                            l = lhs.getPyShort();
+////                            String r = rhs.getPyShort();
+//                            if (r.equals("#")) {
+//                                return -1;
+//                            } else if (l.equals("#")) {
+//                                return 1;
+//                            }
+//                            int result = 0;
+//                            int i = 0;
+//                            if (l.charAt(i) < r.charAt(i)) {
+//                                result = -1;
+//                            } else if (l.charAt(i) > r.charAt(i)) {
+//                                result = 1;
+//                            } else {
+//                                result = 0;
+//                            }
+//
+//                            if (result == 0) {
+//                                return lhs.getName().compareTo(rhs.getName());
+//                            }
+//                            return result;
+//                        } catch (Exception e) {
+////                            System.out.println("iGem:" + e.toString());
+////                            e.printStackTrace();
+//                        }
+//                        return 0;
+//                    });
+//                    curDate = new Date(System.currentTimeMillis());
+//                    System.out.println("iGem: 2=" + format.format(curDate));
+//                }
                 currentUpdate = modification;
                 ChangeDescription<V> currentChange;
                 Date curDate = new Date(System.currentTimeMillis());
