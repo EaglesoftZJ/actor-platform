@@ -10,14 +10,9 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import java.text.Collator;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import im.actor.core.Messenger;
 import im.actor.core.entity.Contact;
@@ -60,49 +55,49 @@ public abstract class BindedListAdapter<V extends BserObject & ListEngineItem,
                     Messenger.pyTime2 = 0;
                     Date curDate = new Date(System.currentTimeMillis());
                     System.out.println("iGem: 1=" + format.format(curDate));
-                    Collections.sort(displayList.getList(), (vo1, vo2) -> {
-                        String l,r = null;
-                        try {
-                            Contact lhs = (Contact) vo1;
-                            Contact rhs = (Contact) vo2;
-                            if(lhs.getPyShort()== null){
-                                l = HanziToPinyin.getInstance().get(lhs.getName().substring(0,1)).get(0).target.substring(0,1).toUpperCase();
-                                lhs.setPyShort(l);
-                            }else{
-                                l = lhs.getPyShort();
-                            }
-
-                            if(rhs.getPyShort()== null){
-                                r = HanziToPinyin.getInstance().get(rhs.getName().substring(0,1)).get(0).target.substring(0,1).toUpperCase();
-                                rhs.setPyShort(r);
-                            }else{
-                                r = rhs.getPyShort();
-                            }
-                            if (r.equals("#")) {
-                                return -1;
-                            } else if (l.equals("#")) {
-                                return 1;
-                            }
-                            int result = 0;
-                            int i = 0;
-                            if (l.charAt(i) < r.charAt(i)) {
-                                result = -1;
-                            } else if (l.charAt(i) > r.charAt(i)) {
-                                result = 1;
-                            } else {
-                                result = 0;
-                            }
-
-                            if (result == 0) {
-                                return lhs.getName().compareTo(rhs.getName());
-                            }
-                            return result;
-                        } catch (Exception e) {
-                            System.out.println("iGem:" + e.toString());
-                            e.printStackTrace();
-                        }
-                        return 0;
-                    });
+//                    Collections.sort(displayList.getList(), (vo1, vo2) -> {
+//                        String l, r = null;
+//                        try {
+//                            Contact lhs = (Contact) vo1;
+//                            Contact rhs = (Contact) vo2;
+////                            if(lhs.getPyShort()== null){
+////                                l = HanziToPinyin.getInstance().get(lhs.getName().substring(0,1)).get(0).target.substring(0,1).toUpperCase();
+////                                lhs.setPyShort(l);
+////                            }else{
+//                            l = lhs.getPyShort();
+////                            }
+//
+////                            if(rhs.getPyShort()== null){
+////                                r = HanziToPinyin.getInstance().get(rhs.getName().substring(0,1)).get(0).target.substring(0,1).toUpperCase();
+////                                rhs.setPyShort(r);
+////                            }else{
+//                            r = rhs.getPyShort();
+////                            }
+//                            if (r.equals("#")) {
+//                                return -1;
+//                            } else if (l.equals("#")) {
+//                                return 1;
+//                            }
+//                            int result = 0;
+//                            int i = 0;
+//                            if (l.charAt(i) < r.charAt(i)) {
+//                                result = -1;
+//                            } else if (l.charAt(i) > r.charAt(i)) {
+//                                result = 1;
+//                            } else {
+//                                result = 0;
+//                            }
+//
+//                            if (result == 0) {
+//                                return lhs.getName().compareTo(rhs.getName());
+//                            }
+//                            return result;
+//                        } catch (Exception e) {
+//                            System.out.println("iGem:" + e.toString());
+//                            e.printStackTrace();
+//                        }
+//                        return 0;
+//                    });
                     curDate = new Date(System.currentTimeMillis());
                     System.out.println("iGem: 2=" + format.format(curDate));
                 }

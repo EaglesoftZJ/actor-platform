@@ -8,10 +8,12 @@ import com.google.j2objc.annotations.AutoreleasePool;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.ChangeDescription;
 import im.actor.runtime.storage.ListEngineItem;
 
@@ -64,14 +66,8 @@ public class Modifications {
         return new Modification<T>() {
             @Override
             public List<ChangeDescription<T>> modify(ArrayList<T> sourceList) {
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
-                Date curDate = new Date(System.currentTimeMillis());
-                System.out.println("iGem: modify1=" + format.format(curDate));
-
                 ArrayList<ChangeDescription<T>> res = new ArrayList<>();
                 replace(items, sourceList, res);
-                curDate = new Date(System.currentTimeMillis());
-                System.out.println("iGem: modify2=" + format.format(curDate));
                 return res;
             }
         };
@@ -121,10 +117,6 @@ public class Modifications {
                                                            ArrayList<T> sourceList,
                                                            ArrayList<ChangeDescription<T>> changes) {
         // Remove missing items
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
-        Date curDate = new Date(System.currentTimeMillis());
-        System.out.println("iGem: replace1=" + format.format(curDate));
-
         outer:
         for (int i = 0; i < sourceList.size(); i++) {
             long id = sourceList.get(i).getEngineId();
@@ -139,15 +131,56 @@ public class Modifications {
             sourceList.remove(i);
             i--;
         }
-        curDate = new Date(System.currentTimeMillis());
-        System.out.println("iGem: replace2=" + format.format(curDate));
-
         HashMap<Long, Long> sourcePar = new HashMap<>();
         for (T itm : items) {
             addOrUpdate(itm, sourceList, sourcePar, changes, false);
         }
-        curDate = new Date(System.currentTimeMillis());
-        System.out.println("iGem: replace3=" + format.format(curDate));
+        if (sourceList != null && sourceList.size() > 0
+                && sourceList.get(0) instanceof Contact) {
+            Collections.sort(sourceList, (vo1, vo2) -> {
+                String l, r = null;
+                try {
+                    Contact lhs = (Contact) vo1;
+                    Contact rhs = (Contact) vo2;
+//                            if(lhs.getPyShort()== null){
+//                                l = HanziToPinyin.getInstance().get(lhs.getName().substring(0,1)).get(0).target.substring(0,1).toUpperCase();
+//                                lhs.setPyShort(l);
+//                            }else{
+                    l = lhs.getPyShort();
+//                            }
+
+//                            if(rhs.getPyShort()== null){
+//                                r = HanziToPinyin.getInstance().get(rhs.getName().substring(0,1)).get(0).target.substring(0,1).toUpperCase();
+//                                rhs.setPyShort(r);
+//                            }else{
+                    r = rhs.getPyShort();
+//                            }
+                    if (r.equals("#")) {
+                        return -1;
+                    } else if (l.equals("#")) {
+                        return 1;
+                    }
+                    int result = 0;
+                    int i = 0;
+                    if (l.charAt(i) < r.charAt(i)) {
+                        result = -1;
+                    } else if (l.charAt(i) > r.charAt(i)) {
+                        result = 1;
+                    } else {
+                        result = 0;
+                    }
+
+                    if (result == 0) {
+                        return lhs.getName().compareTo(rhs.getName());
+                    }
+                    return result;
+                } catch (Exception e) {
+                    System.out.println("iGem:" + e.toString());
+                    e.printStackTrace();
+                }
+                return 0;
+            });
+        }
     }
 
     @AutoreleasePool

@@ -62,16 +62,9 @@ public class DisplayList<T> {
 
         this.operationMode = operationMode;
 
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
-        Date curDate = new Date(System.currentTimeMillis());
-        System.out.println("iGem: DisplayList1=" + format.format(curDate));
-
         this.executor = system().actorOf(Props.create(new ActorCreator() {
             @Override
             public ListSwitcher create() {
-                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
-                Date curDate = new Date(System.currentTimeMillis());
-                System.out.println("iGem: DisplayList2=" + format.format(curDate));
                 return new ListSwitcher(DisplayList.this);
             }
         }).changeDispatcher("display_list"), "display_lists/" + DISPLAY_LIST_ID);
@@ -224,8 +217,6 @@ public class DisplayList<T> {
 
         @AutoreleasePool
         public void onEditList(final Modification<T> modification, final Runnable runnable, boolean isLoadMore) {
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
-            Date curDate = new Date(System.currentTimeMillis());
             if (modification != null) {
                 pending.add(new ModificationHolder<T>(modification, runnable, isLoadMore));
             }
@@ -260,8 +251,6 @@ public class DisplayList<T> {
                 List<ChangeDescription<T>> changes = m.modification.modify(backgroundList);
                 modRes.addAll(changes);
             }
-            curDate = new Date(System.currentTimeMillis());
-            System.out.println("iGem: DisplayList3=" + format.format(curDate));
 
             // Build changes
             ArrayList<ChangeDescription<T>> androidChanges = null;
@@ -298,11 +287,6 @@ public class DisplayList<T> {
                 @Override
                 public void run() {
 
-                    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
-                    Date curDate = new Date(System.currentTimeMillis());
-                    System.out.println("iGem: DisplayList4=" + format.format(curDate));
-
-
                     displayList.currentList = (displayList.currentList + 1) % 2;
                     displayList.processedList = processedList;
 
@@ -329,10 +313,6 @@ public class DisplayList<T> {
                     }
 
                     self().send(new ListSwitched<T>(modifications));
-
-                    curDate = new Date(System.currentTimeMillis());
-                    System.out.println("iGem: DisplayList5=" + format.format(curDate));
-
 
                 }
             });

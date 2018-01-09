@@ -36,9 +36,6 @@ public class GenericEnginesProvider implements EnginesRuntime {
 
     @Override
     public <T extends BserObject & ListEngineItem> PlatformDisplayList<T> createDisplayList(ListEngine<T> listEngine, boolean isSharedInstance, String clazz) {
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
-        Date curDate = new Date(System.currentTimeMillis());
-        System.out.println("iGem: PlatformDisplayList=" + format.format(curDate));
         BindedDisplayList<T> list = new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, 10000, 10000, operationMode);
         return list;
     }

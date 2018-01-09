@@ -87,11 +87,11 @@ public class ContactsAdapter extends BindedListAdapter<Contact, ContactHolder> i
     @Override
     public int getPositionForSection(int sectionIndex) {
         for (int i = 0; i < getItemCount(); i++) {
-//            String sortStr = displayList.getList().get(i).getPyShort();
-//            char firstChar = sortStr.toUpperCase().charAt(0);
-//            if (firstChar == sectionIndex) {
-//                return i;
-//            }
+            String sortStr = displayList.getList().get(i).getPyShort();
+            char firstChar = sortStr.toUpperCase().charAt(0);
+            if (firstChar == sectionIndex) {
+                return i;
+            }
         }
 
         return -1;
@@ -99,7 +99,6 @@ public class ContactsAdapter extends BindedListAdapter<Contact, ContactHolder> i
 
     @Override
     public int getSectionForPosition(int position) {
-        return 0;
-//        return displayList.getList().get(position).getPyShort().charAt(0);
+        return displayList.getList().get(position).getPyShort().charAt(0);
     }
 }
