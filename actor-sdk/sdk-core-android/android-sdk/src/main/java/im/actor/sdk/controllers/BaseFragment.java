@@ -62,7 +62,6 @@ public class BaseFragment extends BinderCompatFragment implements MediaPickerCal
     public void setTitle(String title) {
         this.title = title;
         this.titleRes = 0;
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(title);

@@ -17,7 +17,6 @@ public class MyProfileActivity extends BaseFragmentActivity {
         getSupportActionBar().setTitle(null);
 
         if (savedInstanceState == null) {
-
             BaseActorSettingsFragment fragment;
             if (ActorSDK.sharedActor().getDelegate().getSettingsIntent() != null) {
                 ActorIntent settingsIntent = ActorSDK.sharedActor().getDelegate().getSettingsIntent();

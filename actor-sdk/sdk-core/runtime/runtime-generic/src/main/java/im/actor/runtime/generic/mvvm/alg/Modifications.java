@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.ChangeDescription;
@@ -121,17 +124,23 @@ public class Modifications {
         for (int i = 0; i < sourceList.size(); i++) {
             long id = sourceList.get(i).getEngineId();
 
-            for (T itm : items) {
-                if (itm.getEngineId() == id) {
-                    continue outer;
-                }
-            }
+//            for (T itm : items) {
+//                if (itm.getEngineId() == id) {
+//                    continue outer;
+//                }
+//            }
 
             changes.add(ChangeDescription.<T>remove(i));
             sourceList.remove(i);
             i--;
         }
-        HashMap<Long, Long> sourcePar = new HashMap<>();
+        HashMap<Long, T> sourcePar = new HashMap<>();
+//        if (sourceList.size() > 0) {
+//            Set<T> listSet = new HashSet<>(sourceList);
+//            for (T t:listSet){
+//                sourcePar.put(t.getEngineId(), t);
+//            }
+//        }
         for (T itm : items) {
             addOrUpdate(itm, sourceList, sourcePar, changes, false);
         }
@@ -142,19 +151,8 @@ public class Modifications {
                 try {
                     Contact lhs = (Contact) vo1;
                     Contact rhs = (Contact) vo2;
-//                            if(lhs.getPyShort()== null){
-//                                l = HanziToPinyin.getInstance().get(lhs.getName().substring(0,1)).get(0).target.substring(0,1).toUpperCase();
-//                                lhs.setPyShort(l);
-//                            }else{
                     l = lhs.getPyShort();
-//                            }
-
-//                            if(rhs.getPyShort()== null){
-//                                r = HanziToPinyin.getInstance().get(rhs.getName().substring(0,1)).get(0).target.substring(0,1).toUpperCase();
-//                                rhs.setPyShort(r);
-//                            }else{
                     r = rhs.getPyShort();
-//                            }
                     if (r.equals("#")) {
                         return -1;
                     } else if (l.equals("#")) {
@@ -196,12 +194,11 @@ public class Modifications {
     @AutoreleasePool
     private static <T extends ListEngineItem> void addOrUpdate(T item,
                                                                ArrayList<T> sourceList,
-                                                               HashMap<Long, Long> sourcePar,
+                                                               HashMap<Long, T> sourcePar,
                                                                ArrayList<ChangeDescription<T>> changes,
                                                                boolean isLoadMore) {
         long id = item.getEngineId();
         long sortKey = item.getEngineSort();
-
         // Finding suitable place for item
         int removedIndex = -1;
         int addedIndex = -1;
@@ -216,41 +213,37 @@ public class Modifications {
             isHave = false;
         }
 //        Optional<T> isHave = sourceList.stream().filter(srcItem -> srcItem.getEngineId() == id).findFirst();
-        if (!isHave) {
-
-            if (sourcePar.get(id) != null) {
-                for (int i = 0; i < sourceList.size(); i++) {
-                    T srcItem = sourceList.get(i);
-                    if (srcItem.getEngineId() == id) {
-                        if (isLoadMore) {
-                            return;
-                        }
-                        // Remove old item
-                        sourceList.remove(i);
-                        if (addedIndex >= 0) {
-                            removedIndex = i - 1;
-                        } else {
-                            removedIndex = i;
-                        }
-                        i--;
-                        continue;
-                    } else {
-                        // TODO: Fix ADD ONLY
-                        if ((addedIndex < 0) && sortKey > srcItem.getEngineSort()) {
-                            addedIndex = i;
-                            sourceList.add(i, item);
-                            sourcePar.put(id, sortKey);
-                            i++;
-                        }
+        if (isHave) {
+            for (int i = 0; i < sourceList.size(); i++) {
+                T srcItem = sourceList.get(i);
+                if (srcItem.getEngineId() == id) {
+                    if (isLoadMore) {
+                        return;
                     }
-
-                    // Already founded
-                    if (addedIndex >= 0 && removedIndex >= 0) {
-                        break;
+                    // Remove old item
+                    sourceList.remove(i);
+                    if (addedIndex >= 0) {
+                        removedIndex = i - 1;
+                    } else {
+                        removedIndex = i;
+                    }
+                    i--;
+                    continue;
+                } else {
+                    // TODO: Fix ADD ONLY
+                    if ((addedIndex < 0) && sortKey > srcItem.getEngineSort()) {
+                        addedIndex = i;
+                        sourceList.add(i, item);
+                        sourcePar.put(id, item);
+                        i++;
                     }
                 }
-            }
 
+                // Already founded
+                if (addedIndex >= 0 && removedIndex >= 0) {
+                    break;
+                }
+            }
         }
 
 
@@ -258,7 +251,7 @@ public class Modifications {
         if (addedIndex < 0) {
             addedIndex = sourceList.size();
             sourceList.add(sourceList.size(), item);
-            sourcePar.put(id, sortKey);
+            sourcePar.put(id, item);
         }
 
         if (addedIndex == removedIndex) {

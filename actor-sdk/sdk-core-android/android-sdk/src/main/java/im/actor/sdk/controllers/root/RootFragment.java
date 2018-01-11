@@ -73,7 +73,6 @@ public class RootFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         if (!isInited) {
             isInited = true;
             searchFram = new GlobalSearchDefaultFragment();

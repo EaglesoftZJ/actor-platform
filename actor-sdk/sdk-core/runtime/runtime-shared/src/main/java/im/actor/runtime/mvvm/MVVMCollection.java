@@ -70,6 +70,11 @@ public class MVVMCollection<T extends BserObject & KeyValueItem, V extends BaseV
         proxyKeyValueEngine.clear();
     }
 
+    @ObjectiveCName("getMaps")
+    public synchronized HashMap<Long, T> getMaps() {
+        return proxyKeyValueEngine.getCache();
+    }
+
     private void notifyChange(final List<T> items) {
         im.actor.runtime.Runtime.postToMainThread(() -> {
             for (T i : items) {
@@ -95,6 +100,10 @@ public class MVVMCollection<T extends BserObject & KeyValueItem, V extends BaseV
     private class ProxyKeyValueEngine implements KeyValueEngine<T> {
 
         private final HashMap<Long, T> cache = new HashMap<>();
+
+        public synchronized HashMap<Long, T> getCache() {
+            return cache;
+        }
 
         @Override
         public synchronized void addOrUpdateItem(T item) {

@@ -42,6 +42,7 @@ import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.zuzhijiagou.TreeDanWeiAdapter;
 
+import static im.actor.sdk.util.ActorSDKMessenger.groups;
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 import static java.util.Collections.*;
 
@@ -87,7 +88,6 @@ public class RootZzjgFragment extends BaseFragment {
 //        if (rootNode == null) {
         ZzjgData(ActorSDK.getZjjgData());
 //        }
-
         res.findViewById(R.id.zuzhijiagou_dw).setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
         emptyView = res.findViewById(R.id.emptyCollection);
         if (emptyView != null) {
