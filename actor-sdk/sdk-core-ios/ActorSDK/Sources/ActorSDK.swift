@@ -23,6 +23,10 @@ import ReachabilitySwift
     //
     //  Root Objects
     //
+    //联系人列表
+    open var contactsList:ARBindedDisplayList!
+    //群组列表
+    open var displayList:ARBindedDisplayList!
     //#切换根目录通知
     open let switchRootController = Notification.Name(rawValue:"rootViewController")
     /// Main Messenger object
@@ -474,7 +478,7 @@ import ReachabilitySwift
             if let contactsController = self.delegate.actorControllerForContacts() {
                 mainNavigations.append(AANavigationController(rootViewController: contactsController))
             } else {
-                mainNavigations.append(AANavigationController(rootViewController: AAContactsViewController()))
+                mainNavigations.append(AANavigationController(rootViewController: ContactsController()))
             }
         
             ////////////////////////////////////

@@ -40,7 +40,7 @@ open class AAContactsViewController: AAContactsListContentController, AAContacts
         super.init()
         
         content = ACAllEvents_Main.contacts()
-        
+
         tabBarItem = UITabBarItem(title: "TabPeople", img: "TabIconContacts", selImage: "TabIconContactsHighlighted")
         
         navigationItem.title = AALocalized("TabPeople")
@@ -90,7 +90,8 @@ open class AAContactsViewController: AAContactsListContentController, AAContacts
             }
             
             r.selectAction = { () -> Bool in
-                
+                let contactsGroupController = ContactsGroupController()
+                self.navigateNext(contactsGroupController)
                 return AADevice.isiPad
             }
         }

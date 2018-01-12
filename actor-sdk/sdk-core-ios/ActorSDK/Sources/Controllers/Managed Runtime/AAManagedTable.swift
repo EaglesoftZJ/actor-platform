@@ -97,7 +97,7 @@ open class AAManagedTable {
         if !isUpdating {
             fatalError("Table is not in updating mode")
         }
-        
+//
         let res = AAManagedSection(table: self, index: sections.count)
         res.autoSeparators = autoSeparator
         sections.append(res)
@@ -150,6 +150,7 @@ open class AAManagedTable {
     // Binding methods
     
     open func bind(_ binder: AABinder) {
+
         for s in sections {
             s.bind(self, binder: binder)
         }

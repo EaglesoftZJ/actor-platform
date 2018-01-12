@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//转发view
 class SendController: AADialogsListContentController, AADialogsListContentControllerDelegate {
     func recentsDidTap(_ controller: AADialogsListContentController, dialog: ACDialog) -> Bool {
         Actor.forwardContentContent(with: dialog.peer, with: message?.content)

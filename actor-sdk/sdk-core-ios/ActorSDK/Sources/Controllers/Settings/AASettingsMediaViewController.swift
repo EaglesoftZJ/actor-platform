@@ -20,11 +20,11 @@ open class AASettingsMediaViewController: AAContentTableController {
     
     open override func tableDidLoad() {
         
-        section { (s) -> () in
+        _ = section { (s) -> () in
     
             s.headerText = AALocalized("MediaPhotoDownloadHeader")
             
-            s.common { (r) -> () in
+            _ = s.common { (r) -> () in
                 r.style = .switch
                 r.content = AALocalized("SettingsPrivateChats")
                 
@@ -35,7 +35,7 @@ open class AASettingsMediaViewController: AAContentTableController {
                 }
             }
             
-            s.common { (r) -> () in
+            _ = s.common { (r) -> () in
                 r.style = .switch
                 r.content = AALocalized("SettingsGroupChats")
                 
@@ -47,11 +47,11 @@ open class AASettingsMediaViewController: AAContentTableController {
             }
         }
         
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             s.headerText = AALocalized("MediaAudioDownloadHeader")
             
-            s.common { (r) -> () in
+            _ = s.common { (r) -> () in
                 r.style = .switch
                 r.content = AALocalized("SettingsPrivateChats")
                 
@@ -62,7 +62,7 @@ open class AASettingsMediaViewController: AAContentTableController {
                 }
             }
             
-            s.common { (r) -> () in
+            _ = s.common { (r) -> () in
                 r.style = .switch
                 r.content = AALocalized("SettingsGroupChats")
                 
@@ -74,11 +74,11 @@ open class AASettingsMediaViewController: AAContentTableController {
             }
         }
         
-        section { (s) -> () in
+        _ = section { (s) -> () in
             
             s.headerText = AALocalized("MediaOtherHeader")
             
-            s.common { (r) -> () in
+           _ = s.common { (r) -> () in
                 r.style = .switch
                 r.content = AALocalized("MediaAutoplayGif")
                 

@@ -121,9 +121,13 @@ open class AABindedRows<BindCell>: NSObject, AAManagedRange, ARDisplayList_Apple
         
         let oldCount = lastItemsCount
         lastItemsCount = Int(displayList.size())
-
+        
         if oldCount != lastItemsCount {
-            table.tableView.reloadData()
+//            table.tableView.reloadData()//联系人列表刷新
+            
+            let app = ActorSDK.sharedActor()
+            app.contactsList = displayList
+            NotificationCenter.default.post(name:NSNotification.Name(rawValue: "displayList"), object: nil)
         } else {
             if let indexes = table.tableView.indexPathsForVisibleRows {
                 let cells = table.tableView.visibleCells
@@ -223,7 +227,9 @@ open class AABindedRows<BindCell>: NSObject, AAManagedRange, ARDisplayList_Apple
             lastItemsCount = Int(displayList.size())
             
             if oldCount != lastItemsCount {
-                table.tableView.reloadData()
+                table.tableView.reloadData() //消息列表刷新
+                let app = ActorSDK.sharedActor()
+                app.displayList = displayList
             } else {
                 if let indexes = table.tableView.indexPathsForVisibleRows {
                     let cells = table.tableView.visibleCells

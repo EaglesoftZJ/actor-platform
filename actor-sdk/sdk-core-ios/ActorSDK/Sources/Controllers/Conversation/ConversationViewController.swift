@@ -269,8 +269,9 @@ open class ConversationViewController:
     
     override open func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let editText = textView.text ?? ""
+        if editText == ""{oldNumber = 0}
         let str:String = (editText as NSString).replacingCharacters(in: range, with: text)
-        
+    
         if (peer.peerType.ordinal() == ACPeerType.group().ordinal())
         {
             let newNumber:Int = str.length
@@ -709,40 +710,40 @@ open class ConversationViewController:
     ////////////////////////////////////////////////////////////
     // MARK: - Completition
     ////////////////////////////////////////////////////////////
-    open func didChangeAutoCompletionPrefixed(_ prefix: String!, andWord word: String!) {
+//    open func didChangeAutoCompletionPrefixed(_ prefix: String!, andWord word: String!) {
 //    override open func didChangeAutoCompletionPrefix(_ prefix: String!, andWord word: String!) {
-        if self.peer.peerType.ordinal() == ACPeerType.group().ordinal() {
-            if prefix == "@" { //@人
-                
-                let oldCount = filteredMembers.count
-                filteredMembers.removeAll(keepingCapacity: true)
-                
-                let res = Actor.findMentions(withGid: self.peer.peerId, withQuery: word)!
-                
-                //如果res数组size为0,就去请求组员列表
-                if res.size() == 0{
-                    self.filteredMembers = self.groupMembers
-                }
-                else{
-                    for index in 0..<res.size() {
-                        let memberInfo = res.getWith(index) as! ACMentionFilterResult
-                        filteredMembers.append(memberInfo)
-                    }
-                }
-                if oldCount == filteredMembers.count {
-                    self.autoCompletionView.reloadData()
-                }
-                dispatchOnUi { () -> Void in
-                    self.showAutoCompletionView(self.filteredMembers.count > 0)
-                }
-                return
-            }
-        }
-        
-        dispatchOnUi { () -> Void in
-            self.showAutoCompletionView(false)
-        }
-    }
+//        if self.peer.peerType.ordinal() == ACPeerType.group().ordinal() {
+//            if prefix == "@" { //@人
+//                
+//                let oldCount = filteredMembers.count
+//                filteredMembers.removeAll(keepingCapacity: true)
+//                
+//                let res = Actor.findMentions(withGid: self.peer.peerId, withQuery: word)!
+//                
+//                //如果res数组size为0,就去请求组员列表
+//                if res.size() == 0{
+//                    self.filteredMembers = self.groupMembers
+//                }
+//                else{
+//                    for index in 0..<res.size() {
+//                        let memberInfo = res.getWith(index) as! ACMentionFilterResult
+//                        filteredMembers.append(memberInfo)
+//                    }
+//                }
+//                if oldCount == filteredMembers.count {
+//                    self.autoCompletionView.reloadData()
+//                }
+//                dispatchOnUi { () -> Void in
+//                    self.showAutoCompletionView(self.filteredMembers.count > 0)
+//                }
+//                return
+//            }
+//        }
+//        
+//        dispatchOnUi { () -> Void in
+//            self.showAutoCompletionView(false)
+//        }
+//    }
     
     ////////////////////////////////////////////////////////////
     // MARK: - TableView for completition

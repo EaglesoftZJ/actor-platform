@@ -6,6 +6,8 @@ import Foundation
 
 open class ActorApplicationDelegate: ActorSDKDelegateDefault, UIApplicationDelegate {
     
+    
+    
     public override init() {
         super.init()
         

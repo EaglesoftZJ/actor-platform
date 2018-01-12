@@ -6,6 +6,7 @@ import Foundation
 
 import ActorSDK
 import UIKit
+
 open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
     //# 小于服务器版本号{"welcomePage_bg":"http:\/\/61.175.100.14:5433\/photoImage\/bg1-2560.png","loginPage_bg":"http:\/\/61.175.100.14:5433\/photoImage\/bg-2560.png","loginPage_but":"http:\/\/61.175.100.14:5433\/photoImage\/login_but.png","version":1,"canUpdate":true}
     //# 大于，等于服务器版本号{"canUpdate":false}
@@ -29,6 +30,7 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
     }
     let image = PhoneImageService()
     var window: UIWindow?
+    
     override init() {
         super.init()
         
@@ -75,9 +77,9 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
         return true
     }
     
-    open override func actorRootControllers() -> [UIViewController]? {
-        return [AAContactsViewController(), AARecentViewController(), AASettingsViewController()]
-    }
+//    open override func actorRootControllers() -> [UIViewController]? {
+//        return [AAContactsViewController(), AARecentViewController(), AASettingsViewController()]
+//    }
     
     open override func actorRootInitialControllerIndex() -> Int? {
         return 1
