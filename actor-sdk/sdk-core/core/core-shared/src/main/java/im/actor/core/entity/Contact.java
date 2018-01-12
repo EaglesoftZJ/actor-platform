@@ -61,7 +61,7 @@ public class Contact extends BserObject implements ListEngineItem {
         this.name = name;
         try {
             if (name != null && name.length() > 0) {
-                this.pyShort = HanziToPinyin.getInstance().get(name.substring(0,1)).get(0).target.substring(0,1).toUpperCase();
+                this.pyShort = HanziToPinyin.getInstance().get(name.substring(0, 1)).get(0).target.substring(0, 1).toUpperCase();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,7 +98,7 @@ public class Contact extends BserObject implements ListEngineItem {
 
         try {
             if (name != null && name.length() > 0) {
-                pyShort = HanziToPinyin.getInstance().get(name.substring(0,1)).get(0).target.substring(0,1).toUpperCase();
+                pyShort = HanziToPinyin.getInstance().get(name.substring(0, 1)).get(0).target.substring(0, 1).toUpperCase();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,4 +143,5 @@ public class Contact extends BserObject implements ListEngineItem {
     public void setPyShort(String pyShort) {
         this.pyShort = pyShort;
     }
+
 }

@@ -16,7 +16,7 @@ public class BaseFragmentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         // Configure ActionBar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

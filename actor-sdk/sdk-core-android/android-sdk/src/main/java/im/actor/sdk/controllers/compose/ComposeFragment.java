@@ -7,6 +7,7 @@ import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.contacts.BaseContactFragment;
 import im.actor.core.entity.Contact;
+import im.actor.sdk.controllers.group.GroupAllActivity;
 import im.actor.sdk.controllers.zuzhijiagou.ZuzhijiagouActivity;
 
 public class ComposeFragment extends BaseContactFragment {
@@ -31,8 +32,7 @@ public class ComposeFragment extends BaseContactFragment {
 
         addFooterOrHeaderAction(ActorSDK.sharedActor().style.getActionShareColor(),
                 R.drawable.ic_group_white_24dp, R.string.main_fab_group, false, () -> {
-                    startActivity(new Intent(getActivity(), CreateGroupActivity.class)
-                            .putExtra(CreateGroupActivity.EXTRA_IS_CHANNEL, false));
+                    startActivity(new Intent(getActivity(), GroupAllActivity.class));
 //                    getActivity().finish();
                 }, true);
 

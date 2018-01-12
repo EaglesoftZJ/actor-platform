@@ -82,9 +82,7 @@ public class RootPageFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.activity_root_page, container, false);
-
         pager = (ViewPager) view.findViewById(R.id.vp_pager);
         pager.setOffscreenPageLimit(pageSize);
         homePagerAdapter = getHomePagerAdapter();

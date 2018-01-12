@@ -118,7 +118,6 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/ChatActivityTheme"
             android:windowSoftInputMode="adjustResize"/>
-
         <activity
             android:name=".controllers.conversation.GroupMemberActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -137,6 +136,14 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/ProfileActivityTheme"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
+
+        <activity
+            android:name=".controllers.group.GroupAllActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/ProfileActivityTheme"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden">
+        </activity>
+
         <activity
             android:name=".controllers.group.GroupEditActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -299,7 +306,6 @@
             android:screenOrientation="portrait"
             android:showOnLockScreen="true"
             android:theme="@style/CallTheme"/>
-
 
         <!-- apk跟新后台服务 -->
         <service
@@ -509,7 +515,6 @@
             android:name="com.amap.api.v2.apikey"
             android:value="c9bb6ed25a8f1ba46bf0daffb4571e7a">
         </meta-data>
-
 
     </application>
 

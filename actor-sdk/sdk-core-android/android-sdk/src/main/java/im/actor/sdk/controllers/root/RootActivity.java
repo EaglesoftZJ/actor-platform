@@ -11,22 +11,15 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v13.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.baidu.android.pushservice.PushConstants;
@@ -41,28 +34,22 @@ import com.huawei.hms.support.api.push.HuaweiPush;
 import com.huawei.hms.support.api.push.TokenResult;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
-import im.actor.core.AuthState;
-import im.actor.core.entity.SearchEntity;
+import im.actor.core.entity.Group;
 import im.actor.core.viewmodel.AppStateVM;
 import im.actor.core.viewmodel.Command;
 import im.actor.core.viewmodel.CommandCallback;
 import im.actor.runtime.android.AndroidContext;
-import im.actor.runtime.generic.mvvm.BindedDisplayList;
-import im.actor.runtime.promise.Promise;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
-import im.actor.sdk.controllers.activity.BaseActivity;
 import im.actor.sdk.controllers.activity.BaseFragmentActivity;
 import im.actor.sdk.controllers.compose.ComposeEaglesoftFragment;
 import im.actor.sdk.controllers.tools.InviteHandler;
@@ -71,10 +58,8 @@ import im.actor.sdk.intents.WebServiceUtil;
 import im.actor.sdk.permisson_interface.OnPermissionListener;
 import im.actor.sdk.push.Utils;
 import im.actor.sdk.services.UpdataService;
-import im.actor.sdk.view.PagerSlidingTabStrip;
-import im.actor.sdk.view.adapters.FragmentNoMenuStatePagerAdapter;
 
-import static im.actor.sdk.util.ActorSDKMessenger.messenger;
+import static im.actor.sdk.util.ActorSDKMessenger.groups;
 
 /**
  * Root Activity of Application
@@ -98,7 +83,6 @@ public class RootActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_root);
         sp = this.getSharedPreferences("flyChatSp", MODE_PRIVATE);
-
         int phoneFlag = Utils.isWhatPhone();
         if (phoneFlag == 0) {
 //百度推送
@@ -120,7 +104,6 @@ public class RootActivity extends BaseFragmentActivity {
 //            注意：因为推送服务XMPushService在AndroidManifest.xml中设置为运行在另外一个进程，这导致本Application会被实例化两次，所以我们需要让应用的主进程初始化。
             MiPushClient.registerPush(this, APP_ID, APP_KEY);
         }
-
 //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this,
 //                    new String[]{Manifest.permission.READ_CONTACTS},
@@ -298,8 +281,8 @@ public class RootActivity extends BaseFragmentActivity {
                             try {
                                 JSONObject json = new JSONObject(datasource);
                                 ActorSDK.setZjjgData(json);
-                                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
-                                fragment.changeAdapter();
+//                                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
+//                                fragment.changeAdapter();
                                 callback.onResult("");
                             } catch (Exception e) {
                                 e.printStackTrace();

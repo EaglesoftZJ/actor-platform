@@ -282,6 +282,7 @@
     <string name="group_title">群组信息</string>
     <string name="group_members_header">成员</string>
     <string name="group_members_count">{0}个，最多{1}个</string>
+    <string name="group_empty_short">还没有任何群组</string>
 
     <string name="group_admin">管理员</string>
 
