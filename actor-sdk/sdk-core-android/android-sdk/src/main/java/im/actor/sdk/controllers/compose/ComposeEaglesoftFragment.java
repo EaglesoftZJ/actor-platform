@@ -226,41 +226,6 @@ public class ComposeEaglesoftFragment extends BaseFragment {
                                 }
                             }
                         }
-                        curDate = new Date(System.currentTimeMillis());
-                        System.out.println("iGem:2=" + formatter.format(curDate));
-//                        Collections.sort(contactList, (lhs, rhs) -> {
-//                            String l = null;
-//                            try {
-//                                l = lhs.getPyShort();
-//                                String r = rhs.getPyShort();
-////                                        int minLength = Math.min(l.length(), r.length());
-//                                if (r.equals("#")) {
-//                                    return -1;
-//                                } else if (l.equals("#")) {
-//                                    return 1;
-//                                }
-//                                int result = 0;
-//                                int i = 0;
-//                                if (l.charAt(i) < r.charAt(i)) {
-//                                    result = -1;
-//                                } else if (l.charAt(i) > r.charAt(i)) {
-//                                    result = 1;
-//                                } else {
-//                                    result = 0;
-//                                }
-//
-//                                if (result == 0) {
-//                                    return lhs.getName().compareTo(rhs.getName());
-//                                }
-//                                return result;
-//                            } catch (Exception e) {
-//                                System.out.println("iGem:" + e.toString());
-//                                e.printStackTrace();
-//                            }
-//                            return 0;
-//                        });
-                        curDate = new Date(System.currentTimeMillis());
-                        System.out.println("iGem:3=" + formatter.format(curDate));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

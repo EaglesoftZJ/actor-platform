@@ -33,6 +33,7 @@ import com.droidkit.progress.CircularView;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.spec.ECField;
 
 import im.actor.core.entity.FileReference;
 import im.actor.core.viewmodel.UserVM;
@@ -148,7 +149,7 @@ public class PictureActivity extends BaseActivity {
             bitmap = ImageLoading.loadBitmapOptimized(path);
             bitmapWidth = bitmap.getWidth();
             bitmapHeight = bitmap.getHeight();
-        } catch (ImageLoadException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }

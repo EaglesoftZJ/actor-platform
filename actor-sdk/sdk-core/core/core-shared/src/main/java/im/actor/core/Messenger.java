@@ -9,9 +9,17 @@ import com.google.j2objc.annotations.ObjectiveCName;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import javax.xml.soap.SOAPElement;
 
 import im.actor.core.api.ApiRawValue;
 import im.actor.core.api.ApiSex;
@@ -62,6 +70,7 @@ import im.actor.core.viewmodel.FileEventCallback;
 import im.actor.core.viewmodel.FileVM;
 import im.actor.core.viewmodel.FileVMCallback;
 import im.actor.core.viewmodel.GlobalStateVM;
+import im.actor.core.viewmodel.GroupAllGetCallback;
 import im.actor.core.viewmodel.GroupAvatarVM;
 import im.actor.core.viewmodel.GroupVM;
 import im.actor.core.viewmodel.OwnAvatarVM;
@@ -85,8 +94,8 @@ import im.actor.runtime.storage.PreferencesStorage;
  */
 public class Messenger {
 
-    public static long pyTime=0;
-    public static long pyTime2=0;
+    public static long pyTime = 0;
+    public static long pyTime2 = 0;
 
     // Do Not Remove! WorkAround for missing j2objc translator include
     private static final Void DUMB = null;
@@ -1174,7 +1183,7 @@ public class Messenger {
     /**
      * Save message PeerAtInfo
      *
-     * @param peer  destination peer
+     * @param peer destination peer
      * @param info message info
      */
     @ObjectiveCName("savePeerAtInfoWithPeer:withInfo:")
@@ -1250,6 +1259,7 @@ public class Messenger {
 
     /**
      * 改变group中成员的值
+     *
      * @param gid
      * @param addMembers
      */
@@ -1258,7 +1268,7 @@ public class Messenger {
         List<GroupMember> members = getGroups().getEngine().getValue(gid).getMembers();
         members.clear();
         members.addAll(addMembers);
-        GroupVM groupVM =  getGroups().get(gid);
+        GroupVM groupVM = getGroups().get(gid);
         groupVM.getMembers().change(new HashSet<>(members));
     }
 
@@ -2853,5 +2863,88 @@ public class Messenger {
      */
     ModuleContext getModuleContext() {
         return modules;
+    }
+
+
+    /**
+     * @param uid 登录人ID
+     */
+    @ObjectiveCName("getGroupAllWithUid:withCallback:")
+    public void getGroupAll(long uid, GroupAllGetCallback callback) {
+        //服务的地址
+        try {
+            new Thread() {
+                @Override
+                public void run() {
+                    String s = "";
+                    try {
+                        URL wsUrl = new URL("http://192.168.1.182:8080/services/ActorService");
+
+                        HttpURLConnection conn = (HttpURLConnection) wsUrl.openConnection();
+
+                        conn.setDoInput(true);
+                        conn.setDoOutput(true);
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
+                        conn.setRequestProperty("User-Agent", "ksoap2-android/2.6.0+");
+                        conn.setRequestProperty("SOAPAction", "http://eaglesoft/queryGroup");
+
+                        conn.setRequestProperty("Connection", "close");
+                        conn.setRequestProperty("Accept-Encoding", "gzip");
+                        //请求体
+                        String soap = "<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+                                "xmlns:d=\"http://www.w3.org/2001/XMLSchema\" " +
+                                "xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" " +
+                                "xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+                                "<v:Header /><v:Body>" +
+                                "<n0:queryGroup id=\"o0\" " +
+                                "c:root=\"1\" xmlns:n0=\"http://eaglesoft\">" +
+                                "<id i:type=\"d:string\">" + uid + "</id>" +
+                                "</n0:queryGroup></v:Body></v:Envelope>";
+                        conn.setRequestProperty("Content-Length", "" + soap.getBytes().length);
+                        OutputStream os = conn.getOutputStream();
+                        os.write(soap.getBytes(), 0, soap.getBytes().length);
+                        InputStream is = conn.getInputStream();
+                        if (conn.getResponseCode() == 200) {
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            byte[] buf = new byte[256];
+
+                            while (true) {
+                                int rd = ((InputStream) is).read(buf, 0, 256);
+                                if (rd == -1) {
+                                    bos.flush();
+                                    buf = bos.toByteArray();
+                                    ((InputStream) is).close();
+                                    is = new ByteArrayInputStream(buf);
+                                    break;
+                                }
+
+                                bos.write(buf, 0, rd);
+                            }
+
+                            s = new String(bos.toByteArray(), "UTF-8");
+                            String resultName = "return";
+                            String[] strs = s.split("<" + resultName + ">");
+                            String[] strs2 = strs[1].split("</" + resultName + ">");
+                            s = strs2[0];
+                            os.close();
+                            conn.disconnect();
+                        } else {
+                            s = "error";
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        callback.responseCallBack(s);
+                    }
+                }
+            }.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("iGem:e=" + e.getMessage());
+        }
+
     }
 }
