@@ -168,28 +168,10 @@ public class GroupAllForUsersFragment extends BaseFragment {
         });
         messenger().getGroupAll(myUid(), new GroupAllGetCallback() {
             @Override
-            public void responseCallBack(String response) {
-                System.out.println("iGem:response=" + response);
-                try {
-                    JSONArray array = new JSONArray(response);
-                    System.out.println("iGem:" + array.toString());
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject json = array.getJSONObject(i);
-                        GroupVM vm = null;
-                        try {
-                            vm = groups().get(json.getInt("id"));
-                            groups.add(vm);
-                        } catch (Exception e) {
-                            String title = json.getString("title");
-                            System.out.println("iGem:groupName" + title);
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println("iGem:" + e.getMessage());
-                    e.printStackTrace();
-                } finally {
-                    callBackHandler.sendEmptyMessage(0);
-                }
+            public void responseCallBack(List<GroupVM> groupVMS) {
+                groups.clear();
+                groups.addAll(groupVMS);
+                callBackHandler.sendEmptyMessage(0);
             }
         });
 //        WebServiceLogionUtil.webServiceRun("http://192.168.1.182:8080", par, "queryGroup", getActivity().getApplication(),

@@ -81,6 +81,8 @@ import im.actor.core.viewmodel.UploadFileVMCallback;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.runtime.actors.ActorSystem;
 import im.actor.runtime.actors.messages.Void;
+import im.actor.runtime.json.JSONArray;
+import im.actor.runtime.json.JSONObject;
 import im.actor.runtime.mtproto.ConnectionEndpointArray;
 import im.actor.runtime.mvvm.MVVMCollection;
 import im.actor.runtime.mvvm.SearchValueModel;
@@ -2877,6 +2879,7 @@ public class Messenger {
                 @Override
                 public void run() {
                     String s = "";
+                    List<GroupVM> groupVMS = new ArrayList<>();
                     try {
                         URL wsUrl = new URL("http://192.168.1.182:8080/services/ActorService");
 
@@ -2929,6 +2932,19 @@ public class Messenger {
                             s = strs2[0];
                             os.close();
                             conn.disconnect();
+
+                            JSONArray array = new JSONArray(s);
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject json = array.getJSONObject(i);
+                                GroupVM vm = null;
+                                try {
+                                    vm = getGroup(json.getInt("id"));
+                                    groupVMS.add(vm);
+                                } catch (Exception e) {
+                                    String title = json.getString("title");
+                                    System.out.println("iGem:groupName" + title);
+                                }
+                            }
                         } else {
                             s = "error";
                         }
@@ -2936,7 +2952,7 @@ public class Messenger {
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
-                        callback.responseCallBack(s);
+                        callback.responseCallBack(groupVMS);
                     }
                 }
             }.start();

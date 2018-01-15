@@ -6,6 +6,9 @@ package im.actor.core.viewmodel;
 
 import com.google.j2objc.annotations.ObjectiveCName;
 
+import java.util.List;
+
+import im.actor.core.entity.Group;
 import im.actor.runtime.files.FileSystemReference;
 
 /**
@@ -19,5 +22,5 @@ public interface GroupAllGetCallback {
      * @param response
      */
     @ObjectiveCName("responseCallBack:")
-    void responseCallBack(String response);
+    void responseCallBack(List<GroupVM> groupVMS);
 }
