@@ -19,7 +19,7 @@ public interface GroupAllGetCallback {
     /**
      *
      *
-     * @param response
+     * @param groupVMS
      */
     @ObjectiveCName("responseCallBack:")
     void responseCallBack(List<GroupVM> groupVMS);
