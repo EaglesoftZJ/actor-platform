@@ -609,7 +609,7 @@ open class ConversationViewController:
             let dict:NSDictionary = UserDefaults.standard.object(forKey: "ZZJG") as! NSDictionary
             let personInfo:Array<NSDictionary> = dict["yh_data"] as! Array<NSDictionary>
             for dic in personInfo {
-                if Int(dic[""] as! String) == Int(self.peer.peerId) {
+                if Int(dic["IGIMID"] as! String) == Int(self.peer.peerId) {
                     let sjh = dic["sjh"] as! String
                     if sjh.length == 11 && isPurnInt(string: sjh){
                         let tel = "tel://\(sjh)"

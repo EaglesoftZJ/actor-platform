@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.xml.soap.SOAPElement;
+//import javax.xml.soap.SOAPElement;
 
 import im.actor.core.api.ApiRawValue;
 import im.actor.core.api.ApiSex;
