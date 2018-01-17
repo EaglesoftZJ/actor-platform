@@ -3,9 +3,11 @@ package im.actor.sdk.controllers.conversation.toolbar;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +22,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+
+import im.actor.core.entity.Dialog;
+import im.actor.core.entity.DialogBuilder;
 import im.actor.core.entity.GroupType;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.PeerType;
@@ -28,12 +34,15 @@ import im.actor.core.viewmodel.CommandCallback;
 import im.actor.core.viewmodel.GroupVM;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.runtime.Log;
+import im.actor.runtime.actors.Actor;
 import im.actor.runtime.actors.messages.Void;
+import im.actor.runtime.json.JSONObject;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.ActorSDKLauncher;
 import im.actor.sdk.ActorStyle;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
+import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.conversation.view.TypingDrawable;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.view.TintDrawable;
@@ -207,7 +216,7 @@ public class ChatToolbarFragment extends BaseFragment {
                 bindGroupTyping(barTyping, barTypingContainer, barSubtitle, messenger().getGroupTyping(group.getId()));
             }
         }
-        
+
         // Global Counter
         bind(messenger().getGlobalState().getGlobalCounter(), (val, valueModel) -> {
             if (val != null && val > 0) {
@@ -273,12 +282,14 @@ public class ChatToolbarFragment extends BaseFragment {
             }
         }
         menu.findItem(R.id.call).setVisible(callsEnabled);
-        menu.findItem(R.id.video_call).setVisible(callsEnabled && videoCallsEnabled);
+//        menu.findItem(R.id.video_call).setVisible(callsEnabled && videoCallsEnabled);
+        menu.findItem(R.id.video_call).setVisible(false);
 
         // Add to contacts
         if (peer.getPeerType() == PeerType.PRIVATE) {
             menu.findItem(R.id.add_to_contacts).setVisible(!users().get(peer.getPeerId()).isContact().get());
         }
+
     }
 
     @Override
@@ -339,13 +350,17 @@ public class ChatToolbarFragment extends BaseFragment {
 
         if (ActorSDK.sharedActor().isCallsEnabled()) {
             if (item.getItemId() == R.id.call || item.getItemId() == R.id.video_call) {
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
-                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED ||
-                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED ||
-                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED) {
+//                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+//                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+//                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED ||
+//                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED ||
+//                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                     Log.d("Permissions", "call - no permission :c");
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.CAMERA, Manifest.permission.VIBRATE, Manifest.permission.WAKE_LOCK},
+//                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.CAMERA, Manifest.permission.VIBRATE, Manifest.permission.WAKE_LOCK},
+//                            item.getItemId() == R.id.video_call ? PERMISSIONS_REQUEST_FOR_VIDEO_CALL : PERMISSIONS_REQUEST_FOR_CALL);
+
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_PHONE_STATE},
                             item.getItemId() == R.id.video_call ? PERMISSIONS_REQUEST_FOR_VIDEO_CALL : PERMISSIONS_REQUEST_FOR_CALL);
 
                 } else {
@@ -370,10 +385,41 @@ public class ChatToolbarFragment extends BaseFragment {
     private void startCall(boolean video) {
         Command<Long> cmd;
         if (peer.getPeerType() == PeerType.PRIVATE) {
-            cmd = video ? messenger().doVideoCall(peer.getPeerId()) : messenger().doCall(peer.getPeerId());
+            if (video) {
+                cmd = messenger().doVideoCall(peer.getPeerId());
+            } else {
+                cmd = null;
+                String sjh = "";
+                try {
+                    JSONArray yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
+                    System.out.println("iGem:" + yh_array);
+                    for (int i = 0; i < yh_array.length(); i++) {
+                        if (yh_array.getJSONObject(i).getString("IGIMID").equals(peer.getPeerId() + "")) {
+                            sjh = yh_array.getJSONObject(i).getString("sjh");
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if(sjh == null || sjh.length() == 0){
+                    new AlertDialog.Builder(getActivity())
+                            .setMessage("对不起，该手机号为空")
+                            .setPositiveButton(R.string.dialog_ok, null)
+                            .show();
+                    return;
+                }
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_CALL);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse("tel:" + sjh));// mobile为你要拨打的电话号码，模拟器中为模拟器编号也可
+                getActivity().startActivity(intent);
+            }
+//            cmd = video ? messenger().doVideoCall(peer.getPeerId()) : messenger().doCall(peer.getPeerId());
         } else {
             cmd = messenger().doGroupCall(peer.getPeerId());
         }
-        execute(cmd, R.string.progress_common);
+        if (cmd != null)
+            execute(cmd, R.string.progress_common);
     }
 }

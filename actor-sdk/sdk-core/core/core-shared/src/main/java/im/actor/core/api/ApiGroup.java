@@ -178,4 +178,60 @@ public class ApiGroup extends BserObject {
         return res;
     }
 
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setAccessHash(long accessHash) {
+        this.accessHash = accessHash;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAvatar(ApiAvatar avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setMembersCount(Integer membersCount) {
+        this.membersCount = membersCount;
+    }
+
+    public Boolean getMember() {
+        return isMember;
+    }
+
+    public void setMember(Boolean member) {
+        isMember = member;
+    }
+
+    public Boolean getHidden() {
+        return isHidden;
+    }
+
+    public void setHidden(Boolean hidden) {
+        isHidden = hidden;
+    }
+
+    public void setGroupType(ApiGroupType groupType) {
+        this.groupType = groupType;
+    }
+
+    public void setPermissions(Long permissions) {
+        this.permissions = permissions;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public void setExt(ApiMapValue ext) {
+        this.ext = ext;
+    }
 }

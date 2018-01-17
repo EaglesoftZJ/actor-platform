@@ -66,7 +66,13 @@ public class ChatListProcessor implements ListProcessor<Message> {
 
         isGroup = peer.getPeerType() == PeerType.GROUP;
         if (isGroup) {
-            group = groups().get(peer.getPeerId());
+            try {
+                group = groups().get(peer.getPeerId());
+            }catch (Exception e){
+                e.printStackTrace();
+                System.out.println("iGem:"+e.getMessage());
+            }
+
         }
         colors = ActorSDK.sharedActor().style.getDefaultAvatarPlaceholders();
     }

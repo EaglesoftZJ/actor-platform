@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -29,10 +30,13 @@ import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.DisplayListFragment;
+import im.actor.sdk.controllers.compose.ComposeActivity;
 import im.actor.sdk.controllers.contacts.view.ContactHolder;
 import im.actor.sdk.controllers.contacts.view.ContactsAdapter;
 import im.actor.sdk.controllers.contacts.view.MemberSideBar;
 import im.actor.sdk.controllers.fragment.help.HelpActivity;
+import im.actor.sdk.controllers.group.AddMemberActivity;
+import im.actor.sdk.controllers.root.RootActivity;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.util.Fonts;
 import im.actor.sdk.view.adapters.OnItemClickedListener;
@@ -53,7 +57,7 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
     RelativeLayout contactReLay;
     private RecyclerView collection;
     MemberSideBar sideBar;
-
+    int scpostion;
     public BaseContactFragment(boolean useCompactVersion, boolean userSearch, boolean useSelection) {
         this.useCompactVersion = useCompactVersion;
         this.userSearch = userSearch;
@@ -120,6 +124,12 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         });
         res.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
 
+        Activity activity = getActivity();
+        scpostion = 1;
+        if(activity instanceof ComposeActivity ||
+                activity instanceof RootActivity){
+            scpostion = 5;
+        }
         //右边的side
         sideBar.setOnStrSelectCallBack(new MemberSideBar.ISideBarSelectCallBack() {
             @Override
@@ -129,16 +139,14 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                     return;
                 }
                 List<Contact> contactList = displayList.getList();
-//                Contact contactMatch = contactList.stream().filter(contact ->
-//                        selectStr.equalsIgnoreCase(contact.getPyShort())
-//                ).findFirst().get();
+
                 for (int i = 0; i < contactList.size(); i++) {
                     if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
 //                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
                         LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
                         int firstItem = manager.findFirstVisibleItemPosition();
                         int lastItem = manager.findLastVisibleItemPosition();
-                        int n = i + 5;
+                        int n = i + scpostion;
                         if (n <= firstItem) {
                             collection.scrollToPosition(n);
                         } else if (n <= lastItem) {

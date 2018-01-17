@@ -14,8 +14,11 @@ import org.ksoap2.SoapFault;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.kxml2.io.KXmlSerializer;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
 
+import java.io.ByteArrayOutputStream;
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -71,8 +74,12 @@ public class WebServiceLogionUtil {
         String soapAction = nameSpace + "/" + methodName;
         SoapObject request = new SoapObject(nameSpace, methodName);
 //        /ActorServices-Maven
-        if (!serviceurl.endsWith("/ActorServices-Maven/services/ActorService")) {
-            serviceurl += "/ActorServices-Maven/services/ActorService";
+//        if (!serviceurl.endsWith("/ActorServices-Maven/services/ActorService")) {
+//            serviceurl += "/ActorServices-Maven/services/ActorService";
+//        }
+
+        if (!serviceurl.endsWith("/services/ActorService")) {
+            serviceurl += "/services/ActorService";
         }
 
 
