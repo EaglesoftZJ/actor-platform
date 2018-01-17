@@ -27,7 +27,7 @@
                                              wsParameters:params];
     [req setDelegate:self];
     [req startAsynchronous];
-    [delegate serviceStart:self];
+//    [delegate serviceStart:self];
 }
 
 - (void)request:(ASIHTTPRequest *)request didReceiveBytes:(long long)bytes
@@ -40,12 +40,12 @@
     NSString *jsonString = [WebService getJSONStringFromSOAP:responseString];
     NSDictionary *jsonData = [jsonString JSONValue];
     [delegate serviceSuccess:self object:jsonData];
-     [delegate serviceEnd:self];
+//     [delegate serviceEnd:self];
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     [delegate serviceFail:self info:[ActorSDK sharedActor].ERR_HTTP_REQUEST];
-    [delegate serviceEnd:self];
+//    [delegate serviceEnd:self];
 }
 @end

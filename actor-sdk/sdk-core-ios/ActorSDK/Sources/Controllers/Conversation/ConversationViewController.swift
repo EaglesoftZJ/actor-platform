@@ -603,18 +603,64 @@ open class ConversationViewController:
         }
     }
     
+    //打电话
     func onCallTap() {
-        if (self.peer.isGroup) {
-            executeHidden(ActorSDK.sharedActor().messenger.doCall(withGid: self.peer.peerId))
-        } else if (self.peer.isPrivate) {
-            executeHidden(ActorSDK.sharedActor().messenger.doCall(withUid: self.peer.peerId))
+        if UserDefaults.standard.object(forKey: "ZZJG") != nil {
+            let dict:NSDictionary = UserDefaults.standard.object(forKey: "ZZJG") as! NSDictionary
+            let personInfo:Array<NSDictionary> = dict["yh_data"] as! Array<NSDictionary>
+            for dic in personInfo {
+                if Int(dic[""] as! String) == Int(self.peer.peerId) {
+                    let sjh = dic["sjh"] as! String
+                    if sjh.length == 11 && isPurnInt(string: sjh){
+                        let tel = "tel://\(sjh)"
+                        if #available(iOS 10, *) {
+                            UIApplication.shared.open(URL(string:tel)!, options: [:], completionHandler: { (success) in
+                                
+                            })
+                        }
+                        else {
+                            UIApplication.shared.openURL(URL(string:tel)!)
+                        }
+                        break
+                    }
+                }
+            }
         }
+        
     }
     
+    // 判断输入的字符串是否为数字，不含其它字符
+    func isPurnInt(string: String) -> Bool {
+        
+        let scan: Scanner = Scanner(string: string)
+        
+        var val:Int = 0
+        
+        return scan.scanInt(&val) && scan.isAtEnd
+    }
+    
+    //视屏通话(加入语音通话)
     func onVideoCallTap() {
-        if (self.peer.isPrivate) {
-            execute(ActorSDK.sharedActor().messenger.doVideoCall(withUid: self.peer.peerId))
-        }
+        let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        let onCallAction = UIAlertAction(title:"语音通话",style:.default,handler:{
+            (UIAlertAction) -> Void in
+            if (self.peer.isGroup) {
+                self.executeHidden(ActorSDK.sharedActor().messenger.doCall(withGid: self.peer.peerId))
+            } else if (self.peer.isPrivate) {
+                self.executeHidden(ActorSDK.sharedActor().messenger.doCall(withUid: self.peer.peerId))
+            }
+        })
+        let onVideoCallAction = UIAlertAction(title:"视屏通话",style:.default,handler:{
+            (UIAlertAction) -> Void in
+            if (self.peer.isPrivate) {
+                self.execute(ActorSDK.sharedActor().messenger.doVideoCall(withUid: self.peer.peerId))
+            }
+        })
+        alert.addAction(onCallAction)
+        alert.addAction(onVideoCallAction)
+        alert.addAction(cancelAction)
+        self.present(alert,animated:true,completion: nil)
     }
     
     ////////////////////////////////////////////////////////////

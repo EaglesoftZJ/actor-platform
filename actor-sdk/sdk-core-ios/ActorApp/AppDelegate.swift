@@ -11,24 +11,33 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
     //# 小于服务器版本号{"welcomePage_bg":"http:\/\/61.175.100.14:5433\/photoImage\/bg1-2560.png","loginPage_bg":"http:\/\/61.175.100.14:5433\/photoImage\/bg-2560.png","loginPage_but":"http:\/\/61.175.100.14:5433\/photoImage\/login_but.png","version":1,"canUpdate":true}
     //# 大于，等于服务器版本号{"canUpdate":false}
     public func serviceSuccess(_ svc: CommonService!, object obj: Any!) {
-        guard (obj as? NSDictionary) != nil else{return}
-        let dic:[String:AnyObject] = obj as! Dictionary
-        let defaults = UserDefaults.standard
-        if dic["canUpdate"] as! Int == 1 {
-            defaults.set(String(describing: dic["version"]), forKey: "version")
-            defaults.set(dic["welcomePage_bg"], forKey: "welcomeImage")
-            defaults.set(dic["loginPage_bg"], forKey: "loginImage")
-            defaults.set(dic["loginPage_but"], forKey: "loginBtnImage")
-            defaults.synchronize()
+        if svc == image
+        {
+            guard (obj as? NSDictionary) != nil else{return}
+            let dic:[String:AnyObject] = obj as! Dictionary
+            let defaults = UserDefaults.standard
+            if dic["canUpdate"] as! Int == 1 {
+                defaults.set(String(describing: dic["version"]), forKey: "version")
+                defaults.set(dic["welcomePage_bg"], forKey: "welcomeImage")
+                defaults.set(dic["loginPage_bg"], forKey: "loginImage")
+                defaults.set(dic["loginPage_but"], forKey: "loginBtnImage")
+                defaults.synchronize()
+            }
         }
-        else{
-            
+        else if svc == companyService
+        {
+            guard (obj as? NSDictionary) != nil else{return}
+            let result_dict = obj as! NSDictionary
+            UserDefaults.standard.set(result_dict, forKey: "ZZJG")
+            UserDefaults.standard.synchronize()
         }
     }
     public func serviceFail(_ svc: CommonService!, info: String!) {
         
     }
+    
     let image = PhoneImageService()
+    let companyService = CompanyService()
     var window: UIWindow?
     
     override init() {
@@ -74,6 +83,10 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
         
         //#启动图
         addLaunchController()
+        //#组织架构
+        companyService.delegate = self
+        companyService.chooseCompany()
+        
         return true
     }
     

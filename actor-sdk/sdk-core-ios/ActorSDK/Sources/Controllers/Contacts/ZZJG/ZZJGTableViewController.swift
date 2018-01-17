@@ -8,12 +8,12 @@
 
 import UIKit
 class ZZJGTableViewController: UITableViewController,CommonServiceDelegate {
-    func serviceStart(_ svc: CommonService!) {
+//    func serviceStart(_ svc: CommonService!) {
 //        hud.show(view:self.tableView)
-    }
-    func serviceEnd(_ svc: CommonService!) {
+//    }
+//    func serviceEnd(_ svc: CommonService!) {
 //        hud.hide()
-    }
+//    }
     func serviceSuccess(_ svc: CommonService!, object obj: Any!) {
         if svc == companyService {
             guard (obj as? NSDictionary) != nil else{return}

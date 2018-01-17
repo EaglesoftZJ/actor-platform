@@ -385,7 +385,6 @@
 		35B9FA5A2005F5AA000907CB /* ContactsGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FA592005F5A9000907CB /* ContactsGroupController.swift */; };
 		35B9FA5E200747A6000907CB /* ContactsGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FA5D200747A6000907CB /* ContactsGroupCell.swift */; };
 		35B9FA602007519A000907CB /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FA5F2007519A000907CB /* ContactsController.swift */; };
-		35B9FA6520089C2C000907CB /* ContactsSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FA6420089C2C000907CB /* ContactsSearchController.swift */; };
 		35DEBF3C1FFDBAA0006F2102 /* SendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DEBF3B1FFDBAA0006F2102 /* SendController.swift */; };
 		35E500201FC41C6200637253 /* PhoneImageService.h in Headers */ = {isa = PBXBuildFile; fileRef = 35E5001E1FC41C6200637253 /* PhoneImageService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35E500211FC41C6200637253 /* PhoneImageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E5001F1FC41C6200637253 /* PhoneImageService.m */; };
@@ -829,7 +828,6 @@
 		35B9FA592005F5A9000907CB /* ContactsGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsGroupController.swift; sourceTree = "<group>"; };
 		35B9FA5D200747A6000907CB /* ContactsGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsGroupCell.swift; sourceTree = "<group>"; };
 		35B9FA5F2007519A000907CB /* ContactsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsController.swift; sourceTree = "<group>"; };
-		35B9FA6420089C2C000907CB /* ContactsSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsSearchController.swift; sourceTree = "<group>"; };
 		35DEBF3B1FFDBAA0006F2102 /* SendController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendController.swift; sourceTree = "<group>"; };
 		35E5001E1FC41C6200637253 /* PhoneImageService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhoneImageService.h; sourceTree = "<group>"; };
 		35E5001F1FC41C6200637253 /* PhoneImageService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhoneImageService.m; sourceTree = "<group>"; };
@@ -1419,7 +1417,6 @@
 				066A53031BC53177000E606E /* AAContactsViewController.swift */,
 				35B9FA592005F5A9000907CB /* ContactsGroupController.swift */,
 				35B9FA5D200747A6000907CB /* ContactsGroupCell.swift */,
-				35B9FA6420089C2C000907CB /* ContactsSearchController.swift */,
 				35B9FA61200751B4000907CB /* ZZJG */,
 			);
 			path = Contacts;
@@ -2446,7 +2443,6 @@
 				15D35F331C20187200E3717A /* opusfile.c in Sources */,
 				065975391BC7CA7B00B8C7DF /* Bundle.swift in Sources */,
 				15D35F6B1C20187E00E3717A /* AATimerTarget.m in Sources */,
-				35B9FA6520089C2C000907CB /* ContactsSearchController.swift in Sources */,
 				066A53111BC53317000E606E /* AACorePreviewController.swift in Sources */,
 				066A519B1BC4C390000E606E /* FMDBKeyValue.swift in Sources */,
 				15D35F521C20187E00E3717A /* ASQueue.m in Sources */,

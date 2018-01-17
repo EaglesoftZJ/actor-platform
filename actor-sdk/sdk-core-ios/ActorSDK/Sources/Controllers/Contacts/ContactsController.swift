@@ -8,28 +8,29 @@
 
 import UIKit
 
-class ContactsController: AAContactsListContentController,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchResultsUpdating {
+class ContactsController: AAContactsListContentController,UITableViewDelegate,UITableViewDataSource,UISearchDisplayDelegate,UISearchBarDelegate {
     
-    func updateSearchResults(for searchController: UISearchController) {
-        let nav_VC = searchController.searchResultsController as! UINavigationController
-        let resultVC = nav_VC.topViewController as! ContactsSearchController
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchArray.removeAll()
-        
+
         for contact in contactsArray
         {
-            if contact.name.contains(searchController.searchBar.text!){
+            if contact.name.contains(searchText){
                 searchArray.append(contact)
             }
         }
-
-        resultVC.searchArray = searchArray
-        resultVC.table.reloadData()
     }
-
+    
    func numberOfSections(in tableView: UITableView) -> Int {
+        if tableView == searchDisplay.searchResultsTableView {
+            return 1
+        }
         return displayList.count + 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == searchDisplay.searchResultsTableView {
+            return searchArray.count
+        }
         if section == 0 {
             return 3
         }
@@ -39,8 +40,15 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
     }
     
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView == searchDisplay.searchResultsTableView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ContactsGroupCell
+            let contact = searchArray[indexPath.row]
+            cell.nameLabel.text = contact.name
+            cell.avatarView.bind(contact.name, id: Int(contact.uid), avatar: contact.avatar)
+            return cell
+        }
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! UITableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)
             tableCell(row: indexPath.row, cell: cell)
             return cell
         }
@@ -60,6 +68,9 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
         cell.textLabel?.text = textList[row]
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if tableView == searchDisplay.searchResultsTableView{
+            return nil
+        }
         if section == 0 {
             return "联系人"
         }
@@ -68,34 +79,51 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
         return text
     }
    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        var list = Array<String>()
-        for dic in displayList {
-            let text = (dic as! NSDictionary)["sectionTitle"] as! String
-            list.append(text)
+        if tableView == table{
+            var list = Array<String>()
+            for dic in displayList {
+                let text = (dic as! NSDictionary)["sectionTitle"] as! String
+                list.append(text)
+            }
+            return list
         }
-        return list
+        return nil
     }
    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return index
+        if tableView == table{
+            return index
+        }
+        return 0
     }
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.section == 0 {
-            if indexPath.row == 0{self.navigateDetail(ZZJGTableViewController())}
-            if indexPath.row == 1{self.navigateNext(ContactsGroupController())}
-            if indexPath.row == 2{self.navigateNext(AAGroupCreateViewController(isChannel: false), removeCurrent: false)}
-        }
-        else{
-            let dic = displayList[indexPath.section-1] as! NSDictionary
-            let arr = dic["sectionArray"] as! Array<ACContact>
-            let contact = arr[indexPath.row]
+        if tableView == searchDisplay.searchResultsTableView {
+            let contact = searchArray[indexPath.row]
             if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer_userWithInt_(contact.uid)) {
                 navigateDetail(customController)
             } else {
                 navigateDetail(ConversationViewController(peer: ACPeer_userWithInt_(contact.uid)))
             }
         }
+        else{
+            if indexPath.section == 0 {
+                if indexPath.row == 0{self.navigateDetail(ZZJGTableViewController())}
+                if indexPath.row == 1{self.navigateNext(ContactsGroupController())}
+                if indexPath.row == 2{self.navigateNext(AAGroupCreateViewController(isChannel: false), removeCurrent: false)}
+            }
+            else{
+                let dic = displayList[indexPath.section-1] as! NSDictionary
+                let arr = dic["sectionArray"] as! Array<ACContact>
+                let contact = arr[indexPath.row]
+                if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer_userWithInt_(contact.uid)) {
+                    navigateDetail(customController)
+                } else {
+                    navigateDetail(ConversationViewController(peer: ACPeer_userWithInt_(contact.uid)))
+                }
+            }
+        }
     }
+    
    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 56
     }
@@ -104,7 +132,7 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
     var displayList = NSMutableArray()
     let sortList = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","#"]
     
-    var searchController = UISearchController()
+    var searchDisplay = UISearchDisplayController()
     var searchArray = [ACContact]()
     var contactsArray = [ACContact]()
     
@@ -132,11 +160,14 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
         view.backgroundColor = .white
         
         createList()
-        createSearchBar()
+        createSearchDisplay()
     }
 
     func tableReload()
     {
+        self.hidePlaceholder()
+        self.table.showView()
+        
         let list:ARBindedDisplayList! = ActorSDK.sharedActor().contactsList
         
         for charTmp in sortList {
@@ -183,24 +214,49 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
         table.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
         //索引
         table.sectionIndexColor = .gray
-        table.sectionIndexTrackingBackgroundColor = .green
+        table.sectionIndexTrackingBackgroundColor = .gray
         table.sectionIndexBackgroundColor = .clear
         table.autoresizingMask = [.flexibleHeight,.flexibleWidth]
     }
     
-    func createSearchBar(){
-            let searchResultController = UINavigationController(rootViewController: ContactsSearchController())
-            searchController = UISearchController(searchResultsController: searchResultController)
-            searchController.searchResultsUpdater = self
-            searchController.searchBar.delegate = self
-            searchController.hidesNavigationBarDuringPresentation = true
-            searchController.dimsBackgroundDuringPresentation = true
-            searchController.definesPresentationContext = true
-            searchController.searchBar.sizeToFit()
-            let headerView = UIView(frame:CGRect(x:0,y:0,width:table.frame.size.width,height:searchController.searchBar.frame.size.height))
-            headerView.addSubview(searchController.searchBar)
-            self.table.tableHeaderView = headerView
+    func createSearchDisplay()
+    {
+        let style = ActorSDK.sharedActor().style
+        let searchBar = UISearchBar()
+        
+        searchBar.searchBarStyle = .default
+        searchBar.isTranslucent = false
+        searchBar.placeholder = ""
+        searchBar.barTintColor = style.searchBackgroundColor.forTransparentBar()
+        searchBar.setBackgroundImage(Imaging.imageWithColor(style.searchBackgroundColor, size: CGSize(width: 1, height: 1)), for: .any, barMetrics: .default)
+        searchBar.backgroundColor = style.searchBackgroundColor
+        searchBar.tintColor = style.searchCancelColor
+        searchBar.keyboardAppearance = style.isDarkApp ? UIKeyboardAppearance.dark : UIKeyboardAppearance.light
+        let fieldBg = Imaging.imageWithColor(style.searchFieldBgColor, size: CGSize(width: 14,height: 28))
+            .roundCorners(14, h: 28, roundSize: 4)
+        searchBar.setSearchFieldBackgroundImage(fieldBg.stretchableImage(withLeftCapWidth: 7, topCapHeight: 0), for: UIControlState())
+        for subView in searchBar.subviews {
+            for secondLevelSubview in subView.subviews {
+                if let tf = secondLevelSubview as? UITextField {
+                    tf.textColor = style.searchFieldTextColor
+                    break
+                }
+            }
+        }
+        
+        searchDisplay = UISearchDisplayController(searchBar: searchBar, contentsController: self)
+        searchDisplay.searchBar.delegate = self
+        searchDisplay.searchResultsDataSource = self
+        searchDisplay.searchResultsDelegate = self
+        searchDisplay.delegate = self
+        searchDisplay.searchResultsTableView.register(ContactsGroupCell.self, forCellReuseIdentifier: "cell")
+        searchDisplay.searchResultsTableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        searchDisplay.searchResultsTableView.backgroundColor = ActorSDK.sharedActor().style.vcBgColor
+        let header = AATableViewHeader(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
+        header.addSubview(searchDisplay.searchBar)
+        table.tableHeaderView = header
     }
+    
     //移除所有父类view
     func removeAllFatherView() {
         view.removeAllSubviews()
@@ -213,6 +269,38 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
         }
         return false
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let searchBar = searchDisplay.searchBar
+        
+        let superView = searchBar.superview
+        if !(superView is UITableView) {
+            searchBar.removeFromSuperview()
+            superView?.addSubview(searchBar)
+        }
+        
+        table.tableHeaderView?.setNeedsLayout()
+        
+        binder.bind(Actor.getAppState().isContactsEmpty, closure: { (value: Any?) -> () in
+            if let empty = value as? JavaLangBoolean {
+                if Bool(empty.booleanValue()) == true {
+                    self.table.hideView()
+                    self.showPlaceholder()
+                } else {
+                    self.table.showView()
+                    self.hidePlaceholder()
+                }
+            }
+        })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        searchDisplay.setActive(false, animated: false)
+    }
+    
     // Searching for contact
     
     func findContact() {
