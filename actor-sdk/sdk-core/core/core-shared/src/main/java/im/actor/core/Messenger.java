@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-//import javax.xml.soap.SOAPElement;
-
 import im.actor.core.api.ApiRawValue;
 import im.actor.core.api.ApiSex;
 import im.actor.core.api.ApiAuthSession;
@@ -2938,7 +2936,7 @@ public class Messenger {
                                 JSONObject json = array.getJSONObject(i);
                                 GroupVM vm = null;
                                 try {
-                                    vm = getGroup(json.getInt("id"));
+                                    vm = getGroups().get(json.getInt("id"));
                                     groupVMS.add(vm);
                                 } catch (Exception e) {
                                     String title = json.getString("title");
