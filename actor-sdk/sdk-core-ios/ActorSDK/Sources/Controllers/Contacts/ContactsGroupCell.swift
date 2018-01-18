@@ -22,9 +22,9 @@ class ContactsGroupCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    open func bind(_ res: ACDialog){
-        avatarView.bind(res.dialogTitle, id: Int(res.peer.peerId), avatar: res.dialogAvatar)
-        nameLabel.text = res.dialogTitle
+    open func bind(_ res: ACGroupVM){
+        avatarView.bind(res.getNameModel().get(), id: Int(res.groupId), avatar: res.getAvatarModel().get())
+        nameLabel.text = res.getNameModel().get()
     }
     override func layoutSubviews() {
         super.layoutSubviews()

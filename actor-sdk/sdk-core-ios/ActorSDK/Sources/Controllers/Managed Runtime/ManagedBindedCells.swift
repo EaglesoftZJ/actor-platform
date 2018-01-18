@@ -228,8 +228,6 @@ open class AABindedRows<BindCell>: NSObject, AAManagedRange, ARDisplayList_Apple
             
             if oldCount != lastItemsCount {
                 table.tableView.reloadData() //消息列表刷新
-                let app = ActorSDK.sharedActor()
-                app.displayList = displayList
             } else {
                 if let indexes = table.tableView.indexPathsForVisibleRows {
                     let cells = table.tableView.visibleCells
