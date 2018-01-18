@@ -74,13 +74,13 @@ public class WebServiceLogionUtil {
         String soapAction = nameSpace + "/" + methodName;
         SoapObject request = new SoapObject(nameSpace, methodName);
 //        /ActorServices-Maven
-//        if (!serviceurl.endsWith("/ActorServices-Maven/services/ActorService")) {
-//            serviceurl += "/ActorServices-Maven/services/ActorService";
-//        }
-
-        if (!serviceurl.endsWith("/services/ActorService")) {
-            serviceurl += "/services/ActorService";
+        if (!serviceurl.endsWith("/ActorServices-Maven/services/ActorService")) {
+            serviceurl += "/ActorServices-Maven/services/ActorService";
         }
+
+//        if (!serviceurl.endsWith("/services/ActorService")) {
+//            serviceurl += "/services/ActorService";
+//        }
 
 
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(

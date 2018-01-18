@@ -43,6 +43,7 @@ import im.actor.core.viewmodel.GroupVM;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.runtime.json.JSONArray;
 import im.actor.runtime.json.JSONObject;
+import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.Intents;
@@ -166,7 +167,7 @@ public class GroupAllForUsersFragment extends BaseFragment {
                 return false;
             }
         });
-        messenger().getGroupAll(myUid(), new GroupAllGetCallback() {
+        messenger().getGroupAll(ActorSDK.getWebServiceUri(getContext()) + ":8012/ActorServices-Maven/services/ActorService",myUid(), new GroupAllGetCallback() {
             @Override
             public void responseCallBack(List<GroupVM> groupVMS) {
                 groups.clear();
@@ -174,70 +175,6 @@ public class GroupAllForUsersFragment extends BaseFragment {
                 callBackHandler.sendEmptyMessage(0);
             }
         });
-//        WebServiceLogionUtil.webServiceRun("http://192.168.1.182:8080", par, "queryGroup", getActivity().getApplication(),
-//                new Handler(new Handler.Callback() {
-//                    @Override
-//                    public boolean handleMessage(Message msg) {
-//                        Bundle b = msg.getData();
-//                        String datasource = b.getString("datasource");
-//                        try {
-//                            JSONArray array = new JSONArray(datasource);
-//                            System.out.println("iGem:" + array.toString());
-//                            for (int i = 0; i < array.length(); i++) {
-//                                JSONObject json = array.getJSONObject(i);
-//                                GroupVM vm = null;
-//                                try {
-//                                    vm = groups().get(json.getInt("id"));
-//                                    groups.add(vm);
-//
-//                                } catch (Exception e) {
-//                                    String title = json.getString("title");
-//                                    System.out.println("iGem:groupName" + title);
-////                                    messenger().findPeers(title).start(new CommandCallback<List<PeerSearchEntity>>() {
-////                                        @Override
-////                                        public void onResult(List<PeerSearchEntity> res) {
-////                                            int order = 0;
-////                                            outer:
-////                                            for (PeerSearchEntity pse : res) {
-////                                                Avatar avatar;
-////                                                Peer peer = pse.getPeer();
-////                                                String name;
-////                                                if (peer.getPeerType() == PeerType.GROUP) {
-////                                                    GroupVM groupVM = groups().get(peer.getPeerId());
-////                                                    name = groupVM.getName().get();
-////                                                    if (name.equals(title)) {
-////                                                        System.out.println("iGem:groupName" + name);
-////                                                        groups.add(groupVM);
-////                                                        break outer;
-////                                                    }
-////                                                } else {
-////                                                    continue;
-////                                                }
-////                                            }
-////                                            adapter.notifyDataSetChanged();
-////                                        }
-////
-////                                        @Override
-////                                        public void onError(Exception e) {
-////                                            System.out.println("iGem:" + e.getMessage());
-////                                        }
-////                                    });
-//
-//                                }
-//
-//                            }
-//                        } catch (Exception e) {
-//                            System.out.println("iGem:" + e.getMessage());
-//                            e.printStackTrace();
-//                        } finally {
-//                            emptyView.setVisibility(View.GONE);
-//                            groupRec.setVisibility(View.VISIBLE);
-//                            adapter.notifyDataSetChanged();
-//                            callback.onResult("");
-//                        }
-//                        return false;
-//                    }
-//                }));
     }
 
     @Override

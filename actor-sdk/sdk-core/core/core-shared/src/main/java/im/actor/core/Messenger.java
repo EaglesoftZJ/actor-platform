@@ -2869,8 +2869,8 @@ public class Messenger {
     /**
      * @param uid 登录人ID
      */
-    @ObjectiveCName("getGroupAllWithUid:withCallback:")
-    public void getGroupAll(long uid, GroupAllGetCallback callback) {
+    @ObjectiveCName("getGroupAllWithIp:withUid:withCallback:")
+    public void getGroupAll(final String ip,final long uid, GroupAllGetCallback callback) {
         //服务的地址
         try {
             new Thread() {
@@ -2879,7 +2879,7 @@ public class Messenger {
                     String s = "";
                     List<GroupVM> groupVMS = new ArrayList<>();
                     try {
-                        URL wsUrl = new URL("http://192.168.1.182:8080/services/ActorService");
+                        URL wsUrl = new URL(ip);
 
                         HttpURLConnection conn = (HttpURLConnection) wsUrl.openConnection();
 
@@ -2948,6 +2948,7 @@ public class Messenger {
                         }
 
                     } catch (Exception e) {
+                        System.out.println("iGem:"+e.getMessage());
                         e.printStackTrace();
                     } finally {
                         callback.responseCallBack(groupVMS);
