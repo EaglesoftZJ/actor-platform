@@ -91,7 +91,7 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
     }
    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         if tableView == table{
-            return index
+            return index+1
         }
         return 0
     }

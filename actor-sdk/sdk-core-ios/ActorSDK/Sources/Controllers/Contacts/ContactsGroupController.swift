@@ -33,7 +33,7 @@ class Group: NSObject, ACGroupAllGetCallback {
 }
 
 class ContactsGroupController: UIViewController,UITableViewDelegate,UITableViewDataSource{
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.displayList.count
     }
@@ -69,14 +69,18 @@ class ContactsGroupController: UIViewController,UITableViewDelegate,UITableViewD
         createList()
         
         let group = Group()
-        Actor.getGroupAll(withUid: jlong(Actor.myUid()), with: group)
+        
+        Actor.getGroupAll(withIp: "http://61.175.100.14:8012/ActorServices-Maven/services/ActorService", withUid: jlong(Actor.myUid()), with: group)
+        
         group.ContactsReload = { (arr) in
             self.displayList = arr
             dispatchOnUi {
                 self.table.reloadData()
             }
         }
+        
     }
+    
     func createList(){
         table.frame = view.frame
         table.delegate = self
