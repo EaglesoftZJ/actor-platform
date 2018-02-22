@@ -6,7 +6,6 @@ import java.util.List;
 
 import im.actor.core.entity.Peer;
 import im.actor.develop.R;
-import im.actor.sdk.ActorSDK;
 import im.actor.sdk.controllers.conversation.attach.AttachFragment;
 import im.actor.sdk.controllers.conversation.attach.ShareMenuField;
 

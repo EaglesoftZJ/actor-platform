@@ -108,6 +108,7 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
         Date curDate = new Date(System.currentTimeMillis());
         System.out.println("iGem: fragment=" + format.format(curDate));
+
         bind(messenger().getAppState().getIsContactsEmpty(), new ValueChangedListener<Boolean>() {
             @Override
             public void onChanged(Boolean val, Value<Boolean> Value) {

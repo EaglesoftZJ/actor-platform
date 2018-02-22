@@ -544,7 +544,7 @@ public class HanziToPinyin {
                         addToken(sb, tokens, tokenType);
                     }
                     tokenType = t.type;
-                    sb.append(character);
+                    sb.append("#");
                 }
             }
         }

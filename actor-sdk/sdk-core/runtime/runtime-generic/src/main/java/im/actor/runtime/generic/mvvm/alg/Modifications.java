@@ -120,27 +120,33 @@ public class Modifications {
                                                            ArrayList<T> sourceList,
                                                            ArrayList<ChangeDescription<T>> changes) {
         // Remove missing items
-        outer:
-        for (int i = 0; i < sourceList.size(); i++) {
-            long id = sourceList.get(i).getEngineId();
-
-//            for (T itm : items) {
-//                if (itm.getEngineId() == id) {
-//                    continue outer;
-//                }
-//            }
-
-            changes.add(ChangeDescription.<T>remove(i));
-            sourceList.remove(i);
-            i--;
-        }
         HashMap<Long, T> sourcePar = new HashMap<>();
-//        if (sourceList.size() > 0) {
-//            Set<T> listSet = new HashSet<>(sourceList);
-//            for (T t:listSet){
-//                sourcePar.put(t.getEngineId(), t);
-//            }
-//        }
+        if (items != null && items.size() > 0 && items.get(0) instanceof Contact) {
+            sourceList.clear();
+        }else {
+            outer:
+            for (int i = 0; i < sourceList.size(); i++) {
+                long id = sourceList.get(i).getEngineId();
+
+                for (T itm : items) {
+                    if (itm.getEngineId() == id) {
+                        continue outer;
+                    }
+                }
+
+                changes.add(ChangeDescription.<T>remove(i));
+                sourceList.remove(i);
+                i--;
+            }
+
+            if (sourceList.size() > 0) {
+                Set<T> listSet = new HashSet<>(sourceList);
+                for (T t : listSet) {
+                    sourcePar.put(t.getEngineId(), t);
+                }
+            }
+        }
+
         for (T itm : items) {
             addOrUpdate(itm, sourceList, sourcePar, changes, false);
         }

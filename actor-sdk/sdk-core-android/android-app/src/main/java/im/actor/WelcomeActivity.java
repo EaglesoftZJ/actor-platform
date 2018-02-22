@@ -1,29 +1,15 @@
 package im.actor;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.widget.LinearLayout;
-
-import org.json.JSONObject;
-
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.HashMap;
 
 import im.actor.develop.R;
 import im.actor.sdk.ActorSDK;
