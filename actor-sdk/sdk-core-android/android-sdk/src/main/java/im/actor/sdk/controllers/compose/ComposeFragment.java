@@ -54,7 +54,7 @@ public class ComposeFragment extends BaseContactFragment {
     @Override
     public void onItemClicked(Contact contact) {
         getActivity().startActivity(Intents.openPrivateDialog(contact.getUid(), true, getActivity()));
-        getActivity().finish();
+//        getActivity().finish();
     }
 
     @Override

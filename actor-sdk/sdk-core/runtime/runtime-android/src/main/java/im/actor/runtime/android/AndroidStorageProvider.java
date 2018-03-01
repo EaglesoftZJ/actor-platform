@@ -4,6 +4,8 @@
 
 package im.actor.runtime.android;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -44,9 +46,21 @@ public class AndroidStorageProvider implements StorageRuntime {
         return new SQLiteList(getDatabase(), "ls_" + name);
     }
 
+    /**
+     * 安卓移动端释放缓存
+     */
     @Override
     public void resetStorage() {
         properties.clear();
+        SharedPreferences spUswer = AndroidContext.getContext().getSharedPreferences("userList", Context.MODE_PRIVATE);
+        SharedPreferences spIp =AndroidContext.getContext().getSharedPreferences("ipLogin",Context.MODE_PRIVATE);
+        SharedPreferences spLogin = AndroidContext.getContext().getSharedPreferences("userLogin",Context.MODE_PRIVATE);
+        SharedPreferences ipList =  AndroidContext.getContext().getSharedPreferences("ipList",Context.MODE_PRIVATE);
+        spUswer.edit().clear().commit();
+        spIp.edit().clear().commit();
+        spLogin.edit().clear().commit();
+        ipList.edit().clear().commit();
+
         ArrayList<String> tables = new ArrayList<>();
         Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table';", null);
         try {

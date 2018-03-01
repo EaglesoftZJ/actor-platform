@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 import im.actor.core.entity.Contact;
+import im.actor.core.entity.Dialog;
+import im.actor.core.entity.PeerType;
 import im.actor.runtime.generic.mvvm.ChangeDescription;
 import im.actor.runtime.storage.ListEngineItem;
 
@@ -123,7 +125,7 @@ public class Modifications {
         HashMap<Long, T> sourcePar = new HashMap<>();
         if (items != null && items.size() > 0 && items.get(0) instanceof Contact) {
             sourceList.clear();
-        }else {
+        } else {
             outer:
             for (int i = 0; i < sourceList.size(); i++) {
                 long id = sourceList.get(i).getEngineId();
@@ -148,6 +150,20 @@ public class Modifications {
         }
 
         for (T itm : items) {
+            if (itm instanceof Contact) {
+                Contact o = (Contact) itm;
+                if("系统管理员".equals(o.getName())){
+                    continue;
+                }else if("账号已删除".equals(o.getName())){
+                    continue;
+                }
+            }else if (itm instanceof Dialog) {
+                Dialog add = (Dialog) itm;
+                if ("账号已删除".equals(add.getDialogTitle())
+                        && PeerType.PRIVATE == add.getPeer().getPeerType()){
+                    continue;
+                }
+            }
             addOrUpdate(itm, sourceList, sourcePar, changes, false);
         }
         if (sourceList != null && sourceList.size() > 0

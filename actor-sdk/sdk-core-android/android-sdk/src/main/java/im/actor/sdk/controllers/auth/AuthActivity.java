@@ -304,7 +304,7 @@ public class AuthActivity extends BaseFragmentActivity {
                         messenger().doCompleteAuth(authCodeRes.getResult()).then(new Consumer<Boolean>() {
                             @Override
                             public void apply(Boolean aBoolean) {
-                                spUswer.edit().putString(currentName,currentCode);
+                                spUswer.edit().putString(currentName,currentCode).commit();
                                 spLogin.edit().putString("zh", currentName).commit();
                                 spLogin.edit().putString("mm", currentCode).commit();
                                 updateState(AuthState.LOGGED_IN);

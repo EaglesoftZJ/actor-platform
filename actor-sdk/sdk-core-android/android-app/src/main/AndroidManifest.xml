@@ -53,12 +53,12 @@
             <!--</intent-filter>-->
         <!--</activity>-->
 
-        <activity
-            android:name="im.actor.MainActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoBarActivityTheme"
-            android:windowSoftInputMode="adjustNothing"/>
+        <!--<activity-->
+            <!--android:name="im.actor.MainActivity"-->
+            <!--android:configChanges="keyboard|keyboardHidden|orientation|screenSize"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/NoBarActivityTheme"-->
+            <!--android:windowSoftInputMode="adjustNothing"/>-->
 
 
         <!-- Tour -->

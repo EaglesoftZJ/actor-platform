@@ -63,7 +63,9 @@ public class SQLiteKeyValue implements KeyValueStorage {
             insertStatement.bindBlob(2, data);
             insertStatement.executeInsert();
             db.setTransactionSuccessful();
-        } finally {
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
             db.endTransaction();
         }
     }

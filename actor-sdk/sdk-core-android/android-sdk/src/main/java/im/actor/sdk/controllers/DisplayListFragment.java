@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import im.actor.core.entity.Contact;
 import im.actor.core.viewmodel.CommandCallback;
+import im.actor.runtime.Log;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.runtime.generic.mvvm.DisplayList;
 import im.actor.runtime.json.JSONArray;
@@ -38,6 +39,11 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
 
     public BindedDisplayList<T> displayList;
     private BindedListAdapter<T, V> adapter;
+
+    /**
+     *
+     */
+    ResultHandler resultHandler;
 
     protected View inflate(LayoutInflater inflater, ViewGroup container, int resource, BindedDisplayList<T> displayList) {
         View res = inflater.inflate(resource, container, false);
@@ -139,35 +145,47 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
         }
     }
 
+
     @Override
     public void onCollectionChanged() {
         if (displayList.getSize() == 0) {
             hideView(collection, false);
         } else {
-            ResultHandler resultHandler = new ResultHandler();
+            resultHandler = new ResultHandler();
             new Thread() {
                 @Override
                 public void run() {
                     super.run();
-                    if (displayList.getItem(0) instanceof Contact) {
-                        for (int i = 0; i < displayList.getSize(); i++) {
-                            Contact contact = (Contact) displayList.getItem(i);
-                            if ("#".equalsIgnoreCase(contact.getPyShort())) {
-                                try {
-                                    org.json.JSONArray yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
-//                                    Toast.makeText(getActivity(),"开始修改:长度"+yh_array.length(),Toast.LENGTH_SHORT).show();
-                                    for (int j = 0; j < yh_array.length(); j++) {
-                                        JSONObject json = yh_array.getJSONObject(j);
-                                        String igImid = json.getString("IGIMID");
-                                        if (contact.getUid() == Integer.valueOf(igImid).intValue()) {
-                                            String xm = json.getString("xm");
-//                                            Toast.makeText(getActivity(),xm+":修改",Toast.LENGTH_SHORT).show();
-                                            Message message = new Message();
-                                            Bundle bundle = new Bundle();
-                                            bundle.putInt("uid",contact.getUid());
-                                            bundle.putString("xm",xm);
-                                            message.setData(bundle);
-                                            resultHandler.sendMessage(message);
+                    lmName();
+                }
+            }.start();
+            showView(collection, false);
+        }
+    }
+
+    private void lmName(){
+        if (displayList.getItem(0) instanceof Contact) {
+            for (int i = 0; i < displayList.getSize(); i++) {
+                Contact contact = (Contact) displayList.getItem(i);
+                if ("#".equalsIgnoreCase(contact.getPyShort())) {
+                    try {
+                        JSONObject jsonData = ActorSDK.getZjjgData();
+                        if (jsonData != null) {
+                            org.json.JSONArray yh_array = jsonData.getJSONArray("yh_data");
+                            if (yh_array == null) {
+                                return;
+                            }
+                            for (int j = 0; j < yh_array.length(); j++) {
+                                JSONObject json = yh_array.getJSONObject(j);
+                                String igImid = json.getString("IGIMID");
+                                if (contact.getUid() == Integer.valueOf(igImid).intValue()) {
+                                    String xm = json.getString("xm");
+                                    Message message = new Message();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("uid", contact.getUid());
+                                    bundle.putString("xm", xm);
+                                    message.setData(bundle);
+                                    resultHandler.sendMessage(message);
 //                                            execute(messenger().editName(contact.getUid(), xm), R.string.edit_name_process, new CommandCallback<Boolean>() {
 //                                                @Override
 //                                                public void onResult(Boolean res) {
@@ -179,20 +197,18 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
 //                                                    Toast.makeText(getActivity(), R.string.toast_unable_change, Toast.LENGTH_SHORT).show();
 //                                                }
 //                                            });
-                                            break;
-                                        }
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-//                                    Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
+                                    break;
                                 }
-
                             }
+                        } else {
+                            lmName();
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
                 }
-            }.start();
-            showView(collection, false);
+            }
         }
     }
 
