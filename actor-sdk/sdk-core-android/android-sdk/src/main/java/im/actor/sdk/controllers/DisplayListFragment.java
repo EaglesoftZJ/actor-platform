@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -24,6 +25,7 @@ import im.actor.runtime.generic.mvvm.DisplayList;
 import im.actor.runtime.json.JSONArray;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
+import im.actor.sdk.controllers.contacts.view.MemberSideBar;
 import im.actor.sdk.view.adapters.HeaderViewRecyclerAdapter;
 import im.actor.runtime.android.view.BindedListAdapter;
 import im.actor.runtime.bser.BserObject;
@@ -35,6 +37,8 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
         V extends RecyclerView.ViewHolder> extends BaseFragment implements DisplayList.Listener {
 
     private RecyclerView collection;
+    RelativeLayout contactReLay;
+    MemberSideBar sideBar;
     // private View emptyCollection;
 
     public BindedDisplayList<T> displayList;
@@ -53,10 +57,22 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
 
     protected void afterViewInflate(View view, BindedDisplayList<T> displayList) {
         collection = (RecyclerView) view.findViewById(R.id.collection);
+        sideBar = (MemberSideBar) view.findViewById(R.id.side_bar);
+        if (sideBar != null) {
+            contactReLay = (RelativeLayout) view.findViewById(R.id.eaglesoft_collection_relay);
+        }
         if (displayList.getSize() == 0) {
             collection.setVisibility(View.INVISIBLE);
+            if (sideBar != null) {
+                sideBar.setVisibility(View.GONE);
+                contactReLay.setVisibility(View.INVISIBLE);
+            }
         } else {
             collection.setVisibility(View.VISIBLE);
+            if (sideBar != null) {
+                sideBar.setVisibility(View.VISIBLE);
+                contactReLay.setVisibility(View.VISIBLE);
+            }
         }
         setAnimationsEnabled(true);
 
@@ -140,8 +156,16 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
         displayList.addListener(this);
         if (displayList.getSize() == 0) {
             hideView(collection, false);
+            if (sideBar != null) {
+                sideBar.setVisibility(View.GONE);
+                contactReLay.setVisibility(View.VISIBLE);
+            }
         } else {
             showView(collection, false);
+            if (sideBar != null) {
+                sideBar.setVisibility(View.VISIBLE);
+                contactReLay.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -150,6 +174,10 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
     public void onCollectionChanged() {
         if (displayList.getSize() == 0) {
             hideView(collection, false);
+            if (sideBar != null) {
+                sideBar.setVisibility(View.GONE);
+                contactReLay.setVisibility(View.VISIBLE);
+            }
         } else {
             resultHandler = new ResultHandler();
             new Thread() {
@@ -160,6 +188,10 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
                 }
             }.start();
             showView(collection, false);
+            if (sideBar != null) {
+                sideBar.setVisibility(View.VISIBLE);
+                contactReLay.setVisibility(View.VISIBLE);
+            }
         }
     }
 

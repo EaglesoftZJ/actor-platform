@@ -335,7 +335,7 @@
     <string name="create_group_title">创建群组</string>
     <string name="create_group_name_hint">为群组命名</string>
     <string name="create_group_hint">进入群组主题设置群组图片</string>
-    <string name="create_group_search_hint">通过群名检索</string>
+    <string name="create_group_search_hint">按名称搜索</string>
     <string name="create_group_done">完成</string>
 
     <!-- Create Channel -->

@@ -32,7 +32,7 @@ import im.actor.sdk.util.Screen;
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 import static im.actor.sdk.util.ActorSDKMessenger.users;
 
-public class GroupUsersFragment extends BaseContactFragment {
+public class GroupUsersFragment  extends BaseContactFragment {
 
     private String title;
     private String avatarPath;

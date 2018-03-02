@@ -58,6 +58,7 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
     private RecyclerView collection;
     MemberSideBar sideBar;
     int scpostion;
+
     public BaseContactFragment(boolean useCompactVersion, boolean userSearch, boolean useSelection) {
         this.useCompactVersion = useCompactVersion;
         this.userSearch = userSearch;
@@ -74,9 +75,12 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         collection = (RecyclerView) res.findViewById(R.id.collection);
         collection.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
         sideBar = (MemberSideBar) res.findViewById(R.id.side_bar);
-        sideBar.setVisibility(View.GONE);
-        contactReLay = (RelativeLayout) res.findViewById(R.id.eaglesoft_collection_relay);
-        contactReLay.setVisibility(View.GONE);
+        if (sideBar != null) {
+            sideBar.setVisibility(View.GONE);
+            contactReLay = (RelativeLayout) res.findViewById(R.id.eaglesoft_collection_relay);
+            contactReLay.setVisibility(View.GONE);
+        }
+
         emptyView = res.findViewById(R.id.emptyCollection);
         if (emptyView != null) {
             emptyView.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
@@ -117,8 +121,13 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                         emptyView.setVisibility(View.VISIBLE);
                     } else {
                         emptyView.setVisibility(View.GONE);
-                        sideBar.setVisibility(View.VISIBLE);
-                        contactReLay.setVisibility(View.VISIBLE);
+                        if (sideBar != null) {
+                            sideBar.setVisibility(View.VISIBLE);
+                            contactReLay.setVisibility(View.VISIBLE);
+                            collection.setVisibility(View.VISIBLE);
+                        }else{
+                            collection.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
@@ -127,41 +136,42 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
 
         Activity activity = getActivity();
         scpostion = 1;
-        if(activity instanceof ComposeActivity ||
-                activity instanceof RootActivity){
+        if (activity instanceof ComposeActivity ||
+                activity instanceof RootActivity) {
             scpostion = 5;
         }
         //右边的side
-        sideBar.setOnStrSelectCallBack(new MemberSideBar.ISideBarSelectCallBack() {
-            @Override
-            public void onSelectStr(int index, String selectStr) {
-                if (selectStr.equals("↑")) {
-                    collection.scrollToPosition(0);
-                    return;
-                }
-                List<Contact> contactList = displayList.getList();
-
-                for (int i = 0; i < contactList.size(); i++) {
-                    if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
-//                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
-                        LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
-                        int firstItem = manager.findFirstVisibleItemPosition();
-                        int lastItem = manager.findLastVisibleItemPosition();
-                        int n = i + scpostion;
-                        if (n <= firstItem) {
-                            collection.scrollToPosition(n);
-                        } else if (n <= lastItem) {
-                            int top = collection.getChildAt(n - firstItem).getTop();
-                            collection.scrollBy(0, top);
-                        } else {
-                            collection.scrollToPosition(n);
-                        }
+        if (sideBar != null) {
+            sideBar.setOnStrSelectCallBack(new MemberSideBar.ISideBarSelectCallBack() {
+                @Override
+                public void onSelectStr(int index, String selectStr) {
+                    if (selectStr.equals("↑")) {
+                        collection.scrollToPosition(0);
                         return;
                     }
-                }
-            }
-        });
+                    List<Contact> contactList = displayList.getList();
 
+                    for (int i = 0; i < contactList.size(); i++) {
+                        if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
+//                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
+                            LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
+                            int firstItem = manager.findFirstVisibleItemPosition();
+                            int lastItem = manager.findLastVisibleItemPosition();
+                            int n = i + scpostion;
+                            if (n <= firstItem) {
+                                collection.scrollToPosition(n);
+                            } else if (n <= lastItem) {
+                                int top = collection.getChildAt(n - firstItem).getTop();
+                                collection.scrollBy(0, top);
+                            } else {
+                                collection.scrollToPosition(n);
+                            }
+                            return;
+                        }
+                    }
+                }
+            });
+        }
         return res;
     }
 
