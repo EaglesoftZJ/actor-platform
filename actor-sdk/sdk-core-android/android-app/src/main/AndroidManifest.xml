@@ -78,18 +78,17 @@
             android:name="api_key"
             android:value="pTAzc5hjeja1GmbzMoXGUExG"/>
 
-        <provider
-            android:name="com.huawei.hms.update.provider.UpdateProvider"
-            android:authorities="im.actor.develop.hms.update.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-        </provider>
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c9bb6ed25a8f1ba46bf0daffb4571e7a">
 
         </meta-data>
+
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="appid=10858744"/>
+
 
     </application>
 

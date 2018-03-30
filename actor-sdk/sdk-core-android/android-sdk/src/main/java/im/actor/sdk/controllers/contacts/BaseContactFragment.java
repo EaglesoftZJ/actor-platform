@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,6 +61,8 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
     private RecyclerView collection;
     MemberSideBar sideBar;
     int scpostion;
+
+    public MenuItem searchMenu;
 
     public BaseContactFragment(boolean useCompactVersion, boolean userSearch, boolean useSelection) {
         this.useCompactVersion = useCompactVersion;
@@ -111,7 +116,7 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         }
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
         Date curDate = new Date(System.currentTimeMillis());
-        System.out.println("iGem: fragment=" + format.format(curDate));
+//        System.out.println("iGem: fragment=" + format.format(curDate));
 
         bind(messenger().getAppState().getIsContactsEmpty(), new ValueChangedListener<Boolean>() {
             @Override
@@ -125,7 +130,7 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                             sideBar.setVisibility(View.VISIBLE);
                             contactReLay.setVisibility(View.VISIBLE);
                             collection.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             collection.setVisibility(View.VISIBLE);
                         }
                     }
@@ -162,6 +167,8 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                                 collection.scrollToPosition(n);
                             } else if (n <= lastItem) {
                                 int top = collection.getChildAt(n - firstItem).getTop();
+                                System.out.println(n + "iGem:top=" + top);
+
                                 collection.scrollBy(0, top);
                             } else {
                                 collection.scrollToPosition(n);
@@ -343,6 +350,7 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
             getDisplayList().initSearch(query, false);
         }
         ((ContactsAdapter) getAdapter()).setQuery(query.toLowerCase());
+        collection.scrollToPosition(0);
     }
 
 
@@ -370,12 +378,29 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        createMainMenu(menu, inflater);
+    }
+
+    public void createMainMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.compose, menu);
         if (userSearch) {
-            inflater.inflate(R.menu.compose, menu);
-
-            SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-
+            searchMenu = menu.findItem(R.id.search);
+            SearchView searchView = (SearchView) searchMenu.getActionView();
+//            searchMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//                @Override
+//                public boolean onMenuItemClick(MenuItem item) {
+//                    if (scpostion == 5) {
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                            }
+//                        }).start();
+//
+//                    }
+//                    return false;
+//                }
+//            });
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {

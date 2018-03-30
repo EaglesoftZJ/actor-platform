@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.huawei.android.hms.agent.HMSAgent;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ import im.actor.sdk.controllers.settings.ActorSettingsField;
 import im.actor.sdk.controllers.settings.BaseActorSettingsActivity;
 import im.actor.sdk.controllers.settings.BaseActorSettingsFragment;
 import im.actor.sdk.intents.ActorIntentFragmentActivity;
+import im.actor.sdk.push.Utils;
 
 public class Application extends ActorSDKApplication {
 
@@ -50,6 +53,20 @@ public class Application extends ActorSDKApplication {
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
+        int phoneFlag = Utils.isWhatPhone();
+        if(phoneFlag == 1){
+            HMSAgent.init(this);
+        }
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        int phoneFlag = Utils.isWhatPhone();
+        if(phoneFlag == 1){
+            HMSAgent.destroy();
+        }
+
     }
 
     @Override

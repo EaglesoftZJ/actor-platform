@@ -136,7 +136,10 @@
 
     <string name="main_bar_chats">消息</string>
     <string name="main_bar_contacts">通讯录</string>
+    <string name="main_bar_work">工作</string>
+
     <string name="main_bar_organizational">组织架构</string>
+
 
     <string name="main_fab_compose">发消息</string>
     <string name="main_fab_group">群组</string>
@@ -277,6 +280,13 @@
     <string name="profile_menu_add">添加到通讯录</string>
     <string name="profile_menu_security">安全</string>
     <string name="profile_cant_find_user">无法找到此用户</string>
+
+
+    <string name="profile_contacts_added">删除好友</string>
+    <string name="profile_contacts_available">添加好友</string>
+    <string name="profile_call">语音</string>
+    <string name="profile_video_call">视频</string>
+    <string name="profile_compose">发消息</string>
 
     <!-- Group -->
     <string name="group_title">群组信息</string>

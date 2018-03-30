@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,10 +61,20 @@ public class RootPageFragment extends BaseFragment {
     private HomePagerAdapter homePagerAdapter;
 
     RootFragment rootFragment;//消息页面
-    Fragment contactsFram;//通讯录页面
+    RootComposeFragment contactsFram;//通讯录页面
 
     RootZzjgFragment zzjgFragment;//组织结构
 
+    TextView text1;
+    TextView text2;
+    TextView text3;
+    TextView text4;
+    ImageView image1;
+    ImageView image2;
+    ImageView image3;
+    ImageView image4;
+
+    private int prevPage = 0;
 
     public RootPageFragment() {
         setRootFragment(true);
@@ -77,6 +90,10 @@ public class RootPageFragment extends BaseFragment {
         if (saveInstance != null) {
             isInited = saveInstance.getBoolean("is_inited");
         }
+        boolean isMoa = false;
+        if (isMoa) {
+            pageSize = 4;
+        }
     }
 
     @Nullable
@@ -87,9 +104,9 @@ public class RootPageFragment extends BaseFragment {
         pager.setOffscreenPageLimit(pageSize);
         homePagerAdapter = getHomePagerAdapter();
         pager.setAdapter(homePagerAdapter);
-        pager.setCurrentItem(1);
+        pager.setCurrentItem(0);
+
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            private int prevPage = -1;
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -98,16 +115,7 @@ public class RootPageFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-//                if (position == 0) {
-//                    prevPage = position;
-//                } else if (position == 1) {
-//                    prevPage = position;
-//                }else if (position == 2) {
-//
-//                }
-
-                prevPage = position;
-                pageChange(prevPage, view);
+                pageChange(position, view);
             }
 
             @Override
@@ -116,39 +124,65 @@ public class RootPageFragment extends BaseFragment {
             }
         });
 
+
+        text1 = (TextView) ((View) view).
+                findViewById(R.id.root_text1);
+        text2 = (TextView) ((View) view).
+                findViewById(R.id.root_text2);
+        text3 = (TextView) ((View) view).
+                findViewById(R.id.root_text3);
+
+        image1 = (ImageView) ((View) view).findViewById(R.id.root_Image1);
+        image2 = (ImageView) ((View) view).findViewById(R.id.root_Image2);
+        image3 = (ImageView) ((View) view).findViewById(R.id.root_Image3);
+
+        if (pageSize == 4) {
+            text4 = (TextView) ((View) view).
+                    findViewById(R.id.root_text4);
+            image4 = (ImageView) ((View) view).findViewById(R.id.root_Image4);
+        }
+
         LinearLayout layPage1 = (LinearLayout) view.findViewById(R.id.root_page1);
         layPage1.setOnClickListener(new pageOclickListener(0));
 
         LinearLayout layPage2 = (LinearLayout) view.findViewById(R.id.root_page2);
-        layPage2.setOnClickListener(new pageOclickListener(1));
+        if (pageSize == 4) {
+            layPage2.setOnClickListener(new pageOclickListener(2));
+        } else {
+            layPage2.setOnClickListener(new pageOclickListener(1));
+        }
 
         LinearLayout layPage3 = (LinearLayout) view.findViewById(R.id.root_page3);
-        layPage3.setOnClickListener(new pageOclickListener(2));
+        if (pageSize == 4) {
+            layPage3.setOnClickListener(new pageOclickListener(3));
+        } else {
+            layPage3.setOnClickListener(new pageOclickListener(2));
+        }
 
-//        LinearLayout layPage4 = (LinearLayout) view.findViewById(R.id.root_page4);
-//        layPage4.setOnClickListener(new pageOclickListener(2));
-
+        if (pageSize == 4) {
+            LinearLayout layPage4 = (LinearLayout) view.findViewById(R.id.root_page4);
+            layPage4.setVisibility(View.VISIBLE);
+            layPage4.setOnClickListener(new pageOclickListener(1));
+        }
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        if (!isInited) {
-//            isInited = true;
-//            DialogsDefaultFragment dialogsDefaultFragment = ActorSDK.sharedActor().getDelegate().fragmentForDialogs();
-//            getChildFragmentManager().beginTransaction()
-//                    .add(R.id.content, dialogsDefaultFragment != null ? dialogsDefaultFragment : new DialogsDefaultFragment())
-//                    .add(R.id.fab, new ComposeFabFragment())
-//                    .add(R.id.search, new GlobalSearchDefaultFragment())
-//                    .add(R.id.placeholder, new GlobalPlaceholderFragment())
-//                    .commit();
-//        }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+        if (prevPage == 0) {
+            rootFragment.searchFram.createMenu(menu, inflater);
+        } else if (prevPage == 1 && pageSize == 3) {
+//            contactsFram.createMainMenu(menu, inflater);
+            contactsFram.searchFram.createMenu(menu, inflater);
+        } else if (prevPage == 2 && pageSize == 4) {
+//            contactsFram.createMainMenu(menu, inflater);
+            contactsFram.searchFram.createMenu(menu, inflater);
+        }
 //        inflater.inflate(R.menu.main, menu);
     }
 
@@ -169,22 +203,14 @@ public class RootPageFragment extends BaseFragment {
     }
 
     private void pageChange(int pagePos, View view) {
-        TextView text1 = (TextView) ((View) view.getParent()).
-                findViewById(R.id.root_text1);
-        TextView text2 = (TextView) ((View) view.getParent()).
-                findViewById(R.id.root_text2);
-        TextView text3 = (TextView) ((View) view.getParent()).
-                findViewById(R.id.root_text3);
-
-        ImageView image1 = (ImageView) ((View) view.getParent()).findViewById(R.id.root_Image1);
-        ImageView image2 = (ImageView) ((View) view.getParent()).findViewById(R.id.root_Image2);
-        ImageView image3 = (ImageView) ((View) view.getParent()).findViewById(R.id.root_Image3);
-
-
-//        TextView text4 = (TextView) ((View) view.getParent()).
-//                findViewById(R.id.root_text4);//组织架构
+        prevPage = pagePos;
+        getActivity().supportInvalidateOptionsMenu();
+        ActionBar actionBar = getSupportActionBar();
         if (rootFragment != null) {
-            rootFragment.removeSearchFram();
+//            rootFragment.removeSearchFram();
+            if (actionBar != null) {
+                actionBar.show();
+            }
         }
         switch (pagePos) {
             case 0:
@@ -193,40 +219,82 @@ public class RootPageFragment extends BaseFragment {
                 text3.setTextColor(getResources().getColor(R.color.action_no));
 //                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
 
-                image1.setImageResource(R.drawable.root_page_contact_check);
-                image2.setImageResource(R.drawable.root_page_duble_bubble_uncheck);
+                image1.setImageResource(R.drawable.root_page_duble_bubble_check);
+                image2.setImageResource(R.drawable.root_page_contact_uncheck);
                 image3.setImageResource(R.drawable.root_page_setting_uncheck);
 
+                if (pageSize == 4) {
+                    text4.setTextColor(getResources().getColor(R.color.action_no));
+                    image4.setImageResource(R.drawable.root_page_work_uncheck);
+                }
+//                if (rootFragment != null) {
+//                    rootFragment.addSearchFram();
+//                }
                 break;
             case 1:
-                if (rootFragment != null) {
-                    rootFragment.addSearchFram();
+                if (pageSize == 4) {
+                    text1.setTextColor(getResources().getColor(R.color.action_no));
+                    text2.setTextColor(getResources().getColor(R.color.action_no));
+                    text3.setTextColor(getResources().getColor(R.color.action_no));
+
+                    image1.setImageResource(R.drawable.root_page_duble_bubble_uncheck);
+                    image2.setImageResource(R.drawable.root_page_contact_uncheck);
+                    image3.setImageResource(R.drawable.root_page_setting_uncheck);
+
+                    if (pageSize == 4) {
+                        text4.setTextColor(getResources().getColor(R.color.action));
+                        image4.setImageResource(R.drawable.root_page_work_check);
+                    }
+                    if (actionBar != null) {
+                        actionBar.hide();
+                    }
+
+                } else {
+                    text1.setTextColor(getResources().getColor(R.color.action_no));
+                    text2.setTextColor(getResources().getColor(R.color.action));
+                    text3.setTextColor(getResources().getColor(R.color.action_no));
+                    image1.setImageResource(R.drawable.root_page_duble_bubble_uncheck);
+                    image2.setImageResource(R.drawable.root_page_contact_check);
+                    image3.setImageResource(R.drawable.root_page_setting_uncheck);
                 }
-                text1.setTextColor(getResources().getColor(R.color.action_no));
-                text2.setTextColor(getResources().getColor(R.color.action));
-                text3.setTextColor(getResources().getColor(R.color.action_no));
-//                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
-                image1.setImageResource(R.drawable.root_page_contact_uncheck);
-                image2.setImageResource(R.drawable.root_page_duble_bubble_check);
-                image3.setImageResource(R.drawable.root_page_setting_uncheck);
 
                 break;
             case 2:
+                if (pageSize == 4) {
+                    text4.setTextColor(getResources().getColor(R.color.action_no));
+                    image4.setImageResource(R.drawable.root_page_work_uncheck);
+
+                    text1.setTextColor(getResources().getColor(R.color.action_no));
+                    text2.setTextColor(getResources().getColor(R.color.action));
+                    text3.setTextColor(getResources().getColor(R.color.action_no));
+
+                    image1.setImageResource(R.drawable.root_page_duble_bubble_uncheck);
+                    image2.setImageResource(R.drawable.root_page_contact_check);
+                    image3.setImageResource(R.drawable.root_page_setting_uncheck);
+                } else {
+                    text1.setTextColor(getResources().getColor(R.color.action_no));
+                    text2.setTextColor(getResources().getColor(R.color.action_no));
+                    text3.setTextColor(getResources().getColor(R.color.action));
+
+                    image1.setImageResource(R.drawable.root_page_duble_bubble_uncheck);
+                    image2.setImageResource(R.drawable.root_page_contact_uncheck);
+                    image3.setImageResource(R.drawable.root_page_setting_check);
+                }
+
+                break;
+            case 3:
+                text4.setTextColor(getResources().getColor(R.color.action_no));
+                image4.setImageResource(R.drawable.root_page_work_uncheck);
+
                 text1.setTextColor(getResources().getColor(R.color.action_no));
                 text2.setTextColor(getResources().getColor(R.color.action_no));
                 text3.setTextColor(getResources().getColor(R.color.action));
-//                text4.setTextColor(getResources().getColor(R.color.selector_ripple));
 
-                image1.setImageResource(R.drawable.root_page_contact_uncheck);
-                image2.setImageResource(R.drawable.root_page_duble_bubble_uncheck);
+                image1.setImageResource(R.drawable.root_page_duble_bubble_uncheck);
+                image2.setImageResource(R.drawable.root_page_contact_uncheck);
                 image3.setImageResource(R.drawable.root_page_setting_check);
+
                 break;
-//            case 2:
-//                text1.setTextColor(getResources().getColor(R.color.selector_ripple));
-//                text2.setTextColor(getResources().getColor(R.color.selector_ripple));
-//                text3.setTextColor(getResources().getColor(R.color.selector_ripple));
-//                text4.setTextColor(getResources().getColor(R.color.action));
-//                break;
         }
     }
 
@@ -277,25 +345,36 @@ public class RootPageFragment extends BaseFragment {
             switch (position) {
                 default:
                 case 0:
-                    return getContactsFragment();
-                case 1:
                     return getDialogsFragment();
-//                case 3:
-//                    return getZzjg();
+                case 1:
+                    if (pageSize == 4) {
+                        Fragment fragment = new MainMoaFragment();
+                        return fragment;
+                    } else {
+                        return getContactsFragment();
+                    }
                 case 2:
-                    BaseActorSettingsFragment fragment2 = new ActorSettingsFragment();
-                    return fragment2;
+                    if (pageSize == 4) {
+                        return getContactsFragment();
+                    } else {
+                        BaseActorSettingsFragment fragment2 = new ActorSettingsFragment();
+                        return fragment2;
+                    }
+
+                case 3:
+                    BaseActorSettingsFragment fragment3 = new ActorSettingsFragment();
+                    return fragment3;
             }
         }
 
         @NonNull
         public Fragment getContactsFragment() {
-            ComposeFragment res2 = new ComposeFragment();
+            contactsFram = new RootComposeFragment();
 //            if(contactsFram == null){
 //                contactsFram= new ComposeEaglesoftFragment();
 //            }
 //            res2.setHasOptionsMenu(false);
-            return res2;
+            return contactsFram;
         }
 
         @NonNull
@@ -321,13 +400,23 @@ public class RootPageFragment extends BaseFragment {
             switch (position) {
                 default:
                 case 0:
-                    return getActivity().getString(R.string.main_bar_chats);
-                case 1:
                     return getActivity().getString(R.string.main_bar_contacts);
-//                case 3:
-//                    return getActivity().getString(R.string.main_bar_organizational);
+
+                case 1:
+                    if (pageSize == 4) {
+                        return getActivity().getString(R.string.main_bar_work);
+                    } else {
+                        return getActivity().getString(R.string.main_bar_chats);
+                    }
                 case 2:
+                    if (pageSize == 4) {
+                        return getActivity().getString(R.string.main_bar_chats);
+                    } else {
+                        return getActivity().getString(R.string.profile_title);
+                    }
+                case 3:
                     return getActivity().getString(R.string.profile_title);
+
             }
         }
 
@@ -341,5 +430,6 @@ public class RootPageFragment extends BaseFragment {
     public ViewPager getViewPage() {
         return this.pager;
     }
+
 
 }

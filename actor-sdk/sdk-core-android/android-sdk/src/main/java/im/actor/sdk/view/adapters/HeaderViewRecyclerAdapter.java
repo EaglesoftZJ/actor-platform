@@ -144,6 +144,11 @@ public class HeaderViewRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
         notifyDataSetChanged();
     }
 
+    public void headViewClear() {
+        mHeaderViews.clear();
+        notifyDataSetChanged();
+    }
+
     /**
      * Add a static view to appear at the end of the RecyclerView. Footers are displayed in the
      * order they were added.

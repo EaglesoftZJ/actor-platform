@@ -2,11 +2,21 @@ allprojects {
 
     repositories {
         jcenter()
+        URL HMSMaven =new URL('http://developer.huawei.com/repo')
+        maven {url HMSMaven}
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
 
     buildscript {
         repositories {
             jcenter()
+            maven {
+                url 'https://maven.google.com/'
+                name 'Google'
+            }
         }
     }
 }

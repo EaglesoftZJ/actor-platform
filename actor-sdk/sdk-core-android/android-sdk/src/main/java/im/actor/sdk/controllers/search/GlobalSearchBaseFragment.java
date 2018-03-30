@@ -9,6 +9,7 @@ import android.support.v7.widget.ChatLinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -117,7 +118,16 @@ public abstract class GlobalSearchBaseFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//
+//    }
+
+    public void createMenu(Menu menu, MenuInflater inflater){
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.fragment_global_search, menu);
@@ -217,6 +227,9 @@ public abstract class GlobalSearchBaseFragment extends BaseFragment {
             }
         });
     }
+
+
+
 
     private void onSearchChanged() {
         if (searchDisplay == null) {

@@ -124,6 +124,14 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
         }
     }
 
+    protected void clearHeaderView() {
+        if (collection.getAdapter() instanceof HeaderViewRecyclerAdapter) {
+            HeaderViewRecyclerAdapter h = (HeaderViewRecyclerAdapter) collection.getAdapter();
+            h.headViewClear();
+        }
+    }
+
+
     protected void addFooterView(View header) {
         if (collection.getAdapter() instanceof HeaderViewRecyclerAdapter) {
             HeaderViewRecyclerAdapter h = (HeaderViewRecyclerAdapter) collection.getAdapter();

@@ -404,7 +404,7 @@ public class ChatToolbarFragment extends BaseFragment {
                 }
                 if(sjh == null || sjh.length() == 0){
                     new AlertDialog.Builder(getActivity())
-                            .setMessage("对不起，该手机号为空")
+                            .setMessage("对不起，该用户手机号为空。")
                             .setPositiveButton(R.string.dialog_ok, null)
                             .show();
                     return;

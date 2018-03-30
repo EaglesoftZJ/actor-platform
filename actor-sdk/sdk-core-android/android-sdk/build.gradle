@@ -4,7 +4,9 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-plugin:1.2'
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+
     }
+
 }
 
 apply plugin: 'com.android.library'
@@ -20,12 +22,12 @@ def baseVersion = "3.0"
 
 android {
 
-    compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 24
+        minSdkVersion 16
+        targetSdkVersion 25
         multiDexEnabled true
     }
 
@@ -81,8 +83,9 @@ dependencies {
     //google service
     //    compile files('libs/MiPush_SDK_Client_3_2_2.jar')
     //    compile files('libs/pushservice-5.3.0.99.jar')
-    compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
+//    compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
     compile project(':actor-sdk:sdk-core-android:android-eaglesoft-push')
+    compile project(':actor-sdk:sdk-core-android:webView_jsBridge')
     compile 'io.pristine:libjingle:11139@aar'
     compile 'com.facebook.fresco:fresco:0.10.0'
     compile 'com.facebook.fresco:animated-gif:0.10.0'
@@ -95,19 +98,27 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.9.1'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2'
-    compile 'com.android.support:support-v4:24.0.0'
-    compile 'com.android.support:support-v13:24.0.0'
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:palette-v7:24.0.0'
-    compile 'com.android.support:recyclerview-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.android.support:customtabs:24.0.0'
-//    compile 'com.google.android.gms:play-services-places:9.4.0'
-//    compile 'com.google.android.gms:play-services-plus:11.0.4'
+    compile 'com.android.support:support-v4:25+'
+    compile 'com.android.support:support-v13:25+'
+    compile 'com.android.support:appcompat-v7:25+'
+    compile 'com.android.support:palette-v7:25+'
+    compile 'com.android.support:recyclerview-v7:25+'
+    compile 'com.android.support:design:25+'
+    compile 'com.android.support:customtabs:25+'
+    //    compile 'com.google.android.gms:play-services-places:9.4.0'
+    //    compile 'com.google.android.gms:play-services-plus:11.0.4'
     compile files('libs/ksoap2-android-assembly-2.6.5-jar-with-dependencies.jar')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile files('libs/httpclient-4.2.jar')
+    compile files('libs/httpclient-cache-4.2.jar')
+    compile files('libs/httpcore-4.2.jar')
+    compile files('libs/httpmime-4.2.jar')
+    compile project(':actor-sdk:sdk-core-android:android-eaglesoft-push')
 }
-repositories { flatDir { dirs 'aars' } }
+repositories {
+//    flatDir { dirs 'aars' }
+    mavenCentral()
+}
 //
 // Publishing of SDK to Maven Central
 //
