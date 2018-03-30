@@ -209,6 +209,7 @@
     <string name="about_user_me">About me</string>
     <string name="about_user">About user</string>
     <string name="wallpaper">Wallpaper</string>
+    <string name="settings_sign_out">sign out</string>
 
     <!-- Profile controls -->
     <string name="phone_menu_call">Call {0}</string>

@@ -170,6 +170,7 @@
     <string name="settings_chat">聊天设置</string>
     <string name="settings_security">安全</string>
     <string name="settings_home_page">开发公司主页</string>
+    <string name="settings_sign_out">退出</string>
     <string name="nickname">用户名</string>
     <string name="about_user_me">个人说明</string>
     <string name="about_header">关于</string>

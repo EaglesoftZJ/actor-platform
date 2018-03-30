@@ -143,26 +143,38 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
 //            }
 //        });
 
-        view.findViewById(R.id.sign_out_lay).setOnClickListener(new View.OnClickListener() {
+
+        view.findViewById(R.id.settings_sign_out_lay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AndroidProperties properties = (AndroidProperties) messenger().getPreferences();
-//                properties.clear();
-//                NoOpOpenHelper helper = new NoOpOpenHelper(AndroidContext.getContext(), "ACTOR");
-//                SQLiteDatabase database = helper.getWritableDatabase();
-//                ArrayList<String> tables = new ArrayList<>();
-//                Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table';", null);
-//                try {
-//                    while (cursor.moveToNext()) {
-//                        tables.add(cursor.getString(0));
-//                    }
-//                } finally {
-//                    cursor.close();
-//                }
-//                for (String s : tables) {
-//                    database.execSQL("drop table " + s + ";");
-//                }
-//
+                
+                SharedPreferences spUswer = AndroidContext.getContext().getSharedPreferences("userList", Context.MODE_PRIVATE);
+                SharedPreferences spIp =AndroidContext.getContext().getSharedPreferences("ipLogin",Context.MODE_PRIVATE);
+                SharedPreferences spLogin = AndroidContext.getContext().getSharedPreferences("userLogin",Context.MODE_PRIVATE);
+                SharedPreferences ipList =  AndroidContext.getContext().getSharedPreferences("ipList",Context.MODE_PRIVATE);
+                spUswer.edit().clear().commit();
+                spIp.edit().clear().commit();
+                spLogin.edit().clear().commit();
+                ipList.edit().clear().commit();
+
+                AndroidProperties properties = (AndroidProperties) messenger().getPreferences();
+                properties.clear();
+                NoOpOpenHelper helper = new NoOpOpenHelper(AndroidContext.getContext(), "ACTOR");
+                SQLiteDatabase database = helper.getWritableDatabase();
+                ArrayList<String> tables = new ArrayList<>();
+                Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table';", null);
+                try {
+                    while (cursor.moveToNext()) {
+                        tables.add(cursor.getString(0));
+                    }
+                } finally {
+                    cursor.close();
+                }
+                for (String s : tables) {
+                    database.execSQL("drop table " + s + ";");
+                }
+                android.os.Process.killProcess(android.os.Process.myPid());
+
 //                Bundle authExtras = new Bundle();
 //                authExtras.putInt(AuthActivity.SIGN_TYPE_KEY, AuthActivity.SIGN_TYPE_UP);
 //                ActorSDK.sharedActor().startAuthActivity(getActivity(), authExtras);
@@ -654,6 +666,11 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
         });
 
         TextView homePageTitle = (TextView) view.findViewById(R.id.settings_home_page);
+        homePageTitle.setTextColor(style.getSettingsTitleColor());
+
+        TextView signOutTitle = (TextView) view.findViewById(R.id.settings_sign_out_text);
+        signOutTitle.setTextColor(style.getSettingsTitleColor());
+
         homePageTitle.setTextColor(style.getSettingsTitleColor());
 
         TintImageView homePageIcon = (TintImageView) view.findViewById(R.id.settings_home_page_icon);
