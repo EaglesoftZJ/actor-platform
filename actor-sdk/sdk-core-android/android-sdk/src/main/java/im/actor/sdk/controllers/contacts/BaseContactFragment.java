@@ -62,8 +62,6 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
     MemberSideBar sideBar;
     int scpostion;
 
-    public MenuItem searchMenu;
-
     public BaseContactFragment(boolean useCompactVersion, boolean userSearch, boolean useSelection) {
         this.useCompactVersion = useCompactVersion;
         this.userSearch = userSearch;
@@ -384,23 +382,10 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
     public void createMainMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.compose, menu);
+        MenuItem searchMenu = menu.findItem(R.id.search);
         if (userSearch) {
-            searchMenu = menu.findItem(R.id.search);
+            searchMenu.setVisible(true);
             SearchView searchView = (SearchView) searchMenu.getActionView();
-//            searchMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//                @Override
-//                public boolean onMenuItemClick(MenuItem item) {
-//                    if (scpostion == 5) {
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                            }
-//                        }).start();
-//
-//                    }
-//                    return false;
-//                }
-//            });
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
@@ -413,7 +398,10 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                     return true;
                 }
             });
+        } else {
+            searchMenu.setVisible(false);
         }
+
     }
 
     @Override

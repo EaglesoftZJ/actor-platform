@@ -1,5 +1,6 @@
 package im.actor.sdk.controllers.compose;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class GroupNameFragment extends BaseFragment {
         setHomeAsUp(true);
     }
 
+    @SuppressLint("ValidFragment")
     public GroupNameFragment(boolean isChannel) {
         this();
         Bundle args = new Bundle();

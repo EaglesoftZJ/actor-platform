@@ -195,6 +195,7 @@
     <string name="dialogs_menu_group_rename">修改群组名称</string>
     <string name="dialogs_menu_group_leave">退出群组</string>
     <string name="dialogs_menu_group_delete">删除群组</string>
+    <string name="group_leave">退出群组</string>
 
     <!-- Contacts -->
     <string name="contacts_title">好友</string>
