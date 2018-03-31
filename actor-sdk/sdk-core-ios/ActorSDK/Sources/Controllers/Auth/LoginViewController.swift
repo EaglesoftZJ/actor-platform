@@ -126,12 +126,14 @@ class LoginViewController: AAAuthViewController,UITextFieldDelegate {
                         let _ = Actor.doCompleteAuth(r.result).startUserAction().then{ (r: JavaLangBoolean!) -> () in
                             if self.checkRemind.isSelected {
                                 userDefault.set(["user":user,"pass":pass], forKey: "isRemind")
-                                userDefault.synchronize()
+//                                userDefault.synchronize()
                             }
                             else{
                                 userDefault.removeObject(forKey: "isRemind")
-                                userDefault.synchronize()
+//                                userDefault.synchronize()
                             }
+                            userDefault.set(user, forKey: "zh")
+                            userDefault.synchronize()
                             self.pwdField.resignFirstResponder()
                             self.onAuthenticated()
                         }

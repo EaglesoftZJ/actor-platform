@@ -95,9 +95,9 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
 //    }
     
     open override func actorRootInitialControllerIndex() -> Int? {
-        return 1
+        return 0
     }
-    func switchRootViewController(){
+    @objc func switchRootViewController(){
         ActorSDK.sharedActor().presentMessengerInNewWindow()
     }
     private func addLaunchController() {

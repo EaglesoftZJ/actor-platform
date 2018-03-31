@@ -727,7 +727,7 @@ open class ConversationViewController:
     ////////////////////////////////////////////////////////////
     // MARK: - Right/Left button pressed
     ////////////////////////////////////////////////////////////
-    
+    //发送按钮
     override open func didPressRightButton(_ sender: Any!) {
         if !self.textView.text.isEmpty {
             Actor.sendMessage(withMentionsDetect: peer, withText: textView.text)

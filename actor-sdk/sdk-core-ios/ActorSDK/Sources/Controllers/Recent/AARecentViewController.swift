@@ -8,6 +8,9 @@ open class AARecentViewController: AADialogsListContentController, AADialogsList
 
     fileprivate var isBinded = true
     
+    var filePath = String() //V6传过来的路径
+    var fileTitle = String() //v6传过来的标题
+    
     public override init() {
         
         super.init()
@@ -77,6 +80,11 @@ open class AARecentViewController: AADialogsListContentController, AADialogsList
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         bindCounter()
+        
+        if filePath != ""
+        {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,target: self, action:#selector(back))
+        }
     }
     
     func bindCounter() {
@@ -98,6 +106,10 @@ open class AARecentViewController: AADialogsListContentController, AADialogsList
 
     }
     
+    func back() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         isBinded = false
@@ -116,10 +128,49 @@ open class AARecentViewController: AADialogsListContentController, AADialogsList
     // Handling selections
     
     open func recentsDidTap(_ controller: AADialogsListContentController, dialog: ACDialog) -> Bool {
-        if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(dialog.peer) {
-            self.navigateDetail(customController)
-        } else {
-            self.navigateDetail(ConversationViewController(peer: dialog.peer))
+        //点击选定发送消息
+        if filePath != "" {
+            let alertController = UIAlertController(title: "确定要发送吗?",message: "",preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            let OKAction = UIAlertAction(title: "确定",style: .default,handler: {
+                action in
+//                Actor.sendMessage(withMentionsDetect: dialog.peer, withText: self.fileTitle.removingPercentEncoding! + "\n" + self.filePath.removingPercentEncoding!)
+                let fileURL :URL = URL.init(string: self.filePath)!
+                let path = fileURL.path
+                let fileName = fileURL.lastPathComponent
+                var isDir:ObjCBool = false
+                if !FileManager.default.fileExists(atPath: path, isDirectory: &isDir) {
+                    // Not exists
+                    self.back()
+                    return
+                }
+                let descriptor = "/tmp/\(UUID().uuidString)"
+                let destPath = CocoaFiles.pathFromDescriptor(descriptor)
+                
+                if isDir.boolValue {
+                    
+                    // Zipping contents and sending
+                    self.execute(AATools.zipDirectoryCommand(path, to: destPath)) { (val) -> Void in
+                        Actor.sendDocument(with: dialog.peer, withName: fileName, withMime: "application/zip", withDescriptor: descriptor)
+                    }
+                } else {
+                    
+                    // Sending file itself
+                    self.execute(AATools.copyFileCommand(path, to: destPath)) { (val) -> Void in
+                        Actor.sendDocument(with: dialog.peer, withName: fileName, withMime: "application/octet-stream", withDescriptor: descriptor)
+                    }
+                }
+            })
+            alertController.addAction(cancelAction)
+            alertController.addAction(OKAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+        else {
+            if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(dialog.peer) {
+                self.navigateDetail(customController)
+            } else {
+                self.navigateDetail(ConversationViewController(peer: dialog.peer))
+            }
         }
         return false
     }

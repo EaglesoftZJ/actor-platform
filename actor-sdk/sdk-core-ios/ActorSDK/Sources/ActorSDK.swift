@@ -471,6 +471,16 @@ import ReachabilitySwift
             var mainNavigations = [AANavigationController]()
         
             ////////////////////////////////////
+            // Recent dialogs
+            ////////////////////////////////////
+            
+            if let recentDialogs = self.delegate.actorControllerForDialogs() {
+                mainNavigations.append(AANavigationController(rootViewController: recentDialogs))
+            } else {
+                mainNavigations.append(AANavigationController(rootViewController: AARecentViewController()))
+            }
+            
+            ////////////////////////////////////
             // Contacts
             ////////////////////////////////////
         
@@ -479,17 +489,13 @@ import ReachabilitySwift
             } else {
                 mainNavigations.append(AANavigationController(rootViewController: ContactsController()))
             }
-        
+            
             ////////////////////////////////////
-            // Recent dialogs
+            // Work
             ////////////////////////////////////
-        
-            if let recentDialogs = self.delegate.actorControllerForDialogs() {
-                mainNavigations.append(AANavigationController(rootViewController: recentDialogs))
-            } else {
-                mainNavigations.append(AANavigationController(rootViewController: AARecentViewController()))
-            }
-        
+            
+            mainNavigations.append(AANavigationController(rootViewController:WorkController()))
+            
             ////////////////////////////////////
             // Settings
             ////////////////////////////////////
@@ -880,9 +886,24 @@ import ReachabilitySwift
     //
     
     func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        print(url.absoluteString)
         
-        dispatchOnUi { () -> Void in
-            self.openUrl(url.absoluteString)
+        let URLString:String = url.absoluteString
+        if URLString.contains("MOAV6path=") && URLString.contains("MOAV6title=")
+        {
+            let recentVC = AARecentViewController()
+            let tempStr = URLString.components(separatedBy: "MOAV6path=").last
+            let filePath = tempStr?.components(separatedBy: "MOAV6title=").first
+            let fileTitle = tempStr?.components(separatedBy: "MOAV6title=").last
+            recentVC.filePath = filePath!
+            recentVC.fileTitle = fileTitle!
+            
+            self.bindedToWindow.rootViewController?.navigateDetail(recentVC)
+        }
+        else {
+            dispatchOnUi { () -> Void in
+                self.openUrl(url.absoluteString)
+            }
         }
 
         return true
@@ -890,10 +911,16 @@ import ReachabilitySwift
     
     open func application(_ application: UIApplication, handleOpenURL url: URL) -> Bool {
         
-        dispatchOnUi { () -> Void in
-            self.openUrl(url.absoluteString)
+        let URLString:String = url.absoluteString
+        if URLString.contains("MOAV6path=") && URLString.contains("MOAV6title=")
+        {
+            
         }
-        
+        else {
+            dispatchOnUi { () -> Void in
+                self.openUrl(url.absoluteString)
+            }
+        }
         return true
     }
 }

@@ -20,6 +20,8 @@ class NetManager: AFHTTPSessionManager {
         let instance = NetManager()
         instance.responseSerializer.acceptableContentTypes?.insert("text/html")
         instance.responseSerializer.acceptableContentTypes?.insert("text/plain")
+        instance.requestSerializer = AFJSONRequestSerializer.init()
+        instance.responseSerializer = AFJSONResponseSerializer.init()
         return instance
     }()
     

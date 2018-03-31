@@ -9,6 +9,14 @@ import DZNWebViewController
 import SafariServices
 
 open class AAViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, RSKImageCropViewControllerDelegate, UIViewControllerTransitioningDelegate  {
+    public func imageCropViewController(_ controller: RSKImageCropViewController, didCropImage croppedImage: UIImage, usingCropRect cropRect: CGRect, rotationAngle: CGFloat) {
+        if (pendingPickClosure != nil){
+            pendingPickClosure!(croppedImage)
+        }
+        pendingPickClosure = nil
+        navigationController!.dismiss(animated: true, completion: nil)
+    }
+    
     
     // MARK: -
     // MARK: Public vars
