@@ -1,6 +1,7 @@
 package im.actor.sdk.push;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -37,6 +38,7 @@ public class HuaWeiPushReceiver extends PushReceiver {
         super.onToken(context, s);
         Log.i("PushMoa", "进入token1");
     }
+
 
     @Override
     public void onToken(Context context, String token, Bundle extras) {

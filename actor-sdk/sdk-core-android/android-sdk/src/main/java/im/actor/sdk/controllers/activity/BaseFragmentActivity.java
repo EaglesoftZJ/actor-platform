@@ -8,15 +8,17 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import im.actor.sdk.R;
+import im.actor.sdk.controllers.root.HandleBackUtil;
 
 public class BaseFragmentActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         // Configure ActionBar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -73,5 +75,10 @@ public class BaseFragmentActivity extends BaseActivity {
     }
 
 
-
+    @Override
+    public void onBackPressed() {
+        if (!HandleBackUtil.handleBackPress(this)) {
+            super.onBackPressed();
+        }
+    }
 }

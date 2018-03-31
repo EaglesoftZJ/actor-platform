@@ -2,12 +2,15 @@ package im.actor.sdk.controllers.settings;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -55,12 +58,16 @@ import im.actor.core.viewmodel.UserVM;
 import im.actor.core.viewmodel.generics.ArrayListUserEmail;
 import im.actor.core.viewmodel.generics.ArrayListUserPhone;
 import im.actor.runtime.actors.messages.Void;
+import im.actor.runtime.android.AndroidContext;
+import im.actor.runtime.android.storage.AndroidProperties;
+import im.actor.runtime.android.storage.NoOpOpenHelper;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.ActorStyle;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.activity.BaseActivity;
 import im.actor.sdk.controllers.BaseFragment;
+import im.actor.sdk.controllers.auth.AuthActivity;
 import im.actor.sdk.controllers.fragment.help.HelpActivity;
 import im.actor.sdk.controllers.fragment.preview.ViewAvatarActivity;
 import im.actor.sdk.util.BoxUtil;
@@ -136,50 +143,43 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
 //            }
 //        });
 
-        view.findViewById(R.id.sign_out_lay).setOnClickListener(new View.OnClickListener() {
+
+        view.findViewById(R.id.settings_sign_out_lay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                messenger().u
+                
+                SharedPreferences spUswer = AndroidContext.getContext().getSharedPreferences("userList", Context.MODE_PRIVATE);
+                SharedPreferences spIp =AndroidContext.getContext().getSharedPreferences("ipLogin",Context.MODE_PRIVATE);
+                SharedPreferences spLogin = AndroidContext.getContext().getSharedPreferences("userLogin",Context.MODE_PRIVATE);
+                SharedPreferences ipList =  AndroidContext.getContext().getSharedPreferences("ipList",Context.MODE_PRIVATE);
+                spUswer.edit().clear().commit();
+                spIp.edit().clear().commit();
+                spLogin.edit().clear().commit();
+                ipList.edit().clear().commit();
 
-//                executeSilent(messenger().loadSessions(), new CommandCallback<List<ApiAuthSession>>() {
-//                    @Override
-//                    public void onResult(List<ApiAuthSession> res) {
-//                        ArrayList<ApiAuthSession> items = new ArrayList<ApiAuthSession>(res);
-//                        Collections.sort(items, (lhs, rhs) -> rhs.getAuthTime() - lhs.getAuthTime());
-//                        int signId = -1;
-//                        for (final ApiAuthSession item : items) {
-//                            if (getActivity() == null) return;
-//                            boolean isThisDevice = item.getAuthHolder() == ApiAuthHolder.THISDEVICE;
-//                            if (isThisDevice) {
-//                                signId = item.getId();
-//                                break;
-//                            }
-//                        }
-//                        if (signId != -1) {
-//                            execute(messenger().terminateSession(signId), R.string.progress_common,
-//                                    new CommandCallback<Void>() {
-//                                        @Override
-//                                        public void onResult(Void res1) {
-//                                        }
-//
-//                                        @Override
-//                                        public void onError(Exception e) {
-//                                            Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    });
-//                        } else {
-//                            Toast.makeText(getActivity(), "退出失败", Toast.LENGTH_SHORT).show();
-//
-//                        }
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Exception e) {
-//                        Toast.makeText(getContext(), "退出失败", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+                AndroidProperties properties = (AndroidProperties) messenger().getPreferences();
+                properties.clear();
+                NoOpOpenHelper helper = new NoOpOpenHelper(AndroidContext.getContext(), "ACTOR");
+                SQLiteDatabase database = helper.getWritableDatabase();
+                ArrayList<String> tables = new ArrayList<>();
+                Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table';", null);
+                try {
+                    while (cursor.moveToNext()) {
+                        tables.add(cursor.getString(0));
+                    }
+                } finally {
+                    cursor.close();
+                }
+                for (String s : tables) {
+                    database.execSQL("drop table " + s + ";");
+                }
+                android.os.Process.killProcess(android.os.Process.myPid());
+
+//                Bundle authExtras = new Bundle();
+//                authExtras.putInt(AuthActivity.SIGN_TYPE_KEY, AuthActivity.SIGN_TYPE_UP);
+//                ActorSDK.sharedActor().startAuthActivity(getActivity(), authExtras);
+//                getActivity().finish();
+//                ((Application)getContext().getApplicationContext()).onCreate();
             }
         });
 
@@ -666,6 +666,11 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
         });
 
         TextView homePageTitle = (TextView) view.findViewById(R.id.settings_home_page);
+        homePageTitle.setTextColor(style.getSettingsTitleColor());
+
+        TextView signOutTitle = (TextView) view.findViewById(R.id.settings_sign_out_text);
+        signOutTitle.setTextColor(style.getSettingsTitleColor());
+
         homePageTitle.setTextColor(style.getSettingsTitleColor());
 
         TintImageView homePageIcon = (TintImageView) view.findViewById(R.id.settings_home_page_icon);

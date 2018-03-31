@@ -11,6 +11,7 @@ public class AndroidLifecycleProvider implements LifecycleRuntime {
 
     @Override
     public void killApp() {
+//        AndroidContext.getContext()
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 

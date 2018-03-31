@@ -1,12 +1,16 @@
 package im.actor.sdk.controllers.compose;
 
 import android.content.Intent;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.contacts.BaseContactFragment;
 import im.actor.core.entity.Contact;
+import im.actor.sdk.controllers.fragment.help.HelpActivity;
 import im.actor.sdk.controllers.group.GroupAllActivity;
 import im.actor.sdk.controllers.zuzhijiagou.ZuzhijiagouActivity;
 
@@ -15,7 +19,9 @@ public class ComposeFragment extends BaseContactFragment {
     public ComposeFragment() {
         super(true, false, false);
 //        setRootFragment(true);
-////        setTitle(R.string.compose_title);
+//        setUnbindOnPause(true);
+//        setTitle(ActorSDK.sharedActor().getAppName());
+        //        setTitle(R.string.compose_title);
 //        setTitle(ActorSDK.sharedActor().getAppName());
 //        setHomeAsUp(true);
     }
@@ -54,8 +60,9 @@ public class ComposeFragment extends BaseContactFragment {
     @Override
     public void onItemClicked(Contact contact) {
         getActivity().startActivity(Intents.openPrivateDialog(contact.getUid(), true, getActivity()));
-        getActivity().finish();
+//        getActivity().finish();
     }
+
 
     @Override
     public void onResume() {

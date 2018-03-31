@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,6 +61,7 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
     private RecyclerView collection;
     MemberSideBar sideBar;
     int scpostion;
+
     public BaseContactFragment(boolean useCompactVersion, boolean userSearch, boolean useSelection) {
         this.useCompactVersion = useCompactVersion;
         this.userSearch = userSearch;
@@ -74,9 +78,12 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         collection = (RecyclerView) res.findViewById(R.id.collection);
         collection.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
         sideBar = (MemberSideBar) res.findViewById(R.id.side_bar);
-        sideBar.setVisibility(View.GONE);
-        contactReLay = (RelativeLayout) res.findViewById(R.id.eaglesoft_collection_relay);
-        contactReLay.setVisibility(View.GONE);
+        if (sideBar != null) {
+            sideBar.setVisibility(View.GONE);
+            contactReLay = (RelativeLayout) res.findViewById(R.id.eaglesoft_collection_relay);
+            contactReLay.setVisibility(View.GONE);
+        }
+
         emptyView = res.findViewById(R.id.emptyCollection);
         if (emptyView != null) {
             emptyView.setBackgroundColor(ActorSDK.sharedActor().style.getMainBackgroundColor());
@@ -107,7 +114,8 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
         }
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss SSS");
         Date curDate = new Date(System.currentTimeMillis());
-        System.out.println("iGem: fragment=" + format.format(curDate));
+//        System.out.println("iGem: fragment=" + format.format(curDate));
+
         bind(messenger().getAppState().getIsContactsEmpty(), new ValueChangedListener<Boolean>() {
             @Override
             public void onChanged(Boolean val, Value<Boolean> Value) {
@@ -116,8 +124,13 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                         emptyView.setVisibility(View.VISIBLE);
                     } else {
                         emptyView.setVisibility(View.GONE);
-                        sideBar.setVisibility(View.VISIBLE);
-                        contactReLay.setVisibility(View.VISIBLE);
+                        if (sideBar != null) {
+                            sideBar.setVisibility(View.VISIBLE);
+                            contactReLay.setVisibility(View.VISIBLE);
+                            collection.setVisibility(View.VISIBLE);
+                        } else {
+                            collection.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
@@ -126,41 +139,44 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
 
         Activity activity = getActivity();
         scpostion = 1;
-        if(activity instanceof ComposeActivity ||
-                activity instanceof RootActivity){
+        if (activity instanceof ComposeActivity ||
+                activity instanceof RootActivity) {
             scpostion = 5;
         }
         //右边的side
-        sideBar.setOnStrSelectCallBack(new MemberSideBar.ISideBarSelectCallBack() {
-            @Override
-            public void onSelectStr(int index, String selectStr) {
-                if (selectStr.equals("↑")) {
-                    collection.scrollToPosition(0);
-                    return;
-                }
-                List<Contact> contactList = displayList.getList();
-
-                for (int i = 0; i < contactList.size(); i++) {
-                    if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
-//                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
-                        LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
-                        int firstItem = manager.findFirstVisibleItemPosition();
-                        int lastItem = manager.findLastVisibleItemPosition();
-                        int n = i + scpostion;
-                        if (n <= firstItem) {
-                            collection.scrollToPosition(n);
-                        } else if (n <= lastItem) {
-                            int top = collection.getChildAt(n - firstItem).getTop();
-                            collection.scrollBy(0, top);
-                        } else {
-                            collection.scrollToPosition(n);
-                        }
+        if (sideBar != null) {
+            sideBar.setOnStrSelectCallBack(new MemberSideBar.ISideBarSelectCallBack() {
+                @Override
+                public void onSelectStr(int index, String selectStr) {
+                    if (selectStr.equals("↑")) {
+                        collection.scrollToPosition(0);
                         return;
                     }
-                }
-            }
-        });
+                    List<Contact> contactList = displayList.getList();
 
+                    for (int i = 0; i < contactList.size(); i++) {
+                        if (selectStr.equalsIgnoreCase(contactList.get(i).getPyShort())) {
+//                        collection.scrollToPosition(i+4); // 选择到首字母出现的位置
+                            LinearLayoutManager manager = (LinearLayoutManager) collection.getLayoutManager();
+                            int firstItem = manager.findFirstVisibleItemPosition();
+                            int lastItem = manager.findLastVisibleItemPosition();
+                            int n = i + scpostion;
+                            if (n <= firstItem) {
+                                collection.scrollToPosition(n);
+                            } else if (n <= lastItem) {
+                                int top = collection.getChildAt(n - firstItem).getTop();
+                                System.out.println(n + "iGem:top=" + top);
+
+                                collection.scrollBy(0, top);
+                            } else {
+                                collection.scrollToPosition(n);
+                            }
+                            return;
+                        }
+                    }
+                }
+            });
+        }
         return res;
     }
 
@@ -332,6 +348,7 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
             getDisplayList().initSearch(query, false);
         }
         ((ContactsAdapter) getAdapter()).setQuery(query.toLowerCase());
+        collection.scrollToPosition(0);
     }
 
 
@@ -359,12 +376,16 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        createMainMenu(menu, inflater);
+    }
+
+    public void createMainMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.compose, menu);
+        MenuItem searchMenu = menu.findItem(R.id.search);
         if (userSearch) {
-            inflater.inflate(R.menu.compose, menu);
-
-            SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-
+            searchMenu.setVisible(true);
+            SearchView searchView = (SearchView) searchMenu.getActionView();
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
@@ -377,7 +398,10 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                     return true;
                 }
             });
+        } else {
+            searchMenu.setVisible(false);
         }
+
     }
 
     @Override

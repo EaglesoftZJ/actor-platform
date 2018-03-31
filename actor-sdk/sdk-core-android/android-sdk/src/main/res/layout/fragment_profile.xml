@@ -119,7 +119,8 @@
                 android:layout_height="48dp"
                 android:background="@drawable/selector"
                 android:gravity="center_vertical"
-                android:paddingRight="8dp">
+                android:paddingRight="8dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/videoCallIcon"
@@ -153,7 +154,8 @@
                 android:layout_height="48dp"
                 android:background="@drawable/selector"
                 android:gravity="center_vertical"
-                android:paddingRight="8dp">
+                android:paddingRight="8dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/actionIcon"

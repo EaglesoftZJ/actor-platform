@@ -250,6 +250,13 @@ public class ActorSDK {
         return sp.getString("url", context.getString(R.string.url));
     }
 
+
+    public static String getV8WebUrl(Context context) {
+//        SharedPreferences sp = context.getSharedPreferences("ipLogin", Context.MODE_PRIVATE);
+        return "http://192.168.1.182:8080";
+//        http://192.168.1.182:8080
+    }
+
     /**
      * Shared ActorSDK. Use this method to get instance of SDK for configuration and starting up
      *

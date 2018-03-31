@@ -32,10 +32,12 @@ import im.actor.runtime.promise.PromiseResolver;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.ActorStyle;
 import im.actor.sdk.R;
+import im.actor.sdk.controllers.root.HandleBackInterface;
+import im.actor.sdk.controllers.root.HandleBackUtil;
 import im.actor.sdk.controllers.tools.MediaPickerCallback;
 import im.actor.sdk.util.ViewUtils;
 
-public class BaseFragment extends BinderCompatFragment implements MediaPickerCallback {
+public class BaseFragment extends BinderCompatFragment implements MediaPickerCallback, HandleBackInterface {
 
     protected final ActorStyle style = ActorSDK.sharedActor().style;
 
@@ -256,7 +258,6 @@ public class BaseFragment extends BinderCompatFragment implements MediaPickerCal
             @Override
             public void onResult(T res) {
                 dismissDialog(dialog);
-                ;
                 callback.onResult(res);
             }
 
@@ -493,5 +494,10 @@ public class BaseFragment extends BinderCompatFragment implements MediaPickerCal
             }
             super.invokeDeliver();
         }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return HandleBackUtil.handleBackPress(this);
     }
 }

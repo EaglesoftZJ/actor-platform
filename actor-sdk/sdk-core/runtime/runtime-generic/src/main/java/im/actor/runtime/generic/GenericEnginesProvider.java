@@ -3,6 +3,7 @@ package im.actor.runtime.generic;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.runtime.generic.mvvm.DisplayList;
 import im.actor.runtime.generic.storage.AsyncListEngine;
@@ -36,7 +37,12 @@ public class GenericEnginesProvider implements EnginesRuntime {
 
     @Override
     public <T extends BserObject & ListEngineItem> PlatformDisplayList<T> createDisplayList(ListEngine<T> listEngine, boolean isSharedInstance, String clazz) {
-        BindedDisplayList<T> list = new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, 10000, 10000, operationMode);
+        int pageSize = 20;
+        int loadGap = 20;
+        if (listEngine.getHeadValue() instanceof Contact) {
+            pageSize = 10000;
+        }
+        BindedDisplayList<T> list = new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, pageSize, loadGap, operationMode);
         return list;
     }
 }

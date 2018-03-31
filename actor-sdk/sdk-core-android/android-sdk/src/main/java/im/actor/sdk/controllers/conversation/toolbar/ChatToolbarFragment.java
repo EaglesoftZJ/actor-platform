@@ -1,6 +1,7 @@
 package im.actor.sdk.controllers.conversation.toolbar;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -43,7 +44,9 @@ import im.actor.sdk.ActorStyle;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.Intents;
+import im.actor.sdk.controllers.compose.CreateGroupActivity;
 import im.actor.sdk.controllers.conversation.view.TypingDrawable;
+import im.actor.sdk.controllers.group.AddMemberActivity;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.view.TintDrawable;
 import im.actor.sdk.view.avatar.AvatarView;
@@ -89,6 +92,7 @@ public class ChatToolbarFragment extends BaseFragment {
         setUnbindOnPause(true);
     }
 
+    @SuppressLint("ValidFragment")
     public ChatToolbarFragment(Peer peer) {
         this();
         Bundle args = new Bundle();
@@ -244,24 +248,29 @@ public class ChatToolbarFragment extends BaseFragment {
 //        }
 
         // Show menus for leave group and group info view
-//        if (peer.getPeerType() == PeerType.GROUP) {
-//            GroupVM groupVM = groups().get(peer.getPeerId());
-//            if (groupVM.isMember().get()) {
-//                menu.findItem(R.id.leaveGroup).setVisible(true);
+        if (peer.getPeerType() == PeerType.GROUP) {
+            GroupVM groupVM = groups().get(peer.getPeerId());
+            if (groupVM.isMember().get()) {
+                menu.findItem(R.id.leaveGroup).setVisible(true);
 //                menu.findItem(R.id.groupInfo).setVisible(true);
-//            } else {
-//                menu.findItem(R.id.leaveGroup).setVisible(false);
+            } else {
+                menu.findItem(R.id.leaveGroup).setVisible(false);
 //                menu.findItem(R.id.groupInfo).setVisible(false);
-//            }
-//            if (groupVM.getGroupType() == GroupType.GROUP) {
-//                menu.findItem(R.id.clear).setVisible(true);
-//            } else {
-//                menu.findItem(R.id.clear).setVisible(false);
-//            }
-//        } else {
+            }
+            if (groupVM.getGroupType() == GroupType.GROUP) {
+                menu.findItem(R.id.addGroup).setVisible(true);
+                menu.findItem(R.id.clear).setVisible(true);
+            } else {
+                menu.findItem(R.id.addGroup).setVisible(false);
+                menu.findItem(R.id.clear).setVisible(false);
+            }
+            menu.findItem(R.id.createGroup).setVisible(false);
+        } else {
 //            menu.findItem(R.id.groupInfo).setVisible(false);
-//            menu.findItem(R.id.leaveGroup).setVisible(false);
-//        }
+            menu.findItem(R.id.createGroup).setVisible(true);
+            menu.findItem(R.id.addGroup).setVisible(false);
+            menu.findItem(R.id.leaveGroup).setVisible(false);
+        }
 
         // Voice and Video calls
         boolean callsEnabled = ActorSDK.sharedActor().isCallsEnabled();
@@ -270,15 +279,15 @@ public class ChatToolbarFragment extends BaseFragment {
             if (peer.getPeerType() == PeerType.PRIVATE) {
                 callsEnabled = !users().get(peer.getPeerId()).isBot();
             } else if (peer.getPeerType() == PeerType.GROUP) {
-
-                GroupVM groupVM = groups().get(peer.getPeerId());
-                if (groupVM.getGroupType() == GroupType.GROUP && groupVM.isMember().get() && groupVM.getIsCanCall().get()) {
-                    callsEnabled = groupVM.getMembersCount().get() <= MAX_USERS_FOR_CALLS;
-                    videoCallsEnabled = false;
-                } else {
-                    callsEnabled = false;
-                    videoCallsEnabled = false;
-                }
+                callsEnabled = false;
+//                GroupVM groupVM = groups().get(peer.getPeerId());
+//                if (groupVM.getGroupType() == GroupType.GROUP && groupVM.isMember().get() && groupVM.getIsCanCall().get()) {
+//                    callsEnabled = groupVM.getMembersCount().get() <= MAX_USERS_FOR_CALLS;
+//                    videoCallsEnabled = false;
+//                } else {
+//                    callsEnabled = false;
+//                    videoCallsEnabled = false;
+//                }
             }
         }
         menu.findItem(R.id.call).setVisible(callsEnabled);
@@ -287,6 +296,7 @@ public class ChatToolbarFragment extends BaseFragment {
 
         // Add to contacts
         if (peer.getPeerType() == PeerType.PRIVATE) {
+            //不是好友，但是在聊天页面中
             menu.findItem(R.id.add_to_contacts).setVisible(!users().get(peer.getPeerId()).isContact().get());
         }
 
@@ -297,7 +307,14 @@ public class ChatToolbarFragment extends BaseFragment {
         int i = item.getItemId();
         if (i == android.R.id.home) {
             getActivity().finish();
-        } /*else if (i == R.id.clear) {
+        } else if (i == R.id.createGroup) {
+            startActivity(new Intent(getActivity(), CreateGroupActivity.class)
+                    .putExtra(CreateGroupActivity.EXTRA_IS_CHANNEL, false));
+            getActivity().finish();
+        } else if (i == R.id.addGroup) {
+            startActivity(new Intent(getActivity(), AddMemberActivity.class)
+                    .putExtra(Intents.EXTRA_GROUP_ID, peer.getPeerId()));
+        } else if (i == R.id.clear) {
             new AlertDialog.Builder(getActivity())
                     .setMessage(R.string.alert_delete_all_messages_text)
                     .setPositiveButton(R.string.alert_delete_all_messages_yes, (dialog, which) -> {
@@ -323,24 +340,13 @@ public class ChatToolbarFragment extends BaseFragment {
                     .setMessage(getString(R.string.alert_leave_group_message)
                             .replace("%1$s", groups().get(peer.getPeerId()).getName().get()))
                     .setPositiveButton(R.string.alert_leave_group_yes, (dialog2, which) -> {
-                        execute(messenger().leaveGroup(peer.getPeerId()), R.string.progress_common, new CommandCallback<Void>() {
-                            @Override
-                            public void onResult(Void res) {
-
-                            }
-
-                            @Override
-                            public void onError(final Exception e) {
-                                Toast.makeText(getActivity(), R.string.toast_unable_leave, Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        getActivity().finish();
+                        execute(messenger().leaveAndDeleteGroup(peer.getPeerId()).then(aVoid -> ActorSDK.returnToRoot(getActivity())));
                     })
                     .setNegativeButton(R.string.dialog_cancel, null)
                     .show()
                     .setCanceledOnTouchOutside(true);
 
-        } else if (i == R.id.contact) {
+        }/*else if (i == R.id.contact) {
             ActorSDKLauncher.startProfileActivity(getActivity(), peer.getPeerId());
         } else if (i == R.id.groupInfo) {
             ActorSDK.sharedActor().startGroupInfoActivity(getActivity(), peer.getPeerId());
@@ -402,9 +408,9 @@ public class ChatToolbarFragment extends BaseFragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if(sjh == null || sjh.length() == 0){
+                if (sjh == null || sjh.length() == 0) {
                     new AlertDialog.Builder(getActivity())
-                            .setMessage("对不起，该手机号为空")
+                            .setMessage("对不起，该用户手机号为空。")
                             .setPositiveButton(R.string.dialog_ok, null)
                             .show();
                     return;

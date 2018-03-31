@@ -9,11 +9,28 @@
     android:layout_height="match_parent"
     android:id="@+id/container">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/collection"
+    <RelativeLayout
+        android:id="@+id/eaglesoft_collection_relay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/collection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"/>
+
+        <im.actor.sdk.controllers.contacts.view.MemberSideBar
+            android:id="@+id/side_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/emptyCollection"
