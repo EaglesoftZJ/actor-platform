@@ -68,7 +68,7 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
         ActorSDK.sharedActor().createActor()
         
     }
-
+    
     open override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
         let _ = super.application(application, didFinishLaunchingWithOptions: launchOptions)
         //#注册切换Root控制器通知

@@ -886,40 +886,38 @@ import ReachabilitySwift
     //
     
     func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        print(url.absoluteString)
-        
-        let URLString:String = url.absoluteString
-        if URLString.contains("MOAV6path=") && URLString.contains("MOAV6title=")
-        {
-            let recentVC = AARecentViewController()
-            let tempStr = URLString.components(separatedBy: "MOAV6path=").last
-            let filePath = tempStr?.components(separatedBy: "MOAV6title=").first
-            let fileTitle = tempStr?.components(separatedBy: "MOAV6title=").last
-            recentVC.filePath = filePath!
-            recentVC.fileTitle = fileTitle!
-            
-            self.bindedToWindow.rootViewController?.navigateDetail(recentVC)
+        dispatchOnUi { () -> Void in
+            self.openUrl(url.absoluteString)
         }
-        else {
-            dispatchOnUi { () -> Void in
+        return true
+    }
+    
+    open func application(_ app: UIApplication, openURL url: URL) -> Bool {
+        dispatchOnUi { () -> Void in
+            print("一等奖"+url.absoluteString)
+            
+            let URLString:String = url.absoluteString
+            if URLString.contains("MOAV6path=") && URLString.contains("MOAV6title=")
+            {
+                let recentVC = AARecentViewController()
+                let tempStr = URLString.components(separatedBy: "MOAV6path=").last
+                let filePath = tempStr?.components(separatedBy: "MOAV6title=").first
+                let fileTitle = tempStr?.components(separatedBy: "MOAV6title=").last
+                recentVC.filePath = filePath!
+                recentVC.fileTitle = fileTitle!
+                
+                self.bindedToWindow.rootViewController?.navigateDetail(recentVC)
+            }
+            else {
                 self.openUrl(url.absoluteString)
             }
         }
-
         return true
     }
     
     open func application(_ application: UIApplication, handleOpenURL url: URL) -> Bool {
-        
-        let URLString:String = url.absoluteString
-        if URLString.contains("MOAV6path=") && URLString.contains("MOAV6title=")
-        {
-            
-        }
-        else {
-            dispatchOnUi { () -> Void in
-                self.openUrl(url.absoluteString)
-            }
+        dispatchOnUi { () -> Void in
+            self.openUrl(url.absoluteString)
         }
         return true
     }

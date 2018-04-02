@@ -66,7 +66,9 @@ open class ActorApplicationDelegate: ActorSDKDelegateDefault, UIApplicationDeleg
     open func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return ActorSDK.sharedActor().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation as AnyObject)
     }
-    
+    open func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return ActorSDK.sharedActor().application(app, openURL: url)
+    }
     open func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
         return ActorSDK.sharedActor().application(application, handleOpenURL: url)
     }

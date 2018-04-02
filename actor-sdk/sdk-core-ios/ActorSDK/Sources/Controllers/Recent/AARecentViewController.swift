@@ -3,7 +3,7 @@
 //
 
 import UIKit
-
+import AFNetworking
 open class AARecentViewController: AADialogsListContentController, AADialogsListContentControllerDelegate {
 
     fileprivate var isBinded = true
@@ -134,32 +134,25 @@ open class AARecentViewController: AADialogsListContentController, AADialogsList
             let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
             let OKAction = UIAlertAction(title: "确定",style: .default,handler: {
                 action in
-//                Actor.sendMessage(withMentionsDetect: dialog.peer, withText: self.fileTitle.removingPercentEncoding! + "\n" + self.filePath.removingPercentEncoding!)
-                let fileURL :URL = URL.init(string: self.filePath)!
-                let path = fileURL.path
-                let fileName = fileURL.lastPathComponent
-                var isDir:ObjCBool = false
-                if !FileManager.default.fileExists(atPath: path, isDirectory: &isDir) {
-                    // Not exists
-                    self.back()
-                    return
-                }
+                let fileURL = URL.init(string: self.filePath.removingPercentEncoding!)!
+                let fileName = fileURL.lastPathComponent.removingPercentEncoding!
+                //AFN下载文件到本地
+                //路径
                 let descriptor = "/tmp/\(UUID().uuidString)"
                 let destPath = CocoaFiles.pathFromDescriptor(descriptor)
-                
-                if isDir.boolValue {
-                    
-                    // Zipping contents and sending
-                    self.execute(AATools.zipDirectoryCommand(path, to: destPath)) { (val) -> Void in
-                        Actor.sendDocument(with: dialog.peer, withName: fileName, withMime: "application/zip", withDescriptor: descriptor)
-                    }
-                } else {
-                    
-                    // Sending file itself
-                    self.execute(AATools.copyFileCommand(path, to: destPath)) { (val) -> Void in
-                        Actor.sendDocument(with: dialog.peer, withName: fileName, withMime: "application/octet-stream", withDescriptor: descriptor)
-                    }
-                }
+                //下载
+                let configuration = URLSessionConfiguration.default
+                let sessionManager = AFURLSessionManager.init(sessionConfiguration: configuration)
+                let request = URLRequest(url: fileURL)
+                let task = sessionManager.downloadTask(with: request, progress: nil, destination: { (targetPath, response) -> URL in
+                    //本地路径
+                    return URL.init(fileURLWithPath: destPath)
+                }, completionHandler: { (response, filePath, error) in
+                    //完成之后发送
+                     Actor.sendDocument(with: dialog.peer, withName: fileName, withMime: "application/octet-stream", withDescriptor: descriptor)
+                    self.back()
+                })
+                task.resume()
             })
             alertController.addAction(cancelAction)
             alertController.addAction(OKAction)
