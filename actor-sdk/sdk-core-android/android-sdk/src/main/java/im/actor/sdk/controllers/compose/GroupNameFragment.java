@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
@@ -141,6 +142,8 @@ public class GroupNameFragment extends BaseFragment {
                 ((CreateGroupActivity) getActivity()).showNextFragment(
                         GroupUsersFragment.createGroup(groupName.getText().toString().trim(), avatarPath), false);
             }
+        } else {
+            Toast.makeText(getContext(), "请输入群组名称", Toast.LENGTH_SHORT).show();
         }
     }
 

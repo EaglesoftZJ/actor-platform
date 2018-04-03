@@ -45,6 +45,7 @@ import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.compose.CreateGroupActivity;
+import im.actor.sdk.controllers.compose.SimpleCreateGroupActivity;
 import im.actor.sdk.controllers.conversation.view.TypingDrawable;
 import im.actor.sdk.controllers.group.AddMemberActivity;
 import im.actor.sdk.util.Screen;
@@ -61,6 +62,8 @@ public class ChatToolbarFragment extends BaseFragment {
     public static final int MAX_USERS_FOR_CALLS = 5;
     protected static final int PERMISSIONS_REQUEST_FOR_CALL = 8;
     protected static final int PERMISSIONS_REQUEST_FOR_VIDEO_CALL = 12;
+
+    public static final int Greate_Group_Res = 13;
 
     public static ChatToolbarFragment create(Peer peer) {
         return new ChatToolbarFragment(peer);
@@ -87,6 +90,8 @@ public class ChatToolbarFragment extends BaseFragment {
     // Toolbar typing text
     protected TextView barTyping;
 
+    public static Activity chatActivity;
+
     public ChatToolbarFragment() {
         setRootFragment(true);
         setUnbindOnPause(true);
@@ -103,6 +108,7 @@ public class ChatToolbarFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle saveInstance) {
         super.onCreate(saveInstance);
+        chatActivity = null;
         peer = Peer.fromUniqueId(getArguments().getLong("peer"));
     }
 
@@ -308,9 +314,13 @@ public class ChatToolbarFragment extends BaseFragment {
         if (i == android.R.id.home) {
             getActivity().finish();
         } else if (i == R.id.createGroup) {
-            startActivity(new Intent(getActivity(), CreateGroupActivity.class)
-                    .putExtra(CreateGroupActivity.EXTRA_IS_CHANNEL, false));
-            getActivity().finish();
+            chatActivity = getActivity();
+            startActivity(new Intent(getActivity(), SimpleCreateGroupActivity.class)
+                    .putExtra(SimpleCreateGroupActivity.EXTRA_User_Name, users().get(peer.getPeerId()).getName().get())
+                    .putExtra(SimpleCreateGroupActivity.EXTRA_User_ID, peer.getPeerId()));
+//            startActivity(new Intent(getActivity(), SimpleCreateGroupActivity.class)
+//                    .putExtra(CreateGroupActivity.EXTRA_IS_CHANNEL, false));
+//            getActivity().finish();
         } else if (i == R.id.addGroup) {
             startActivity(new Intent(getActivity(), AddMemberActivity.class)
                     .putExtra(Intents.EXTRA_GROUP_ID, peer.getPeerId()));
@@ -378,6 +388,7 @@ public class ChatToolbarFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_FOR_CALL || requestCode == PERMISSIONS_REQUEST_FOR_VIDEO_CALL) {
@@ -428,4 +439,20 @@ public class ChatToolbarFragment extends BaseFragment {
         if (cmd != null)
             execute(cmd, R.string.progress_common);
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == getActivity().RESULT_OK) {
+//            switch (requestCode) {
+//                case Greate_Group_Res:
+//                    int gid = data.getIntExtra("groupId", 0);
+//                    if (gid != 0) {
+//                        getActivity().finish();
+//                        getContext().startActivity(Intents.openGroupDialog(gid, true, getActivity()));
+//                    }
+//                    break;
+//            }
+//        }
+//    }
 }
