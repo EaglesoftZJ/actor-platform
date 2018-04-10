@@ -30,7 +30,7 @@ public class UserSpan extends ReplacementSpan {
             textPaint.setColor(ActorSDK.sharedActor().style.getTextPrimaryColor());
         }
 
-        int padding = Screen.dp(18);
+        int padding = Screen.dp(5);
         int maxWidth = maxW - padding;
         userText = TextUtils.ellipsize(user.getName().get(), textPaint, maxWidth, TextUtils.TruncateAt.END).toString();
     }

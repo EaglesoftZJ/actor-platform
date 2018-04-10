@@ -89,27 +89,7 @@ public class RootActivity extends BaseFragmentActivity {
         setContentView(R.layout.activity_root);
         sp = this.getSharedPreferences("flyChatSp", MODE_PRIVATE);
         int phoneFlag = Utils.isWhatPhone();
-        if (phoneFlag == 0) {
-//百度推送
-            PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
-                    Utils.getMetaValue(this, "api_key"));
-        } else if (phoneFlag == 1) {
-// 华为推送
-            HMSAgent.init(this);
-//            HuaweiIdSignInOptions options = new HuaweiIdSignInOptions.Builder(HuaweiIdSignInOptions.DEFAULT_SIGN_IN)
-//                    .build();
-//            huaWeiCallBack callBack = new huaWeiCallBack(this);
-//            client = new HuaweiApiClient.Builder(this) //
-//                    .addApi(HuaweiId.SIGN_IN_API, options)//
-//                    .addConnectionCallbacks(callBack) //
-//                    .addOnConnectionFailedListener(callBack) //
-//                    .build();
-//            client.connect();
-        } else if (phoneFlag == 2) {
-            //小米推送
-//            注意：因为推送服务XMPushService在AndroidManifest.xml中设置为运行在另外一个进程，这导致本Application会被实例化两次，所以我们需要让应用的主进程初始化。
-            MiPushClient.registerPush(this, APP_ID, APP_KEY);
-        }
+
 //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this,
 //                    new String[]{Manifest.permission.READ_CONTACTS},

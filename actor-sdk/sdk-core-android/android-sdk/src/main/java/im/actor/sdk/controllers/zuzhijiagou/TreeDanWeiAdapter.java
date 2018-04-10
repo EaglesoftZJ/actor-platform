@@ -266,22 +266,22 @@ public class TreeDanWeiAdapter extends BaseAdapter {
 //			view.setBackgroundColor(Color.parseColor("#0A59A8"));
 //			holder.tvText.setTextColor(Color.parseColor("#FFFFFF"));
 
-            holder.chbSelect.setOnClickListener(null);
             // 复选框单击事件
-//			holder.chbSelect.setOnClickListener(new OnClickListener() {
-//				@Override
-//				public void onClick(View v) {
-//					// TODO Auto-generated method stub
-//					Node n = (Node) v.getTag();
-//					if (isCheckNode)
-//						checkNode(n, ((CheckBox) v).isChecked());
-//					else
-//						n.setChecked(((CheckBox) v).isChecked());
-//					isQuanXuan = 0;
-//					oThis.notifyDataSetChanged();
+
+//            holder.chbSelect.setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    // TODO Auto-generated method stub
+//                    Node n = (Node) v.getTag();
+//                    if (isCheckNode)
+//                        checkNode(n, ((CheckBox) v).isChecked());
+//                    else
+//                        n.setChecked(((CheckBox) v).isChecked());
+//                    isQuanXuan = 0;
+//                    oThis.notifyDataSetChanged();
 //
-//				}
-//			});
+//                }
+//            });
             // 文本选中
 //			holder.tvText.setOnClickListener(new OnClickListener() {
 //				@Override
@@ -304,7 +304,11 @@ public class TreeDanWeiAdapter extends BaseAdapter {
             view.setPadding(0, 3, 3, 3);
 
             if (hasCheckBox) {
-                holder.chbSelect.setVisibility(View.VISIBLE);
+                if (n.isRy()) {
+                    holder.chbSelect.setVisibility(View.VISIBLE);
+                } else {
+                    holder.chbSelect.setVisibility(View.GONE);
+                }
                 if (isQuanXuan > 0) {
                     holder.chbSelect.setChecked(true);
                     n.setChecked(true);
@@ -317,7 +321,6 @@ public class TreeDanWeiAdapter extends BaseAdapter {
             } else {
                 holder.chbSelect.setVisibility(View.GONE);
             }
-
             if (isIcon) {
                 final int id = position;
                 holder.ivExEc.setOnClickListener(new OnClickListener() {

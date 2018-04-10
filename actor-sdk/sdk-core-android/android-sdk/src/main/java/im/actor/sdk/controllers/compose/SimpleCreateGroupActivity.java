@@ -7,6 +7,7 @@ import android.widget.EditText;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseFragmentActivity;
+import im.actor.sdk.controllers.zuzhijiagou.group_fram.Group_zzjgFragment;
 import im.actor.sdk.util.KeyboardHelper;
 
 public class SimpleCreateGroupActivity extends BaseFragmentActivity {
@@ -32,10 +33,10 @@ public class SimpleCreateGroupActivity extends BaseFragmentActivity {
 
         String myName = ActorSDK.sharedActor().getMessenger().getUser(ActorSDK.sharedActor().getMessenger().myUid()).getName().get();
         String title = name + "," + myName;
-        nameFiled.setText(title);
-        nameFiled.setSelection(title.length());
+        nameFiled.setText("");
+//        nameFiled.setSelection(title.length());
         if (savedInstanceState == null) {
-            Fragment fragment = GroupUsersFragment.createGroup(title, null, id);
+            Fragment fragment = Group_zzjgFragment.createGroup(title, null, id);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.create_group_fram, fragment)
                     .commit();

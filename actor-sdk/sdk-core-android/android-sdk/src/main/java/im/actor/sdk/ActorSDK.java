@@ -62,6 +62,8 @@ import im.actor.sdk.util.Devices;
 import im.actor.sdk.view.emoji.SmileProcessor;
 import im.actor.runtime.android.AndroidContext;
 
+import static im.actor.sdk.util.ActorSDKMessenger.messenger;
+
 
 public class ActorSDK {
 
@@ -1133,11 +1135,21 @@ public class ActorSDK {
 
     public static JSONObject getZjjgData() {
         ActorSDK.sharedActor().waitForReady();
+        if (zjjgData == null) {
+            try {
+                String zzjgJson = messenger().getPreferences().getString("zzjgJson");
+                return new JSONObject(zzjgJson == null ? "{}" : zzjgJson);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         return zjjgData;
     }
 
     public static void setZjjgData(JSONObject data) {
         zjjgData = data;
+        messenger().getPreferences().putString("zzjgJson", data.toString());
     }
+
 
 }

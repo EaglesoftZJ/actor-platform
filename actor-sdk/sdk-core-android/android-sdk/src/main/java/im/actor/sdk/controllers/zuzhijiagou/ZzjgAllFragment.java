@@ -1,5 +1,6 @@
 package im.actor.sdk.controllers.zuzhijiagou;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,13 +46,11 @@ import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 public class ZzjgAllFragment extends BaseFragment {
 
-
     public ZzjgAllFragment() {
         setRootFragment(true);
         setHomeAsUp(true);
         setTitle("组织架构");
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

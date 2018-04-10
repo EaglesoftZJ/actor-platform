@@ -22,6 +22,8 @@ import android.support.v4.content.FileProvider;
 import android.view.Display;
 import android.webkit.MimeTypeMap;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -35,6 +37,7 @@ import im.actor.core.entity.Message;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.SearchEntity;
 import im.actor.core.entity.content.FastThumb;
+import im.actor.core.entity.content.JsonContent;
 import im.actor.core.network.NetworkState;
 import im.actor.core.utils.AppStateActor;
 import im.actor.core.utils.IOUtils;

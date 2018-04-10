@@ -12,7 +12,7 @@
         android:layout_marginRight="16dp"
         android:hint="@string/create_group_name_hint"
         android:maxLines="3"
-        android:minHeight="56dp"
+        android:minHeight="46dp"
         android:textSize="16sp" />
 
 

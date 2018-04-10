@@ -20,6 +20,7 @@ import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.group.GroupTypeFragment;
+import im.actor.sdk.controllers.zuzhijiagou.group_fram.Group_zzjgFragment;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.view.avatar.AvatarView;
 import im.actor.sdk.util.KeyboardHelper;
@@ -140,7 +141,7 @@ public class GroupNameFragment extends BaseFragment {
                 }));
             } else {
                 ((CreateGroupActivity) getActivity()).showNextFragment(
-                        GroupUsersFragment.createGroup(groupName.getText().toString().trim(), avatarPath), false);
+                        Group_zzjgFragment.createGroup(groupName.getText().toString().trim(), avatarPath), false);
             }
         } else {
             Toast.makeText(getContext(), "请输入群组名称", Toast.LENGTH_SHORT).show();

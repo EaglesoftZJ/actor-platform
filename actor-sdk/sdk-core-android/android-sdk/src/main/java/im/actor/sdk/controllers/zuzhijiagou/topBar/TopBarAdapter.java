@@ -51,7 +51,7 @@ public class TopBarAdapter extends RecyclerView.Adapter<TopBarAdapter.TopBarView
         holder.barTextView.setText(bars.get(position).getText());
         int pos = holder.getLayoutPosition();
 //        System.out.println("iGem:" + position + ":" + pos);
-        if (position == bars.size() - 1) {
+        if (position == bars.size() - 1 && !bars.get(position).getText().equals("单位")) {
             holder.barTextView.setTextColor(Color.parseColor("#8E8E8E"));
         } else {
             holder.barTextView.setTextColor(Color.parseColor("#ff33b5e5"));

@@ -469,6 +469,7 @@
     <string name="create_group_name_hint">Name the group</string>
     <string name="create_group_hint">Enter group theme and set optional group picture</string>
     <string name="create_group_search_hint">Search by name</string>
+    <string name="create_group_from_zzjg">Create by organizational</string>
     <string name="create_group_done">Done</string>
 
     <!-- Create Channel -->

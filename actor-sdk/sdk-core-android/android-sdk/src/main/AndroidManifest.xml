@@ -27,8 +27,6 @@
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
 
-
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true"/>
@@ -140,14 +138,12 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/ProfileActivityTheme"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
-
         <activity
             android:name=".controllers.group.GroupAllActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/ProfileActivityTheme"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden">
         </activity>
-
         <activity
             android:name=".controllers.group.GroupEditActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -211,7 +207,6 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/CommonActivityTheme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-
         <activity
             android:name=".controllers.contacts.ContactsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -430,7 +425,6 @@
             android:grantUriPermissions="true">
         </provider>
 
-
         <!-- 使用 HMSAgent 代码接入HMSSDK 需要注册的activity -->
         <activity
             android:name="com.huawei.android.hms.agent.common.HMSAgentActivity"
@@ -438,10 +432,10 @@
             android:excludeFromRecents="true"
             android:exported="false"
             android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent" >
+            android:theme="@android:style/Theme.Translucent">
             <meta-data
                 android:name="hwc-theme"
-                android:value="androidhwext:style/Theme.Emui.Translucent" />
+                android:value="androidhwext:style/Theme.Emui.Translucent"/>
         </activity>
 
         <!-- 升级provider, 向安装器提供"content://<package.name>.hsf.update.provider/update/hms/HwMobileService.apk" -->
@@ -452,10 +446,10 @@
             android:excludeFromRecents="true"
             android:exported="false"
             android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent" >
+            android:theme="@android:style/Theme.Translucent">
             <meta-data
                 android:name="hwc-theme"
-                android:value="androidhwext:style/Theme.Emui.Translucent" />
+                android:value="androidhwext:style/Theme.Emui.Translucent"/>
         </activity>
 
         <!-- 接入HMSSDK 需要注册的activity -->
@@ -465,10 +459,10 @@
             android:excludeFromRecents="true"
             android:exported="false"
             android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent" >
+            android:theme="@android:style/Theme.Translucent">
             <meta-data
                 android:name="hwc-theme"
-                android:value="androidhwext:style/Theme.Emui.Translucent" />
+                android:value="androidhwext:style/Theme.Emui.Translucent"/>
         </activity>
 
         <!-- 接入HMSSDK 需要注册的activity -->
@@ -476,10 +470,10 @@
             android:name="com.huawei.updatesdk.service.otaupdate.AppUpdateActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:theme="@style/upsdkDlDialog" >
+            android:theme="@style/upsdkDlDialog">
             <meta-data
                 android:name="hwc-theme"
-                android:value="androidhwext:style/Theme.Emui.Translucent.NoTitleBar" />
+                android:value="androidhwext:style/Theme.Emui.Translucent.NoTitleBar"/>
         </activity>
 
         <!-- 接入HMSSDK 需要注册的activity -->
@@ -487,36 +481,38 @@
             android:name="com.huawei.updatesdk.support.pm.PackageInstallerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            android:theme="@style/upsdkDlDialog" >
+            android:theme="@style/upsdkDlDialog">
             <meta-data
                 android:name="hwc-theme"
-                android:value="androidhwext:style/Theme.Emui.Translucent" />
+                android:value="androidhwext:style/Theme.Emui.Translucent"/>
         </activity>
 
         <!-- 接入HMSSDK PUSH模块需要注册，第三方相关 :接收Push消息（注册、Push消息、Push连接状态）广播 -->
-        <receiver android:name=".push.HuaWeiPushReceiver" >
+        <receiver android:name=".push.HuaWeiPushReceiver">
             <intent-filter>
+
                 <!-- 必须,用于接收token -->
-                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
+                <action android:name="com.huawei.android.push.intent.REGISTRATION"/>
                 <!-- 必须，用于接收消息 -->
-                <action android:name="com.huawei.android.push.intent.RECEIVE" />
+                <action android:name="com.huawei.android.push.intent.RECEIVE"/>
                 <!-- 可选，用于点击通知栏或通知栏上的按钮后触发onEvent回调 -->
-                <action android:name="com.huawei.android.push.intent.CLICK" />
+                <action android:name="com.huawei.android.push.intent.CLICK"/>
                 <!-- 可选，查看push通道是否连接，不查看则不需要 -->
-                <action android:name="com.huawei.intent.action.PUSH_STATE" />
+                <action android:name="com.huawei.intent.action.PUSH_STATE"/>
             </intent-filter>
         </receiver>
 
         <!-- 接入HMSSDK PUSH模块需要注册 :接收通道发来的通知栏消息，兼容老版本Push -->
-        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver" >
+        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
             <intent-filter>
-                <action android:name="com.huawei.intent.action.PUSH" />
+                <action android:name="com.huawei.intent.action.PUSH"/>
             </intent-filter>
         </receiver>
 
         <!-- 接入HMSSDK 需要注册的应用下载服务 -->
-        <service android:name="com.huawei.updatesdk.service.deamon.download.DownloadService"
-                 android:exported="false"/>
+        <service
+            android:name="com.huawei.updatesdk.service.deamon.download.DownloadService"
+            android:exported="false"/>
 
         <!-- 华为推送结束 -->
 
@@ -579,8 +575,6 @@
         <meta-data
             android:name="api_key"
             android:value="pTAzc5hjeja1GmbzMoXGUExG"/>
-
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c9bb6ed25a8f1ba46bf0daffb4571e7a">

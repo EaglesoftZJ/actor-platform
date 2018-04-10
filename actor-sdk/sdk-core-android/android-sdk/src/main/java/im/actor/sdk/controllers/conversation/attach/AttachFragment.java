@@ -33,9 +33,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import im.actor.core.api.ApiJsonMessage;
+import im.actor.core.api.ApiMessage;
 import im.actor.core.entity.Peer;
+import im.actor.core.entity.content.JsonContent;
+import im.actor.core.entity.content.internal.ContentRemoteContainer;
 import im.actor.core.utils.GalleryScannerActor;
+import im.actor.runtime.bser.BserParser;
+import im.actor.runtime.bser.BserValues;
+import im.actor.runtime.bser.DataInput;
 import im.actor.runtime.collections.ManagedList;
+import im.actor.runtime.json.JSONException;
+import im.actor.runtime.json.JSONObject;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.tools.MediaPickerCallback;
@@ -463,6 +472,7 @@ public class AttachFragment extends AbsAttachFragment implements MediaPickerCall
             picker.requestGallery();
         } else if (id == R.id.share_camera) {
             picker.requestPhoto();
+//            sendJson();
         } else if (id == R.id.share_video) {
             picker.requestVideo();
         } else if (id == R.id.share_file) {
@@ -472,6 +482,33 @@ public class AttachFragment extends AbsAttachFragment implements MediaPickerCall
         } else if (id == R.id.share_contact) {
             picker.requestContact();
         }
+    }
+
+    public void sendJson() {
+        String str = "2121";
+//        String text = "{14,2=\"dada\"}";
+        JSONObject json = new JSONObject();
+        try {
+            JSONObject data = new JSONObject();
+            data.put("text","给你一条json");
+            json.put("data", data);
+            json.put("dataType", "测试类型");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+//        byte[] src = json.toString().getBytes();
+        try {
+//            BserValues values = new BserValues(BserParser.deserialize(new DataInput(src, 0, src.length)));
+//            int key = values.getInt(1);
+//            byte[] content = values.getBytes(2);
+            ContentRemoteContainer container = new ContentRemoteContainer(new ApiJsonMessage(json.toString()));
+            messenger().sendCustomJsonMessage(getPeer(), new JsonContent(container));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -28,6 +28,7 @@ import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.compose.view.UserSpan;
 import im.actor.sdk.controllers.contacts.BaseContactFragment;
 import im.actor.sdk.controllers.conversation.toolbar.ChatToolbarFragment;
+import im.actor.sdk.controllers.zuzhijiagou.ZuzhijiagouActivity;
 import im.actor.sdk.util.BoxUtil;
 import im.actor.sdk.util.KeyboardHelper;
 import im.actor.sdk.util.Screen;
@@ -134,6 +135,12 @@ public class GroupUsersFragment extends BaseContactFragment {
     }
 
     @Override
+    protected void addFootersAndHeaders() {
+        super.addFootersAndHeaders();
+
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.create_group, menu);
@@ -225,7 +232,7 @@ public class GroupUsersFragment extends BaseContactFragment {
         searchField.setText(spannable);
         searchField.setSelection(spannable.length());
         searchField.addTextChangedListener(textWatcher);
-        filter("");
+//        filter("");
         getAdapter().notifyDataSetChanged();
     }
 
