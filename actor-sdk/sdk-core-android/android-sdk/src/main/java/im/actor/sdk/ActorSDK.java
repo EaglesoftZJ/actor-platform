@@ -1138,7 +1138,10 @@ public class ActorSDK {
         if (zjjgData == null) {
             try {
                 String zzjgJson = messenger().getPreferences().getString("zzjgJson");
-                return new JSONObject(zzjgJson == null ? "{}" : zzjgJson);
+                if (zzjgJson == null) {
+                    return null;
+                }
+                return new JSONObject(zzjgJson);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
