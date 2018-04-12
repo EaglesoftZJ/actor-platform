@@ -247,11 +247,16 @@ open class ConversationViewController:
                 callButtonView.viewDidTap = onCallTap
                 let callButtonItem = UIBarButtonItem(customView: callButtonView)
                 
-                let videoCallButtonView = AACallButton(image: UIImage.bundled("ic_video_outline_22")?.tintImage(ActorSDK.sharedActor().style.navigationTintColor))
-                videoCallButtonView.viewDidTap = onVideoCallTap
-                let callVideoButtonItem = UIBarButtonItem(customView: videoCallButtonView)
+//                let videoCallButtonView = AACallButton(image: UIImage.bundled("ic_video_outline_22")?.tintImage(ActorSDK.sharedActor().style.navigationTintColor))
+//                videoCallButtonView.viewDidTap = onVideoCallTap
+//                let callVideoButtonItem = UIBarButtonItem(customView: videoCallButtonView)
                 
-                self.navigationItem.rightBarButtonItems = [barItem, callVideoButtonItem, callButtonItem]
+                //创建群组
+                let createGroupButtonView = AACallButton(image: UIImage.bundled("ic_add_user")?.tintImage(ActorSDK.sharedActor().style.navigationTintColor))
+                createGroupButtonView.viewDidTap = onCreateGroup
+                let createGroupButtonItem = UIBarButtonItem(customView: createGroupButtonView)
+                
+                self.navigationItem.rightBarButtonItems = [barItem, createGroupButtonItem, callButtonItem]
             } else {
                 let callButtonView = AACallButton(image: UIImage.bundled("ic_call_outline_22")?.tintImage(ActorSDK.sharedActor().style.navigationTintColor))
                 callButtonView.viewDidTap = onCallTap
@@ -626,7 +631,13 @@ open class ConversationViewController:
                 }
             }
         }
-        
+    }
+    
+    //加入群组
+    func onCreateGroup() {
+        let createGroupController = CreateGroupController()
+        createGroupController.memberUid = self.peer.peerId
+        self.navigateNext(createGroupController)
     }
     
     // 判断输入的字符串是否为数字，不含其它字符

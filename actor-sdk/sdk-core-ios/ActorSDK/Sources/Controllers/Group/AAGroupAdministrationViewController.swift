@@ -64,7 +64,7 @@ open class AAGroupAdministrationViewController: AAContentTableController {
         }
         
         if group.isCanEditAdministration.get().booleanValue() && !isChannel {
-            section { (s) in
+            _ = section { (s) in
                 s.footerText = AALocalized("GroupShareHint")
                 self.shareHistoryRow = s.common({ (r) in
                     r.content = AALocalized("GroupShareTitle")
@@ -76,7 +76,7 @@ open class AAGroupAdministrationViewController: AAContentTableController {
                             r.hint = nil
                             r.selectAction = { () -> Bool in
                                 self.confirmAlertUser("GroupShareMessage", action: "GroupShareAction", tapYes: { 
-                                    self.executePromise(Actor.shareHistory(withGid: jint(self.gid)))  
+                                    _ = self.executePromise(Actor.shareHistory(withGid: jint(self.gid)))
                                 })
                                 return true
                             }
@@ -87,7 +87,7 @@ open class AAGroupAdministrationViewController: AAContentTableController {
         }
         
         if group.isCanDelete.get().booleanValue() {
-            section { (s) in
+            _ = section { (s) in
                 let action: String
                 if isChannel {
                     action = AALocalized("ActionDeleteChannel")
@@ -96,10 +96,10 @@ open class AAGroupAdministrationViewController: AAContentTableController {
                     action = AALocalized("ActionDeleteGroup")
                     s.footerText = AALocalized("GroupDeleteHint")
                 }
-                s.danger(action, closure: { (r) in
+                _ = s.danger(action, closure: { (r) in
                     r.selectAction = { () -> Bool in
                         self.confirmAlertUserDanger(self.isChannel ? "ActionDeleteChannelMessage" : "ActionDeleteGroupMessage", action: "ActionDelete", tapYes: {
-                            self.executePromise(Actor.deleteGroup(withGid: jint(self.gid))).after {
+                            _ = self.executePromise(Actor.deleteGroup(withGid: jint(self.gid))).after {
                                 let first = self.navigationController!.viewControllers.first!
                                 self.navigationController!.setViewControllers([first], animated: true)
                             }

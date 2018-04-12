@@ -164,7 +164,7 @@ class LoginViewController: AAAuthViewController,UITextFieldDelegate {
     func chooseCompany(){
         
     }
-    func textMBProgress(text:String) -> () {
+    open func textMBProgress(text:String) -> () {
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.mode = MBProgressHUDMode.text
         hud.label.text = text

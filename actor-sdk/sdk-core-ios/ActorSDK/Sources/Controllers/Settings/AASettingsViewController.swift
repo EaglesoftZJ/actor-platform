@@ -365,8 +365,76 @@ open class AASettingsViewController: AAContentTableController {
             
             ActorSDK.sharedActor().delegate.actorSettingsSupportDidCreated(self, section: s)
         }
+        
+        //退出登录
+        _ = section { (s) -> () in
+            
+            _ = s.action("退出登录") { [unowned self] (r) -> () in
+                r.selectAction = { [unowned self] () -> Bool in
+                    let alertController = UIAlertController(title: "退出登录", message: "确认退出?",preferredStyle: .actionSheet)
+                    let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                    let deleteAction = UIAlertAction(title: "确认", style: .destructive, handler: {
+                        (action: UIAlertAction) -> Void in
+                        self.confirmAlertUser("APP会自动退出,然后请自行打开。", action: "确定", tapYes: {
+                            self.exitApp()
+                        })
+                    })
+                    alertController.addAction(cancelAction)
+                    alertController.addAction(deleteAction)
+                    self.present(alertController, animated: true, completion: nil)
+                    return true
+                }
+            }
+            
+            ActorSDK.sharedActor().delegate.actorSettingsConfigurationDidCreated(self, section: s)
+        }
     }
 
+    open func exitApp() {
+        let dbPath:String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0].asNS.appendingPathComponent("actor.db")
+        let db = FMDatabase(path: dbPath)
+        db?.open()
+        let rs:FMResultSet = (db?.executeQuery("select 'drop table ' || name || ';' as yj from sqlite_master where type = 'table';"))!
+        var dropTable:String = ""
+        while rs.next() {
+            let drop:String = rs.string(forColumn: "yj")
+            dropTable = dropTable + drop
+        }
+        print("这是"+dropTable+"======")
+        db?.executeStatements(dropTable)
+        db?.close()
+        
+        UDPreferencesStorage().clear()
+        
+        let window:UIWindow = ((UIApplication.shared.delegate?.window)!)!
+        UIView.animate(withDuration: 1.0, animations: {
+            window.alpha = 0
+            window.frame = CGRect(x: 0, y: window.bounds.size.width, width: 0, height: 0)
+        }) { (finished) in
+            exit(0)
+        }
+//        let window:UIWindow = ((UIApplication.shared.delegate?.window)!)!
+//        window.rootViewController = LoginViewController()
+    }
+    
+    func clearCache(cachePath :String) {
+        
+        // 取出cache文件夹目录 缓存文件都在这个目录下
+        // 取出文件夹下所有文件数组
+        let fileArr = FileManager.default.subpaths(atPath: cachePath)
+        // 遍历删除
+        for file in fileArr! {
+            let path = cachePath + "/\(file)"
+            if FileManager.default.fileExists(atPath: path) {
+                do {
+                    try FileManager.default.removeItem(atPath: path)
+                } catch {
+                    
+                }
+            }
+        }
+    }
+    
     open override func tableWillBind(_ binder: AABinder) {
         
         // Header

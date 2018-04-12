@@ -382,6 +382,7 @@
 		3567C7F61FBE723000103066 /* CommonService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7F31FBE723000103066 /* CommonService.m */; };
 		3567C7FB1FBE89A800103066 /* CommonService.h in Headers */ = {isa = PBXBuildFile; fileRef = 3567C7F11FBE722F00103066 /* CommonService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3567C7FD1FBE924500103066 /* WaitMBProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3567C7FC1FBE924500103066 /* WaitMBProgress.swift */; };
+		357736E6207369C100FC8695 /* CreateGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357736E5207369C100FC8695 /* CreateGroupController.swift */; };
 		358F62EF202167ED00861B6E /* WorkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358F62EE202167ED00861B6E /* WorkController.swift */; };
 		35B9FA5A2005F5AA000907CB /* ContactsGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FA592005F5A9000907CB /* ContactsGroupController.swift */; };
 		35B9FA5E200747A6000907CB /* ContactsGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9FA5D200747A6000907CB /* ContactsGroupCell.swift */; };
@@ -826,6 +827,7 @@
 		3567C7F21FBE722F00103066 /* CommonServiceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonServiceDelegate.h; sourceTree = "<group>"; };
 		3567C7F31FBE723000103066 /* CommonService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonService.m; sourceTree = "<group>"; };
 		3567C7FC1FBE924500103066 /* WaitMBProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitMBProgress.swift; sourceTree = "<group>"; };
+		357736E5207369C100FC8695 /* CreateGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGroupController.swift; sourceTree = "<group>"; };
 		358F62EE202167ED00861B6E /* WorkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkController.swift; sourceTree = "<group>"; };
 		35B9FA592005F5A9000907CB /* ContactsGroupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsGroupController.swift; sourceTree = "<group>"; };
 		35B9FA5D200747A6000907CB /* ContactsGroupCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsGroupCell.swift; sourceTree = "<group>"; };
@@ -1409,6 +1411,7 @@
 				066A52FA1BC52FA8000E606E /* AAComposeController.swift */,
 				066A52FB1BC52FA8000E606E /* AAGroupCreateViewController.swift */,
 				066A52FC1BC52FA8000E606E /* AAGroupMembersController.swift */,
+				357736E5207369C100FC8695 /* CreateGroupController.swift */,
 			);
 			path = Compose;
 			sourceTree = "<group>";
@@ -2545,6 +2548,7 @@
 				152AA8AD1C2989270030DEEE /* SLKTextView+SLKAdditions.m in Sources */,
 				152AA8B71C2989270030DEEE /* UIScrollView+SLKAdditions.m in Sources */,
 				066A52241BC4EEAC000E606E /* AAManagedRange.swift in Sources */,
+				357736E6207369C100FC8695 /* CreateGroupController.swift in Sources */,
 				061850ED1C95CBF000C522D5 /* YYTextArchiver.m in Sources */,
 				066A50E21BC4AF9F000E606E /* ActorSDK.swift in Sources */,
 				15D35F761C201B6B00E3717A /* AACustomPresentationAnimationController.swift in Sources */,

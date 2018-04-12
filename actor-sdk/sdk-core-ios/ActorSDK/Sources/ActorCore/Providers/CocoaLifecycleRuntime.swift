@@ -7,7 +7,8 @@ import Foundation
 @objc class CocoaLifecycleRuntime: NSObject, ARLifecycleRuntime {
     
     func killApp() {
-        [][100]
+//        _ = [][100]
+        AASettingsViewController().exitApp()
     }
     
     func makeWakeLock() -> ARWakeLock! {

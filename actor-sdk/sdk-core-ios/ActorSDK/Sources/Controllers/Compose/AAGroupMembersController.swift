@@ -28,7 +28,7 @@ open class GroupMembersController: AAContactsListContentController, AAContactsLi
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: AALocalized("NavigationCancel"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.dismissController))
         }
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: AALocalized("NavigationDone"), style: UIBarButtonItemStyle.done, target: self, action: #selector(GroupMembersController.doNext))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: AALocalized("NavigationDone"), style: UIBarButtonItemStyle.done, target: self, action: #selector(self.doNext))
     }
 
     public required init(coder aDecoder: NSCoder) {

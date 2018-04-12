@@ -186,7 +186,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
             return nil
         }
         if (result!.next()) {
-            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject!;
+            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject?;
             if (query is NSNull){
                 query = nil
             }
@@ -231,7 +231,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         while(result!.next()) {
             let key = jlong(result!.longLongInt(forColumnIndex: idIndex))
             let order = jlong(result!.longLongInt(forColumnIndex: sortKeyIndex))
-            var query: AnyObject! = result!.object(forColumnIndex: queryIndex) as AnyObject!
+            var query: AnyObject! = result!.object(forColumnIndex: queryIndex) as AnyObject?
             if (query is NSNull) {
                 query = nil
             }
@@ -264,7 +264,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         let res: JavaUtilArrayList = JavaUtilArrayList();
         
         while(result!.next()) {
-            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject!;
+            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject?;
             if (query is NSNull) {
                 query = nil
             }
@@ -293,7 +293,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         let res: JavaUtilArrayList = JavaUtilArrayList();
         
         while(result!.next()) {
-            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject!;
+            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject?;
             if (query is NSNull) {
                 query = nil
             }
@@ -321,7 +321,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         let res: JavaUtilArrayList = JavaUtilArrayList();
         
         while(result!.next()) {
-            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject!;
+            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject?;
             if (query is NSNull) {
                 query = nil
             }
@@ -351,7 +351,7 @@ class FMDBList : NSObject, ARListStorageDisplayEx {
         let res: JavaUtilArrayList = JavaUtilArrayList();
         
         while(result!.next()) {
-            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject!;
+            var query: AnyObject! = result!.object(forColumnName: "QUERY") as AnyObject?;
             if (query is NSNull) {
                 query = nil
             }

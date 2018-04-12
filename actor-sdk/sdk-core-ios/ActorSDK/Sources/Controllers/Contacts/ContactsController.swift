@@ -136,6 +136,8 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
     var searchArray = [ACContact]()
     var contactsArray = [ACContact]()
     
+    var isReload:Bool = false
+    
     public override init() {
         super.init()
         tabBarItem = UITabBarItem(title: "TabPeople", img: "TabIconContacts", selImage: "TabIconContactsHighlighted")
@@ -154,8 +156,6 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
         self.edgesForExtendedLayout = UIRectEdge(rawValue: 0)
         self.automaticallyAdjustsScrollViewInsets = false
     
-        //收到displayList通知
-        NotificationCenter.default.addObserver(self, selector: #selector(tableReload), name: NSNotification.Name(rawValue: "displayList"), object: nil)
         self.title = "联系人"
         view.backgroundColor = .white
         
@@ -165,6 +165,8 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
 
     func tableReload()
     {
+        isReload = true
+        
         self.hidePlaceholder()
         self.table.showView()
         
@@ -273,6 +275,12 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        //收到displayList通知
+        NotificationCenter.default.addObserver(self, selector: #selector(tableReload), name: NSNotification.Name(rawValue: "displayList"), object: nil)
+        
+        if isReload == false  && ActorSDK.sharedActor().contactsList != nil {
+            tableReload()
+        }
         let searchBar = searchDisplay.searchBar
         
         let superView = searchBar.superview
@@ -299,6 +307,7 @@ class ContactsController: AAContactsListContentController,UITableViewDelegate,UI
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         searchDisplay.setActive(false, animated: false)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: "displayList"), object: nil)
     }
     
     // Searching for contact

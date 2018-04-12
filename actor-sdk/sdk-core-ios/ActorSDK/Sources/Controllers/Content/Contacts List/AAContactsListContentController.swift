@@ -70,13 +70,22 @@ open class AAContactsListContentController: AAContentTableController {
         
         placeholder.setImage(
             UIImage.bundled("contacts_list_placeholder"),
-            title:  AALocalized("Placeholder_Contacts_Title"),
-            subtitle: AALocalized("Placeholder_Contacts_Message").replace("{appname}", dest: ActorSDK.sharedActor().appName),
-            actionTitle: AALocalized("Placeholder_Contacts_Action"),
-            subtitle2: AALocalized("Placeholder_Contacts_Message2"),
-            actionTarget: self, actionSelector: Selector(("showSmsInvitation")),
+            title: "正在加载",
+            subtitle: "请耐心等待...",
+            actionTitle: "",
+            subtitle2: "",
+            actionTarget: self, actionSelector: nil,
             action2title: nil,
             action2Selector: nil)
+//        placeholder.setImage(
+//            UIImage.bundled("contacts_list_placeholder"),
+//            title:  AALocalized("Placeholder_Contacts_Title"),
+//            subtitle: AALocalized("Placeholder_Contacts_Message").replace("{appname}", dest: ActorSDK.sharedActor().appName),
+//            actionTitle: AALocalized("Placeholder_Contacts_Action"),
+//            subtitle2: AALocalized("Placeholder_Contacts_Message2"),
+//            actionTarget: self, actionSelector: Selector(("showSmsInvitation")),
+//            action2title: nil,
+//            action2Selector: nil)
     }
     
     open override func viewWillAppear(_ animated: Bool) {
