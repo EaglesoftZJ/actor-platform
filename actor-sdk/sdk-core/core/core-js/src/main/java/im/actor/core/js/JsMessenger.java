@@ -6,7 +6,6 @@ package im.actor.core.js;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.Event;
 
 import im.actor.core.Configuration;
 import im.actor.core.Messenger;
@@ -46,11 +45,7 @@ import im.actor.core.js.images.JsResizeListener;
 import im.actor.core.js.modules.JsIdleModule;
 import im.actor.core.js.providers.electron.JsElectronApp;
 import im.actor.core.js.providers.electron.JsElectronListener;
-import im.actor.core.js.providers.notification.JsChromePush;
-import im.actor.core.js.providers.notification.JsSafariPush;
-import im.actor.core.js.providers.notification.PushSubscribeResult;
 import im.actor.core.network.RpcCallback;
-import im.actor.core.viewmodel.ConversationVM;
 import im.actor.core.viewmodel.GroupVM;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.runtime.Log;
@@ -326,4 +321,6 @@ public class JsMessenger extends Messenger {
     public String getFileUrl(FileReference fileReference) {
         return filesModule.getFileUrl(fileReference.getFileId(), fileReference.getAccessHash());
     }
+
+
 }

@@ -6,6 +6,7 @@ package im.actor.runtime.generic.mvvm.alg;
 
 import com.google.j2objc.annotations.AutoreleasePool;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,9 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import im.actor.core.entity.Contact;
-import im.actor.core.entity.Dialog;
-import im.actor.core.entity.PeerType;
 import im.actor.runtime.generic.mvvm.ChangeDescription;
 import im.actor.runtime.storage.ListEngineItem;
 
@@ -120,7 +118,8 @@ public class Modifications {
                                                            ArrayList<ChangeDescription<T>> changes) {
         // Remove missing items
         HashMap<Long, T> sourcePar = new HashMap<>();
-        if (items != null && items.size() > 0 && items.get(0) instanceof Contact) {
+        if (items != null && items.size() > 0 &&
+                isContactClass(items.get(0))) {
             sourceList.clear();
         } else {
             outer:
@@ -147,31 +146,34 @@ public class Modifications {
         }
 
         for (T itm : items) {
-            if (itm instanceof Contact) {
-                Contact o = (Contact) itm;
-                if("系统管理员".equals(o.getName())){
-                    continue;
-                }else if("账号已删除".equals(o.getName())){
-                    continue;
+            if (isContactClass(itm)) {
+                Object str = getWcClassMethod(itm, "getName");
+                if (str != null) {
+                    if ("系统管理员".equals(str)) {
+                        continue;
+                    } else if ("账号已删除".equals(str)) {
+                        continue;
+                    }
                 }
-            }else if (itm instanceof Dialog) {
-                Dialog add = (Dialog) itm;
-                if ("账号已删除".equals(add.getDialogTitle())
-                        && PeerType.PRIVATE == add.getPeer().getPeerType()){
-                    continue;
+            } else if ("im.actor.core.entity.Dialog".equals(itm.getClass().getName())) {
+                Object str = getWcClassMethod(itm, "getDialogTitle");
+                Object type = getWcClassMethod(getWcClassMethod(itm, "getPeer"), "getPeerType");
+                if (str != null) {
+                    if ("账号已删除".equals(str)
+                            && "PRIVATE".equals(getWcClassMethod(type, "name"))) {
+                        continue;
+                    }
                 }
             }
             addOrUpdate(itm, sourceList, sourcePar, changes, false);
         }
         if (sourceList != null && sourceList.size() > 0
-                && sourceList.get(0) instanceof Contact) {
+                && isContactClass(sourceList.get(0))) {
             Collections.sort(sourceList, (vo1, vo2) -> {
                 String l, r = null;
                 try {
-                    Contact lhs = (Contact) vo1;
-                    Contact rhs = (Contact) vo2;
-                    l = lhs.getPyShort();
-                    r = rhs.getPyShort();
+                    l = (String) getWcClassMethod(vo1, "getPyShort");
+                    r = (String) getWcClassMethod(vo2, "getPyShort");
                     if (r.equals("#")) {
                         return -1;
                     } else if (l.equals("#")) {
@@ -188,16 +190,34 @@ public class Modifications {
                     }
 
                     if (result == 0) {
-                        return lhs.getName().compareTo(rhs.getName());
+                        return ((String) getWcClassMethod(vo1, "getName")).compareTo(
+                                (String) getWcClassMethod(vo2, "getName"));
                     }
                     return result;
                 } catch (Exception e) {
-                    System.out.println("iGem:" + e.toString());
                     e.printStackTrace();
                 }
                 return 0;
             });
         }
+    }
+
+    private static boolean isContactClass(Object var1) {
+        if (var1 != null) {
+            return "im.actor.core.entity.Contact".equals(var1.getClass().getName());
+
+        }
+        return false;
+    }
+
+    private static Object getWcClassMethod(Object var1, String method) {
+        try {
+            Method m1 = var1.getClass().getMethod(method);
+            return m1.invoke(var1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @AutoreleasePool
