@@ -171,6 +171,7 @@
     <string name="settings_security">安全</string>
     <string name="settings_home_page">开发公司主页</string>
     <string name="settings_sign_out">退出</string>
+    <string name="settings_sign_out_message">确定要退出该账号么？(退出后需要重启程序再进入)</string>
     <string name="nickname">用户名</string>
     <string name="about_user_me">个人说明</string>
     <string name="about_header">关于</string>
@@ -348,6 +349,7 @@
     <string name="create_group_name_hint">为群组命名</string>
     <string name="create_group_hint">进入群组主题设置群组图片</string>
     <string name="create_group_search_hint">按名称搜索</string>
+    <string name="create_group_from_zzjg">按组织架构选择</string>
     <string name="create_group_done">完成</string>
 
     <!-- Create Channel -->

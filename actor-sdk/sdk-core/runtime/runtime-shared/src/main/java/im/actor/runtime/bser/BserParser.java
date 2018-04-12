@@ -6,6 +6,7 @@ package im.actor.runtime.bser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import im.actor.runtime.collections.SparseArray;
@@ -18,10 +19,10 @@ import im.actor.runtime.collections.SparseArray;
 
 public final class BserParser {
     public static SparseArray<Object> deserialize(DataInput is) throws IOException {
+        //Verify original content
         SparseArray<Object> hashMap = new SparseArray<>();
         while (!is.isEOF()) {
             long currentTag = is.readVarInt();
-
             int id = (int) (currentTag >> 3);
             int type = (int) (currentTag & 0x7);
 

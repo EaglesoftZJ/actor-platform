@@ -1,8 +1,11 @@
 package im.actor.sdk.controllers.settings;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -16,6 +19,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
@@ -147,33 +151,59 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
         view.findViewById(R.id.settings_sign_out_lay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
-                SharedPreferences spUswer = AndroidContext.getContext().getSharedPreferences("userList", Context.MODE_PRIVATE);
-                SharedPreferences spIp =AndroidContext.getContext().getSharedPreferences("ipLogin",Context.MODE_PRIVATE);
-                SharedPreferences spLogin = AndroidContext.getContext().getSharedPreferences("userLogin",Context.MODE_PRIVATE);
-                SharedPreferences ipList =  AndroidContext.getContext().getSharedPreferences("ipList",Context.MODE_PRIVATE);
-                spUswer.edit().clear().commit();
-                spIp.edit().clear().commit();
-                spLogin.edit().clear().commit();
-                ipList.edit().clear().commit();
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(getString(R.string.settings_sign_out_message))
+                        .setPositiveButton(R.string.alert_leave_group_yes, (dialog2, which) -> {
+                            AndroidProperties properties = (AndroidProperties) messenger().getPreferences();
+                            properties.clear();
+                            NoOpOpenHelper helper = new NoOpOpenHelper(AndroidContext.getContext(), "ACTOR");
+                            SQLiteDatabase database = helper.getWritableDatabase();
+                            ArrayList<String> tables = new ArrayList<>();
+                            Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table';", null);
+                            try {
+                                while (cursor.moveToNext()) {
+                                    tables.add(cursor.getString(0));
+                                }
+                            } finally {
+                                cursor.close();
+                            }
+                            for (String s : tables) {
+                                database.execSQL("drop table " + s + ";");
+                            }
 
-                AndroidProperties properties = (AndroidProperties) messenger().getPreferences();
-                properties.clear();
-                NoOpOpenHelper helper = new NoOpOpenHelper(AndroidContext.getContext(), "ACTOR");
-                SQLiteDatabase database = helper.getWritableDatabase();
-                ArrayList<String> tables = new ArrayList<>();
-                Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table';", null);
-                try {
-                    while (cursor.moveToNext()) {
-                        tables.add(cursor.getString(0));
-                    }
-                } finally {
-                    cursor.close();
-                }
-                for (String s : tables) {
-                    database.execSQL("drop table " + s + ";");
-                }
-                android.os.Process.killProcess(android.os.Process.myPid());
+                            Intent intent = getContext().getApplicationContext().getPackageManager().getLaunchIntentForPackage(getContext().getApplicationContext().getPackageName());
+                            PendingIntent restartIntent = PendingIntent.getActivity(getContext().getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                            AlarmManager mgr = (AlarmManager) getContext().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+//                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent);
+                            long now = System.currentTimeMillis();
+//                long nextTime = now + 5 * 100 - now % (5 * 100);
+                            long nextTime = now + 100;
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                mgr.setExact(AlarmManager.RTC_WAKEUP, nextTime, restartIntent);
+                            } else {
+                                mgr.set(AlarmManager.RTC_WAKEUP, nextTime, restartIntent);
+                            }
+                            android.os.Process.killProcess(android.os.Process.myPid());
+
+                        })
+                        .setNegativeButton(R.string.dialog_cancel, null)
+                        .show()
+                        .setCanceledOnTouchOutside(true);
+
+//                SharedPreferences spUswer = AndroidContext.getContext().getSharedPreferences("userList", Context.MODE_PRIVATE);
+//                SharedPreferences spIp = AndroidContext.getContext().getSharedPreferences("ipLogin", Context.MODE_PRIVATE);
+//                SharedPreferences spLogin = AndroidContext.getContext().getSharedPreferences("userLogin", Context.MODE_PRIVATE);
+//                SharedPreferences ipList = AndroidContext.getContext().getSharedPreferences("ipList", Context.MODE_PRIVATE);
+//                spUswer.edit().clear().commit();
+//                spIp.edit().clear().commit();
+//                spLogin.edit().clear().commit();
+//                ipList.edit().clear().commit();
+
+
+//                android.os.Process.killProcess(android.os.Process.myPid());
+//                ActivityManager manager = (ActivityManager)getContext().getSystemService(getContext().ACTIVITY_SERVICE);
+//                manager.killBackgroundProcesses(getContext().getPackageName());
 
 //                Bundle authExtras = new Bundle();
 //                authExtras.putInt(AuthActivity.SIGN_TYPE_KEY, AuthActivity.SIGN_TYPE_UP);

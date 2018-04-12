@@ -15,10 +15,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="3dp"
         android:hint="@string/create_group_search_hint"
-        android:maxLines="3"
-        android:minHeight="56dp"
+        android:maxLines="10"
+        android:minHeight="52dp"
         android:textSize="16sp" />
 
     <!--<android.support.v7.widget.RecyclerView-->

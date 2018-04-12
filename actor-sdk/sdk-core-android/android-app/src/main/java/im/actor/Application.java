@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.huawei.android.hms.agent.HMSAgent;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -49,13 +52,39 @@ import im.actor.sdk.push.Utils;
 
 public class Application extends ActorSDKApplication {
 
+    // user your appid the key.
+    private static final String APP_ID = "2882303761517562000";
+    // user your appid the key.
+    private static final String APP_KEY = "5731756231000";
     @Override
     public void onCreate() {
         MultiDex.install(this);
         super.onCreate();
         int phoneFlag = Utils.isWhatPhone();
-        if(phoneFlag == 1){
+//        if(phoneFlag == 1){
+//            HMSAgent.init(this);
+//        }
+
+        if (phoneFlag == 0) {
+//百度推送
+            PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
+                    Utils.getMetaValue(this, "api_key"));
+        } else if (phoneFlag == 1) {
+// 华为推送
             HMSAgent.init(this);
+//            HuaweiIdSignInOptions options = new HuaweiIdSignInOptions.Builder(HuaweiIdSignInOptions.DEFAULT_SIGN_IN)
+//                    .build();
+//            huaWeiCallBack callBack = new huaWeiCallBack(this);
+//            client = new HuaweiApiClient.Builder(this) //
+//                    .addApi(HuaweiId.SIGN_IN_API, options)//
+//                    .addConnectionCallbacks(callBack) //
+//                    .addOnConnectionFailedListener(callBack) //
+//                    .build();
+//            client.connect();
+        } else if (phoneFlag == 2) {
+            //小米推送
+//            注意：因为推送服务XMPushService在AndroidManifest.xml中设置为运行在另外一个进程，这导致本Application会被实例化两次，所以我们需要让应用的主进程初始化。
+            MiPushClient.registerPush(this, APP_ID, APP_KEY);
         }
     }
 

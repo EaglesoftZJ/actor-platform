@@ -1,5 +1,7 @@
 package im.actor.sdk.controllers.compose;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
@@ -25,6 +27,8 @@ import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.compose.view.UserSpan;
 import im.actor.sdk.controllers.contacts.BaseContactFragment;
+import im.actor.sdk.controllers.conversation.toolbar.ChatToolbarFragment;
+import im.actor.sdk.controllers.zuzhijiagou.ZuzhijiagouActivity;
 import im.actor.sdk.util.BoxUtil;
 import im.actor.sdk.util.KeyboardHelper;
 import im.actor.sdk.util.Screen;
@@ -32,9 +36,10 @@ import im.actor.sdk.util.Screen;
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 import static im.actor.sdk.util.ActorSDKMessenger.users;
 
-public class GroupUsersFragment  extends BaseContactFragment {
+public class GroupUsersFragment extends BaseContactFragment {
 
     private String title;
+    private int userId;
     private String avatarPath;
     private EditText searchField;
     private TextWatcher textWatcher;
@@ -57,6 +62,16 @@ public class GroupUsersFragment  extends BaseContactFragment {
         return res;
     }
 
+    public static GroupUsersFragment createGroup(String title, String avatarPath, int userId) {
+        GroupUsersFragment res = new GroupUsersFragment();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putString("avatarPath", avatarPath);
+        args.putInt("userId", userId);
+        res.setArguments(args);
+        return res;
+    }
+
     public static GroupUsersFragment createChannel(int gid) {
         GroupUsersFragment res = new GroupUsersFragment();
         Bundle args = new Bundle();
@@ -73,6 +88,7 @@ public class GroupUsersFragment  extends BaseContactFragment {
 
         gid = getArguments().getInt("gid");
         title = getArguments().getString("title");
+        userId = getArguments().getInt("userId");
         avatarPath = getArguments().getString("avatarPath");
 
         View res = onCreateContactsView(R.layout.fragment_create_group_participants, inflater,
@@ -111,6 +127,17 @@ public class GroupUsersFragment  extends BaseContactFragment {
     public void onResume() {
         super.onResume();
         searchField.addTextChangedListener(textWatcher);
+        if (userId != 0) {
+            select(userId);
+            getActivity().invalidateOptionsMenu();
+            updateEditText();
+        }
+    }
+
+    @Override
+    protected void addFootersAndHeaders() {
+        super.addFootersAndHeaders();
+
     }
 
     @Override
@@ -139,13 +166,35 @@ public class GroupUsersFragment  extends BaseContactFragment {
                 }
             } else {
                 if (getSelectedCount() > 0) {
-                    execute(messenger().createGroup(title, avatarPath, BoxUtil.unbox(getSelected())).then(gid -> {
-                        getActivity().startActivity(Intents.openGroupDialog(gid, true, getActivity()));
-                        getActivity().finish();
-                    }).failure(e -> {
-                        Toast.makeText(getActivity(), getString(R.string.toast_unable_create_group),
-                                Toast.LENGTH_LONG).show();
-                    }));
+                    if (getActivity() instanceof SimpleCreateGroupActivity) {
+                        SimpleCreateGroupActivity activity = (SimpleCreateGroupActivity) getActivity();
+                        String title = activity.getGroupTitle();
+                        if (title.length() > 0) {
+                            execute(messenger().createGroup(activity.getGroupTitle(), null, BoxUtil.unbox(getSelected())).then(gid -> {
+                                if (ChatToolbarFragment.chatActivity != null) {
+                                    ChatToolbarFragment.chatActivity.finish();
+                                }
+                                getActivity().startActivity(Intents.openGroupDialog(gid, true, getActivity()));
+                                finishActivity();
+//                                Intent intent = activity.getIntent();
+//                                intent.putExtra("groupId", gid);
+//                                getActivity().setResult(activity.RESULT_OK, intent);
+                            }).failure(e -> {
+                                Toast.makeText(getActivity(), getString(R.string.toast_unable_create_group),
+                                        Toast.LENGTH_LONG).show();
+                            }));
+                        } else {
+                            Toast.makeText(getContext(), "请输入群组名称", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        execute(messenger().createGroup(title, avatarPath, BoxUtil.unbox(getSelected())).then(gid -> {
+                            getActivity().startActivity(Intents.openGroupDialog(gid, true, getActivity()));
+                            getActivity().finish();
+                        }).failure(e -> {
+                            Toast.makeText(getActivity(), getString(R.string.toast_unable_create_group),
+                                    Toast.LENGTH_LONG).show();
+                        }));
+                    }
                 }
             }
             return true;
@@ -183,7 +232,7 @@ public class GroupUsersFragment  extends BaseContactFragment {
         searchField.setText(spannable);
         searchField.setSelection(spannable.length());
         searchField.addTextChangedListener(textWatcher);
-        filter("");
+//        filter("");
         getAdapter().notifyDataSetChanged();
     }
 

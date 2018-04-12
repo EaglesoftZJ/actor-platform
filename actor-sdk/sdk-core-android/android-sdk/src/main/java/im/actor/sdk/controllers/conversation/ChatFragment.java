@@ -514,4 +514,5 @@ public class ChatFragment extends BaseFragment implements InputBarCallback, Mess
         findInputBar().setAudioEnabled(false);
         findInputBar().setAttachEnabled(false);
     }
+
 }

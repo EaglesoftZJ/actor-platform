@@ -13,12 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,35 +25,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import im.actor.core.api.ApiGroup;
-import im.actor.core.api.ApiGroupType;
-import im.actor.core.entity.Avatar;
-import im.actor.core.entity.Group;
-import im.actor.core.entity.Peer;
-import im.actor.core.entity.PeerSearchEntity;
-import im.actor.core.entity.PeerType;
-import im.actor.core.entity.SearchEntity;
 import im.actor.core.viewmodel.Command;
 import im.actor.core.viewmodel.CommandCallback;
 import im.actor.core.viewmodel.GroupAllGetCallback;
 import im.actor.core.viewmodel.GroupVM;
-import im.actor.core.viewmodel.UserVM;
-import im.actor.runtime.json.JSONArray;
-import im.actor.runtime.json.JSONObject;
+import im.actor.core.viewmodel.MessageXzrz;
+import im.actor.core.viewmodel.MessageXzrzCallBack;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.group.view.GroupEaglesoftAdapter;
-import im.actor.sdk.controllers.search.GlobalSearchBaseFragment;
-import im.actor.sdk.intents.WebServiceLogionUtil;
-import im.actor.sdk.intents.WebServiceUtil;
 import im.actor.sdk.view.adapters.OnItemClickedListener;
 
-import static im.actor.sdk.util.ActorSDKMessenger.groups;
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 import static im.actor.sdk.util.ActorSDKMessenger.myUid;
-import static im.actor.sdk.util.ActorSDKMessenger.users;
 
 public class GroupAllForUsersFragment extends BaseFragment {
     List<GroupVM> groups;
@@ -153,7 +136,9 @@ public class GroupAllForUsersFragment extends BaseFragment {
         recyclerView.setHorizontalScrollBarEnabled(false);
         recyclerView.setVerticalScrollBarEnabled(true);
     }
+
     Handler callBackHandler;
+
     private void getGroup(final CommandCallback<String> callback) {
         HashMap<String, Object> par = new HashMap<>();
         par.put("id", myUid() + "");
@@ -167,7 +152,7 @@ public class GroupAllForUsersFragment extends BaseFragment {
                 return false;
             }
         });
-        messenger().getGroupAll(ActorSDK.getWebServiceUri(getContext()) + ":8012/ActorServices-Maven/services/ActorService",myUid(), new GroupAllGetCallback() {
+        messenger().getGroupAll(ActorSDK.getWebServiceUri(getContext()) + ":8012/ActorServices-Maven/services/ActorService", myUid(), new GroupAllGetCallback() {
             @Override
             public void responseCallBack(List<GroupVM> groupVMS) {
                 groups.clear();
@@ -175,6 +160,32 @@ public class GroupAllForUsersFragment extends BaseFragment {
                 callBackHandler.sendEmptyMessage(0);
             }
         });
+
+
+//        JSONObject json = new JSONObject();
+//        try {
+//            json.put("messageId", -7275888453393723629L);
+//            json.put("userId", 2092017244);
+//            json.put("userName", "来啊");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        messenger().saveXzrz("http://192.168.1.182:9080/services/ActorService", json.toString(), new MessageXzrzCallBack() {
+//            @Override
+//            public void saveResponseCallBack(String str) {
+//                super.saveResponseCallBack(str);
+//            }
+//        });
+//
+//        messenger().getXzrz("http://192.168.1.182:9080/services/ActorService", -12, new MessageXzrzCallBack() {
+//
+//            @Override
+//            public void queryResponseCallBack(List<MessageXzrz> xzrzs) {
+//                for (MessageXzrz xzrz : xzrzs) {
+//                    System.out.println("iGem:" + xzrz.getUserName());
+//                }
+//            }
+//        });
     }
 
     @Override
