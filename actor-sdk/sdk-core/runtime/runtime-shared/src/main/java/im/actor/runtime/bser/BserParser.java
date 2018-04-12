@@ -6,7 +6,6 @@ package im.actor.runtime.bser;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import im.actor.runtime.collections.SparseArray;

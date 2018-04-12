@@ -4,18 +4,9 @@
 
 package im.actor.runtime.android.view;
 
-import android.annotation.TargetApi;
-import android.icu.util.ULocale;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-
-import im.actor.core.Messenger;
-import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.AndroidListUpdate;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.runtime.generic.mvvm.ChangeDescription;
@@ -47,9 +38,9 @@ public abstract class BindedListAdapter<V extends BserObject & ListEngineItem,
             public void onCollectionChanged(AndroidListUpdate<V> modification) {
                 currentUpdate = modification;
                 ChangeDescription<V> currentChange;
-                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss SSS");
-                Date curDate = new Date(System.currentTimeMillis());
-                System.out.println("iGem: 数据获取结束" + formatter.format(curDate));
+//                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss SSS");
+//                Date curDate = new Date(System.currentTimeMillis());
+//                System.out.println("iGem: 数据获取结束" + formatter.format(curDate));
                 while ((currentChange = modification.next()) != null) {
                     switch (currentChange.getOperationType()) {
                         case ADD:

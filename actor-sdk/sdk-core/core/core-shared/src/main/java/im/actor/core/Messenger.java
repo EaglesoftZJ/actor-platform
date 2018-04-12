@@ -2878,96 +2878,6 @@ public class Messenger {
      */
     @ObjectiveCName("getGroupAllWithIp:withUid:withCallback:")
     public void getGroupAll(final String ip, final long uid, GroupAllGetCallback callback) {
-        //服务的地址
-//        try {
-//            new Thread() {
-//                @Override
-//                public void run() {
-//                    String s = "";
-//
-//                    try {
-//                        URL wsUrl = new URL(ip);
-//
-//                        HttpURLConnection conn = (HttpURLConnection) wsUrl.openConnection();
-//
-//                        conn.setDoInput(true);
-//                        conn.setDoOutput(true);
-//                        conn.setRequestMethod("POST");
-//                        conn.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
-//                        conn.setRequestProperty("User-Agent", "ksoap2-android/2.6.0+");
-//                        conn.setRequestProperty("SOAPAction", "http://eaglesoft/queryGroup");
-//
-//                        conn.setRequestProperty("Connection", "close");
-//                        conn.setRequestProperty("Accept-Encoding", "gzip");
-//                        //请求体
-//                        String soap = "<v:Envelope xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" " +
-//                                "xmlns:d=\"http://www.w3.org/2001/XMLSchema\" " +
-//                                "xmlns:c=\"http://schemas.xmlsoap.org/soap/encoding/\" " +
-//                                "xmlns:v=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-//                                "<v:Header /><v:Body>" +
-//                                "<n0:queryGroup id=\"o0\" " +
-//                                "c:root=\"1\" xmlns:n0=\"http://eaglesoft\">" +
-//                                "<id i:type=\"d:string\">" + uid + "</id>" +
-//                                "</n0:queryGroup></v:Body></v:Envelope>";
-//                        conn.setRequestProperty("Content-Length", "" + soap.getBytes().length);
-//                        OutputStream os = conn.getOutputStream();
-//                        os.write(soap.getBytes(), 0, soap.getBytes().length);
-//                        InputStream is = conn.getInputStream();
-//                        if (conn.getResponseCode() == 200) {
-//                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//                            byte[] buf = new byte[256];
-//
-//                            while (true) {
-//                                int rd = ((InputStream) is).read(buf, 0, 256);
-//                                if (rd == -1) {
-//                                    bos.flush();
-//                                    buf = bos.toByteArray();
-//                                    ((InputStream) is).close();
-//                                    is = new ByteArrayInputStream(buf);
-//                                    break;
-//                                }
-//
-//                                bos.write(buf, 0, rd);
-//                            }
-//
-//                            s = new String(bos.toByteArray(), "UTF-8");
-//                            String resultName = "return";
-//                            String[] strs = s.split("<" + resultName + ">");
-//                            String[] strs2 = strs[1].split("</" + resultName + ">");
-//                            s = strs2[0];
-//                            os.close();
-//                            conn.disconnect();
-//
-//                            JSONArray array = new JSONArray(s);
-//                            for (int i = 0; i < array.length(); i++) {
-//                                JSONObject json = array.getJSONObject(i);
-//                                GroupVM vm = null;
-//                                try {
-//                                    vm = getGroups().get(json.getInt("id"));
-//                                    groupVMS.add(vm);
-//                                } catch (Exception e) {
-//                                    String title = json.getString("title");
-//                                    System.out.println("iGem:groupName" + title);
-//                                }
-//                            }
-//                        } else {
-//                            s = "error";
-//                        }
-//
-//                    } catch (Exception e) {
-//                        System.out.println("iGem:" + e.getMessage());
-//                        e.printStackTrace();
-//                    } finally {
-//                        callback.responseCallBack(groupVMS);
-//                    }
-//                }
-//            }.start();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("iGem:e=" + e.getMessage());
-//        }
-
         webServiceRun(ip, "queryGroup", "id", uid + "", new WebServiceRunCallBack() {
             @Override
             public void webSrviceResCallBack(String str) {
@@ -3028,6 +2938,12 @@ public class Messenger {
     }
 
 
+    /**
+     *
+     * @param ip
+     * @param jsonStr {"messageId":-7275888453393723629,"userId":2092017244,"userName":"来啊"}
+     * @param callback
+     */
     @ObjectiveCName("saveXzrzWithIp:withJsonStr:withCallback:")
     public void saveXzrz(final String ip, final String jsonStr, MessageXzrzCallBack callback) {
         //服务的地址

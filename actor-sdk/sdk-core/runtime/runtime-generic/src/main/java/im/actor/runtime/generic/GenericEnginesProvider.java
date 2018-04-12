@@ -1,14 +1,11 @@
 package im.actor.runtime.generic;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.runtime.generic.mvvm.DisplayList;
 import im.actor.runtime.generic.storage.AsyncListEngine;
 import im.actor.runtime.EnginesRuntime;
-import im.actor.runtime.actors.ActorSystem;
 import im.actor.runtime.bser.BserCreator;
 import im.actor.runtime.bser.BserObject;
 import im.actor.runtime.mvvm.PlatformDisplayList;

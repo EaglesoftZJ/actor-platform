@@ -6,13 +6,10 @@ package im.actor.runtime.generic.mvvm.alg;
 
 import com.google.j2objc.annotations.AutoreleasePool;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
