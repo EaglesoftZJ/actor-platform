@@ -2923,9 +2923,9 @@ public class Messenger {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject json = array.getJSONObject(i);
                             MessageXzrz xzrz = new MessageXzrz();
-                            xzrz.setMessageId(Long.parseLong(json.getString("message_id")));
-                            xzrz.setUserId(Long.parseLong(json.getString("user_id")));
-                            xzrz.setUserName(json.getString("user_name"));
+                            xzrz.setMessageId(json.getLong("messageId"));
+                            xzrz.setUserId(json.getLong("userId"));
+                            xzrz.setUserName(json.getString("userName"));
                             xzrz.setTime(json.getString("time"));
                             xzrzs.add(xzrz);
                         }
@@ -2940,8 +2940,9 @@ public class Messenger {
 
 
     /**
+     *
      * @param ip
-     * @param jsonStr  {"messageId":-7275888453393723629,"userId":2092017244,"userName":"来啊"}
+     * @param jsonStr {"messageId":-7275888453393723629,"userId":2092017244,"userName":"来啊"}
      * @param callback
      */
     @ObjectiveCName("saveXzrzWithIp:withJsonStr:withCallback:")
