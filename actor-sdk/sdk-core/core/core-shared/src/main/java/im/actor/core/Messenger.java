@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.lang.Thread;
 
 import im.actor.core.api.ApiRawValue;
 import im.actor.core.api.ApiSex;
@@ -2922,8 +2923,8 @@ public class Messenger {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject json = array.getJSONObject(i);
                             MessageXzrz xzrz = new MessageXzrz();
-                            xzrz.setMessageId(json.getLong("message_id"));
-                            xzrz.setUserId(json.getLong("user_id"));
+                            xzrz.setMessageId(Long.parseLong(json.getString("message_id")));
+                            xzrz.setUserId(Long.parseLong(json.getString("user_id")));
                             xzrz.setUserName(json.getString("user_name"));
                             xzrz.setTime(json.getString("time"));
                             xzrzs.add(xzrz);
@@ -2939,9 +2940,8 @@ public class Messenger {
 
 
     /**
-     *
      * @param ip
-     * @param jsonStr {"messageId":-7275888453393723629,"userId":2092017244,"userName":"来啊"}
+     * @param jsonStr  {"messageId":-7275888453393723629,"userId":2092017244,"userName":"来啊"}
      * @param callback
      */
     @ObjectiveCName("saveXzrzWithIp:withJsonStr:withCallback:")
@@ -2978,7 +2978,6 @@ public class Messenger {
                     conn.setDoOutput(true);
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
-                    conn.setRequestProperty("User-Agent", "ksoap2-android/2.6.0+");
                     conn.setRequestProperty("SOAPAction", "http://eaglesoft/" + method);
 
                     conn.setRequestProperty("Connection", "close");
