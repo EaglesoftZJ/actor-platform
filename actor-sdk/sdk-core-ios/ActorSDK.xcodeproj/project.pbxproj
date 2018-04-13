@@ -347,6 +347,7 @@
 		3504FD231FBEC92A00E7F177 /* ZZJGModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504FD221FBEC92A00E7F177 /* ZZJGModel.swift */; };
 		3504FD251FC264F200E7F177 /* BMJGTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504FD241FC264F200E7F177 /* BMJGTableViewController.swift */; };
 		3504FD271FC2653300E7F177 /* YGJGTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3504FD261FC2653300E7F177 /* YGJGTableViewController.swift */; };
+		35125BD22080917A00779CFB /* XzrzViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35125BD12080917A00779CFB /* XzrzViewController.swift */; };
 		355AB4E71FF48F5C00938806 /* AtGroupMemberController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355AB4E61FF48F5C00938806 /* AtGroupMemberController.swift */; };
 		355AB4E91FF4CBF000938806 /* MemberSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355AB4E81FF4CBF000938806 /* MemberSearchCell.swift */; };
 		355AB4EB1FF4DCD700938806 /* SearchResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355AB4EA1FF4DCD700938806 /* SearchResultController.swift */; };
@@ -791,6 +792,7 @@
 		3504FD221FBEC92A00E7F177 /* ZZJGModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZZJGModel.swift; sourceTree = "<group>"; };
 		3504FD241FC264F200E7F177 /* BMJGTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMJGTableViewController.swift; sourceTree = "<group>"; };
 		3504FD261FC2653300E7F177 /* YGJGTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YGJGTableViewController.swift; sourceTree = "<group>"; };
+		35125BD12080917A00779CFB /* XzrzViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XzrzViewController.swift; sourceTree = "<group>"; };
 		354C3EFA48FBFAEAD0DEEE17 /* Pods_ActorSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ActorSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		355AB4E61FF48F5C00938806 /* AtGroupMemberController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtGroupMemberController.swift; sourceTree = "<group>"; };
 		355AB4E81FF4CBF000938806 /* MemberSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSearchCell.swift; sourceTree = "<group>"; };
@@ -1412,6 +1414,7 @@
 				066A52FB1BC52FA8000E606E /* AAGroupCreateViewController.swift */,
 				066A52FC1BC52FA8000E606E /* AAGroupMembersController.swift */,
 				357736E5207369C100FC8695 /* CreateGroupController.swift */,
+				35125BD12080917A00779CFB /* XzrzViewController.swift */,
 			);
 			path = Compose;
 			sourceTree = "<group>";
@@ -2556,6 +2559,7 @@
 				BED5A1F11C48396A0045FDB0 /* NYTPhotoCaptionView.m in Sources */,
 				BED5A20F1C4839880045FDB0 /* NSBundle+NYTPhotoViewer.m in Sources */,
 				06129AA61C8359FB0099286B /* CocoaLifecycleRuntime.swift in Sources */,
+				35125BD22080917A00779CFB /* XzrzViewController.swift in Sources */,
 				066A516D1BC4C366000E606E /* ActorCoreExt.swift in Sources */,
 				066A517E1BC4C373000E606E /* FMDatabaseAdditions.m in Sources */,
 				066A519A1BC4C390000E606E /* FMDBList.swift in Sources */,

@@ -27,6 +27,10 @@ class Xzrz: ACMessageXzrzCallBack {
         }
         xzrzLoad!(xzrzList)
     }
+    
+    override func saveCallBack(_ str: String) {
+        print("是否成功"+str)
+    }
 }
 
 open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionControllerDelegate {
@@ -76,7 +80,7 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
         contentView.addSubview(progress)
         
         contentView.addSubview(watchBtn)
-        watchBtn.setImage(UIImage.bundled("ic_search_blue_24"), for: .normal)
+        watchBtn.setImage(UIImage.bundled("ic_history"), for: .normal)
         watchBtn.addTarget(self, action: #selector(watchDownSituation), for: .touchUpInside)
         
         self.contentInsets = UIEdgeInsetsMake(0, 0, 0, 0)
@@ -185,7 +189,12 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
                 }, onDownloaded: { (reference) -> () in
                     
                     let xzrz = Xzrz()
-                    Actor.saveXzrz(withIp: ActorSDK.sharedActor().serviceIP, withJsonStr:"{}", withCallback: xzrz)
+                    let jsonDict = ["messageId": String(self.bindedMessage!.rid), "userId": String(Actor.myUid()),"userName": Actor.getUserWithUid(Actor.myUid()).getNameModel().get()]
+                    let data:Data = try! JSONSerialization.data(withJSONObject: jsonDict, options: [])
+                    let jsonStr = String(data: data, encoding: String.Encoding.utf8)
+                    
+                    // "http://192.168.1.182:9080/services/ActorService" ActorSDK.sharedActor().serviceIP
+                    Actor.saveXzrz(withIp: "http://192.168.1.182:9080/services/ActorService", withJsonStr:jsonStr, withCallback: xzrz)
                     
                     let docPath:String = CocoaFiles.pathFromDescriptor(reference)
                     let docController = UIDocumentInteractionController(url: URL(fileURLWithPath: docPath))
@@ -260,10 +269,11 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
     func watchDownSituation() {
         let messageId = bindedMessage!.rid
         
-        let xzrz = Xzrz()
-        Actor.getXzrzWithIp(ActorSDK.sharedActor().serviceIP, withMessageid: messageId, withCallback: xzrz)
+        let xzrz = Xzrz()//ActorSDK.sharedActor().serviceIP "http://192.168.1.182:9080/services/ActorService"
+        Actor.getXzrzWithIp("http://192.168.1.182:9080/services/ActorService", withMessageid: messageId, withCallback: xzrz)
         xzrz?.xzrzLoad = { (list) in
             print(list)
+            
         }
     }
     
