@@ -1,7 +1,6 @@
 package im.actor.runtime.generic;
 
 
-import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.runtime.generic.mvvm.DisplayList;
 import im.actor.runtime.generic.storage.AsyncListEngine;
@@ -36,8 +35,10 @@ public class GenericEnginesProvider implements EnginesRuntime {
     public <T extends BserObject & ListEngineItem> PlatformDisplayList<T> createDisplayList(ListEngine<T> listEngine, boolean isSharedInstance, String clazz) {
         int pageSize = 20;
         int loadGap = 20;
-        if (listEngine.getHeadValue() instanceof Contact) {
-            pageSize = 10000;
+        if (listEngine.getHeadValue() != null) {
+            if ("im.actor.core.entity.Contact".equals(listEngine.getHeadValue().getClass().getName())) {
+                pageSize = 10000;
+            }
         }
         BindedDisplayList<T> list = new BindedDisplayList<T>((AsyncListEngine<T>) listEngine, isSharedInstance, pageSize, loadGap, operationMode);
         return list;

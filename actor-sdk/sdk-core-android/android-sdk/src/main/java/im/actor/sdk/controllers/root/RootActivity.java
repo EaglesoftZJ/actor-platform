@@ -19,23 +19,9 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Toast;
 
-import com.baidu.android.pushservice.PushConstants;
-import com.baidu.android.pushservice.PushManager;
-import com.huawei.android.hms.agent.HMSAgent;
-import com.huawei.hms.api.ConnectionResult;
-import com.huawei.hms.api.HuaweiApiAvailability;
 import com.huawei.hms.api.HuaweiApiClient;
-import com.huawei.hms.support.api.client.PendingResult;
-import com.huawei.hms.support.api.hwid.HuaweiId;
-import com.huawei.hms.support.api.hwid.HuaweiIdSignInOptions;
-import com.huawei.hms.support.api.push.HuaweiPush;
-import com.huawei.hms.support.api.push.TokenResult;
-import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.json.JSONObject;
 
@@ -46,7 +32,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import im.actor.core.entity.Group;
 import im.actor.core.viewmodel.AppStateVM;
 import im.actor.core.viewmodel.Command;
 import im.actor.core.viewmodel.CommandCallback;
@@ -54,7 +39,6 @@ import im.actor.runtime.android.AndroidContext;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseFragmentActivity;
-import im.actor.sdk.controllers.compose.ComposeEaglesoftFragment;
 import im.actor.sdk.controllers.tools.InviteHandler;
 import im.actor.sdk.intents.WebServiceLogionUtil;
 import im.actor.sdk.intents.WebServiceUtil;
@@ -62,9 +46,6 @@ import im.actor.sdk.permisson_interface.OnPermissionListener;
 import im.actor.sdk.push.Utils;
 import im.actor.sdk.services.UpdataService;
 
-import static im.actor.sdk.util.ActorSDKMessenger.groups;
-import static im.actor.sdk.util.ActorSDKMessenger.messenger;
-import static im.actor.sdk.util.ActorSDKMessenger.myUid;
 
 /**
  * Root Activity of Application

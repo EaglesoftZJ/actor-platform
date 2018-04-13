@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import im.actor.core.viewmodel.UserVM;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.BaseFragment;
@@ -37,6 +38,7 @@ import im.actor.sdk.controllers.zuzhijiagou.topBar.TopBarItemDecoration;
 import im.actor.sdk.controllers.zuzhijiagou.topBar.TreeBarBean;
 
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
+import static im.actor.sdk.util.ActorSDKMessenger.users;
 
 /**
  * Created by huchengjie on 2017/9/21.
@@ -225,7 +227,7 @@ public class ZzjgFragment extends BaseFragment {
                 node.setRy(true);
                 JSONObject ryJson = node.getJson();
                 String zwmc = ryJson.getString("zwmc").trim();
-                if(zwmc.length() > 0){
+                if (zwmc.length() > 0) {
                     zwmc = "(" + zwmc + ")";
                 }
                 node.setText(node.getText() + zwmc);
@@ -497,7 +499,15 @@ public class ZzjgFragment extends BaseFragment {
     }
 
     public void onItemClicked(int uid) {
-        getActivity().startActivity(Intents.openPrivateDialog(uid, true, getActivity()));
+        try {
+            UserVM userVM = users().get(uid);
+            getActivity().startActivity(Intents.openPrivateDialog(uid, true, getActivity()));
+        } catch (Exception e) {
+//            e.printStackTrace();
+
+        }
+
+
     }
 
 

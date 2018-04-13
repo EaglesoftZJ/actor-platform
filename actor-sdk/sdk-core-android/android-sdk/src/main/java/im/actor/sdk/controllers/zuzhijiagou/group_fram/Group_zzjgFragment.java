@@ -198,6 +198,7 @@ public class Group_zzjgFragment extends BaseFragment {
 
 
         searchField = (EditText) res.findViewById(R.id.searchField_ry);
+        searchField.setVisibility(View.VISIBLE);
         searchField.setTextColor(ActorSDK.sharedActor().style.getTextPrimaryColor());
         searchField.setHintTextColor(ActorSDK.sharedActor().style.getTextHintColor());
         textWatcher = new TextWatcher() {

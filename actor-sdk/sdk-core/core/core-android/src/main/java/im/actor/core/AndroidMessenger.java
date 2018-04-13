@@ -18,11 +18,9 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.view.Display;
 import android.webkit.MimeTypeMap;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
