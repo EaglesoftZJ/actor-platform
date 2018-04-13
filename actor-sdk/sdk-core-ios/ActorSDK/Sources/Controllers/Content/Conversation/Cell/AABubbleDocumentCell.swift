@@ -5,6 +5,30 @@
 import UIKit
 import VBFPopFlatButton
 
+class Xzrz: ACMessageXzrzCallBack {
+    
+    typealias load = ([String]) -> ()
+    var xzrzLoad:load?
+    
+    override func queryResponseCallBack(_ xzrzs: JavaUtilList!) {
+        
+        let arr = xzrzs.toArray()
+        
+        var xzrzList = [String]()
+    
+        if xzrzs.size() != 0 {
+            for i in 0...Int(xzrzs.size())-1 {
+                let info = arr?.object(at: UInt(i)) as! String
+                xzrzList.append(info)
+            }
+        }
+        else {
+            xzrzList = []
+        }
+        xzrzLoad!(xzrzList)
+    }
+}
+
 open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionControllerDelegate {
     
     fileprivate let progress = AAProgressView(size: CGSize(width: 48, height: 48))
@@ -17,6 +41,8 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
     fileprivate let statusView = UIImageView()
    
     fileprivate var bindedLayout: DocumentCellLayout!
+    
+    fileprivate let watchBtn = UIButton()
     
     public init(frame: CGRect) {
         super.init(frame: frame, isFullSize: false)
@@ -48,6 +74,10 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
         
         contentView.addSubview(fileIcon)
         contentView.addSubview(progress)
+        
+        contentView.addSubview(watchBtn)
+        watchBtn.setImage(UIImage.bundled("ic_search_blue_24"), for: .normal)
+        watchBtn.addTarget(self, action: #selector(watchDownSituation), for: .touchUpInside)
         
         self.contentInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         
@@ -153,6 +183,10 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
                 }, onDownloading: { (progress) -> () in
                     Actor.cancelDownloading(withFileId: fileSource.getFileReference().getFileId())
                 }, onDownloaded: { (reference) -> () in
+                    
+                    let xzrz = Xzrz()
+                    Actor.saveXzrz(withIp: ActorSDK.sharedActor().serviceIP, withJsonStr:"{}", withCallback: xzrz)
+                    
                     let docPath:String = CocoaFiles.pathFromDescriptor(reference)
                     let docController = UIDocumentInteractionController(url: URL(fileURLWithPath: docPath))
                     docController.delegate = self
@@ -222,6 +256,17 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
         }
     }
     
+    //查看下载情况
+    func watchDownSituation() {
+        let messageId = bindedMessage!.rid
+        
+        let xzrz = Xzrz()
+        Actor.getXzrzWithIp(ActorSDK.sharedActor().serviceIP, withMessageid: messageId, withCallback: xzrz)
+        xzrz?.xzrzLoad = { (list) in
+            print(list)
+        }
+    }
+    
     open override func layoutContent(_ maxWidth: CGFloat, offsetX: CGFloat) {
         let insets = fullContentInsets
         
@@ -241,6 +286,9 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
         let progressRect = CGRect(x: contentLeft + 8, y: 12 + top, width: 48, height: 48)
         self.progress.frame = progressRect
         self.fileIcon.frame = CGRect(x: contentLeft + 16, y: 20 + top, width: 32, height: 32)
+        
+        let left = self.isOut ? contentWidth - 200 - insets.right - contentInsets.left - 30 : contentWidth - 200 - insets.right - contentInsets.left + 50
+        self.watchBtn.frame = CGRect(x: left, y: 20 + top, width: 25, height: 25)
         
         // Message state
         if (self.isOut) {
@@ -355,3 +403,5 @@ open class DocumentCellLayout: AACellLayout {
         self.init(document: message.content as! ACDocumentContent, date: Int64(message.date), layouter: layouter)
     }
 }
+
+

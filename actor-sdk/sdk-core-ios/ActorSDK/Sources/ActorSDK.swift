@@ -48,6 +48,9 @@ import ReachabilitySwift
     open var webserviceIP = "http://61.175.100.14:8004/WebServiceSSO.asmx"
     open var param_K = "eagleSoftWebService"
     open var ERR_HTTP_REQUEST = "MOA连接出错，请稍后再试，或者联系管理员"
+    
+    //serviceIP
+    open var serviceIP = "http://61.175.100.14:8012/ActorServices-Maven/services/ActorService"
     /// Server Endpoints
     open var endpoints = [
         "tcp://61.175.100.14:9070" //"tcp://61.175.100.14:9070" 正式地址 tcp://220.189.207.18:9070 测试地址
