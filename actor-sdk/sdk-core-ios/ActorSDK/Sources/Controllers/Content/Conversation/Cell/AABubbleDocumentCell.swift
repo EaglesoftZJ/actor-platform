@@ -7,23 +7,20 @@ import VBFPopFlatButton
 
 class Xzrz: ACMessageXzrzCallBack {
     
-    typealias load = ([String]) -> ()
+    typealias load = ([ACMessageXzrz]) -> ()
     var xzrzLoad:load?
     
     override func queryResponseCallBack(_ xzrzs: JavaUtilList!) {
         
         let arr = xzrzs.toArray()
         
-        var xzrzList = [String]()
+        var xzrzList = [ACMessageXzrz]()
     
         if xzrzs.size() != 0 {
             for i in 0...Int(xzrzs.size())-1 {
-                let info = arr?.object(at: UInt(i)) as! String
+                let info = arr?.object(at: UInt(i)) as! ACMessageXzrz
                 xzrzList.append(info)
             }
-        }
-        else {
-            xzrzList = []
         }
         xzrzLoad!(xzrzList)
     }
@@ -194,7 +191,7 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
                     let jsonStr = String(data: data, encoding: String.Encoding.utf8)
                     
                     // "http://192.168.1.182:9080/services/ActorService" ActorSDK.sharedActor().serviceIP
-                    Actor.saveXzrz(withIp: "http://192.168.1.182:9080/services/ActorService", withJsonStr:jsonStr, withCallback: xzrz)
+                    Actor.saveXzrz(withIp: ActorSDK.sharedActor().serviceIP, withJsonStr:jsonStr, withCallback: xzrz)
                     
                     let docPath:String = CocoaFiles.pathFromDescriptor(reference)
                     let docController = UIDocumentInteractionController(url: URL(fileURLWithPath: docPath))
@@ -270,11 +267,27 @@ open class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCont
         let messageId = bindedMessage!.rid
         
         let xzrz = Xzrz()//ActorSDK.sharedActor().serviceIP "http://192.168.1.182:9080/services/ActorService"
-        Actor.getXzrzWithIp("http://192.168.1.182:9080/services/ActorService", withMessageid: messageId, withCallback: xzrz)
+        Actor.getXzrzWithIp(ActorSDK.sharedActor().serviceIP, withMessageid: messageId, withCallback: xzrz)
         xzrz?.xzrzLoad = { (list) in
-            print(list)
-            
+            let xzrzVC = XzrzViewController()
+            xzrzVC.list = list
+            dispatchOnUi {
+                self.getViewController().navigateDetail(xzrzVC)
+            }
         }
+    }
+    
+    func getViewController () -> (UIViewController) {
+        var next:UIResponder?
+        next = self.next!
+        repeat {
+            if ((next as?UIViewController) != nil) {
+                return (next as! UIViewController)
+            }else {
+                next = next?.next
+            }
+        } while next != nil
+        return UIViewController()
     }
     
     open override func layoutContent(_ maxWidth: CGFloat, offsetX: CGFloat) {
