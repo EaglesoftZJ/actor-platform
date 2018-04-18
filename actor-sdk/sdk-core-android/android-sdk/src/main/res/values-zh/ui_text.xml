@@ -32,6 +32,7 @@
     <string name="toast_empty_name">名字不能空着</string>
     <string name="toast_unable_change">不能修改名字</string>
 
+    <string name="menu_app_open">第三方应用打开</string>
     <string name="menu_share">分享</string>
     <string name="menu_save">保存到手机中</string>
     <string name="menu_saved">保存</string>
@@ -240,6 +241,7 @@
     <string name="chat_add_to_contacts">添加到通讯录</string>
     <string name="chat_add_to_contacts_progress">正在添加到通讯录…</string>
 
+    <string name="chat_doc_yl">预览</string>
     <string name="chat_doc_open">打开</string>
     <string name="chat_doc_send">发送</string>
     <string name="chat_doc_stop">停止</string>

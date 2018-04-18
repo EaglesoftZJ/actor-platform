@@ -4,9 +4,7 @@ buildscript {
         classpath 'com.github.dcendents:android-maven-plugin:1.2'
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
-
     }
-
 }
 
 apply plugin: 'com.android.library'
@@ -29,6 +27,17 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         multiDexEnabled true
+
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 
     sourceSets {
@@ -83,7 +92,7 @@ dependencies {
     //google service
     //    compile files('libs/MiPush_SDK_Client_3_2_2.jar')
     //    compile files('libs/pushservice-5.3.0.99.jar')
-//    compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
+    //    compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
     compile project(':actor-sdk:sdk-core-android:android-eaglesoft-push')
     compile project(':actor-sdk:sdk-core-android:webView_jsBridge')
     compile 'io.pristine:libjingle:11139@aar'
@@ -113,7 +122,7 @@ dependencies {
     compile files('libs/httpclient-cache-4.2.jar')
     compile files('libs/httpcore-4.2.jar')
     compile files('libs/httpmime-4.2.jar')
-    compile project(':actor-sdk:sdk-core-android:android-eaglesoft-push')
+    compile files('libs/tbs_sdk_thirdapp_v3.2.0.1104_43200_sharewithdownload_withfilereader_withoutGame_obfs_20170609_115346.jar')
 }
 repositories {
 //    flatDir { dirs 'aars' }

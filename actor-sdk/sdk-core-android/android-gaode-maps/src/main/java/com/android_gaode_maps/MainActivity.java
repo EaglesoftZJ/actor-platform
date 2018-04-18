@@ -1,37 +1,21 @@
 package com.android_gaode_maps;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amap.api.maps.AMap;
 import com.amap.api.maps.model.LatLng;
 
 import java.util.ArrayList;
-
-import im.actor.runtime.json.JSONException;
-import im.actor.runtime.json.JSONObject;
-import im.actor.sdk.controllers.placeholder.GlobalPlaceholderFragment;
-import im.actor.sdk.controllers.search.GlobalSearchDefaultFragment;
-import im.actor.sdk.permisson_interface.OnPermissionListener;
 
 public class MainActivity extends AppCompatActivity implements MapFragment.MapCallBackListener {
     TextView locationCenter;
