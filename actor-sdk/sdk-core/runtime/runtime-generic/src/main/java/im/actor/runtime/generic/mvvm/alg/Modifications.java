@@ -155,7 +155,7 @@ public class Modifications {
                         continue;
                     }
                 }
-            } else if ("im.actor.core.entity.Dialog".equals(itm.getClass().getName())) {
+            } else if (isDialogClass(itm)) {
                 String str = (String)getWcClassMethod(itm, "getDialogTitle");
                 Object type = getWcClassMethod(getWcClassMethod(itm, "getPeer"), "getPeerType");
                 String typeName = (String) getWcClassMethod(type, "name");
@@ -205,7 +205,17 @@ public class Modifications {
 
     private static boolean isContactClass(Object var1) {
         if (var1 != null) {
-            return "im.actor.core.entity.Contact".equals(var1.getClass().getName());
+            String className = var1.getClass().getName();
+            return "im.actor.core.entity.Contact".equals(className)||"ACContact".equals(className);
+
+        }
+        return false;
+    }
+
+    private static boolean isDialogClass(Object var1) {
+        if (var1 != null) {
+            String className = var1.getClass().getName();
+            return "im.actor.core.entity.Dialog".equals(className)||"ACCDialog".equals(className);
 
         }
         return false;

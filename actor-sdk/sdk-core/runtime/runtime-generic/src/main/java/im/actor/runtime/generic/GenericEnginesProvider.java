@@ -36,7 +36,8 @@ public class GenericEnginesProvider implements EnginesRuntime {
         int pageSize = 20;
         int loadGap = 20;
         if (listEngine.getHeadValue() != null) {
-            if ("im.actor.core.entity.Contact".equals(listEngine.getHeadValue().getClass().getName())) {
+            String className = listEngine.getHeadValue().getClass().getName().trim();
+            if ("im.actor.core.entity.Contact".equals(className)||"ACContact".equals(className)) {
                 pageSize = 10000;
             }
         }
