@@ -497,7 +497,7 @@ import ReachabilitySwift
             // Work
             ////////////////////////////////////
             
-            mainNavigations.append(AANavigationController(rootViewController:WorkController()))
+//            mainNavigations.append(AANavigationController(rootViewController:WorkController()))
             
             ////////////////////////////////////
             // Settings
