@@ -147,7 +147,7 @@ public class Modifications {
 
         for (T itm : items) {
             if (isContactClass(itm)) {
-                Object str = getWcClassMethod(itm, "getName");
+                String str = (String) getWcClassMethod(itm, "getName");
                 if (str != null) {
                     if ("系统管理员".equals(str)) {
                         continue;
@@ -156,11 +156,12 @@ public class Modifications {
                     }
                 }
             } else if ("im.actor.core.entity.Dialog".equals(itm.getClass().getName())) {
-                Object str = getWcClassMethod(itm, "getDialogTitle");
+                String str = (String)getWcClassMethod(itm, "getDialogTitle");
                 Object type = getWcClassMethod(getWcClassMethod(itm, "getPeer"), "getPeerType");
+                String typeName = (String) getWcClassMethod(type, "name");
                 if (str != null) {
                     if ("账号已删除".equals(str)
-                            && "PRIVATE".equals(getWcClassMethod(type, "name"))) {
+                            && "PRIVATE".equals(typeName)) {
                         continue;
                     }
                 }

@@ -122,7 +122,7 @@ dependencies {
     compile files('libs/httpclient-cache-4.2.jar')
     compile files('libs/httpcore-4.2.jar')
     compile files('libs/httpmime-4.2.jar')
-    compile files('libs/tbs_sdk_thirdapp_v3.2.0.1104_43200_sharewithdownload_withfilereader_withoutGame_obfs_20170609_115346.jar')
+    compile files('libs/tbs_sdk_thirdapp_v3.2.jar')
 }
 repositories {
 //    flatDir { dirs 'aars' }

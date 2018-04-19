@@ -14,7 +14,6 @@ import com.tencent.smtt.sdk.TbsReaderView;
 
 import java.io.File;
 
-import im.actor.core.entity.content.PhotoContent;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;
 
