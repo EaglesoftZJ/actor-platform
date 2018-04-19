@@ -215,7 +215,7 @@ public class Modifications {
     private static boolean isDialogClass(Object var1) {
         if (var1 != null) {
             String className = var1.getClass().getName();
-            return "im.actor.core.entity.Dialog".equals(className)||"ACCDialog".equals(className);
+            return "im.actor.core.entity.Dialog".equals(className)||"ACDialog".equals(className);
 
         }
         return false;
