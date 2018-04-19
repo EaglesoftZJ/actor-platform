@@ -160,8 +160,6 @@ public class GroupAllForUsersFragment extends BaseFragment {
                 callBackHandler.sendEmptyMessage(0);
             }
         });
-
-
 //        JSONObject json = new JSONObject();
 //        try {
 //            json.put("messageId", -7275888453393723629L);
@@ -177,7 +175,7 @@ public class GroupAllForUsersFragment extends BaseFragment {
 //            }
 //        });
 //
-//        messenger().getXzrz("http://192.168.1.182:9080/services/ActorService", -12, new MessageXzrzCallBack() {
+//        messenger().getXzrz(ActorSDK.getWebServiceUri(getContext()) + ":8012/ActorServices-Maven/services/ActorService", -12, new MessageXzrzCallBack() {
 //
 //            @Override
 //            public void queryResponseCallBack(List<MessageXzrz> xzrzs) {

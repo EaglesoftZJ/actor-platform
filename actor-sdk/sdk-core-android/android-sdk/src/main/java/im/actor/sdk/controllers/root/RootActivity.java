@@ -70,7 +70,7 @@ public class RootActivity extends BaseFragmentActivity {
         setContentView(R.layout.activity_root);
         sp = this.getSharedPreferences("flyChatSp", MODE_PRIVATE);
         int phoneFlag = Utils.isWhatPhone();
-
+        
 //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this,
 //                    new String[]{Manifest.permission.READ_CONTACTS},

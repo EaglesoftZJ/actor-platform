@@ -5,6 +5,12 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/app_open"
+        android:title="@string/menu_app_open" />
+
+
     <item
         android:id="@+id/share"
         android:title="@string/menu_share" />

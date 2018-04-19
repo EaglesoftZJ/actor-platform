@@ -1,15 +1,20 @@
 package im.actor.sdk.controllers.conversation.messages.content;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import android.widget.Toast;
+
 import com.droidkit.progress.CircularView;
+import com.tencent.smtt.sdk.TbsReaderView;
 
 import im.actor.core.entity.FileReference;
 import im.actor.core.entity.Message;
@@ -18,17 +23,23 @@ import im.actor.core.entity.content.DocumentContent;
 import im.actor.core.entity.content.FileLocalSource;
 import im.actor.core.entity.content.FileRemoteSource;
 import im.actor.core.entity.content.PhotoContent;
+import im.actor.core.utils.IOUtils;
 import im.actor.core.viewmodel.FileCallback;
 import im.actor.core.viewmodel.FileVM;
 import im.actor.core.viewmodel.FileVMCallback;
+import im.actor.core.viewmodel.MessageXzrzCallBack;
 import im.actor.core.viewmodel.UploadFileCallback;
 import im.actor.core.viewmodel.UploadFileVM;
 import im.actor.core.viewmodel.UploadFileVMCallback;
+import im.actor.runtime.json.JSONException;
+import im.actor.runtime.json.JSONObject;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.conversation.messages.MessagesAdapter;
 import im.actor.sdk.controllers.conversation.messages.content.preprocessor.PreprocessedData;
+import im.actor.sdk.controllers.message_xzrz.MessageHistoryActivity;
+import im.actor.sdk.controllers.preview.TengXunX5PreviewActivity;
 import im.actor.sdk.util.FileTypes;
 import im.actor.sdk.util.images.common.ImageLoadException;
 import im.actor.sdk.util.images.ops.ImageLoading;
@@ -36,6 +47,7 @@ import im.actor.sdk.view.TintImageView;
 import im.actor.runtime.files.FileSystemReference;
 
 import static im.actor.sdk.util.ActorSDKMessenger.myUid;
+import static im.actor.sdk.util.ActorSDKMessenger.users;
 import static im.actor.sdk.util.ViewUtils.goneView;
 import static im.actor.sdk.util.ViewUtils.showView;
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
@@ -85,6 +97,17 @@ public class DocHolder extends MessageHolder {
         time = (TextView) itemView.findViewById(R.id.time);
         time.setTextColor(ActorSDK.sharedActor().style.getConvTimeColor());
 
+        ImageView image_xz_ls = (ImageView) itemView.findViewById(R.id.image_xz_ls);
+        image_xz_ls.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = getAdapter().getMessagesFragment().getActivity();
+                Intent intent = new Intent(activity, MessageHistoryActivity.class);
+                intent.putExtra("messageid", currentMessage.getRid());
+                activity.startActivity(intent);
+            }
+        });
+
         // Basic bubble
         View bubbleView = itemView.findViewById(R.id.bubbleContainer);
         bubbleView.setBackgroundResource(R.drawable.conv_bubble_media_in);
@@ -114,9 +137,27 @@ public class DocHolder extends MessageHolder {
 
                                     @Override
                                     public void onDownloaded(FileSystemReference reference) {
-                                        Activity activity = getAdapter().getMessagesFragment().getActivity();
-                                        activity.startActivity(Intents.shareDoc(activity,documentContent.getName(),
-                                                reference.getDescriptor()));
+                                        int i = item.getItemId();
+                                        if (i == R.id.app_open) {
+                                            Activity activity = getAdapter().getMessagesFragment().getActivity();
+
+                                            if (document instanceof PhotoContent) {
+                                                Intents.openMedia(activity, fileIcon, reference.getDescriptor(), currentMessage.getSenderId());
+                                            } else {
+                                                try {
+                                                    activity.startActivity(Intents.openDoc(activity, document.getName(), reference.getDescriptor()));
+                                                } catch (Exception e) {
+                                                    Toast.makeText(getAdapter().getMessagesFragment().getActivity(), R.string.toast_unable_open, Toast.LENGTH_LONG).show();
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        } else if (i == R.id.share) {
+                                            Activity activity = getAdapter().getMessagesFragment().getActivity();
+                                            activity.startActivity(Intents.shareDoc(activity, documentContent.getName(),
+                                                    reference.getDescriptor()));
+
+                                        }
+
                                     }
                                 });
                             }
@@ -328,17 +369,50 @@ public class DocHolder extends MessageHolder {
                     im.actor.runtime.Runtime.postToMainThread(new Runnable() {
                         @Override
                         public void run() {
+                            Activity activity = getAdapter().getMessagesFragment().getActivity();
                             if (document instanceof PhotoContent) {
-                                Intents.openMedia(getAdapter().getMessagesFragment().getActivity(), fileIcon, reference.getDescriptor(), currentMessage.getSenderId());
+                                Intents.openMedia(activity, fileIcon, reference.getDescriptor(), currentMessage.getSenderId());
                             } else {
                                 try {
-                                    Activity activity = getAdapter().getMessagesFragment().getActivity();
-                                    activity.startActivity(Intents.openDoc(activity,document.getName(), reference.getDescriptor()));
+                                    Uri uri = Intents.getAvatarUri(activity, reference.getDescriptor());
+                                    TbsReaderView readerView = new TbsReaderView(activity, new TbsReaderView.ReaderCallback() {
+                                        @Override
+                                        public void onCallBackAction(Integer integer, Object o, Object o1) {
+                                        }
+                                    });
+                                    String path = Intents.getPathFromUri(activity, uri);
+                                    boolean b = readerView.preOpen(Intents.getFileType(path), false);
+                                    if (b) {
+                                        Intent intent = new Intent(activity, TengXunX5PreviewActivity.class);
+                                        intent.putExtra("path", path);
+                                        intent.putExtra("fileName", document.getName());
+                                        intent.putExtra("downloadFileName", reference.getDescriptor());
+                                        activity.startActivity(intent);
+                                    } else {
+                                        activity.startActivity(Intents.openDoc(activity, document.getName(), reference.getDescriptor()));
+                                    }
                                 } catch (Exception e) {
                                     Toast.makeText(getAdapter().getMessagesFragment().getActivity(), R.string.toast_unable_open, Toast.LENGTH_LONG).show();
                                     e.printStackTrace();
                                 }
                             }
+                            JSONObject json = new JSONObject();
+//                          {"messageId":-7275888453393723629,"userId":2092017244,"userName":"来啊"}
+                            try {
+                                json.put("messageId", currentMessage.getRid());
+                                json.put("userId", myUid());
+                                json.put("userName", users().get(myUid()).getName().get());
+                                messenger().saveXzrz(ActorSDK.getWebServiceUri(activity) +
+                                        ":8012/ActorServices-Maven/services/ActorService", json.toString(), new MessageXzrzCallBack() {
+                                    @Override
+                                    public void saveResponseCallBack(String str) {
+                                        super.saveResponseCallBack(str);
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
                     });
                 }

@@ -125,6 +125,12 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize">
         </activity>
+
+        <activity android:name=".controllers.preview.TengXunX5PreviewActivity"
+                  android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+                  android:theme="@style/CommonActivityTheme">
+        </activity>
+
         <!-- Profiles -->
 
         <activity
@@ -174,6 +180,12 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/ProfileActivityTheme"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
+        <activity
+            android:name=".controllers.message_xzrz.MessageHistoryActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/ProfileActivityTheme"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden">
+        </activity>
 
         <!-- Compose -->
 
@@ -579,6 +591,7 @@
             android:name="com.amap.api.v2.apikey"
             android:value="c9bb6ed25a8f1ba46bf0daffb4571e7a">
         </meta-data>
+
 
     </application>
 
