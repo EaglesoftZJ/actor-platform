@@ -70,7 +70,7 @@ public class RootActivity extends BaseFragmentActivity {
         setContentView(R.layout.activity_root);
         sp = this.getSharedPreferences("flyChatSp", MODE_PRIVATE);
         int phoneFlag = Utils.isWhatPhone();
-        
+
 //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this,
 //                    new String[]{Manifest.permission.READ_CONTACTS},
@@ -239,29 +239,26 @@ public class RootActivity extends BaseFragmentActivity {
     }
 
     private void zjjgData(final CommandCallback<String> callback) {
-        if (ActorSDK.getZjjgData() == null) {
-            WebServiceUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8004", new HashMap<String, String>(),
-                    "GetAllUserFullData", AndroidContext.getContext(), new Handler(new Handler.Callback() {
-                        @Override
-                        public boolean handleMessage(Message msg) {
-                            Bundle b = msg.getData();
-                            String datasource = b.getString("datasource");
-                            try {
-                                JSONObject json = new JSONObject(datasource);
-                                ActorSDK.setZjjgData(json);
+        WebServiceUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8004", new HashMap<String, String>(),
+                "GetAllUserFullData", AndroidContext.getContext(), new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        Bundle b = msg.getData();
+                        String datasource = b.getString("datasource");
+                        try {
+                            JSONObject json = new JSONObject(datasource);
+                            ActorSDK.setZjjgData(json);
 //                                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
 //                                fragment.changeAdapter();
-                                callback.onResult("");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                callback.onError(e);
-                            }
-                            return false;
+                            callback.onResult("");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            callback.onError(e);
                         }
-                    }));
-        } else {
-            callback.onResult("");
-        }
+                        return false;
+                    }
+                }));
+
     }
 
     @Override

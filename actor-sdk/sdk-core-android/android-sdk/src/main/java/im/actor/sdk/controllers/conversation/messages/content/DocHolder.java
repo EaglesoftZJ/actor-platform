@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.droidkit.progress.CircularView;
 import com.tencent.smtt.sdk.TbsReaderView;
 
+import java.io.File;
+
 import im.actor.core.entity.FileReference;
 import im.actor.core.entity.Message;
 import im.actor.core.entity.Peer;
@@ -374,7 +376,9 @@ public class DocHolder extends MessageHolder {
                                 Intents.openMedia(activity, fileIcon, reference.getDescriptor(), currentMessage.getSenderId());
                             } else {
                                 try {
-                                    Uri uri = Intents.getAvatarUri(activity, reference.getDescriptor());
+//                                    Uri uri = Intents.getAvatarUri(activity, reference.getDescriptor());
+                                    File file = new File(reference.getDescriptor());
+                                    Uri uri = Uri.fromFile(file);
                                     TbsReaderView readerView = new TbsReaderView(activity, new TbsReaderView.ReaderCallback() {
                                         @Override
                                         public void onCallBackAction(Integer integer, Object o, Object o1) {
@@ -402,6 +406,7 @@ public class DocHolder extends MessageHolder {
                                 json.put("messageId", currentMessage.getRid());
                                 json.put("userId", myUid());
                                 json.put("userName", users().get(myUid()).getName().get());
+//                                String ip = "http://192.168.1.182:9080/services/ActorService";
                                 messenger().saveXzrz(ActorSDK.getWebServiceUri(activity) +
                                         ":8012/ActorServices-Maven/services/ActorService", json.toString(), new MessageXzrzCallBack() {
                                     @Override
