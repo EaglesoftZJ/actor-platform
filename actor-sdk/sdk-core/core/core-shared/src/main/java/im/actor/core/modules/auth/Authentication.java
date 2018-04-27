@@ -82,24 +82,44 @@ public class Authentication {
         this.modules = modules;
 
         // Keep device hash always stable across launch
+        System.out.println("飞鸟测试----Modules");
         byte[] _deviceHash = modules.getPreferences().getBytes(KEY_DEVICE_HASH);
+        System.out.println("飞鸟测试----Hash");
         if (_deviceHash == null) {
             _deviceHash = Crypto.SHA256(modules.getConfiguration().getApiConfiguration().getDeviceString().getBytes());
+            System.out.println("飞鸟测试----Hash1");
             modules.getPreferences().putBytes(KEY_DEVICE_HASH, _deviceHash);
+            System.out.println("飞鸟测试----Hash2");
         }
         deviceHash = _deviceHash;
-
+        System.out.println("飞鸟测试----Hash3");
         // Languages
         langs = new ArrayList<>();
         for (String s : modules.getConfiguration().getPreferredLanguages()) {
             langs.add(s);
         }
-
+        System.out.println("飞鸟测试----Hash4");
         // Api Configuration
         apiConfiguration = modules.getConfiguration().getApiConfiguration();
-
+        System.out.println("飞鸟测试----Hash5");
         // Authenticated UID
-        myUid = modules.getPreferences().getInt(KEY_AUTH_UID, 0);
+        // myUid = modules.getPreferences().getInt(KEY_AUTH_UID, 0);
+        // System.out.println("飞鸟测试----Hash6");
+        try { 
+            System.out.println("flychat日志：开始获取myUid"); 
+            Object storage = modules.getPreferences(); 
+            if (storage == null) { 
+                System.out.println("flychat日志：getPreferences=null"); 
+            }
+            else {
+                System.out.println("flychat日志：getPreferences=" + storage.getClass().getName());
+                myUid = modules.getPreferences().getInt(KEY_AUTH_UID, 0); 
+                System.out.println("flychat日志：getPreferences="+myUid);
+            }
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+            System.out.println("flychat报错日志：" + e.getMessage()); myUid = 0; 
+        }
     }
 
     public int myUid() {

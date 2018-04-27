@@ -201,7 +201,6 @@ open class AABubbleTextCell : AABubbleCell {
 //    open override func copy(_ sender: AnyObject?) {
 //        UIPasteboard.general.string = (bindedMessage!.content as! ACTextContent).text
 //    }
-    
     open func urlLongTap(_ url: URL) {
         if url.scheme != "source" && url.scheme == "send" {
             let actionSheet: UIAlertController = UIAlertController(title: nil, message: url.absoluteString, preferredStyle: .actionSheet)
@@ -349,7 +348,14 @@ open class TextCellLayout: AACellLayout {
             }
         } else {
             let maxWidth = textSize.width
-            let lastLine = textLayout.lines.last!.width
+            var lastLine = CGFloat()
+            if textLayout.lines.count == 1 {
+                lastLine = textLayout.lines.last!.width
+            }
+            else {
+                lastLine = 0
+            }
+            
             if lastLine + timeWidth < maxWidth {
                 //
                 // <line_________0>

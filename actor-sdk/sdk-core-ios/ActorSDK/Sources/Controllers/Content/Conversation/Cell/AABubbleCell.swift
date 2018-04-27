@@ -207,10 +207,15 @@ open class AABubbleCell: UICollectionViewCell {
         if tap.state == .began
         {
             self.becomeFirstResponder()
-            let copyMenu = UIMenuItem(title:"复制",action:#selector(copyText))
-            let sendMenu = UIMenuItem(title:"转发",action:#selector(send))
             let menuController = UIMenuController.shared
-            menuController.menuItems = [copyMenu,sendMenu]
+            let sendMenu = UIMenuItem(title:"转发",action:#selector(send))
+            if self.bubbleType == .textIn || self.bubbleType == .textOut {
+                let copyMenu = UIMenuItem(title:"复制",action:#selector(copyText))
+                menuController.menuItems = [copyMenu,sendMenu]
+            }
+            else {
+                menuController.menuItems = [sendMenu]
+            }
             menuController.setTargetRect(bubble.frame, in: bubble)
             menuController.setMenuVisible(true, animated: true)
         }
@@ -228,7 +233,7 @@ open class AABubbleCell: UICollectionViewCell {
     func copyText(){
         if self.bubbleType == .textIn || self.bubbleType == .textOut//文字
         {
-            UIPasteboard.general.string = ""
+            UIPasteboard.general.string = (bindedMessage!.content as! ACTextContent).text
         }
     }
     func send(){

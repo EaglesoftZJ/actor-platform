@@ -84,8 +84,8 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
         //#启动图
         addLaunchController()
         //#组织架构
-        companyService.delegate = self
-        companyService.chooseCompany()
+//        companyService.delegate = self
+//        companyService.chooseCompany()
         
         return true
     }

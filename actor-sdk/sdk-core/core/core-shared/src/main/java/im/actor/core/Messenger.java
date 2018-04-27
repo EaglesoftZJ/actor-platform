@@ -127,9 +127,11 @@ public class Messenger {
         // Actor system
         // timing.section("Actors");
         ActorSystem.system().setTraceInterface(new ActorTrace());
+        System.out.println("飞鸟测试----setTraceInterface");
         ActorSystem.system().addDispatcher("network_manager", 1);
+        System.out.println("飞鸟测试----addDispatcher");
         ActorSystem.system().addDispatcher("heavy", 2);
-
+        System.out.println("飞鸟测试----addheavy");
         // Configure dispatcher
         // timing.section("Dispatcher");
 //        if (!Runtime.isMainThread()) {
@@ -139,10 +141,10 @@ public class Messenger {
 
         // timing.section("Modules:Create");
         this.modules = new Modules(this, configuration);
-
+        System.out.println("飞鸟测试----ModulesCreate");
         // timing.section("Modules:Run");
         this.modules.run();
-
+        System.out.println("飞鸟测试----ModulesRun");
         // timing.end();
     }
 

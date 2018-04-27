@@ -84,35 +84,36 @@ public class Modules implements ModuleContext {
     public Modules(Messenger messenger, Configuration configuration) {
         this.messenger = messenger;
         this.configuration = configuration;
-
+        System.out.println("飞鸟测试----configuration");
         // Timing timing = new Timing("MODULES_INIT");
 
         // timing.section("I18N");
         this.i18nEngine = I18nEngine.create(this);
-
+        System.out.println("飞鸟测试----i18nEngine");
         // timing.section("Preferences");
         this.preferences = Storage.createPreferencesStorage();
-
+        System.out.println("飞鸟测试----preferences");
         // timing.section("Storage");
         this.storageModule = new StorageModule(this);
-
+        System.out.println("飞鸟测试----pstorageModule");
         // timing.section("Events");
         this.events = new EventBus();
-
+        System.out.println("飞鸟测试----events");
         // timing.section("Conductor");
         this.conductor = new ConductorModule(this);
-
+        System.out.println("飞鸟测试----conductor");
         // timing.section("API");
         this.api = new ApiModule(this);
-
+        System.out.println("飞鸟测试----ApiModule");
         // timing.section("External");
         this.external = new ExternalModule(this);
-
+        System.out.println("飞鸟测试----external");
         // timing.section("Pushes");
         this.pushes = new PushesModule(this);
-
+        System.out.println("飞鸟测试----pushes");
         // timing.section("Auth");
         this.authentication = new Authentication(this);
+        System.out.println("飞鸟测试----Authentication");
         // timing.end();
     }
 
