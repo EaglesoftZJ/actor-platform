@@ -203,11 +203,11 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
         }
     }
 
-    private void lmName(){
+    private void lmName() {
         if (displayList.getItem(0) instanceof Contact) {
             for (int i = 0; i < displayList.getSize(); i++) {
                 Contact contact = (Contact) displayList.getItem(i);
-                if ("#".equalsIgnoreCase(contact.getPyShort())) {
+                if ("#".equalsIgnoreCase(contact.getPyShort().trim())) {
                     try {
                         JSONObject jsonData = ActorSDK.getZjjgData();
                         if (jsonData != null) {

@@ -387,7 +387,6 @@ public class Intents {
         Cursor cursor = null;
         final String column = MediaStore.MediaColumns.DATA;
         final String[] projection = {column};
-
         try {
             cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
                     null);

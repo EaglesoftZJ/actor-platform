@@ -165,8 +165,6 @@ public abstract class BaseContactFragment extends DisplayListFragment<Contact, C
                                 collection.scrollToPosition(n);
                             } else if (n <= lastItem) {
                                 int top = collection.getChildAt(n - firstItem).getTop();
-                                System.out.println(n + "iGem:top=" + top);
-
                                 collection.scrollBy(0, top);
                             } else {
                                 collection.scrollToPosition(n);

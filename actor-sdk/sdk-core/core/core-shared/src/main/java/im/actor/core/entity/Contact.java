@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 
 import im.actor.core.Messenger;
+import im.actor.core.pinyin.ChineseCharToEnUtil;
 import im.actor.core.pinyin.HanziToPinyin;
 import im.actor.runtime.bser.BserCreator;
 import im.actor.runtime.bser.BserObject;
@@ -61,6 +62,7 @@ public class Contact extends BserObject implements ListEngineItem {
         this.name = name;
         try {
             if (name != null && name.length() > 0) {
+//                this.pyShort = ChineseCharToEnUtil.getInstance().getAllFirstLetter(name.substring(0, 1)).toLowerCase();
                 this.pyShort = HanziToPinyin.getInstance().get(name.substring(0, 1)).get(0).target.substring(0, 1).toUpperCase();
             }
         } catch (Exception e) {
@@ -98,6 +100,7 @@ public class Contact extends BserObject implements ListEngineItem {
 
         try {
             if (name != null && name.length() > 0) {
+//                pyShort = ChineseCharToEnUtil.getInstance().getAllFirstLetter(name.substring(0, 1)).toLowerCase();
                 pyShort = HanziToPinyin.getInstance().get(name.substring(0, 1)).get(0).target.substring(0, 1).toUpperCase();
             }
         } catch (Exception e) {
