@@ -34,6 +34,16 @@ class WaitMBProgress: NSObject {
         hud.removeFromSuperViewOnHide = true
         hud.hide(animated: true, afterDelay: 1)
     }
+    open func status(text:String) {
+        let window = UIApplication.shared.windows[1]
+        let hud = MBProgressHUD(window: window)
+        hud.mode = MBProgressHUDMode.indeterminate
+        hud.removeFromSuperViewOnHide = true
+        hud.label.text = text
+        window.addSubview(hud)
+        window.bringSubview(toFront: hud)
+        hud.show(animated:true)
+    }
 }
 
 
