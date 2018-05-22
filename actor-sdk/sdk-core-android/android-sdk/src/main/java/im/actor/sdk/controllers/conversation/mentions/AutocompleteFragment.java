@@ -123,7 +123,6 @@ public class AutocompleteFragment extends BaseFragment {
         } else if (isGroup) {
             String isAt = messenger().loadPeerAtInfo(peer);
             if (text.startsWith("@") && text.equals("@") && isAt.equals("at")) {
-//                messenger()
                 Intent intent = new Intent(getContext(), GroupMemberActivity.class);
                 intent.putExtra("peer", peer.getUnuqueId());
 

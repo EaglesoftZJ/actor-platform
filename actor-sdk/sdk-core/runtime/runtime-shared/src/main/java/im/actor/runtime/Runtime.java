@@ -91,6 +91,7 @@ public class Runtime {
 
     @AutoreleasePool
     public static void postToMainThread(Runnable runnable) {
+        System.out.println(""+mainThreadRuntime.getClass().getName());
         mainThreadRuntime.postToMainThread(runnable);
     }
 
