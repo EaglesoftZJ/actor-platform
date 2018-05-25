@@ -59,6 +59,7 @@ public class EventBus {
             if (config.getTypes().contains(null)
                     || config.getTypes().contains(eventType)) {
                 s.onBusEvent(e);
+                Log.d("EventBus阿萨德", "Event: " + e);
             }
         }
     }

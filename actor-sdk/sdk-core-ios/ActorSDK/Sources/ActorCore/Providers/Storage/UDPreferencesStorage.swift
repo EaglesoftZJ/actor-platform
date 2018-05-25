@@ -114,16 +114,16 @@ import Foundation
             print("一等奖5===========")
            return obj
         }
-//        let res = prefs.object(forKey: key)
-        let res:AnyObject?
-        if (prefs.object(forKey: key) != nil) {
-            res = prefs.object(forKey: key) as AnyObject
-            log("一等奖6===========")
-        }
-        else {
-            res = nil
-            log("一等奖7===========")
-        }
+        let res = prefs.object(forKey: key)
+//        let res:AnyObject? = prefs.object(forKey: key)
+//        if (prefs.object(forKey: key) != nil) {
+//            res = prefs.object(forKey: key) as AnyObject
+//            log("一等奖6===========")
+//        }
+//        else {
+//            res = nil
+//            log("一等奖7===========")
+//        }
         cachedPrefs[key] = res as AnyObject??
         return res as AnyObject?
     }

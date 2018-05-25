@@ -42,7 +42,9 @@ public class ActorDispatcher {
         this.actorSystem = actorSystem;
         this.dispatchers = new QueueDispatcher[dispatchersCount];
         final Consumer<Envelope> handler = envelope -> processEnvelope(envelope);
+        System.out.println("这是数组");
         for (int i = 0; i < dispatchers.length; i++) {
+            System.out.println("进入数组"+i);
             this.dispatchers[i] = new QueueDispatcher<>(name + "_" + i, priority, queueCollection, handler);
         }
     }

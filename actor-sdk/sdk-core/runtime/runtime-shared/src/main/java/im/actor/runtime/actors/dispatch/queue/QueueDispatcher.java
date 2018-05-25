@@ -48,6 +48,7 @@ public class QueueDispatcher<T> implements QueueCollectionListener {
             int iterations = 0;
             while (iterations < MAX_ITEMS) {
                 QueueFetchResult<T> res = collection.fetch();
+//                System.out.println("这是res====1");
                 if (res != null) {
                     isFetched = true;
                     try {
@@ -60,8 +61,9 @@ public class QueueDispatcher<T> implements QueueCollectionListener {
                     break;
                 }
                 iterations++;
+//                System.out.println("这是res====2");
             }
-
+//            System.out.println("这是res====3");
             synchronized (LOCK) {
                 if (isFetched || isInvalidated) {
                     dispatcher.dispatchNow(checker);

@@ -50,7 +50,7 @@ public class PresenceActor extends ModuleActor implements BusSubscriber {
 
     private static final int ONLINE_TIMEOUT = 5 * 60 * 1000;
 
-    // private static final String TAG = "PresenceActor";
+     private static final String TAG = "PresenceActor";
 
     private HashMap<Integer, Long> lastUidState = new HashMap<>();
     private HashMap<Integer, Long> lastGidState = new HashMap<>();
@@ -75,13 +75,13 @@ public class PresenceActor extends ModuleActor implements BusSubscriber {
 
     @Verified
     private void onUserOnline(int uid, long updateDate) {
-        // Log.d(TAG, "onUserOnline  #" + uid + " at " + updateDate);
+        Log.d(TAG, "onUserOnline  #" + uid + " at " + updateDate);
         if (lastUidState.containsKey(uid) && lastUidState.get(uid) >= updateDate) {
-            // Log.d(TAG, "onUserOnline:ignored - too old");
+            Log.d(TAG, "onUserOnline:ignored - too old");
             return;
         }
         lastUidState.put(uid, updateDate);
-        // Log.d(TAG, "onUserOnline:updated");
+        Log.d(TAG, "onUserOnline:updated");
 
         UserVM vm = getUserVM(uid);
         if (vm != null) {
@@ -98,13 +98,13 @@ public class PresenceActor extends ModuleActor implements BusSubscriber {
 
     @Verified
     private void onUserOffline(int uid, long updateDate) {
-        // Log.d(TAG, "onUserOffline  #" + uid + " at " + updateDate);
+        Log.d(TAG, "onUserOffline  #" + uid + " at " + updateDate);
         if (lastUidState.containsKey(uid) && lastUidState.get(uid) >= updateDate) {
-            // Log.d(TAG, "onUserOffline:ignored - too old");
+            Log.d(TAG, "onUserOffline:ignored - too old");
             return;
         }
         lastUidState.put(uid, updateDate);
-        // Log.d(TAG, "onUserOffline:updated");
+        Log.d(TAG, "onUserOffline:updated");
 
         UserVM vm = getUserVM(uid);
         if (vm != null) {
@@ -119,13 +119,13 @@ public class PresenceActor extends ModuleActor implements BusSubscriber {
 
     @Verified
     private void onUserLastSeen(int uid, int date, long updateDate) {
-        // Log.d(TAG, "onUserLastSeen  #" + uid + " at " + date + " at " + updateDate);
+        Log.d(TAG, "onUserLastSeen  #" + uid + " at " + date + " at " + updateDate);
         if (lastUidState.containsKey(uid) && lastUidState.get(uid) >= updateDate) {
-            // Log.d(TAG, "onUserLastSeen:ignored - too old");
+            Log.d(TAG, "onUserLastSeen:ignored - too old");
             return;
         }
         lastUidState.put(uid, updateDate);
-        // Log.d(TAG, "onUserLastSeen:updated");
+        Log.d(TAG, "onUserLastSeen:updated");
 
         UserVM vm = getUserVM(uid);
         if (vm != null) {
@@ -139,13 +139,13 @@ public class PresenceActor extends ModuleActor implements BusSubscriber {
     }
 
     private void onUserGoesOffline(int uid, int date, long updateDate) {
-        // Log.d(TAG, "onUserGoesOffline  #" + uid + " at " + date + " at " + updateDate);
+        Log.d(TAG, "onUserGoesOffline  #" + uid + " at " + date + " at " + updateDate);
         if (lastUidState.containsKey(uid) && lastUidState.get(uid) >= updateDate) {
-            // Log.d(TAG, "onUserGoesOffline:ignored - too old");
+            Log.d(TAG, "onUserGoesOffline:ignored - too old");
             return;
         }
         lastUidState.put(uid, updateDate);
-        // Log.d(TAG, "onUserGoesOffline:updated");
+        Log.d(TAG, "onUserGoesOffline:updated");
 
         UserVM vm = getUserVM(uid);
         if (vm != null) {
@@ -160,13 +160,13 @@ public class PresenceActor extends ModuleActor implements BusSubscriber {
 
     @Verified
     private void onGroupOnline(int gid, int count, long updateDate) {
-        // Log.d(TAG, "onGroupOnline  #" + gid + " " + count + " at " + updateDate);
+        Log.d(TAG, "onGroupOnline  #" + gid + " " + count + " at " + updateDate);
         if (lastGidState.containsKey(gid) && lastGidState.get(gid) >= updateDate) {
-            // Log.d(TAG, "onGroupOnline:ignored - too old");
+            Log.d(TAG, "onGroupOnline:ignored - too old");
             return;
         }
         lastGidState.put(gid, updateDate);
-        // Log.d(TAG, "onGroupOnline:updated");
+        Log.d(TAG, "onGroupOnline:updated");
 
         GroupVM vm = getGroupVM(gid);
         if (vm != null) {
@@ -177,7 +177,7 @@ public class PresenceActor extends ModuleActor implements BusSubscriber {
     @Verified
     private void subscribe(Peer peer) {
 
-        // Log.d(TAG, "subscribe:" + peer);
+        Log.d(TAG, "subscribe:" + peer);
 
         if (peer.getPeerType() == PeerType.PRIVATE) {
 

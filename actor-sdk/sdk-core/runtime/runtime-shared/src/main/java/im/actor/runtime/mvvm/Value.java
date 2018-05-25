@@ -89,7 +89,16 @@ public abstract class Value<T> {
      * @param value new value
      */
     protected void notify(final T value) {
-        im.actor.runtime.Runtime.postToMainThread(() -> notifyInMainThread(value));
+        System.out.println("EventBus开始1");
+        // im.actor.runtime.Runtime.postToMainThread(() -> notifyInMainThread(value));
+        im.actor.runtime.Runtime.postToMainThread(() -> {
+            System.out.println("EventBus开始");
+            for (ValueChangedListener<T> listener : listeners) {
+                listener.onChanged(value, Value.this);
+            }
+            System.out.println("EventBus结束");
+        });
+        System.out.println("EventBus结束1");
     }
 
     /**
@@ -99,8 +108,10 @@ public abstract class Value<T> {
      * @param value new value
      */
     protected void notifyInMainThread(final T value) {
+        System.out.println("EventBus开始");
         for (ValueChangedListener<T> listener : listeners) {
             listener.onChanged(value, Value.this);
         }
+         System.out.println("EventBus结束");
     }
 }

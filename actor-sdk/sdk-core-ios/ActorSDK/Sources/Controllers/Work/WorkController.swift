@@ -19,10 +19,11 @@ class WorkController: AAViewController,WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let topHeight:CGFloat = CGFloat(UIApplication.shared.statusBarFrame.size.height+self.navigationController!.navigationBar.frame.size.height)//状态栏+导航栏高度
+        let statusHeight:CGFloat = UIApplication.shared.statusBarFrame.size.height
+//        let topHeight:CGFloat = CGFloat(UIApplication.shared.statusBarFrame.size.height+self.navigationController!.navigationBar.frame.size.height)//状态栏+导航栏高度
         let tabHeight:CGFloat = CGFloat((self.tabBarController?.tabBar.frame.size.height)!)//tabbar高度
         
-        wkWebView.frame = CGRect(x:0,y:topHeight,width:view.frame.size.width,height:view.frame.size.height-topHeight-tabHeight)
+        wkWebView.frame = CGRect(x:0,y:statusHeight,width:view.frame.size.width,height:view.frame.size.height-statusHeight-tabHeight)
         view.addSubview(wkWebView)
         
         let htmlPath = "http://127.0.0.1:8086/m/main"
@@ -31,18 +32,18 @@ class WorkController: AAViewController,WKNavigationDelegate {
         let net = NetManager()
         let user:String = UserDefaults.standard.string(forKey: "zh")!
         
-        net.reqeust(url: "http://192.168.1.182:8080/rest/phone/JcYhglManage/login", paramaters: ["zh":("ealgesoft_zaq1xsw2_cft6vgy7_"+user).md5()], method: .POST) { (res) in
-            if res != nil {
-                let dic = res as! NSDictionary
-                print(dic)
-                if dic["statusCode"] as! Int == 2 {
-                    self.createWebview(dic: dic)
-                }
-                else {
-                    self.textMBProgress(text: dic["errorReason"] as! String)
-                }//http://192.168.1.182:8080
-            }
-        }
+//        net.reqeust(url: "http://192.168.1.182:8080/rest/phone/JcYhglManage/login", paramaters: ["zh":("ealgesoft_zaq1xsw2_cft6vgy7_"+user).md5()], method: .POST) { (res) in
+//            if res != nil {
+//                let dic = res as! NSDictionary
+//                print(dic)
+//                if dic["statusCode"] as! Int == 2 {
+//                    self.createWebview(dic: dic)
+//                }
+//                else {
+//                    self.textMBProgress(text: dic["errorReason"] as! String)
+//                }//http://192.168.1.182:8080
+//            }
+//        }
     }
     
     func createWebview(dic:NSDictionary) {
@@ -58,6 +59,24 @@ class WorkController: AAViewController,WKNavigationDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        let statusBarWindow : UIView = UIApplication.shared.value(forKey: "statusBarWindow") as! UIView
+        let statusBar : UIView = statusBarWindow.value(forKey: "statusBar") as! UIView
+        if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
+            statusBar.backgroundColor = UIColor(red: 60/255.0, green: 95/255.0, blue: 150/255.0, alpha: 1.0)
+        }
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let statusBarWindow : UIView = UIApplication.shared.value(forKey: "statusBarWindow") as! UIView
+        let statusBar : UIView = statusBarWindow.value(forKey: "statusBar") as! UIView
+        if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
+            statusBar.backgroundColor = UIColor.white
+        }
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     public override init() {

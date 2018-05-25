@@ -385,6 +385,7 @@ import ReachabilitySwift
                 controller = tab
             }
         }
+        log("loggedIn+++++++五等奖")
         bindedToWindow.rootViewController = controller!
     }
     
@@ -498,7 +499,7 @@ import ReachabilitySwift
             // Work
             ////////////////////////////////////
             
-//            mainNavigations.append(AANavigationController(rootViewController:WorkController()))
+            mainNavigations.append(AANavigationController(rootViewController:WorkController()))
             
             ////////////////////////////////////
             // Settings
@@ -565,11 +566,12 @@ import ReachabilitySwift
         
         if !style.statusBarConnectingHidden {
             
-//            JDStatusBarNotification.setDefaultStyle { (style) -> JDStatusBarStyle! in
-//                style?.barColor = self.style.statusBarConnectingBgColor
-//                style?.textColor = self.style.statusBarConnectingTextColor
-//                return style
-//            }
+            JDStatusBarNotification.setDefaultStyle { (style) -> JDStatusBarStyle! in
+                style?.progressBarPosition = .navBar
+                style?.barColor = self.style.statusBarConnectingBgColor
+                style?.textColor = self.style.statusBarConnectingTextColor
+                return style
+            }
             
             dispatchOnUi { () -> Void in
                 self.binder.bind(self.messenger.getGlobalState().isSyncing, valueModel2: self.messenger.getGlobalState().isConnecting) {
@@ -578,14 +580,11 @@ import ReachabilitySwift
                     if isSyncing!.booleanValue() || isConnecting!.booleanValue() {
                         if isConnecting!.booleanValue() {
 //                            JDStatusBarNotification.show(withStatus: AALocalized("StatusConnecting"))
-                            WaitMBProgress().status(text: AALocalized("StatusConnecting"))
                         } else {
 //                            JDStatusBarNotification.show(withStatus: AALocalized("StatusSyncing"))
-                            WaitMBProgress().status(text: AALocalized("StatusSyncing"))
                         }
                     } else {
 //                        JDStatusBarNotification.dismiss()
-                        WaitMBProgress().hide()
                     }
                 }
             }

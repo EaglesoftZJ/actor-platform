@@ -29,6 +29,7 @@ public class ValueModel<T> extends Value<T> {
      */
     @ObjectiveCName("changeWithValue:")
     public boolean change(@Nullable T value) {
+        System.out.println("EventBus这是value"+value+"===="+this.value);
         if (this.value != null && value != null && value.equals(this.value)) {
             return false;
         }
