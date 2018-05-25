@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 
 import im.actor.core.Messenger;
-import im.actor.core.pinyin.ChineseCharToEnUtil;
 import im.actor.core.pinyin.HanziToPinyin;
 import im.actor.runtime.bser.BserCreator;
 import im.actor.runtime.bser.BserObject;

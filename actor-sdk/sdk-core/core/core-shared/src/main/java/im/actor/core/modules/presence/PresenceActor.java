@@ -75,13 +75,13 @@ public class PresenceActor extends ModuleActor implements BusSubscriber {
 
     @Verified
     private void onUserOnline(int uid, long updateDate) {
-        Log.d(TAG, "onUserOnline  #" + uid + " at " + updateDate);
+         Log.d(TAG, "onUserOnline  #" + uid + " at " + updateDate);
         if (lastUidState.containsKey(uid) && lastUidState.get(uid) >= updateDate) {
-            Log.d(TAG, "onUserOnline:ignored - too old");
+             Log.d(TAG, "onUserOnline:ignored - too old");
             return;
         }
         lastUidState.put(uid, updateDate);
-        Log.d(TAG, "onUserOnline:updated");
+         Log.d(TAG, "onUserOnline:updated");
 
         UserVM vm = getUserVM(uid);
         if (vm != null) {

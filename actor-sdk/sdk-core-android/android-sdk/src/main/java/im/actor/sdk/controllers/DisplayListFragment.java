@@ -226,17 +226,6 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
                                     bundle.putString("xm", xm);
                                     message.setData(bundle);
                                     resultHandler.sendMessage(message);
-//                                            execute(messenger().editName(contact.getUid(), xm), R.string.edit_name_process, new CommandCallback<Boolean>() {
-//                                                @Override
-//                                                public void onResult(Boolean res) {
-//                                                    Toast.makeText(getActivity(),"修改成功",Toast.LENGTH_SHORT).show();
-//                                                }
-//
-//                                                @Override
-//                                                public void onError(Exception e) {
-//                                                    Toast.makeText(getActivity(), R.string.toast_unable_change, Toast.LENGTH_SHORT).show();
-//                                                }
-//                                            });
                                     break;
                                 }
                             }
