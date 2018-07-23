@@ -64,15 +64,15 @@ class AAUserViewController: AAContentTableController {
                 }
             }
             
-            if (ActorSDK.sharedActor().enableCalls && !self.isBot) {
-                // Profile: Starting Voice Call
-                _ = s.action("CallsStartAudio") { (r) -> () in
-                    r.selectAction = { () -> Bool in
-                        self.execute(Actor.doCall(withUid: jint(self.uid)))
-                        return false
-                    }
-                }
-            }
+//            if (ActorSDK.sharedActor().enableCalls && !self.isBot) {
+//                // Profile: Starting Voice Call
+//                _ = s.action("CallsStartAudio") { (r) -> () in
+//                    r.selectAction = { () -> Bool in
+//                        self.execute(Actor.doCall(withUid: jint(self.uid)))
+//                        return false
+//                    }
+//                }
+//            }
             
             // Profile: Send messages
             _ = s.action("ProfileSendMessage") { (r) -> () in

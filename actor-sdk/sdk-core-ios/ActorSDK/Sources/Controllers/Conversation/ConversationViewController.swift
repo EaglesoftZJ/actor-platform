@@ -615,19 +615,40 @@ open class ConversationViewController:
             let personInfo:Array<NSDictionary> = dict["yh_data"] as! Array<NSDictionary>
             for dic in personInfo {
                 if Int(dic["IGIMID"] as! String) == Int(self.peer.peerId) {
+                    var arr:[String] = [];
                     let sjh = dic["sjh"] as! String
-                    if sjh.length == 11 && isPurnInt(string: sjh){
-                        let tel = "tel://\(sjh)"
-                        if #available(iOS 10, *) {
-                            UIApplication.shared.open(URL(string:tel)!, options: [:], completionHandler: { (success) in
-                                
-                            })
-                        }
-                        else {
-                            UIApplication.shared.openURL(URL(string:tel)!)
-                        }
-                        break
+                    let dh = dic["dh"] as! String
+                    if (sjh.length == 11) {
+                        arr.append(sjh)
                     }
+                    if (dh.length != 0) {
+                        arr.append(dh)
+                    }
+                    self.showActionSheet(arr,
+                         cancelButton: "AlertCancel",
+                         destructButton: nil,
+                         sourceView: self.view,
+                         sourceRect: self.view.bounds,
+                         tapClosure: { (index) -> () in
+                            var telNumber = ""
+                            if index == 0 {
+                                telNumber = sjh
+                            } else if index == 1 {
+                                telNumber = dh
+                            }
+                            if (index != -1) {
+                                let tel = "tel://\(telNumber)"
+                                if #available(iOS 10, *) {
+                                    UIApplication.shared.open(URL(string:tel)!, options: [:], completionHandler: { (success) in
+                                        
+                                    })
+                                }
+                                else {
+                                    UIApplication.shared.openURL(URL(string:tel)!)
+                                }
+                            }
+                    })
+                    break
                 }
             }
         }
