@@ -153,7 +153,7 @@ public class MainMoaFragment extends BaseFragment implements BridgeInterface {
             }
         });
 
-        webViewNR.loadUrl("http://192.168.2.136:8082/m/main");
+        webViewNR.loadUrl("http://192.168.2.136:8086/m/main");
         return view;
     }
 

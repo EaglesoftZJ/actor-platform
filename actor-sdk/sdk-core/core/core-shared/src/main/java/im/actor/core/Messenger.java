@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import im.actor.core.api.ApiJsonMessage;
 import im.actor.core.api.ApiRawValue;
 import im.actor.core.api.ApiSex;
 import im.actor.core.api.ApiAuthSession;
@@ -38,6 +39,7 @@ import im.actor.core.entity.content.AbsContent;
 import im.actor.core.entity.content.FastThumb;
 import im.actor.core.entity.content.JsonContent;
 import im.actor.core.entity.Sticker;
+import im.actor.core.entity.content.internal.ContentRemoteContainer;
 import im.actor.core.events.PeerChatPreload;
 import im.actor.core.i18n.I18nEngine;
 import im.actor.core.modules.ModuleContext;
@@ -992,6 +994,19 @@ public class Messenger {
     @ObjectiveCName("sendCustomJsonMessageWithPeer:withJson:")
     public void sendCustomJsonMessage(@NotNull Peer peer, @NotNull JsonContent content) {
         modules.getMessagesModule().sendJson(peer, content);
+    }
+
+
+    /**
+     * Send json message
+     *
+     * @param peer    destination peer
+     * @param content string content
+     */
+    @ObjectiveCName("sendCustomStringMessagePeer:withContent:")
+    public void sendCustomStringMessage(@NotNull Peer peer, @NotNull String content) {
+        ContentRemoteContainer container = new ContentRemoteContainer(new ApiJsonMessage(content));
+        modules.getMessagesModule().sendJson(peer, new JsonContent(container));
     }
 
     /**
@@ -2857,7 +2872,6 @@ public class Messenger {
     ModuleContext getModuleContext() {
         return modules;
     }
-
 
 
 }

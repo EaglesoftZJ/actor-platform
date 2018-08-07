@@ -11,6 +11,11 @@ version = '0.0.1'
 
 def baseVersion = "1.0"
 android {
+    packagingOptions {
+        exclude 'lib/mips64/*.so'
+        exclude 'lib/mips/*.so'
+    }
+
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
 

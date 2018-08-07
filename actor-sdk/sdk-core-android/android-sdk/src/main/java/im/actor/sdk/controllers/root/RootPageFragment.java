@@ -51,12 +51,13 @@ import im.actor.sdk.controllers.settings.BaseActorSettingsActivity;
 import im.actor.sdk.controllers.settings.BaseActorSettingsFragment;
 import im.actor.sdk.intents.ActorIntent;
 import im.actor.sdk.intents.WebServiceUtil;
+import im.actor.sdk.view.ActorViewPager;
 import im.actor.sdk.view.PagerSlidingTabStrip;
 import im.actor.sdk.view.adapters.FragmentNoMenuStatePagerAdapter;
 
 public class RootPageFragment extends BaseFragment {
 
-    ViewPager pager;
+    ActorViewPager pager;
     int pageSize = 3;
     private HomePagerAdapter homePagerAdapter;
 
@@ -100,7 +101,8 @@ public class RootPageFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_root_page, container, false);
-        pager = (ViewPager) view.findViewById(R.id.vp_pager);
+        pager = (ActorViewPager) view.findViewById(R.id.vp_pager);
+        pager.setScanScroll(false);//禁止滑动
         pager.setOffscreenPageLimit(pageSize);
         homePagerAdapter = getHomePagerAdapter();
         pager.setAdapter(homePagerAdapter);

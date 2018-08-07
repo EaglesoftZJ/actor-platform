@@ -16,8 +16,11 @@ import com.google.gwt.user.client.Event;
 import im.actor.core.*;
 import im.actor.core.api.ApiAuthSession;
 import im.actor.core.api.ApiDialog;
+import im.actor.core.api.ApiJsonMessage;
 import im.actor.core.api.rpc.ResponseLoadArchived;
 import im.actor.core.entity.*;
+import im.actor.core.entity.content.JsonContent;
+import im.actor.core.entity.content.internal.ContentRemoteContainer;
 import im.actor.core.js.annotations.UsedByApp;
 import im.actor.core.js.entity.*;
 import im.actor.core.js.modules.JsBindedValue;
@@ -154,13 +157,13 @@ public class JsFacade implements Exportable {
     }
 
     @UsedByApp
-    public void subscribe(String topic, JsElectronListener listener){
+    public void subscribe(String topic, JsElectronListener listener) {
         messenger.subscribe(topic, listener);
 
     }
 
     @UsedByApp
-    public void listenOnRender(String topic, JavaScriptObject func){
+    public void listenOnRender(String topic, JavaScriptObject func) {
         messenger.listenOnRender(topic, func);
 
     }
@@ -1241,7 +1244,6 @@ public class JsFacade implements Exportable {
     }
 
 
-
     private JsArray<JsMessageSearchEntity> convertSearchRes(List<MessageSearchEntity> res) {
         JsArray<JsMessageSearchEntity> jsRes = JsArray.createArray().cast();
         for (MessageSearchEntity e : res) {
@@ -1287,7 +1289,6 @@ public class JsFacade implements Exportable {
 //            }
 //        });
 //    }
-
 
 
     @UsedByApp
@@ -1365,14 +1366,13 @@ public class JsFacade implements Exportable {
     public JsPromise loadMembers(final int gid, final int limit, final JsArrayInteger nextArray) {
 
 
-
         return JsPromise.create(new JsPromiseExecutor() {
             @Override
             public void execute() {
                 byte[] next = null;
 
                 if (nextArray != null && nextArray.length() == 2) {
-                    next = new byte[] {(byte)nextArray.get(0), (byte)nextArray.get(1)};
+                    next = new byte[]{(byte) nextArray.get(0), (byte) nextArray.get(1)};
                 }
 
                 //noinspection ConstantConditions
@@ -1381,8 +1381,6 @@ public class JsFacade implements Exportable {
                         .failure(e -> reject(e.getMessage()));
             }
         });
-
-
 
 
     }
@@ -1662,7 +1660,6 @@ public class JsFacade implements Exportable {
     }
 
 
-
     @UsedByApp
     public JsPromise removeContact(final int uid) {
         return JsPromise.create(new JsPromiseExecutor() {
@@ -1883,4 +1880,14 @@ public class JsFacade implements Exportable {
             }
         });
     }
+
+
+    @UsedByApp
+    public void sendJson(JsPeer jsPeer, JSONObject json,final JsAuthSuccessClosure success,
+                         final JsAuthErrorClosure error) {
+        ContentRemoteContainer container = new ContentRemoteContainer(new ApiJsonMessage(json.toString()));
+        messenger.sendCustomJsonMessage(jsPeer.convert(), new JsonContent(container));
+    }
+
+
 }
