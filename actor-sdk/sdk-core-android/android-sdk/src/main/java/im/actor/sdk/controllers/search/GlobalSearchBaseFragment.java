@@ -366,4 +366,10 @@ public abstract class GlobalSearchBaseFragment extends BaseFragment {
 
 
     protected abstract void onPeerPicked(Peer peer);
+
+    @Override
+    public boolean onBackPressed() {
+        hideSearch();
+        return true;
+    }
 }
