@@ -206,6 +206,7 @@ open class AABubbleCell: UICollectionViewCell {
     {
         if tap.state == .began
         {
+            print(bindedMessage?.date, bindedMessage?.sortDate)
             self.becomeFirstResponder()
             let menuController = UIMenuController.shared
             let sendMenu = UIMenuItem(title:"转发",action:#selector(send))
@@ -216,6 +217,9 @@ open class AABubbleCell: UICollectionViewCell {
             else {
                 menuController.menuItems = [sendMenu]
             }
+            if self.isOut {
+                menuController.menuItems?.append(UIMenuItem(title:"撤回",action:#selector(revoke)))
+            }
             menuController.setTargetRect(bubble.frame, in: bubble)
             menuController.setMenuVisible(true, animated: true)
         }
@@ -225,7 +229,7 @@ open class AABubbleCell: UICollectionViewCell {
         return true
     }
     override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if [#selector(copyText), #selector(send)].contains(action) {
+        if [#selector(copyText), #selector(send), #selector(revoke)].contains(action) {
             return true
         }
         return false
@@ -236,6 +240,18 @@ open class AABubbleCell: UICollectionViewCell {
             UIPasteboard.general.string = (bindedMessage!.content as! ACTextContent).text
         }
     }
+    
+    func revoke() {
+        let currentTime = Date().timeIntervalSince1970
+        let sendTime = TimeInterval((bindedMessage?.date)!/1000)
+        let reduceTime:TimeInterval = currentTime - sendTime
+        if reduceTime < 120 {
+            
+        } else {
+            getSuperController().alertUser("超过2分钟无法撤回")
+        }
+    }
+    
     func send(){
         //self.bindedMessage?.content
         let sendController = SendController()

@@ -413,7 +413,6 @@
 				06FC5E741BAB2DCC0071F153 /* Configure Crashlytics */,
 				06230F0D1BC7FF3500A4807B /* Embed Frameworks */,
 				AAA022A9BD9362E00B0F9BDE /* [CP] Embed Pods Frameworks */,
-				EFFD470B63C1BB419D199F19 /* [CP] Copy Pods Resources */,
 				851EE1A34619AE6677649A27 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -817,21 +816,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ActorApp/Pods-ActorApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EFFD470B63C1BB419D199F19 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ActorApp/Pods-ActorApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

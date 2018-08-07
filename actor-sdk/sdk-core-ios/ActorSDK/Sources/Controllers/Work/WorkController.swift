@@ -32,7 +32,7 @@ class WorkController: AAViewController,WKNavigationDelegate {
         let net = NetManager()
         let user:String = UserDefaults.standard.string(forKey: "zh")!
         
-//        net.reqeust(url: "http://192.168.1.182:8080/rest/phone/JcYhglManage/login", paramaters: ["zh":("ealgesoft_zaq1xsw2_cft6vgy7_"+user).md5()], method: .POST) { (res) in
+//        net.reqeust(url: "http://192.168.1.182:8080"/rest/phone/JcYhglManage/login"", paramaters: ["zh":("ealgesoft_zaq1xsw2_cft6vgy7_"+user).md5()], method: .POST) { (res) in
 //            if res != nil {
 //                let dic = res as! NSDictionary
 //                print(dic)

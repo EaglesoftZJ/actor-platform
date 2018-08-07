@@ -258,15 +258,13 @@ import ReachabilitySwift
         
         // Locale
         for lang in Locale.preferredLanguages {
-            log("Found locale :\(lang)")
             builder.addPreferredLanguage(lang)
         }
         
         // TimeZone
         let timeZone = TimeZone.current.identifier
-        log("Found time zone :\(timeZone)")
         builder.setTimeZone(timeZone)
-        log("time zone没卡住")
+        
         // AutoJoin
         for s in autoJoinGroups {
             builder.addAutoJoinGroup(withToken: s)
@@ -276,28 +274,28 @@ import ReachabilitySwift
         } else {
             builder.setAutoJoinType(ACAutoJoinType.immediately())
         }
-        log("AutoJoin没卡住")
+        
         // Logs
         // builder.setEnableFilesLogging(true)
         
         // Application name
         builder.setCustomAppName(appName)
-        log("Application name没卡住")
+        
         // Config
         builder.setPhoneBookImportEnabled(jboolean(enablePhoneBookImport))
         builder.setVoiceCallsEnabled(jboolean(enableCalls))
         builder.setVideoCallsEnabled(jboolean(enableCalls))
         builder.setIsEnabledGroupedChatList(false)
         // builder.setEnableFilesLogging(true)
-        log("Config没卡住")
+        
         // Creating messenger
         messenger = ACCocoaMessenger(configuration: builder.build())
-        log("Creating messenger没卡住")
+       
         // Configure bubbles
         AABubbles.layouters = delegate.actorConfigureBubbleLayouters(AABubbles.builtInLayouters)
-        log("Configure bubbles没卡住")
+        
         checkAppState()
-        log("checkAppState没卡住")
+        
         // Bind Messenger LifeCycle
         
         binder.bind(messenger.getGlobalState().isSyncing, closure: { (value: JavaLangBoolean?) -> () in
@@ -318,7 +316,7 @@ import ReachabilitySwift
                 }
             }
         })
-        log("Bind Messenger LifeCycle没卡住")
+        
         // Bind badge counter
         
         binder.bind(Actor.getGlobalState().globalCounter, closure: { (value: JavaLangInteger?) -> () in
@@ -328,13 +326,13 @@ import ReachabilitySwift
                 UIApplication.shared.applicationIconBadgeNumber = 0
             }
         })
-        log("Bind badge counter没卡住")
+        
         // Push registration
         
         if autoPushMode == .fromStart {
             requestPush()
         }
-        log("Push registration没卡住")
+        
         // Subscribe to network changes
         
         reachability = Reachability()!
@@ -351,7 +349,7 @@ import ReachabilitySwift
         } else {
             print("Unable to create Reachability")
         }
-        log("Subscribe to network changes没卡住")
+        
     }
     
     func didLoggedIn() {
@@ -385,7 +383,7 @@ import ReachabilitySwift
                 controller = tab
             }
         }
-        log("loggedIn+++++++五等奖")
+        
         bindedToWindow.rootViewController = controller!
     }
     
