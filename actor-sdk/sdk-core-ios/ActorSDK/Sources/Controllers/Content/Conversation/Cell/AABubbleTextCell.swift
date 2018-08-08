@@ -239,9 +239,22 @@ open class AABubbleTextCell : AABubbleCell {
         let textSize = self.cellLayout.textLayout.textBoundingSize
         let bubbleWidth = round(self.cellLayout.bubbleSize.width)
         let bubbleHeight = round(self.cellLayout.bubbleSize.height)
-        
+//        var textSize:CGSize
+//        var bubbleWidth:CGFloat
+//        var bubbleHeight:CGFloat
+//        if (self.cellLayout == nil) {
+//            textSize = CGSize(width: 0, height: 0)
+//            bubbleWidth = 0
+//            bubbleHeight = 0
+//        } else {
+//            textSize = self.cellLayout.textLayout.textBoundingSize
+//            bubbleWidth = round(self.cellLayout.bubbleSize.width)
+//            bubbleHeight = round(self.cellLayout.bubbleSize.height)
+//        }
         self.messageText.frame = CGRect(x: 0, y: 0, width: textSize.width, height: textSize.height)
-
+            
+        
+        
         // Layout elements
         if (self.isOut) {
             self.messageText.frame.origin = CGPoint(x: contentWidth - bubbleWidth - insets.right, y: insets.top /*+ topPadding*/)
@@ -257,8 +270,9 @@ open class AABubbleTextCell : AABubbleCell {
         if self.isGroup && !self.isOut {
             self.senderNameLabel.frame = CGRect(x: insets.left, y: insets.top - 18, width: contentWidth, height: 20)
         }
-
+        
         layoutBubble(bubbleWidth, contentHeight: bubbleHeight)
+//        }
     }
 }
 
@@ -460,6 +474,8 @@ open class TextCellLayout: AACellLayout {
     public convenience init(message: ACMessage, peer: ACPeer, layouter: AABubbleLayouter) {
         let style = ActorSDK.sharedActor().style
         
+        let content = message.content as? ACTextContent
+        
         if let content = message.content as? ACTextContent {
             
             // Creating generic layout
@@ -476,8 +492,9 @@ open class TextCellLayout: AACellLayout {
         } else {
             
             // Creating unsupported layout
-            let unsupportedText = AALocalized("UnsupportedContent")
-            
+//            let unsupportedText = AALocalized("UnsupportedContent")
+            let unsupportedText = "撤回一条消息"
+                
             self.init(
                 senderId: Int(message.senderId),
                 formattedText: "_\(unsupportedText)_",
