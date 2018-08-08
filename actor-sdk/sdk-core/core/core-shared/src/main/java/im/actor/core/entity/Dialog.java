@@ -88,6 +88,9 @@ public class Dialog extends BserObject implements ListEngineItem {
     @Property("readonly, nonatomic")
     private int relatedUid;
 
+    @Property("readonly, nonatomic")
+    private String allText;
+
 
     public Dialog(@NotNull Peer peer,
                   long sortKey,
@@ -99,13 +102,14 @@ public class Dialog extends BserObject implements ListEngineItem {
                   long rid,
                   @NotNull ContentType messageType,
                   @NotNull String text,
+                  String allText,
                   int senderId,
                   long date,
                   int relatedUid,
                   @Nullable
-                  Long knownReadDate,
+                          Long knownReadDate,
                   @Nullable
-                  Long knownReceiveDate) {
+                          Long knownReceiveDate) {
         this.peer = peer;
         this.dialogTitle = StringUtil.ellipsize(dialogTitle, MAX_LENGTH);
         this.dialogAvatar = dialogAvatar;
@@ -117,7 +121,9 @@ public class Dialog extends BserObject implements ListEngineItem {
         this.senderId = senderId;
         this.date = date;
         this.messageType = messageType;
+        this.allText = allText;
         this.text = StringUtil.ellipsize(text, MAX_LENGTH);
+
         this.relatedUid = relatedUid;
         this.knownReadDate = knownReadDate;
         this.knownReceiveDate = knownReceiveDate;
@@ -180,6 +186,11 @@ public class Dialog extends BserObject implements ListEngineItem {
         return text;
     }
 
+    @NotNull
+    public String getAllText() {
+        return allText;
+    }
+
     public int getRelatedUid() {
         return relatedUid;
     }
@@ -205,7 +216,7 @@ public class Dialog extends BserObject implements ListEngineItem {
 
     public Dialog editPeerInfo(String title, Avatar dialogAvatar) {
         return new Dialog(peer, sortDate, StringUtil.ellipsize(title, MAX_LENGTH), dialogAvatar,
-                isBot, isChannel, unreadCount, rid, messageType, text, senderId, date, relatedUid,
+                isBot, isChannel, unreadCount, rid, messageType, text, allText, senderId, date, relatedUid,
                 knownReadDate, knownReceiveDate);
     }
 
@@ -229,11 +240,16 @@ public class Dialog extends BserObject implements ListEngineItem {
         date = values.getLong(8);
         messageType = ContentType.fromValue(values.getInt(9));
         text = StringUtil.ellipsize(values.getString(10), MAX_LENGTH);
-
         relatedUid = values.getInt(12);
 
         knownReceiveDate = values.optLong(13);
         knownReadDate = values.optLong(14);
+        try {
+            allText = values.getString(17);
+        } catch (Exception e) {
+            allText = "";
+        }
+
     }
 
     @Override
@@ -260,6 +276,12 @@ public class Dialog extends BserObject implements ListEngineItem {
         if (knownReadDate != null) {
             writer.writeLong(14, knownReadDate);
         }
+        try {
+            writer.writeString(17, allText);
+        }catch (Exception e){
+            writer.writeString(17, "");
+        }
+
     }
 
     @Override
@@ -276,4 +298,6 @@ public class Dialog extends BserObject implements ListEngineItem {
     public String getEngineSearch() {
         return dialogTitle;
     }
+
+
 }

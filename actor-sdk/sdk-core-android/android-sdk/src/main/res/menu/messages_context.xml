@@ -8,6 +8,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/revert"
+        android:icon="@drawable/ic_revert_white_36dp"
+        android:title="@string/messages_action_revert"/>
+
+    <item
         android:id="@+id/forward"
         android:icon="@drawable/ic_forward_white_36dp"
         android:title="@string/messages_action_forward" />
@@ -30,6 +35,10 @@
     <item
         android:id="@+id/like"
         android:icon="@drawable/ic_favorite_white_36dp"
-        android:title="@string/messages_action_like" />
+        android:title="@string/messages_action_like"
+        android:visible="false"/>
+
+
+
 
 </menu>

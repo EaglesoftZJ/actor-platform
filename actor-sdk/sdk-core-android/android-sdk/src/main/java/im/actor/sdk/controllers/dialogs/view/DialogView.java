@@ -35,6 +35,7 @@ import im.actor.core.entity.Dialog;
 import im.actor.core.entity.PeerType;
 import im.actor.core.viewmodel.FileCallback;
 import im.actor.runtime.files.FileSystemReference;
+import im.actor.runtime.json.JSONObject;
 import im.actor.runtime.mvvm.ValueChangedListener;
 import im.actor.runtime.mvvm.ValueModel;
 import im.actor.sdk.ActorSDK;
@@ -47,6 +48,7 @@ import im.actor.sdk.view.TintDrawable;
 import im.actor.sdk.view.emoji.SmileProcessor;
 
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
+import static im.actor.sdk.util.ActorSDKMessenger.myUid;
 import static im.actor.sdk.view.emoji.SmileProcessor.emoji;
 
 public class DialogView extends ListItemBackgroundView<Dialog, DialogView.DialogLayout> {
@@ -389,9 +391,24 @@ public class DialogView extends ListItemBackgroundView<Dialog, DialogView.Dialog
         }
 
         if (arg.getSenderId() > 0) {
+            String text = arg.getText();
+            try {
+                String allText = arg.getAllText();
+                if (allText != null && allText.length() > 0) {
+                    JSONObject json = new JSONObject(allText);
+                    if ("revert".equals(json.getString("dataType"))) {
+                        JSONObject data = json.getJSONObject("data");
+                        text = data.getString("text");
+                        if (data.getString("uid").equals(myUid()+"")) {
+                            text = "你撤回了一条消息";
+                        }
+                    }
+                }
+            } catch (Exception e) {
 
+            }
             String contentText = messenger().getFormatter().formatContentText(arg.getSenderId(),
-                    arg.getMessageType(), arg.getText().replace("\n", " "), arg.getRelatedUid(),
+                    arg.getMessageType(), text.replace("\n", " "), arg.getRelatedUid(),
                     arg.isChannel());
 
             if (arg.getPeer().getPeerType() == PeerType.GROUP) {

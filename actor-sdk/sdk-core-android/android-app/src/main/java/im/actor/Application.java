@@ -1,5 +1,6 @@
 package im.actor;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -56,6 +57,7 @@ public class Application extends ActorSDKApplication {
     private static final String APP_ID = "2882303761517562000";
     // user your appid the key.
     private static final String APP_KEY = "5731756231000";
+
     @Override
     public void onCreate() {
         MultiDex.install(this);
@@ -92,7 +94,7 @@ public class Application extends ActorSDKApplication {
     public void onTerminate() {
         super.onTerminate();
         int phoneFlag = Utils.isWhatPhone();
-        if(phoneFlag == 1){
+        if (phoneFlag == 1) {
             HMSAgent.destroy();
         }
 
@@ -150,7 +152,7 @@ public class Application extends ActorSDKApplication {
         @Override
         public void configureChatViewHolders(ArrayList<BubbleLayouter> layouters) {
 //            layouters.add(0, new BubbleTextHolderLayouter());
-            layouters.add(0, new DefaultLayouter(DefaultLayouter.TEXT_HOLDER, (adapter2, root2, peer2) -> new TextHolder(adapter2, root2, peer2){
+            layouters.add(0, new DefaultLayouter(DefaultLayouter.TEXT_HOLDER, (adapter2, root2, peer2) -> new TextHolder(adapter2, root2, peer2) {
                 @Override
                 public void bindRawText(CharSequence rawText, long readDate, long receiveDate, Spannable reactions, Message message, boolean isItalic) {
                     super.bindRawText(rawText, readDate, receiveDate, reactions, message, isItalic);
@@ -170,15 +172,31 @@ public class Application extends ActorSDKApplication {
                 @Override
                 protected void bindData(Message message, long readDate, long receiveDate, boolean isUpdated, PreprocessedData preprocessedData) {
                     String jsonString = "can't read json";
+                    long delId = 0;
                     try {
                         JSONObject jsonObject = new JSONObject(((JsonContent) message.getContent()).getRawJson());
                         String dataType = jsonObject.getString("dataType");
                         JSONObject data = jsonObject.getJSONObject("data");
-                        jsonString = dataType + "\n\n";
-                        jsonString += data.toString(3);
+
+                        if (dataType.equals("revert")) {
+                            try {
+                                delId = Long.parseLong(data.getString("rid"));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        jsonString = data.getString("text");
+                        if (delId != 0) {
+                            if (message.getSenderId() == ActorSDK.sharedActor().getMessenger().myUid()) {
+                                jsonString = "你撤回了一条消息";
+                            }
+                            ActorSDK.sharedActor().getMessenger().deleteMessages(peer, new long[]{delId});
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                     bindRawText(jsonString, readDate, receiveDate, reactions, message, false);
                 }
             }));

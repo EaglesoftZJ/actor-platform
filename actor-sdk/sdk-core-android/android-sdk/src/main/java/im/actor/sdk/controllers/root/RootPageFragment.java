@@ -200,7 +200,6 @@ public class RootPageFragment extends BaseFragment {
         public void onClick(View view) {
             pager.setCurrentItem(pagePos);
             pageChange(pagePos, view);
-
         }
     }
 

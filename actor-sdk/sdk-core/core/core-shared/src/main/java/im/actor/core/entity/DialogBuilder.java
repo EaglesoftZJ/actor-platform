@@ -17,6 +17,7 @@ public class DialogBuilder {
     private long rid;
     private ContentType messageType;
     private String text;
+    private String allText;
     private int senderId;
     private long time;
     private int relatedUid = 0;
@@ -38,6 +39,7 @@ public class DialogBuilder {
         rid = dialog.getRid();
         messageType = dialog.getMessageType();
         text = dialog.getText();
+        allText = dialog.getAllText();
         senderId = dialog.getSenderId();
         time = dialog.getDate();
         relatedUid = dialog.getRelatedUid();
@@ -79,6 +81,11 @@ public class DialogBuilder {
 
     public DialogBuilder setText(String text) {
         this.text = text;
+        return this;
+    }
+
+    public DialogBuilder setAllText(String allText) {
+        this.allText = allText;
         return this;
     }
 
@@ -128,6 +135,6 @@ public class DialogBuilder {
 
     public Dialog createDialog() {
         return new Dialog(peer, sortKey, dialogTitle, dialogAvatar, isBot, isChannel, unreadCount,
-                rid, messageType, text, senderId, time, relatedUid, knownReadDate, knownReceiveDate);
+                rid, messageType, text,allText, senderId, time, relatedUid, knownReadDate, knownReceiveDate);
     }
 }

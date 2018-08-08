@@ -35,6 +35,7 @@ import im.actor.runtime.bser.Bser;
 import im.actor.runtime.bser.BserObject;
 import im.actor.runtime.bser.BserValues;
 import im.actor.runtime.bser.BserWriter;
+import im.actor.runtime.json.JSONObject;
 
 
 public class ContentDescription extends BserObject {
@@ -100,7 +101,7 @@ public class ContentDescription extends BserObject {
             return new ContentDescription(ContentType.SERVICE,
                     ((ServiceContent) msg).getCompatText(), 0, false);
         } else if (msg instanceof JsonContent) {
-            return new ContentDescription(ContentType.TEXT, ((JsonContent) msg).getContentDescription());
+            return new ContentDescription(ContentType.TEXT, ((JsonContent) msg).getContentDescription(), ((JsonContent) msg).getRawJson());
         } else {
             return new ContentDescription(ContentType.UNKNOWN_CONTENT);
         }
@@ -110,25 +111,40 @@ public class ContentDescription extends BserObject {
     private ContentType contentType;
     @Property("readonly, nonatomic")
     private String text;
+
+    @Property("readonly, nonatomic")
+    private String allText;
+
     @Property("readonly, nonatomic")
     private int relatedUser;
     @Property("readonly, nonatomic")
     private boolean isSilent;
 
-    public ContentDescription(ContentType contentType, String text, int relatedUser,
+    public ContentDescription(ContentType contentType, String text, String allText, int relatedUser,
                               boolean isSilent) {
         this.contentType = contentType;
         this.text = text;
         this.relatedUser = relatedUser;
         this.isSilent = isSilent;
+        this.allText = allText;
+    }
+
+
+    public ContentDescription(ContentType contentType, String text, int relatedUser,
+                              boolean isSilent) {
+        this(contentType, text, text, relatedUser, isSilent);
     }
 
     public ContentDescription(ContentType contentType, String text) {
-        this(contentType, text, 0, false);
+        this(contentType, text, "", 0, false);
+    }
+
+    public ContentDescription(ContentType contentType, String text, String allText) {
+        this(contentType, text, allText, 0, false);
     }
 
     public ContentDescription(ContentType contentType) {
-        this(contentType, "", 0, false);
+        this(contentType, "", "", 0, false);
     }
 
     private ContentDescription() {
@@ -142,6 +158,11 @@ public class ContentDescription extends BserObject {
     public String getText() {
         return text;
     }
+
+    public String getAllText() {
+        return allText;
+    }
+
 
     public int getRelatedUser() {
         return relatedUser;
@@ -157,6 +178,11 @@ public class ContentDescription extends BserObject {
         text = values.getString(2);
         relatedUser = values.getInt(3);
         isSilent = values.getBool(4);
+        try {
+            allText = values.getString(5);
+        } catch (Exception e) {
+            allText = "";
+        }
     }
 
     @Override
@@ -165,5 +191,11 @@ public class ContentDescription extends BserObject {
         writer.writeString(2, text);
         writer.writeInt(3, relatedUser);
         writer.writeBool(4, isSilent);
+        try {
+            writer.writeString(5, allText);
+        } catch (Exception e) {
+            writer.writeString(5, "");
+        }
+
     }
 }

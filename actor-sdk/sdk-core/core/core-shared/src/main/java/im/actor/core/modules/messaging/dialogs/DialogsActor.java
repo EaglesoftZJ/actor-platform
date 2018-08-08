@@ -86,6 +86,7 @@ public class DialogsActor extends ModuleActor {
                     .setTime(message.getDate())
                     .setMessageType(contentDescription.getContentType())
                     .setText(contentDescription.getText())
+                    .setAllText(contentDescription.getAllText())
                     .setRelatedUid(contentDescription.getRelatedUser())
                     .setSenderId(message.getSenderId())
                     .setDialogTitle(peerDesc.getTitle())

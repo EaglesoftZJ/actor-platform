@@ -13,14 +13,20 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import im.actor.core.api.ApiJsonMessage;
 import im.actor.core.entity.Message;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.content.AbsContent;
+import im.actor.core.entity.content.JsonContent;
 import im.actor.core.entity.content.TextContent;
 import im.actor.core.entity.content.UnsupportedContent;
+import im.actor.core.entity.content.internal.AbsContentContainer;
+import im.actor.core.entity.content.internal.ContentRemoteContainer;
 import im.actor.core.viewmodel.CommandCallback;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.runtime.actors.messages.Void;
+import im.actor.runtime.json.JSONException;
+import im.actor.runtime.json.JSONObject;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.ActorSDKLauncher;
 import im.actor.sdk.R;
@@ -119,17 +125,57 @@ public class MessagesDefaultFragment extends MessagesFragment {
                             break;
                         }
                     }
+                    long date = selected[0].getDate();
+
+                    if (selected.length == 1 && System.currentTimeMillis() - date <= 5 * 1000 * 60
+                            && selected[0].getSenderId() == myUid()) {
+                        menu.findItem(R.id.revert).setVisible(true);
+                        AbsContent abs = selected[0].getContent();
+                        if (abs instanceof JsonContent) {
+                            JsonContent jsonContent = (JsonContent) abs;
+                            try {
+                                JSONObject json = new JSONObject(jsonContent.getRawJson());
+                                if ("revert".equals(json.getString("dataType")))
+                                    menu.findItem(R.id.revert).setVisible(false);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else {
+                        menu.findItem(R.id.revert).setVisible(false);
+                    }
 
                     menu.findItem(R.id.copy).setVisible(isAllText);
                     menu.findItem(R.id.quote).setVisible(isAllText);
                     menu.findItem(R.id.forward).setVisible(selected.length == 1 || isAllText);
-                    menu.findItem(R.id.like).setVisible(selected.length == 1);
+                    menu.findItem(R.id.like).setVisible(false);
+
                     return false;
                 }
 
                 @Override
                 public boolean onActionItemClicked(final ActionMode actionMode, MenuItem menuItem) {
-                    if (menuItem.getItemId() == R.id.delete) {
+                    if (menuItem.getItemId() == R.id.revert) {
+                        Message[] selected = messagesAdapter.getSelected();
+                        if (selected.length == 1) {
+                            messenger().deleteMessages(peer, new long[]{selected[0].getRid()});
+                            JSONObject json = new JSONObject();
+                            try {
+                                JSONObject data = new JSONObject();
+                                data.put("text", "\"" + users().get(myUid()).getName().get() + "\"撤回了一条消息");
+                                data.put("uid", myUid() + "");
+                                data.put("rid", selected[0].getRid() + "");
+                                json.put("data", data);
+                                json.put("dataType", "revert");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            ContentRemoteContainer container = new ContentRemoteContainer(new ApiJsonMessage(json.toString()));
+                            messenger().sendCustomJsonMessage(peer, new JsonContent(container));
+                            actionMode.finish();
+                        }
+
+                    } else if (menuItem.getItemId() == R.id.delete) {
                         Message[] selected = messagesAdapter.getSelected();
                         final long[] rids = new long[selected.length];
                         for (int i = 0; i < rids.length; i++) {
