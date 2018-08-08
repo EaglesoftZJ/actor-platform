@@ -206,7 +206,6 @@ open class AABubbleCell: UICollectionViewCell {
     {
         if tap.state == .began
         {
-            print(bindedMessage?.date, bindedMessage?.sortDate)
             self.becomeFirstResponder()
             let menuController = UIMenuController.shared
             let sendMenu = UIMenuItem(title:"转发",action:#selector(send))
@@ -245,10 +244,20 @@ open class AABubbleCell: UICollectionViewCell {
         let currentTime = Date().timeIntervalSince1970
         let sendTime = TimeInterval((bindedMessage?.date)!/1000)
         let reduceTime:TimeInterval = currentTime - sendTime
-        if reduceTime < 120 {
+        if reduceTime < 300 {
+            let name = Actor.getUserWithUid((bindedMessage?.senderId)!).getNameModel().get()
+            let ridDesc:String = "\(bindedMessage?.rid ?? 0)"
+            let dic = ["data": ["rid": ridDesc, "text": (name! + "撤回了一条消息")], "dataType": "revert"] as [String : Any]
+            if !JSONSerialization.isValidJSONObject(dic) {
+                print("无法解析出JSONString")
+            } else {
+                let data:Data = try! JSONSerialization.data(withJSONObject: dic, options: []) as Data
+                let str = String(data: data, encoding: String.Encoding.utf8)
+                Actor.sendCustomStringMessagePeer(peer, withContent: str!)
+            }
             
         } else {
-            getSuperController().alertUser("超过2分钟无法撤回")
+            getSuperController().alertUser("超过5分钟无法撤回")
         }
     }
     
@@ -287,11 +296,11 @@ open class AABubbleCell: UICollectionViewCell {
         }
     }
         
-//    open override func delete(_ sender: Any?) {
-//        let rids = IOSLongArray(length: 1)
-//        rids?.replaceLong(at: 0, withLong: bindedMessage!.rid)
-//        Actor.deleteMessages(with: self.peer, withRids: rids)
-//    }
+    func delete() {
+        let rids = IOSLongArray(length: 1)
+        rids?.replaceLong(at: 0, withLong: bindedMessage!.rid)
+        Actor.deleteMessages(with: self.peer, withRids: rids)
+    }
     
     func avatarDidTap() {
         if bindedMessage != nil {
@@ -301,6 +310,32 @@ open class AABubbleCell: UICollectionViewCell {
     
     open func performBind(_ message: ACMessage, receiveDate: jlong, readDate: jlong, setting: AACellSetting, isShowNewMessages: Bool, layout: AACellLayout) {
         
+        var id = 0
+        let content = message.content as? ACJsonContent
+        if (content != nil) && content?.getRawJson() != nil {
+            let str = content?.getRawJson().replacingOccurrences(of: "", with: "\"")
+        
+            if let data = str?.data(using: String.Encoding.utf8) {
+                do {
+                    let dic = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary
+                    let textid = (dic!["data"] as! NSDictionary)["rid"]
+                    if textid != nil {
+                        if textid is String {
+                            id = Int(textid as! String)!
+                        }
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+            }
+        }
+        if (id != 0)
+        {
+            let rids = IOSLongArray(length: 1)
+            rids?.replaceLong(at: 0, withLong: jlong(id))
+            Actor.deleteMessages(with: self.peer, withRids: rids)
+            print("超级没中奖", id)
+        }
         var reuse = false
         if (bindedMessage != nil && bindedMessage?.rid == message.rid) {
             reuse = true
@@ -311,7 +346,7 @@ open class AABubbleCell: UICollectionViewCell {
         if !reuse && !isFullSize {
             if (!isOut && isGroup) {
                 let user = Actor.getUserWithUid(message.senderId)
-                        
+                
                 // Small hack for replacing senter name and title
                 // with current group title
                 if user.isBot() && user.getNameModel().get() == "Bot" {
