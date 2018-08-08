@@ -28,6 +28,7 @@ import im.actor.core.entity.content.TextContent;
 import im.actor.core.entity.content.VoiceContent;
 import im.actor.core.js.JsMessenger;
 import im.actor.runtime.crypto.Base64Utils;
+import im.actor.runtime.js.JsLogProvider;
 import im.actor.runtime.js.mvvm.JsEntityConverter;
 
 public class JsMessage extends JavaScriptObject {

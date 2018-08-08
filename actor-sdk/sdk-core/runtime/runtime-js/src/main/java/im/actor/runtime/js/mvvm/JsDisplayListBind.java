@@ -8,6 +8,7 @@ import java.util.List;
 
 import im.actor.runtime.Log;
 import im.actor.runtime.bser.BserObject;
+import im.actor.runtime.js.JsLogProvider;
 import im.actor.runtime.js.storage.JsListEngine;
 import im.actor.runtime.js.storage.JsListEngineCallback;
 import im.actor.runtime.js.utils.JsModernArray;
@@ -127,6 +128,7 @@ public class JsDisplayListBind<T extends JavaScriptObject, V extends BserObject 
                 continue;
             }
             values.add(item);
+
             jsValues.push(entityConverter.convert(item));
 
             if (isOverlaysSupported) {
@@ -196,6 +198,7 @@ public class JsDisplayListBind<T extends JavaScriptObject, V extends BserObject 
                 continue;
             }
             values.add(item);
+
             jsValues.push(entityConverter.convert(item));
 
             if (isOverlaysSupported) {

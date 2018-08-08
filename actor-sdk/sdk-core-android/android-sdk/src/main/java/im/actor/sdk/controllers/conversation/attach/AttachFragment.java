@@ -490,9 +490,10 @@ public class AttachFragment extends AbsAttachFragment implements MediaPickerCall
         JSONObject json = new JSONObject();
         try {
             JSONObject data = new JSONObject();
-            data.put("text","给你一条json");
+            data.put("text", "str");
+            data.put("id", 0);
             json.put("data", data);
-            json.put("dataType", "测试类型");
+            json.put("dataType", "revert");
         } catch (JSONException e) {
             e.printStackTrace();
         }

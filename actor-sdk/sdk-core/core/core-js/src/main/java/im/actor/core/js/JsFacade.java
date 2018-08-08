@@ -1883,9 +1883,8 @@ public class JsFacade implements Exportable {
 
 
     @UsedByApp
-    public void sendJson(JsPeer jsPeer, JSONObject json,final JsAuthSuccessClosure success,
-                         final JsAuthErrorClosure error) {
-        ContentRemoteContainer container = new ContentRemoteContainer(new ApiJsonMessage(json.toString()));
+    public void sendJson(JsPeer jsPeer, String json) {
+        ContentRemoteContainer container = new ContentRemoteContainer(new ApiJsonMessage(json));
         messenger.sendCustomJsonMessage(jsPeer.convert(), new JsonContent(container));
     }
 

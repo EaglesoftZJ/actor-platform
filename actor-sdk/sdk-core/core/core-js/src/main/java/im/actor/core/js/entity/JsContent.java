@@ -18,6 +18,7 @@ import im.actor.core.entity.content.ContactContent;
 import im.actor.core.entity.content.DocumentContent;
 import im.actor.core.entity.content.FileLocalSource;
 import im.actor.core.entity.content.FileRemoteSource;
+import im.actor.core.entity.content.JsonContent;
 import im.actor.core.entity.content.LocationContent;
 import im.actor.core.entity.content.PhotoContent;
 import im.actor.core.entity.content.ServiceContent;
@@ -26,6 +27,9 @@ import im.actor.core.entity.content.TextContent;
 import im.actor.core.entity.content.VoiceContent;
 import im.actor.core.js.JsMessenger;
 import im.actor.runtime.crypto.Base64Utils;
+import im.actor.runtime.js.JsLogProvider;
+import im.actor.runtime.json.JSONException;
+import im.actor.runtime.json.JSONObject;
 
 public abstract class JsContent extends JavaScriptObject {
 
@@ -129,6 +133,17 @@ public abstract class JsContent extends JavaScriptObject {
 
             content = JsContentLocation.create(locationContent.getLongitude(), locationContent.getLatitude(),
                     locationContent.getStreet(), locationContent.getPlace());
+        } else if (src instanceof JsonContent) {
+            JsonContent jsonContent = (JsonContent) src;
+            try {
+                JSONObject json = new JSONObject(jsonContent.getRawJson());
+
+                content = JsContentJson.create(json.getString("operation"), json.getString("data"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                content = JsContentText.create(e.getMessage());
+            }
+
         } else {
             content = JsContentUnsupported.create();
         }
