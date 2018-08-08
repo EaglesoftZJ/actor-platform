@@ -138,7 +138,7 @@ public abstract class JsContent extends JavaScriptObject {
             try {
                 JSONObject json = new JSONObject(jsonContent.getRawJson());
 
-                content = JsContentJson.create(json.getString("operation"), json.getString("data"));
+                content = JsContentJson.create(json.getString("dataType"), json.getString("data"));
             } catch (JSONException e) {
                 e.printStackTrace();
                 content = JsContentText.create(e.getMessage());
