@@ -219,6 +219,9 @@ open class AABubbleCell: UICollectionViewCell {
             if self.isOut {
                 menuController.menuItems?.append(UIMenuItem(title:"撤回",action:#selector(revoke)))
             }
+            if bindedMessage?.content is ACJsonContent {
+                menuController.menuItems = []
+            }
             menuController.setTargetRect(bubble.frame, in: bubble)
             menuController.setMenuVisible(true, animated: true)
         }
