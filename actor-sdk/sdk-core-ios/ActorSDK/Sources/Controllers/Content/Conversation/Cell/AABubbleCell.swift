@@ -247,7 +247,7 @@ open class AABubbleCell: UICollectionViewCell {
         let currentTime = Date().timeIntervalSince1970
         let sendTime = TimeInterval((bindedMessage?.date)!/1000)
         let reduceTime:TimeInterval = currentTime - sendTime
-        if reduceTime < 300 {
+        if reduceTime < 900 {
             let name = Actor.getUserWithUid((bindedMessage?.senderId)!).getNameModel().get()
             let ridDesc:String = "\(bindedMessage?.rid ?? 0)"
             let dic = ["data": ["rid": ridDesc, "text": (name! + "撤回了一条消息")], "dataType": "revert"] as [String : Any]
@@ -260,7 +260,7 @@ open class AABubbleCell: UICollectionViewCell {
             }
             
         } else {
-            getSuperController().alertUser("超过5分钟无法撤回")
+            getSuperController().alertUser("超过15分钟无法撤回")
         }
     }
     
