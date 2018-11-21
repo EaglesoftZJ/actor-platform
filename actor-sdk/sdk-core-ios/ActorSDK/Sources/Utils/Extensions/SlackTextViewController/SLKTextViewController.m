@@ -842,7 +842,7 @@ CGFloat const SLKAutoCompletionViewDefaultHeight = 140.0;
 
     __weak typeof(self) weakSelf = self;
     
-    void (^animations)() = ^void(){
+    void (^animations)(void) = ^void(){
         
         weakSelf.textInputbarHC.constant = hidden ? 0 : weakSelf.textInputbar.appropriateHeight;
         

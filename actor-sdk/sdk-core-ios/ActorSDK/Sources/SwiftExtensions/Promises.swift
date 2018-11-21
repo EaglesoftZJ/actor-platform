@@ -28,7 +28,7 @@ extension ARPromise {
                     return
                 }
             }
-            AAExecutions.errorWithError(e)
+            AAExecutions.errorWithError(e!)
         }
         
         return self

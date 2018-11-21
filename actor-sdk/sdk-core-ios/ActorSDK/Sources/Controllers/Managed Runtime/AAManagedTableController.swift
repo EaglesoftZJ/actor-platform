@@ -6,11 +6,11 @@ import Foundation
 
 open class AAManagedTableController: AAViewController {
     
-    open let style: AAContentTableStyle
+    public let style: AAContentTableStyle
     
     open var managedTableDelegate: AAManagedTableControllerDelegate?
     
-    open let binder = AABinder()
+    public let binder = AABinder()
     
     open var tableView: UITableView!
     

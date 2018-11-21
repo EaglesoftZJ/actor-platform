@@ -15,14 +15,10 @@ import Foundation
     }
 
     func getLongWithKey(_ key: String!, withDefault def: jlong) -> jlong {
-//        print("一等奖1===========")
         let val = fetchObj(key)
-//        print("一等奖2===========")
         if (val == nil || !(val is NSNumber)) {
-//            print("一等奖3===========")
             return def;
         } else {
-//            print("一等奖4===========")
             return (val as! NSNumber).int64Value
         }
     }
@@ -35,10 +31,8 @@ import Foundation
         
         let val: AnyObject? = fetchObj(key)
         if (val == nil || !(val is NSNumber)) {
-//            print("二等奖1===========")
             return def;
         } else {
-//            print("二等奖2===========")
             return (val as! NSNumber).int32Value
         }
     }
@@ -49,7 +43,6 @@ import Foundation
     
     func getBoolWithKey(_ key: String!, withDefault def: Bool) -> Bool {
         let val: AnyObject? = fetchObj(key);
-        print("二等奖8888===========")
         if (val == nil || (!(val is Bool))) {
             return def
         } else {
@@ -83,7 +76,7 @@ import Foundation
         if (val == nil || !(val is String)) {
             return nil
         } else {
-            return val as! String
+            return val as? String
         }
     }
     
@@ -109,9 +102,7 @@ import Foundation
     }
     
     fileprivate func fetchObj(_ key: String) -> AnyObject? {
-        print("key===="+key)
         if let obj = cachedPrefs[key] {
-            print("一等奖5===========")
            return obj
         }
         let res = prefs.object(forKey: key)

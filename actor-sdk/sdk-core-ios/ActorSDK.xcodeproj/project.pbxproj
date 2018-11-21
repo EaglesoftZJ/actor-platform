@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		35E1D42021A3A3F400CB1468 /* CommonCryptoModuleMap */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 35E1D42121A3A3F400CB1468 /* Build configuration list for PBXAggregateTarget "CommonCryptoModuleMap" */;
+			buildPhases = (
+				35E1D42421A3A5B700CB1468 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = CommonCryptoModuleMap;
+			productName = CommonCryptoModuleMap;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		060135031C95ED4C00A18C4E /* YYAsyncLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 060134FD1C95ED4C00A18C4E /* YYAsyncLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		060135041C95ED4C00A18C4E /* YYAsyncLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 060134FE1C95ED4C00A18C4E /* YYAsyncLayer.m */; };
@@ -438,6 +452,16 @@
 		BEF11DB61C466D800076400A /* begin_record.caf in Resources */ = {isa = PBXBuildFile; fileRef = 153F6B3C1C2A9B1900C0B960 /* begin_record.caf */; };
 		BEFE68D51C4657360001F2D6 /* AAThumbnailCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFE68D41C4657360001F2D6 /* AAThumbnailCollectionCell.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		35E1D42521A3A60C00CB1468 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 066A50C91BC4AE63000E606E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 35E1D42021A3A3F400CB1468;
+			remoteInfo = CommonCryptoModuleMap;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		060134FD1C95ED4C00A18C4E /* YYAsyncLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYAsyncLayer.h; sourceTree = "<group>"; };
@@ -1586,20 +1610,20 @@
 			name = Welcome;
 			sourceTree = "<group>";
 		};
-		06E164921C96FF15005AFB94 /* CommonCrypto */ = {
+		06E164921C96FF15005AFB94 /* CommonCrypto作废 */ = {
 			isa = PBXGroup;
 			children = (
 				06E164931C96FF3D005AFB94 /* module.map */,
 			);
-			name = CommonCrypto;
-			path = Libs/CommonCrypto;
+			name = "CommonCrypto作废";
+			path = "Libs/CommonCrypto作废";
 			sourceTree = "<group>";
 		};
 		06E322CB1C69392F00D66F53 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
 				06ABFE261D3FAF1A0031A0D6 /* CocoaAsyncSocket */,
-				06E164921C96FF15005AFB94 /* CommonCrypto */,
+				06E164921C96FF15005AFB94 /* CommonCrypto作废 */,
 				061850A31C95CBF000C522D5 /* YYKit */,
 				15D35F0A1C20182900E3717A /* AudioRecorder */,
 				06E3230D1C6942C400D66F53 /* WebRTC.h */,
@@ -2166,6 +2190,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				35E1D42621A3A60C00CB1468 /* PBXTargetDependency */,
 			);
 			name = ActorSDK;
 			productName = ActorSDK;
@@ -2187,6 +2212,11 @@
 						DevelopmentTeam = D94R58LQ65;
 						LastSwiftMigration = 0800;
 					};
+					35E1D42021A3A3F400CB1468 = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = D94R58LQ65;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 066A50CC1BC4AE63000E606E /* Build configuration list for PBXProject "ActorSDK" */;
@@ -2206,6 +2236,7 @@
 			projectRoot = "";
 			targets = (
 				066A50D11BC4AE63000E606E /* ActorSDK */,
+				35E1D42021A3A3F400CB1468 /* CommonCryptoModuleMap */,
 			);
 		};
 /* End PBXProject section */
@@ -2266,6 +2297,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\ncd ActorSDK/Sources/ActorCore\nmake translate\nmake build -j3\n\ncd \"${CONFIGURATION_TEMP_DIR}/j2objc/\"\npython \"${PROJECT_DIR}/ActorSDK/Sources/ActorCore/convert.py\" \"${PROJECT_DIR}/ActorSDK/Sources/ActorCore/ActorCore.h\"\n\ncp -af \"${PODS_ROOT}/libjingle_peerconnection/libjingle_peerconnection/Headers/\" \"${CONFIGURATION_BUILD_DIR}/ActorSDK.framework/Headers/\"\n\ncp -a \"${CONFIGURATION_TEMP_DIR}/j2objc/Public/\" \"${CONFIGURATION_BUILD_DIR}/ActorSDK.framework/Headers/\"\n\n\ncp -a \"${PROJECT_DIR}/../sdk-core/core/core-shared/src/main/resources/\" \"${CONFIGURATION_BUILD_DIR}/ActorSDK.framework/\"";
+		};
+		35E1D42421A3A5B700CB1468 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "COMMON_CRYPTO_DIR=\"${SDKROOT}/usr/include/CommonCrypto\"\nif [ -f \"${COMMON_CRYPTO_DIR}/module.modulemap\" ]\nthen\necho \"CommonCrypto already exists, skipping\"\nelse\nmkdir -p \"${BUILT_PRODUCTS_DIR}/CommonCryptoModuleMap\"\ncat <<EOF > \"${BUILT_PRODUCTS_DIR}/CommonCryptoModuleMap/module.modulemap\"\nmodule CommonCrypto [system] {\nheader \"${SDKROOT}/usr/include/CommonCrypto/CommonCrypto.h\"\nexport *\n}\nEOF\nfi\n\n\n";
 		};
 		5B00FFD27DD7E01F43B31D13 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2586,6 +2634,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		35E1D42621A3A60C00CB1468 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 35E1D42021A3A3F400CB1468 /* CommonCryptoModuleMap */;
+			targetProxy = 35E1D42521A3A60C00CB1468 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		065975461BC7D34200B8C7DF /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -2653,6 +2709,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2705,6 +2762,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2762,7 +2820,7 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
-				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/ActorSDK/Sources/Libs/CommonCrypto $(PROJECT_DIR)/IDZSwiftCommonCrypto/Frameworks/$(PLATFORM_NAME)";
+				SWIFT_INCLUDE_PATHS = "$(inherited) ${BUILT_PRODUCTS_DIR}/CommonCryptoModuleMap";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -2819,12 +2877,30 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
-				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/ActorSDK/Sources/Libs/CommonCrypto $(PROJECT_DIR)/IDZSwiftCommonCrypto/Frameworks/$(PLATFORM_NAME)";
+				SWIFT_INCLUDE_PATHS = "$(inherited) ${BUILT_PRODUCTS_DIR}/CommonCryptoModuleMap";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = "arm64 armv7";
 				WARNING_CFLAGS = "-Wno-nullability-completeness";
+			};
+			name = Release;
+		};
+		35E1D42221A3A3F400CB1468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D94R58LQ65;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		35E1D42321A3A3F400CB1468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D94R58LQ65;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -2845,6 +2921,15 @@
 			buildConfigurations = (
 				066A50DB1BC4AE63000E606E /* Debug */,
 				066A50DC1BC4AE63000E606E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		35E1D42121A3A3F400CB1468 /* Build configuration list for PBXAggregateTarget "CommonCryptoModuleMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35E1D42221A3A3F400CB1468 /* Debug */,
+				35E1D42321A3A3F400CB1468 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

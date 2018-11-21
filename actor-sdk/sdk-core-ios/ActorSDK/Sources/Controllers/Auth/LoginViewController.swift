@@ -35,6 +35,7 @@ class LoginViewController: AAAuthViewController,UITextFieldDelegate {
         loginBtn.addTarget(self, action: #selector(loginAction), for: UIControlEvents.touchUpInside)
         
         userField.placeholder = "用户名"
+        userField.autocapitalizationType = .none
         userField.setValue(UIColor.white, forKeyPath: "_placeholderLabel.textColor")
         userField.keyboardType = .default
         

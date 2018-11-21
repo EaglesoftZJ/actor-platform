@@ -60,9 +60,23 @@ open class AANavigationController: UINavigationController {
             [NSForegroundColorAttributeName: ActorSDK.sharedActor().style.navigationTitleColor]
         navigationBar.tintColor = ActorSDK.sharedActor().style.navigationTintColor
         navigationBar.barTintColor = ActorSDK.sharedActor().style.navigationBgColor
-        navigationBar.hairlineHidden = ActorSDK.sharedActor().style.navigationHairlineHidden
+//        navigationBar.hairlineHidden = ActorSDK.sharedActor().style.navigationHairlineHidden
         
         view.backgroundColor = ActorSDK.sharedActor().style.vcBgColor
+    }
+    
+    open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        if self.viewControllers.count > 0 {
+            viewController.hidesBottomBarWhenPushed = true
+        }
+        super.pushViewController(viewController, animated: animated)
+        
+        if self.tabBarController != nil {
+            let frame:CGRect = self.tabBarController!.tabBar.frame
+            if !frame.equalTo(CGRect.zero) {
+                self.tabBarController!.tabBar.frame = frame
+            }
+        }
     }
 }
 

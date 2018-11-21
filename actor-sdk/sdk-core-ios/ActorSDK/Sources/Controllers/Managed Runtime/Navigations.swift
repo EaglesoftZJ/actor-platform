@@ -15,6 +15,7 @@ public extension UIViewController {
         } else {
             let tabBar = UIApplication.shared.keyWindow?.rootViewController as! UITabBarController
             controller.hidesBottomBarWhenPushed = true
+            UITabBar.appearance().isTranslucent = false
             (tabBar.selectedViewController as! AANavigationController).pushViewController(controller, animated: true)
         }
     }
@@ -28,6 +29,7 @@ public extension UIViewController {
         
         controller.hidesBottomBarWhenPushed = true
         if (!removeCurrent) {
+            UITabBar.appearance().isTranslucent = false
             self.navigationController!.pushViewController(controller, animated: true);
         } else {
             var nControllers = [UIViewController]()

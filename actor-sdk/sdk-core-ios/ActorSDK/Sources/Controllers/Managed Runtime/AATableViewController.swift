@@ -6,8 +6,8 @@ import UIKit
 
 open class AATableViewController: AAViewController, UITableViewDataSource, UITableViewDelegate {
     
-    open let tableView: UITableView
-    open let tableViewStyle: UITableViewStyle
+    public let tableView: UITableView
+    public let tableViewStyle: UITableViewStyle
     
     public init(style: UITableViewStyle) {
         tableViewStyle = style

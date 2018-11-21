@@ -447,6 +447,7 @@ public extension AAManagedSection {
         r.style = .navigation
         r.selectAction = { () -> Bool in
             self.table.controller.navigateNext(controller.init())
+//            self.table.controller.navigationController?.pushViewController(controller.init(), animated: true)
             return false
         }
         r.bindAction?(r)

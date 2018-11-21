@@ -7,6 +7,7 @@ ARCHFLAGS = $(ARCHS:%=-arch %)
 SDKFLAGS = --sysroot $(SDKROOT)
 SDK_ROOT = $(abspath $(PROJECT_DIR)/..)
 
+
 ifdef OPTIMIZATION_LEVEL
 DEBUGFLAGS := $(DEBUGFLAGS) -O$(OPTIMIZATION_LEVEL)
 endif
