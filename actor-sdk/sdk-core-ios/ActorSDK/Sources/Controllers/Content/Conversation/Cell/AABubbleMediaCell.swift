@@ -399,11 +399,11 @@ open class AABubbleMediaCell : AABubbleBaseFileCell, NYTPhotosViewControllerDele
 */
 open class MediaCellLayout: AACellLayout {
     
-    open let fastThumb: Data?
-    open let contentSize: CGSize
-    open let screenSize: CGSize
-    open let autoDownload: Bool
-    open let duration: Int?
+    public let fastThumb: Data?
+    public let contentSize: CGSize
+    public let screenSize: CGSize
+    public let autoDownload: Bool
+    public let duration: Int?
     
     /**
         Creting layout for media bubble

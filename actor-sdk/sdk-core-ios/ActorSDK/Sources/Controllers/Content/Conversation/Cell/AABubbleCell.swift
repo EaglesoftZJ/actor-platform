@@ -337,7 +337,7 @@ open class AABubbleCell: UICollectionViewCell {
             let rids = IOSLongArray(length: 1)
             rids?.replaceLong(at: 0, withLong: jlong(id))
             Actor.deleteMessages(with: self.peer, withRids: rids)
-            print("超级没中奖", id)
+//            print("超级没中奖", id)
         }
         var reuse = false
         if (bindedMessage != nil && bindedMessage?.rid == message.rid) {
