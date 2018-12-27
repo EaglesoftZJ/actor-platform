@@ -6,8 +6,8 @@ import Foundation
 
 open class TapLabel: UILabel, NSLayoutManagerDelegate {
     
-    open static let LinkContentName = "TapLabelLinkContentName"
-    open static let SelectedForegroudColorName = "TapLabelSelectedForegroudColorName"
+    public static let LinkContentName = "TapLabelLinkContentName"
+    public static let SelectedForegroudColorName = "TapLabelSelectedForegroudColorName"
     
     open weak var delegate: AATapLabelDelegate?
     

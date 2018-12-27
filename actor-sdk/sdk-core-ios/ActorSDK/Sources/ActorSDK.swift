@@ -16,7 +16,7 @@ import ReachabilitySwift
     
     fileprivate static let shared =  ActorSDK()
     
-    open static func sharedActor() -> ActorSDK {
+    public static func sharedActor() -> ActorSDK {
         return shared
     }
     
@@ -27,12 +27,12 @@ import ReachabilitySwift
     open var contactsList:ARBindedDisplayList!
 
     //#切换根目录通知
-    open let switchRootController = Notification.Name(rawValue:"rootViewController")
+    public let switchRootController = Notification.Name(rawValue:"rootViewController")
     /// Main Messenger object
     open var messenger : ACCocoaMessenger!
     
     // Actor Style
-    open let style = ActorStyle()
+    public let style = ActorStyle()
     
     /// SDK Delegate
     open var delegate: ActorSDKDelegate = ActorSDKDelegateDefault()
@@ -563,26 +563,26 @@ import ReachabilitySwift
         // Bind Status Bar connecting
         
         if !style.statusBarConnectingHidden {
-            
-            JDStatusBarNotification.setDefaultStyle { (style) -> JDStatusBarStyle! in
+
+            JDStatusBarNotification.setDefaultStyle { (style) -> JDStatusBarStyle? in
                 style?.progressBarPosition = .navBar
                 style?.barColor = self.style.statusBarConnectingBgColor
                 style?.textColor = self.style.statusBarConnectingTextColor
                 return style
             }
-            
+
             dispatchOnUi { () -> Void in
                 self.binder.bind(self.messenger.getGlobalState().isSyncing, valueModel2: self.messenger.getGlobalState().isConnecting) {
                     (isSyncing: JavaLangBoolean?, isConnecting: JavaLangBoolean?) -> () in
-                    
+
                     if isSyncing!.booleanValue() || isConnecting!.booleanValue() {
                         if isConnecting!.booleanValue() {
-//                            JDStatusBarNotification.show(withStatus: AALocalized("StatusConnecting"))
+//                           JDStatusBarNotification.show(withStatus: AALocalized("StatusConnecting"))
                         } else {
 //                            JDStatusBarNotification.show(withStatus: AALocalized("StatusSyncing"))
                         }
                     } else {
-//                        JDStatusBarNotification.dismiss()
+//                       JDStatusBarNotification.dismiss()
                     }
                 }
             }
@@ -771,10 +771,10 @@ import ReachabilitySwift
                 AAAudioManager.sharedAudio().appVisible()
                 
                 // Notify analytics about visibilibty change
-                // Analytics.track(ACAllEvents.APP_VISIBLEWithBoolean(true))
+//                 Analytics.track(ACAllEvents.APP_VISIBLEWithBoolean(true))
                 
                 // Hack for resync phone book
-                Actor.onPhoneBookChanged()
+//                Actor.onPhoneBookChanged()
             }
         } else {
             if isUserOnline {
@@ -787,7 +787,7 @@ import ReachabilitySwift
                 messenger.onAppHidden()
                 
                 // Notify analytics about visibilibty change
-                // Analytics.track(ACAllEvents.APP_VISIBLEWithBoolean(false))
+//                 Analytics.track(ACAllEvents.APP_VISIBLEWithBoolean(false))
             }
         }
     }
@@ -829,7 +829,11 @@ import ReachabilitySwift
             })
             
             // Wait for 40 secs before app shutdown
-            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).asyncAfter(deadline: DispatchTime.now() + Double(Int64(40.0 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
+//            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).asyncAfter(deadline: DispatchTime.now() + Double(Int64(40.0 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
+//                application.endBackgroundTask(completitionTask)
+//                completitionTask = UIBackgroundTaskInvalid
+//            }
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.default).asyncAfter(deadline: DispatchTime.now() + Double(Int64(40.0 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
                 application.endBackgroundTask(completitionTask)
                 completitionTask = UIBackgroundTaskInvalid
             }
@@ -898,7 +902,6 @@ import ReachabilitySwift
     
     open func application(_ app: UIApplication, openURL url: URL) -> Bool {
         dispatchOnUi { () -> Void in
-            print("一等奖"+url.absoluteString)
             
             let URLString:String = url.absoluteString
             if URLString.contains("MOAV6path=") && URLString.contains("MOAV6title=")

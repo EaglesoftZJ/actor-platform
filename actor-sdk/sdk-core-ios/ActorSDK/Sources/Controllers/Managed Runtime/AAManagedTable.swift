@@ -10,12 +10,12 @@ open class AAManagedTable {
     
     // Controller of table
     
-    open let controller: UIViewController
+    public let controller: UIViewController
     
     // Table view
     
-    open let style: AAContentTableStyle
-    open let tableView: UITableView
+    public let style: AAContentTableStyle
+    public let tableView: UITableView
     open var tableViewDelegate: UITableViewDelegate { get { return baseDelegate } }
     open var tableViewDataSource: UITableViewDataSource { get { return baseDelegate } }
     

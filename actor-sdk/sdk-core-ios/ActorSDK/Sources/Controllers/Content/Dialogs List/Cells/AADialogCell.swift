@@ -12,7 +12,7 @@ open class AADialogCell: AATableViewCell, AABindedCell {
     
     // Hight of cell
     
-    open static func bindedCellHeight(_ table: AAManagedTable, item: ACDialog) -> CGFloat {
+    public static func bindedCellHeight(_ table: AAManagedTable, item: ACDialog) -> CGFloat {
         
         return 76
     }
@@ -40,14 +40,14 @@ open class AADialogCell: AATableViewCell, AABindedCell {
 
     fileprivate var cellRenderer: AABackgroundCellRenderer<AADialogCellConfig, AADialogCellLayout>!
     
-    open let avatarView = AAAvatarView()
-    open let titleView = YYLabel()
-    open let messageView = YYLabel()
+    public let avatarView = AAAvatarView()
+    public let titleView = YYLabel()
+    public let messageView = YYLabel()
     
-    open let dateView = YYLabel()
-    open let statusView = UIImageView()
-    open let counterView = YYLabel()
-    open let counterViewBg = UIImageView()
+    public let dateView = YYLabel()
+    public let statusView = UIImageView()
+    public let counterView = YYLabel()
+    public let counterViewBg = UIImageView()
         
     // Binding Data
     

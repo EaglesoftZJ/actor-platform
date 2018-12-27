@@ -90,10 +90,10 @@ public extension AAManagedRange {
 
 open class AARangeIndexPath {
     
-    open let section: Int
-    open let range: Int
-    open let item: Int
-    open let indexPath: IndexPath
+    public let section: Int
+    public let range: Int
+    public let item: Int
+    public let indexPath: IndexPath
     
     public init(section: Int, range: Int, item: Int, indexPath: IndexPath) {
         self.section = section

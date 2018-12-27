@@ -12,7 +12,7 @@ open class AAManagedSection {
     open var headerText: String? = nil
     open var footerText: String? = nil
     
-    open let index: Int
+    public let index: Int
     
     open var autoSeparatorTopOffset: Int = 0
     open var autoSeparatorBottomOffset: Int = 0
@@ -21,7 +21,7 @@ open class AAManagedSection {
     
     open var regions: [AAManagedRange] = [AAManagedRange]()
     
-    open unowned let table: AAManagedTable
+    public unowned let table: AAManagedTable
     
     public init(table: AAManagedTable, index: Int) {
         self.index = index

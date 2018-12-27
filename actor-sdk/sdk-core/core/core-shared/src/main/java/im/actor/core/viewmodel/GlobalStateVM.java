@@ -40,13 +40,9 @@ public class GlobalStateVM {
                 }
             }
         }, AppVisibleChanged.EVENT);
-        System.out.println("EventBus啊啊啊");
         context.getEvents().subscribe(event -> {
-            System.out.println("EventBus呀呀呀isConnecting="+isConnecting+"value="+((ConnectingStateChanged) event).isConnecting());
             isConnecting.change(((ConnectingStateChanged) event).isConnecting());
-            System.out.println("EventBus呀呀呀");
         }, ConnectingStateChanged.EVENT);
-         System.out.println("EventBus得得得");
     }
 
 

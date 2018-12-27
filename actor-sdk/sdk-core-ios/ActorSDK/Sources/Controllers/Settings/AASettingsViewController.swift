@@ -400,7 +400,7 @@ open class AASettingsViewController: AAContentTableController {
             let drop:String = rs.string(forColumn: "yj")
             dropTable = dropTable + drop
         }
-        print("这是"+dropTable+"======")
+//        print("这是"+dropTable+"======")
         db?.executeStatements(dropTable)
         db?.close()
         

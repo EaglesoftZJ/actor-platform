@@ -6,8 +6,8 @@ import Foundation
 
 open class AAContactActionCell: AATableViewCell {
     
-    open let titleView = YYLabel()
-    open let iconView = UIImageView()
+    public let titleView = YYLabel()
+    public let iconView = UIImageView()
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

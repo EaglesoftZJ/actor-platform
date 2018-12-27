@@ -51,7 +51,7 @@ class CocoaTcpConnection: ARAsyncConnection, GCDAsyncSocketDelegate {
     }
     
     // Affer successful connection
-    func socket(_ sock: GCDAsyncSocket!, didConnectToHost host: String!, port: UInt16) {
+    func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
         if (self.getEndpoint().type == ARConnectionEndpoint.type_TCP_TLS()) {
             //            NSLog("\(TAG) Starring TLS Session...")
             sock.startTLS(nil)
@@ -61,7 +61,7 @@ class CocoaTcpConnection: ARAsyncConnection, GCDAsyncSocketDelegate {
     }
     
     // After TLS successful
-    func socketDidSecure(_ sock: GCDAsyncSocket!) {
+    func socketDidSecure(_ sock: GCDAsyncSocket) {
         //        NSLog("\(TAG) TLS Session started...")
         startConnection()
     }
@@ -72,7 +72,7 @@ class CocoaTcpConnection: ARAsyncConnection, GCDAsyncSocketDelegate {
     }
     
     // On connection closed
-    func socketDidDisconnect(_ sock: GCDAsyncSocket!, withError err: Error?) {
+    func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
         //        NSLog("\(TAG) Connection closed...")
         onClosed()
     }

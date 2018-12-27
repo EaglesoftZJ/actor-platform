@@ -11,6 +11,7 @@ open class ActorApplicationDelegate: ActorSDKDelegateDefault, UIApplicationDeleg
     public override init() {
         super.init()
         
+        Bugly.start(withAppId: "3fc8148d60")
         ActorSDK.sharedActor().delegate = self
     }
     
@@ -19,7 +20,7 @@ open class ActorApplicationDelegate: ActorSDKDelegateDefault, UIApplicationDeleg
     }
     
     open func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        Bugly.start(withAppId: "3fc8148d60")
+
         ActorSDK.sharedActor().applicationDidFinishLaunching(application)
         return true
     }

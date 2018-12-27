@@ -42,33 +42,32 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
     
     override init() {
         super.init()
-        
+
         ActorSDK.sharedActor().inviteUrlHost = "quit.email"
         ActorSDK.sharedActor().inviteUrlScheme = "actor"
-        
+
         ActorSDK.sharedActor().style.searchStatusBarStyle = .default
-        
+
         // Enabling experimental features
         ActorSDK.sharedActor().enableExperimentalFeatures = true
-        
+
         ActorSDK.sharedActor().enableCalls = true
-        
+
         ActorSDK.sharedActor().enableVideoCalls = true
-        
+
         // Setting Development Push Id
         ActorSDK.sharedActor().apiPushId = 1
-        
+
         ActorSDK.sharedActor().authStrategy = .usernameOnly
-        
+
         ActorSDK.sharedActor().style.dialogAvatarSize = 58
-        
+
         ActorSDK.sharedActor().autoJoinGroups = ["actor_news"]
-        
+
         // Creating Actor
         ActorSDK.sharedActor().createActor()
-        
     }
-    
+ 
     open override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
         let _ = super.application(application, didFinishLaunchingWithOptions: launchOptions)
         //#注册切换Root控制器通知
@@ -79,6 +78,7 @@ open class AppDelegate : ActorApplicationDelegate,CommonServiceDelegate {
         window?.backgroundColor = UIColor.white
         window?.rootViewController = WelcomeViewController()
         window?.makeKeyAndVisible()
+        
         
         
         //#启动图

@@ -48,7 +48,6 @@ public class EventBus {
     }
 
     private synchronized void deliver(Event e, boolean isSticky) {
-        Log.d("EventBus", "Event: " + e);
 
         String eventType = e.getType();
         if (isSticky) {
@@ -59,7 +58,6 @@ public class EventBus {
             if (config.getTypes().contains(null)
                     || config.getTypes().contains(eventType)) {
                 s.onBusEvent(e);
-                Log.d("EventBus阿萨德", "Event: " + e);
             }
         }
     }
