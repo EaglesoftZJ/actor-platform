@@ -124,7 +124,9 @@ public class Messenger {
         // timing.section("Modules:Create");
         this.modules = new Modules(this, configuration);
         // timing.section("Modules:Run");
+        // System.out.println("飞鸟测试----ModulesCreate");
         this.modules.run();
+        // System.out.println("飞鸟测试----ModulesRun");
         // timing.end();
     }
 

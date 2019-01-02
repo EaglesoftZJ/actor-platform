@@ -34,13 +34,13 @@ open class AANavigationController: UINavigationController {
 //        self.setSecondaryColor(MainAppTheme.navigation.progressSecondary)
         
         binder.bind(Actor.getGlobalState().isSyncing, valueModel2: Actor.getGlobalState().isConnecting) { (value1: JavaLangBoolean?, value2: JavaLangBoolean?) -> () in
-            let thread:Thread = Thread()
+//            let thread:Thread = Thread()
             if value1!.booleanValue() || value2!.booleanValue() {
-                Thread.sleep(forTimeInterval: 0.4)
+//                Thread.sleep(forTimeInterval: 0.4)
 //                self.showProgress()
 //                self.setIndeterminate(true)
             } else {
-                 thread.start()
+//                 thread.start()
 //                self.finishProgress()
             }
         }

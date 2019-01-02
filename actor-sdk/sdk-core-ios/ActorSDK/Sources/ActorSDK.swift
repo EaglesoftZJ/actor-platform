@@ -290,7 +290,7 @@ import ReachabilitySwift
         
         // Creating messenger
         messenger = ACCocoaMessenger(configuration: builder.build())
-       
+        
         // Configure bubbles
         AABubbles.layouters = delegate.actorConfigureBubbleLayouters(AABubbles.builtInLayouters)
         
@@ -302,7 +302,7 @@ import ReachabilitySwift
             if value!.booleanValue() {
                 if self.syncTask == nil {
                     self.syncTask = UIApplication.shared.beginBackgroundTask(withName: "Background Sync", expirationHandler: { () -> Void in
-                        
+//                        print("飞鸟测试----Background Sync")
                     })
                 }
             } else {
@@ -339,10 +339,12 @@ import ReachabilitySwift
         if reachability != nil {
             reachability.whenReachable = { reachability in
                 self.messenger.forceNetworkCheck()
+//                print("飞鸟测试----forceNetworkCheck")
             }
             
             do {
                 try reachability.startNotifier()
+//                print("飞鸟测试----startNotifier")
             } catch {
                 print("Unable to start Reachability")
             }
