@@ -5,7 +5,7 @@
 package im.actor.core.entity.content;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import im.actor.core.api.ApiDocumentExPhoto;
 import im.actor.core.api.ApiDocumentExVoice;

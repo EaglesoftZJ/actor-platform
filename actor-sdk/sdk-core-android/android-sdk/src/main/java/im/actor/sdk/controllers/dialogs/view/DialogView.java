@@ -8,7 +8,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -302,7 +302,6 @@ public class DialogView extends ListItemBackgroundView<Dialog, DialogView.Dialog
                     ImageRequest request = ImageRequestBuilder.newBuilderWithSource(
                             Uri.fromFile(new File(desc)))
                             .setResizeOptions(new ResizeOptions(Screen.dp(52), Screen.dp(52)))
-                            .setImageType(ImageRequest.ImageType.SMALL)
                             .build();
                     res.setImageRequest(request);
                 } else {

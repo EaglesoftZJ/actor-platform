@@ -1,10 +1,6 @@
 package com.android_gaode_maps;
 
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ChatLinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +14,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.controllers.BaseFragment;
 import im.actor.sdk.util.Screen;
@@ -82,20 +80,33 @@ public class MapSearchFragment extends BaseFragment {
 //        } else {
 //            searchMenu.setVisible(true);
 //        }
-
-        MenuItemCompat.setOnActionExpandListener(searchMenu, new MenuItemCompat.OnActionExpandListener() {
+        searchMenu.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 showSearch();
                 return true;
+//                return false;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-//                hideSearch();
                 return true;
             }
         });
+
+//        MenuItemCompat.setOnActionExpandListener(searchMenu, new MenuItemCompat().OnActionExpandListener() {
+//            @Override
+//            public boolean onMenuItemActionExpand(MenuItem item) {
+//                showSearch();
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onMenuItemActionCollapse(MenuItem item) {
+////                hideSearch();
+//                return true;
+//            }
+//        });
         searchView = (SearchView) searchMenu.getActionView();
         searchView.setIconifiedByDefault(true);
 
@@ -120,8 +131,8 @@ public class MapSearchFragment extends BaseFragment {
         });
     }
 
-    private void showSearch(){
-        searchAdapter = new PlacesAdapter(getContext(),null);
+    private void showSearch() {
+        searchAdapter = new PlacesAdapter(getContext(), null);
 
         View header = new View(getActivity());
         header.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Screen.dp(0)));

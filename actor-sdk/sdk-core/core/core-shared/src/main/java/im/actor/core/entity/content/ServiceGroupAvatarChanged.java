@@ -4,7 +4,7 @@
 
 package im.actor.core.entity.content;
 
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import im.actor.core.api.ApiAvatar;
 import im.actor.core.api.ApiServiceExChangedAvatar;

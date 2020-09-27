@@ -6,12 +6,12 @@ package im.actor.sdk.controllers.root.ZzjgAdapter;
 
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import java.util.HashSet;
 
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.core.entity.Contact;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.sdk.controllers.root.Node;

@@ -204,7 +204,7 @@
                     android:text="@string/profile_settings_notifications"
                     android:textSize="16sp" />
 
-                <android.support.v7.widget.SwitchCompat
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/enableNotifications"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -295,7 +295,7 @@
             android:layout_height="100dp"
             android:layout_gravity="top|right">
 
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_marginRight="18dp"
                 android:layout_gravity="center_vertical|right"
                 android:id="@+id/fab"

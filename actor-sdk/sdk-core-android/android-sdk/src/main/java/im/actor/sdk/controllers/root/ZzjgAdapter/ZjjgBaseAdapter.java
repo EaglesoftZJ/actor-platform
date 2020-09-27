@@ -4,9 +4,9 @@ package im.actor.sdk.controllers.root.ZzjgAdapter;
  * Created by huchengjie on 2017/9/22.
  */
 
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.runtime.generic.mvvm.AndroidListUpdate;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.runtime.generic.mvvm.ChangeDescription;

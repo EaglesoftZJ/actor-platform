@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.ChatLinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.ChatLinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 
+import androidx.recyclerview.widget.RecyclerView;
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import im.actor.core.entity.Group;
 import im.actor.core.entity.GroupMember;
@@ -38,9 +36,7 @@ import im.actor.sdk.util.Screen;
 import im.actor.runtime.android.view.BindedListAdapter;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 
-import static im.actor.sdk.util.ActorSDKMessenger.groups;
 import static im.actor.sdk.util.ActorSDKMessenger.messenger;
-import static im.actor.sdk.util.ActorSDKMessenger.users;
 
 public abstract class MessagesFragment extends DisplayListFragment<Message, AbsMessageViewHolder> {
 

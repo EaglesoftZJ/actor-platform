@@ -1,7 +1,7 @@
 package im.actor.core.modules.calls.peers;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 import java.util.ArrayList;

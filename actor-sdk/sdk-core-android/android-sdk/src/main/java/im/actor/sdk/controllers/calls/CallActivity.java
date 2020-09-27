@@ -3,10 +3,10 @@ package im.actor.sdk.controllers.calls;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.WindowManager;
 
+import androidx.fragment.app.Fragment;
 import im.actor.core.entity.PeerType;
 import im.actor.core.viewmodel.CallVM;
 import im.actor.runtime.android.AndroidWebRTCRuntimeProvider;

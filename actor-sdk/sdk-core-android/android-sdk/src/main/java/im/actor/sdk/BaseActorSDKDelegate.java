@@ -2,12 +2,12 @@ package im.actor.sdk;
 
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.v4.app.Fragment;
 
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.Fragment;
 import im.actor.core.RawUpdatesHandler;
 import im.actor.core.entity.Peer;
 import im.actor.sdk.controllers.conversation.ChatFragment;

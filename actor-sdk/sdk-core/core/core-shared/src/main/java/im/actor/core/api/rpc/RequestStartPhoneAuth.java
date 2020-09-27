@@ -7,7 +7,7 @@ import im.actor.runtime.bser.*;
 import im.actor.runtime.collections.*;
 import static im.actor.runtime.bser.Utils.*;
 import im.actor.core.network.parser.*;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 import com.google.j2objc.annotations.ObjectiveCName;
 import java.io.IOException;

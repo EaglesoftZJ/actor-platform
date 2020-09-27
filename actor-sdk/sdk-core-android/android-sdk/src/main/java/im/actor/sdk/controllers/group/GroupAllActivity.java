@@ -2,8 +2,8 @@ package im.actor.sdk.controllers.group;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
+import androidx.fragment.app.Fragment;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;

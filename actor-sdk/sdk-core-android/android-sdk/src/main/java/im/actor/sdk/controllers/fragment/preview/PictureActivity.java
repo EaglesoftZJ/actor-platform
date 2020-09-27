@@ -13,11 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.v13.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,11 +26,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.droidkit.progress.CircularView;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.spec.ECField;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import im.actor.core.entity.FileReference;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.runtime.Log;
@@ -49,10 +51,9 @@ import im.actor.sdk.util.images.common.ImageLoadException;
 import im.actor.sdk.util.images.ops.ImageLoading;
 import im.actor.sdk.view.MaterialInterpolator;
 import im.actor.sdk.view.avatar.AvatarView;
-import uk.co.senab.photoview.DefaultOnDoubleTapListener;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 import static im.actor.sdk.util.ActorSDKMessenger.users;
+
 
 public class PictureActivity extends BaseActivity {
 
@@ -296,7 +297,7 @@ public class PictureActivity extends BaseActivity {
                 bitmap = null;
 
             attacher = new PhotoViewAttacher(imageView);
-            attacher.setOnDoubleTapListener(new DefaultOnDoubleTapListener(attacher) {
+            attacher.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
 //                    if (!uiIsHidden) {
@@ -309,19 +310,19 @@ public class PictureActivity extends BaseActivity {
                     if (activity instanceof PictureActivity) {
                         activity.onBackPressed();
                     }
-                    return super.onSingleTapConfirmed(e);
+                    return false;
                 }
 
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
                     if (!uiIsHidden)
                         hideSystemUi();
-                    return super.onDoubleTap(e);
+                    return false;
                 }
 
                 @Override
                 public boolean onDoubleTapEvent(MotionEvent e) {
-                    return super.onDoubleTapEvent(e);
+                    return false;
                 }
             });
 
@@ -483,7 +484,7 @@ public class PictureActivity extends BaseActivity {
         public void onDestroyView() {
             super.onDestroyView();
             if (attacher != null)
-                attacher.cleanup();
+                attacher = null;
         }
 
         @Override
@@ -495,7 +496,7 @@ public class PictureActivity extends BaseActivity {
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
             if (item.getItemId() == R.id.share) {
-                startActivity(Intents.shareDoc(getActivity(),"picture.jpeg", path));
+                startActivity(Intents.shareDoc(getActivity(), "picture.jpeg", path));
 //                System.out.println("iGem:path="+path);
 //                startActivity(new Intent(Intent.ACTION_SEND)
 //                        .setType("image/jpeg")

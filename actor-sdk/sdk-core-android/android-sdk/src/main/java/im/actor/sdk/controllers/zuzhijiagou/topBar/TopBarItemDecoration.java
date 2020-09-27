@@ -6,18 +6,17 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ItemDecoration;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.sdk.R;
 
 /**
  * Created by huchengjie on 2017/11/9.
  */
 
-public class TopBarItemDecoration extends ItemDecoration {
+public class TopBarItemDecoration extends RecyclerView.ItemDecoration {
 
     private Drawable mDivider;
 

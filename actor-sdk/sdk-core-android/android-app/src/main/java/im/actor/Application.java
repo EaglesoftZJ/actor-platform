@@ -4,24 +4,24 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.multidex.MultiDex;
-import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
-import com.huawei.android.hms.agent.HMSAgent;
 import com.xiaomi.mipush.sdk.MiPushClient;
 
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.Fragment;
+import androidx.multidex.MultiDex;
 import im.actor.core.entity.Message;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.content.JsonContent;
@@ -73,7 +73,7 @@ public class Application extends ActorSDKApplication {
                     Utils.getMetaValue(this, "api_key"));
         } else if (phoneFlag == 1) {
 // 华为推送
-            HMSAgent.init(this);
+//            HMSAgent.init(this);
 //            HuaweiIdSignInOptions options = new HuaweiIdSignInOptions.Builder(HuaweiIdSignInOptions.DEFAULT_SIGN_IN)
 //                    .build();
 //            huaWeiCallBack callBack = new huaWeiCallBack(this);
@@ -95,7 +95,7 @@ public class Application extends ActorSDKApplication {
         super.onTerminate();
         int phoneFlag = Utils.isWhatPhone();
         if (phoneFlag == 1) {
-            HMSAgent.destroy();
+//            HMSAgent.destroy();
         }
 
     }
@@ -162,10 +162,11 @@ public class Application extends ActorSDKApplication {
 
             layouters.add(0, new DefaultLayouter(DefaultLayouter.TEXT_HOLDER, CensoredTextHolderEx::new));
 
+//            PhotoHolder photoHolder = new PhotoHolder(adapter1, root1, peer1)
             layouters.add(0, new XmlBubbleLayouter(content -> content instanceof PhotoContent, R.layout.adapter_dialog_photo, (adapter1, root1, peer1) -> new PhotoHolder(adapter1, root1, peer1) {
                 @Override
                 protected void onConfigureViewHolder() {
-                    previewView.setColorFilter(ActorStyle.adjustColorAlpha(Color.CYAN, 20), PorterDuff.Mode.ADD);
+//                    previewView.setColorFilter(ActorStyle.adjustColorAlpha(Color.CYAN, 20), PorterDuff.Mode.ADD);
                 }
             }));
             layouters.add(0, new JsonXmlBubbleLayouter(null, R.layout.adapter_dialog_text, (adapter, root, peer) -> new TextHolder(adapter, root, peer) {

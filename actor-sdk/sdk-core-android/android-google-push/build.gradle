@@ -1,9 +1,9 @@
 buildscript {
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath 'com.github.dcendents:android-maven-plugin:1.2'
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+//        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath "com.google.gms:google-services:3.0.0"
     }
 }
@@ -12,7 +12,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'io.codearte.nexus-staging'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
 
 group = 'im.actor'
 version = '0.0.1'
@@ -46,11 +46,11 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:24.0.0'
+//    implementation 'com.android.support:appcompat-v7:24.0.0'
     //compile 'im.actor:android-sdk:0.1.30'
-    compile project(':actor-sdk:sdk-core-android:android-sdk')
-    compile 'com.google.android.gms:play-services-gcm:9.4.0'
-    compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
+    implementation project(':actor-sdk:sdk-core-android:android-sdk')
+    implementation 'com.google.android.gms:play-services-gcm:9.4.0'
+    implementation(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
 }
 repositories { flatDir { dirs 'aars' } }
 

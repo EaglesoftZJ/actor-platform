@@ -4,15 +4,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.IOException;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.fragment.app.Fragment;
 import im.actor.core.api.ApiJsonMessage;
 import im.actor.core.entity.Message;
 import im.actor.core.entity.Peer;
@@ -127,7 +127,7 @@ public class MessagesDefaultFragment extends MessagesFragment {
                     }
                     long date = selected[0].getDate();
 
-                    if (selected.length == 1 && System.currentTimeMillis() - date <= 5 * 1000 * 60
+                    if (selected.length == 1 && System.currentTimeMillis() - date <= 15 * 1000 * 60
                             && selected[0].getSenderId() == myUid()) {
                         menu.findItem(R.id.revert).setVisible(true);
                         AbsContent abs = selected[0].getContent();

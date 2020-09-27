@@ -10,9 +10,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 
@@ -20,6 +17,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import im.actor.core.AndroidMessenger;
 import im.actor.core.Messenger;
 import im.actor.core.providers.NotificationProvider;

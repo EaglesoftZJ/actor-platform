@@ -18,7 +18,6 @@ package im.actor.sdk.view.emoji.keyboard.emoji;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import androidx.viewpager.widget.ViewPager;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.Sticker;
 import im.actor.sdk.R;

@@ -104,7 +104,7 @@ public class ValidateCodeFragment extends BaseAuthFragment {
             }
         });
 
-        codeEnterEditText.setText(((AuthActivity) getActivity()).getCurrentCode());
+//        codeEnterEditText.setText(((AuthActivity) getActivity()).getCurrentCode());
 
         onClick(v, R.id.button_confirm_sms_code, new View.OnClickListener() {
             @Override

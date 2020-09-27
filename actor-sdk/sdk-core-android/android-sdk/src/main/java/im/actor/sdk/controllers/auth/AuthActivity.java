@@ -1,18 +1,24 @@
 package im.actor.sdk.controllers.auth;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.ContentObserver;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.provider.ContactsContract;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import im.actor.core.AuthState;
 import im.actor.core.entity.AuthCodeRes;
 import im.actor.core.entity.AuthRes;
@@ -21,6 +27,7 @@ import im.actor.core.entity.Sex;
 import im.actor.core.network.RpcException;
 import im.actor.core.network.RpcInternalException;
 import im.actor.core.network.RpcTimeoutException;
+import im.actor.runtime.Runtime;
 import im.actor.runtime.actors.Actor;
 import im.actor.runtime.actors.ActorCreator;
 import im.actor.runtime.actors.ActorRef;
@@ -64,11 +71,33 @@ public class AuthActivity extends BaseFragmentActivity {
     private ActorRef authActor;
     private boolean codeValidated = false;
 
-    SharedPreferences spIp,spUswer,spLogin,ipList;
+    SharedPreferences spIp, spUswer, spLogin, ipList;
+
+
+    protected static final int PERMISSIONS_REQUEST_FOR_CONTACTS = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+//                boolean hasrefuse = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS);
+//
+//                boolean hasrefuse2 = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CONTACTS);
+
+//                if (!hasrefuse || !hasrefuse2) {
+////                        拒绝过
+//                    Toast toast = Toast.makeText(messenger().getContext(), "请前往手机系统设置，允许本应用读取和写入通讯录数据", Toast.LENGTH_LONG);
+//                    toast.show();
+//                } else {
+                this.requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS},
+                        PERMISSIONS_REQUEST_FOR_CONTACTS);
+//                }
+            }
+        }
+
         authActor = ActorSystem.system().actorOf(Props.create(new ActorCreator() {
             @Override
             public Actor create() {
@@ -89,12 +118,13 @@ public class AuthActivity extends BaseFragmentActivity {
         String savedState = preferences.getString("auth_state");
         state = Enum.valueOf(AuthState.class, savedState != null ? savedState : "AUTH_START");
 
-        spUswer = getSharedPreferences("userList",Context.MODE_PRIVATE);
-        spIp =getSharedPreferences("ipLogin",Context.MODE_PRIVATE);
-        spLogin = getSharedPreferences("userLogin",Context.MODE_PRIVATE);
-        ipList =  getSharedPreferences("ipList",Context.MODE_PRIVATE);
+        spUswer = getSharedPreferences("userList", Context.MODE_PRIVATE);
+        spIp = getSharedPreferences("ipLogin", Context.MODE_PRIVATE);
+        spLogin = getSharedPreferences("userLogin", Context.MODE_PRIVATE);
+        ipList = getSharedPreferences("ipList", Context.MODE_PRIVATE);
 
         updateState(state, true);
+
 
     }
 
@@ -304,7 +334,7 @@ public class AuthActivity extends BaseFragmentActivity {
                         messenger().doCompleteAuth(authCodeRes.getResult()).then(new Consumer<Boolean>() {
                             @Override
                             public void apply(Boolean aBoolean) {
-                                spUswer.edit().putString(currentName,currentCode).commit();
+                                spUswer.edit().putString(currentName, currentCode).commit();
                                 spLogin.edit().putString("zh", currentName).commit();
                                 spLogin.edit().putString("mm", currentCode).commit();
                                 updateState(AuthState.LOGGED_IN);
@@ -587,6 +617,27 @@ public class AuthActivity extends BaseFragmentActivity {
 
     public String getTransactionHash() {
         return transactionHash;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_FOR_CONTACTS) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Runtime.dispatch(() ->
+                        messenger().getContext().getContentResolver()
+                                .registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true,
+                                        new ContentObserver(null) {
+                                            @Override
+                                            public void onChange(boolean selfChange) {
+                                                messenger().onPhoneBookChanged();
+                                            }
+                                        }));
+            } else {
+                Toast toast = Toast.makeText(messenger().getContext(), "请前往手机系统设置，允许本应用读取和写入通讯录数据", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        }
     }
 }
 

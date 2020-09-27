@@ -1,4 +1,4 @@
-//
+//include ':actor-sdk:sdk-core-android:android-eaglesoft-hwpush'//
 // SDK Core
 //
 include ":actor-sdk:sdk-core"
@@ -19,8 +19,8 @@ include ":actor-sdk:sdk-api:api-codegen"
 // SDK Android
 ////
 //
-//include ":actor-sdk:sdk-core-android:android-app"
-//include ":actor-sdk:sdk-core-android:android-sdk"
+include ":actor-sdk:sdk-core-android:android-app"
+include ":actor-sdk:sdk-core-android:android-sdk"
 //
 //Google push for Android SDk
 //include ":actor-sdk:sdk-core-android:android-google-push"
@@ -28,17 +28,16 @@ include ":actor-sdk:sdk-api:api-codegen"
 ////Google maps for Android SDk
 //include ":actor-sdk:sdk-core-android:android-google-maps"
 ////eaglesoft push for Android SDk
-//include ":actor-sdk:sdk-core-android:android-eaglesoft-push"
-//include ":actor-sdk:sdk-core-android:android-gaode-maps"
-//include ":actor-sdk:sdk-core-android:webView_jsBridge"
-
+include ":actor-sdk:sdk-core-android:android-eaglesoft-push"
+include ":actor-sdk:sdk-core-android:android-gaode-maps"
+include ":actor-sdk:sdk-core-android:webView_jsBridge"
 
 
 //
 // SDK iOS
 //
 
-include ":actor-sdk:sdk-core-ios"
+//include ":actor-sdk:sdk-core-ios"
 
 //
 // SDK KeyGen
@@ -50,4 +49,4 @@ include ":actor-keygen"
 // SDK Command Line Client
 //
 
-include ":actor-sdk:sdk-core-clc:app-clc"
+//include ":actor-sdk:sdk-core-clc:app-clc"

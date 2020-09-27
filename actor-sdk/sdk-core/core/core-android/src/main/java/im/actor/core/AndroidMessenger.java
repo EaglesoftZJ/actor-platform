@@ -1,9 +1,11 @@
 package im.actor.core;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -40,6 +42,7 @@ import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import androidx.core.content.ContextCompat;
 import im.actor.core.entity.Contact;
 import im.actor.core.entity.Dialog;
 import im.actor.core.entity.Message;
@@ -99,16 +102,6 @@ public class AndroidMessenger extends im.actor.core.Messenger {
 
         this.appStateActor = system().actorOf("actor/android/state", () -> new AppStateActor(AndroidMessenger.this));
 
-        // Catch all phone book changes
-        Runtime.dispatch(() ->
-                context.getContentResolver()
-                        .registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true,
-                                new ContentObserver(null) {
-                                    @Override
-                                    public void onChange(boolean selfChange) {
-                                        onPhoneBookChanged();
-                                    }
-                                }));
 
         // Counters
         modules.getConductor()

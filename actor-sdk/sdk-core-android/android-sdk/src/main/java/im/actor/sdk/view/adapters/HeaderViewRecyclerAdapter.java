@@ -15,7 +15,6 @@ package im.actor.sdk.view.adapters;
  * limitations under the License.
  */
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -25,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.sdk.controllers.fragment.AnimatorViewHolder;
 
 /**

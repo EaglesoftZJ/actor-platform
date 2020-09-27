@@ -4,16 +4,17 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +26,11 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
 import im.actor.core.entity.Dialog;
 import im.actor.core.entity.DialogBuilder;
 import im.actor.core.entity.GroupType;
@@ -89,6 +95,8 @@ public class ChatToolbarFragment extends BaseFragment {
     protected ImageView barTypingIcon;
     // Toolbar typing text
     protected TextView barTyping;
+
+    View callItemView;
 
     public static Activity chatActivity;
 
@@ -296,7 +304,10 @@ public class ChatToolbarFragment extends BaseFragment {
 //                }
             }
         }
-        menu.findItem(R.id.call).setVisible(callsEnabled);
+        final MenuItem callItem = menu.findItem(R.id.call);
+
+        callItem.setVisible(callsEnabled);
+        callItemView = MenuItemCompat.getActionView(callItem);
 //        menu.findItem(R.id.video_call).setVisible(callsEnabled && videoCallsEnabled);
         menu.findItem(R.id.video_call).setVisible(false);
 
@@ -371,14 +382,20 @@ public class ChatToolbarFragment extends BaseFragment {
 //                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED ||
 //                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.VIBRATE) != PackageManager.PERMISSION_GRANTED ||
 //                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WAKE_LOCK) != PackageManager.PERMISSION_GRANTED) {
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     Log.d("Permissions", "call - no permission :c");
 //                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.CAMERA, Manifest.permission.VIBRATE, Manifest.permission.WAKE_LOCK},
 //                            item.getItemId() == R.id.video_call ? PERMISSIONS_REQUEST_FOR_VIDEO_CALL : PERMISSIONS_REQUEST_FOR_CALL);
-
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_PHONE_STATE},
+//                    boolean hasrefuse = ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CALL_PHONE);
+//                    if (!hasrefuse) {
+////                        拒绝过
+//                        Toast toast = Toast.makeText(getActivity(), "请前往手机系统设置，允许本应用拨打电话", Toast.LENGTH_LONG);
+//                        toast.show();
+//
+//                    } else {
+                    this.requestPermissions(new String[]{Manifest.permission.CALL_PHONE},
                             item.getItemId() == R.id.video_call ? PERMISSIONS_REQUEST_FOR_VIDEO_CALL : PERMISSIONS_REQUEST_FOR_CALL);
-
+//                    }
                 } else {
                     startCall(item.getItemId() == R.id.video_call);
                 }
@@ -390,11 +407,24 @@ public class ChatToolbarFragment extends BaseFragment {
 
 
     @Override
+    public boolean shouldShowRequestPermissionRationale(@NonNull String permission) {
+
+        return super.shouldShowRequestPermissionRationale(permission);
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_FOR_CALL || requestCode == PERMISSIONS_REQUEST_FOR_VIDEO_CALL) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startCall(requestCode == PERMISSIONS_REQUEST_FOR_VIDEO_CALL);
+            } else {
+                boolean hasrefuse = ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CALL_PHONE);
+                if (!hasrefuse) {
+//                        拒绝过
+                    Toast toast = Toast.makeText(getActivity(), "请前往手机系统设置，允许本应用拨打电话", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         }
     }
@@ -406,19 +436,7 @@ public class ChatToolbarFragment extends BaseFragment {
                 cmd = messenger().doVideoCall(peer.getPeerId());
             } else {
                 cmd = null;
-                String sjh = "";
-                try {
-                    JSONArray yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
-                    System.out.println("iGem:" + yh_array);
-                    for (int i = 0; i < yh_array.length(); i++) {
-                        if (yh_array.getJSONObject(i).getString("IGIMID").equals(peer.getPeerId() + "")) {
-                            sjh = yh_array.getJSONObject(i).getString("sjh");
-                            break;
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                String sjh = ActorSDK.getPhoneByPeerId(peer.getPeerId());
                 if (sjh == null || sjh.length() == 0) {
                     new AlertDialog.Builder(getActivity())
                             .setMessage("对不起，该用户手机号为空。")
@@ -426,6 +444,7 @@ public class ChatToolbarFragment extends BaseFragment {
                             .show();
                     return;
                 }
+
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_CALL);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -440,19 +459,6 @@ public class ChatToolbarFragment extends BaseFragment {
             execute(cmd, R.string.progress_common);
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == getActivity().RESULT_OK) {
-//            switch (requestCode) {
-//                case Greate_Group_Res:
-//                    int gid = data.getIntExtra("groupId", 0);
-//                    if (gid != 0) {
-//                        getActivity().finish();
-//                        getContext().startActivity(Intents.openGroupDialog(gid, true, getActivity()));
-//                    }
-//                    break;
-//            }
-//        }
-//    }
+
 }
+

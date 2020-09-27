@@ -1,20 +1,18 @@
 package im.actor.sdk.controllers.zuzhijiagou.search;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.core.entity.Message;
 import im.actor.core.entity.SearchEntity;
 import im.actor.runtime.android.view.BindedListAdapter;
 import im.actor.runtime.generic.mvvm.BindedDisplayList;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
-import im.actor.sdk.controllers.conversation.messages.content.preprocessor.PreprocessedList;
-import im.actor.sdk.controllers.search.GlobalSearchBaseFragment;
 import im.actor.sdk.util.Screen;
 import im.actor.sdk.view.adapters.OnItemClickedListener;
 

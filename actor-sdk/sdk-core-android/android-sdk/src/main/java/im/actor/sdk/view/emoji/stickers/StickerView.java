@@ -83,7 +83,7 @@ public class StickerView extends SimpleDraweeView {
             bindedFile = null;
         }
 
-        setImageURI(null);
+        setImageURI((Uri) null);
 
         this.fileReference = fileReference;
 
@@ -164,7 +164,7 @@ public class StickerView extends SimpleDraweeView {
             bindedFile = null;
         }
 
-        setImageURI(null);
+        setImageURI((Uri) null);
         fastThumbLoader.cancel();
     }
 }

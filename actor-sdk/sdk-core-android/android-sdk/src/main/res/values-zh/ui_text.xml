@@ -3,7 +3,7 @@
   ~ Copyright (C) 2015 Actor LLC. <https://actor.im>
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="urlForCompany">宁波舟山港舟山港务有限公司</string>
     <string name="url">http://61.175.100.14</string>
@@ -32,7 +32,7 @@
     <string name="toast_empty_name">名字不能空着</string>
     <string name="toast_unable_change">不能修改名字</string>
 
-    <string name="menu_app_open">第三方应用打开</string>
+    <string name="menu_app_open" tools:ignore="ExtraTranslation">第三方应用打开</string>
     <string name="menu_share">分享</string>
     <string name="menu_save">保存到手机中</string>
     <string name="menu_saved">保存</string>
@@ -519,4 +519,6 @@
     <string name="error_connection">无法连接。请检查是否可以连接互联网并重试。\n\n如果连接问题一直无法解决，请重新启动手机。</string>
     <string name="error_unknown">无法执行操作。\n\n如果无法解决问题，请重新启动手机。</string>
     <string name="error_view_url">未知URL类型</string>
+
+    <string name="messages_action_revert" tools:ignore="ExtraTranslation">撤回</string>
 </resources>

@@ -10,18 +10,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.ContentObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-import com.huawei.hms.api.HuaweiApiClient;
 
 import org.json.JSONObject;
 
@@ -32,19 +31,29 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import im.actor.core.viewmodel.AppStateVM;
 import im.actor.core.viewmodel.Command;
 import im.actor.core.viewmodel.CommandCallback;
+import im.actor.runtime.Runtime;
 import im.actor.runtime.android.AndroidContext;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseFragmentActivity;
+import im.actor.sdk.controllers.compose.ComposeEaglesoftFragment;
 import im.actor.sdk.controllers.tools.InviteHandler;
+import im.actor.sdk.intents.WebForV8Util;
 import im.actor.sdk.intents.WebServiceLogionUtil;
 import im.actor.sdk.intents.WebServiceUtil;
 import im.actor.sdk.permisson_interface.OnPermissionListener;
 import im.actor.sdk.push.Utils;
 import im.actor.sdk.services.UpdataService;
+import im.actor.sdk.util.ActorSDKMessenger;
+
+import static im.actor.sdk.util.ActorSDKMessenger.messenger;
 
 
 /**
@@ -56,7 +65,7 @@ public class RootActivity extends BaseFragmentActivity {
     private SharedPreferences sp;
 
 
-    static HuaweiApiClient client;
+    //    static HuaweiApiClient client;
     // user your appid the key.
     private static final String APP_ID = "2882303761517562000";
     // user your appid the key.
@@ -75,18 +84,32 @@ public class RootActivity extends BaseFragmentActivity {
 //            ActivityCompat.requestPermissions(this,
 //                    new String[]{Manifest.permission.READ_CONTACTS},
 //                    PERMISSIONS_REQUEST_READ_CONTACTS);
-        String[] PERMISSIONS_CONTACT = {
-                Manifest.permission.READ_CONTACTS, Manifest.permission.READ_EXTERNAL_STORAGE};
 
-        requestPermission(PERMISSIONS_CONTACT, new OnPermissionListener() {
+        String[] PERMISSIONS_STORAGE = {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_CONTACTS, Manifest.permission.READ_CONTACTS};
+
+        requestPermission(PERMISSIONS_STORAGE, new OnPermissionListener() {
             @Override
             public void permissionGranted() {
                 AppStateVM appStateVM = ActorSDK.sharedActor().getMessenger().getAppStateVM();
                 if (appStateVM.isDialogsLoaded() && appStateVM.isContactsLoaded() && appStateVM.isSettingsLoaded()) {
                     ActorSDK.sharedActor().getMessenger().startImport();
                 }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    Runtime.dispatch(() ->
+                            messenger().getContext().getContentResolver()
+                                    .registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true,
+                                            new ContentObserver(null) {
+                                                @Override
+                                                public void onChange(boolean selfChange) {
+                                                    messenger().onPhoneBookChanged();
+                                                }
+                                            }));
+                }
             }
         });
+
+
 //        }
         execute(new Command<String>() {
             @Override
@@ -239,25 +262,46 @@ public class RootActivity extends BaseFragmentActivity {
     }
 
     private void zjjgData(final CommandCallback<String> callback) {
-        WebServiceUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8004", new HashMap<String, String>(),
-                "GetAllUserFullData", AndroidContext.getContext(), new Handler(new Handler.Callback() {
+
+        WebForV8Util.webPostUrl(AndroidContext.getContext(), ActorSDK.getWebServiceUri(getApplicationContext()) + ":8801" + "/zsgwuias/rest/out/getTxl", null,
+                new Handler(new Handler.Callback() {
                     @Override
-                    public boolean handleMessage(Message msg) {
-                        Bundle b = msg.getData();
+                    public boolean handleMessage(Message message) {
+                        Bundle b = message.getData();
                         String datasource = b.getString("datasource");
                         try {
                             JSONObject json = new JSONObject(datasource);
-                            ActorSDK.setZjjgData(json);
-//                                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
-//                                fragment.changeAdapter();
+                            ActorSDK.setZjjgData(json.getJSONObject("data"));
+                            ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
+                            fragment.changeAdapter();
                             callback.onResult("");
                         } catch (Exception e) {
                             e.printStackTrace();
-                            callback.onError(e);
                         }
                         return false;
                     }
                 }));
+
+
+//        WebServiceUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8801", new HashMap<String, String>(),
+//                "/zsgwuias/rest/out/getTxl", AndroidContext.getContext(), new Handler(new Handler.Callback() {
+//                    @Override
+//                    public boolean handleMessage(Message msg) {
+//                        Bundle b = msg.getData();
+//                        String datasource = b.getString("datasource");
+//                        try {
+//                            JSONObject json = new JSONObject(datasource);
+//                            ActorSDK.setZjjgData(json);
+////                                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
+////                                fragment.changeAdapter();
+//                            callback.onResult("");
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                            callback.onError(e);
+//                        }
+//                        return false;
+//                    }
+//                }));
 
     }
 
@@ -277,7 +321,7 @@ public class RootActivity extends BaseFragmentActivity {
         boolean flag = true;
         activitylistener = listener;
         for (int i = 0; i < permission.length; i++) {
-            if (android.support.v4.app.ActivityCompat.checkSelfPermission(this, permission[i])
+            if (ActivityCompat.checkSelfPermission(this, permission[i])
                     != PackageManager.PERMISSION_GRANTED) {
                 flag = false;
                 break;
@@ -294,7 +338,7 @@ public class RootActivity extends BaseFragmentActivity {
     private boolean requestShowRequestPermission(String[] permission) {
         boolean flag = false;
         for (int i = 0; i < permission.length; i++) {
-            if (android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale(this, permission[i])) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission[i])) {
                 flag = true;
                 break;
             }
@@ -309,12 +353,12 @@ public class RootActivity extends BaseFragmentActivity {
             // and the user would benefit from additional context for the use of the permission.
             // For example, if the request has been denied previously.
             // Display a SnackBar with an explanation and a button to trigger the request.
-            android.support.v4.app.ActivityCompat.requestPermissions(this, permission,
+            ActivityCompat.requestPermissions(this, permission,
                     PERMISSIONS_REQUEST);
 
         } else {
             // Contact permissions have not been granted yet. Request them directly.
-            android.support.v4.app.ActivityCompat.requestPermissions(this, permission, PERMISSIONS_REQUEST);
+            ActivityCompat.requestPermissions(this, permission, PERMISSIONS_REQUEST);
         }
         // END_INCLUDE(contacts_permission_request)
     }
@@ -339,6 +383,12 @@ public class RootActivity extends BaseFragmentActivity {
                         break;
                     } else if (permissions[i].equals(Manifest.permission.READ_PHONE_STATE)) {
                         Toast.makeText(this, "因使用电话权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
+                        break;
+                    } else if (permissions[i].equals(Manifest.permission.WRITE_CONTACTS)) {
+                        Toast.makeText(this, "因读取和写入通讯录未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
+                        break;
+                    } else if (permissions[i].equals(Manifest.permission.READ_CONTACTS)) {
+                        Toast.makeText(this, "因读取和写入通讯录未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();
                         break;
                     } else {
                         Toast.makeText(this, "因部分权限未开启，有功能尚无法使用，请去设置中开启", Toast.LENGTH_LONG).show();

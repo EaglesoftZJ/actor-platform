@@ -1,6 +1,7 @@
 buildscript {
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath "com.google.gms:google-services:3.0.0"
     }
 }
 apply plugin: 'com.android.library'
@@ -13,24 +14,32 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
+        minSdkVersion 17
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-//        ndk {
-//            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
-//            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64"
-//        }
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","x86_64"
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            debuggable = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            versionNameSuffix = '1.0'
+        }
+        sit {
+            minifyEnabled false
+            debuggable = false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            versionNameSuffix = '1.0'
         }
     }
 
@@ -39,34 +48,30 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'assets/location_map_gps_locked.png'
+    }
+
 
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile project(':actor-sdk:sdk-core-android:android-sdk')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation project(':actor-sdk:sdk-core-android:android-sdk')
 
-//    testCompile 'junit:junit:4.12'
-//    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    })
+    //定位功能
+    implementation 'com.amap.api:location:latest.integration'
 
-//    compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
+    implementation 'com.amap.api:3dmap:latest.integration'
 
-//    //    3D地图
-//    compile 'com.amap.api:map3d:latest.integration'
-////    2D地图
-//    compile 'com.amap.api:map2d:latest.integration'
-//    //定位功能
-//    compile 'com.amap.api:location:latest.integration'
-//    // 搜索功能
-//    compile 'com.amap.api:search:latest.integration'
-    compile 'com.android.support:support-v4:25+'
+    implementation 'com.amap.api:map2d:latest.integration'
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
 //repositories { flatDir { dirs 'aars' } }
 

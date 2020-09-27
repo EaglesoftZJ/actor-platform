@@ -1,9 +1,9 @@
 package im.actor.sdk.controllers.profile;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;

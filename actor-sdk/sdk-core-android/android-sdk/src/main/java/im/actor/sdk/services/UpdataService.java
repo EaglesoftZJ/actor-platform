@@ -17,8 +17,10 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.webkit.MimeTypeMap;
+
+import androidx.core.content.FileProvider;
+
 import android.widget.Toast;
 
 import java.io.File;
@@ -244,7 +246,7 @@ public class UpdataService extends Service {
 //            ContentValues contentValues = new ContentValues(1);
 //            contentValues.put(MediaStore.Images.Media.DATA, videoFile.getAbsolutePath());
 //            videoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-            uri = FileProvider.getUriForFile(this,"im.actor.develop.myFileProvider",var0);
+            uri = FileProvider.getUriForFile(this, "im.actor.develop.myFileProvider", var0);
         }
         var2.setDataAndType(uri, var3);
         var2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

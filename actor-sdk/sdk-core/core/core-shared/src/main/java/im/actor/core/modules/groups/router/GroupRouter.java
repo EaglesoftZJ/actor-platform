@@ -1,6 +1,6 @@
 package im.actor.core.modules.groups.router;
 
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashSet;

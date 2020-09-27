@@ -27,9 +27,14 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
 import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,10 +51,10 @@ import im.actor.sdk.ActorSDK;
  * @功能：webService工具类，连接服务器，获取内容
  */
 public class WebForV8Util {
-    // 连接服务器，获取内容
-    public static String URL;
+//    // 连接服务器，获取内容
+//    public static String URL;
 
-    public static void webPost(Context con, final String baseURL,final HashMap<String, String> par
+    public static void webPost(Context con, final String baseURL, final HashMap<String, String> par
             , final Handler handler) {
         ConnectivityManager mConnectivity = (ConnectivityManager) con.getSystemService(Context.CONNECTIVITY_SERVICE);
         TelephonyManager mTelephony = (TelephonyManager) con.getSystemService(con.TELEPHONY_SERVICE);
@@ -94,7 +99,7 @@ public class WebForV8Util {
                         HttpResponse response = httpClient.execute(httpPost);
                         // 显示响应
                         if (response.getStatusLine().getStatusCode() == 200) {
-                                                               /* 读返回数据 */
+                            /* 读返回数据 */
                             data = EntityUtils.toString(response.getEntity());
                             // mTextView1.setText(strResult);
 
@@ -154,5 +159,88 @@ public class WebForV8Util {
         }
     }
 
+
+    public static void webPostUrl(Context con, final String baseURL, final HashMap<String, String> par
+            , final Handler handler) {
+        ConnectivityManager mConnectivity = (ConnectivityManager) con.getSystemService(Context.CONNECTIVITY_SERVICE);
+        TelephonyManager mTelephony = (TelephonyManager) con.getSystemService(con.TELEPHONY_SERVICE);
+        // 检查网络连接，如果无网络可用，就不需要进行连网操作等
+        NetworkInfo info = mConnectivity.getActiveNetworkInfo();
+        if (info == null || !mConnectivity.getBackgroundDataSetting()) {
+            Message msg = new Message();
+            Bundle b = new Bundle();
+            b.putString("datasource", "isNoNet");
+            msg.setData(b);
+            handler.sendMessage(msg);
+        } else {
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Message msg = new Message();
+                        Bundle b = new Bundle();
+                        String data = "";
+                        String urlPath = new String(baseURL);
+                        //建立连接
+                        URL url = new URL(urlPath);
+                        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+                        //设置参数
+                        httpConn.setDoOutput(true);     //需要输出
+                        httpConn.setDoInput(true);      //需要输入
+                        httpConn.setUseCaches(false);   //不允许缓存
+                        httpConn.setRequestMethod("POST");      //设置POST方式连接
+                        //设置请求属性
+                        httpConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                        httpConn.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
+                        httpConn.setRequestProperty("Charset", "UTF-8");
+                        //连接,也可以不用明文connect，使用下面的httpConn.getOutputStream()会自动connect
+                        httpConn.connect();
+                        //建立输入流，向指向的URL传入参数
+                        DataOutputStream dos = new DataOutputStream(httpConn.getOutputStream());
+//                        dos.writeBytes(param);
+                        dos.flush();
+                        dos.close();
+                        //获得响应状态
+                        int resultCode = httpConn.getResponseCode();
+
+                        StringBuffer sb = new StringBuffer();
+                        String readLine = new String();
+                        BufferedReader responseReader = new BufferedReader(new InputStreamReader(httpConn.getInputStream(), "UTF-8"));
+                        while ((readLine = responseReader.readLine()) != null) {
+                            sb.append(readLine).append("\n");
+                        }
+                        responseReader.close();
+
+                        if (HttpURLConnection.HTTP_OK == resultCode) {
+                            // 显示响应
+                            /* 读返回数据 */
+
+                            data = sb.toString();
+
+
+                        } else {
+
+                            data = "Error Response: "
+                                    + sb.toString();
+                        }
+                        if (data == null
+                                || "java.lang.NullPointerException".equals(data
+                                .trim())) {
+                            b.putString("datasource", "false");
+                        } else {
+                            b.putString("datasource", data);
+                        }
+                        msg.setData(b);
+                        handler.sendMessage(msg);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        // dialog.dismiss();
+                    }
+                }
+            }.start();
+
+        }
+    }
 
 }

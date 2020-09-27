@@ -7,7 +7,7 @@ package im.actor.core.entity.content;
 import com.google.j2objc.annotations.Property;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import im.actor.core.api.ApiImageLocation;
 import im.actor.core.api.ApiStickerMessage;

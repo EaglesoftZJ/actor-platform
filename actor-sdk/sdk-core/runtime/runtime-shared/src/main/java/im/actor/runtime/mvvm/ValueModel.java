@@ -3,7 +3,7 @@ package im.actor.runtime.mvvm;
 import com.google.j2objc.annotations.ObjectiveCName;
 import com.google.j2objc.annotations.Property;
 
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 public class ValueModel<T> extends Value<T> {
 

@@ -2,13 +2,13 @@
   ~ Copyright (C) 2015 Actor LLC. <https://actor.im>
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="hwpush_ability_value" translatable="false">successRateAnalytics</string>
 
-    <string name="urlForCompany">宁波舟山港舟山港务有限公司</string>
-    <string name="url">http://61.175.100.14</string>
+    <string name="urlForCompany" translatable="false">宁波舟山港舟山港务有限公司</string>
+    <string name="url" translatable="false">http://61.175.100.12</string>
     <!--<string name="url">http://220.189.207.21:8709</string>-->
-    <string name="pushUrl">http://10.169.204.9:8012</string>
+    <string name="pushUrl" translatable="false">http://10.169.204.9:8012</string>
     <!--<string name="pushUrl">http://127.0.0.1:8080</string>-->
 
 
@@ -667,4 +667,23 @@
     <string name="error_view_url">Unknown URL type</string>
 
 
+
+    <string name="main_bar_work" translatable="false">工作</string>
+    <string name="settings_sign_out_message" translatable="false">确定要退出该账号么？(退出后需要重启程序再进入)</string>
+    <string name="auth_code_username_change" translatable="false">确定要变更用户名吗?</string>
+    <string name="auth_error_password_invalid">密码不正确，请重试。</string>
+    <string name="main_bar_organizational">组织架构</string>
+    <string name="main_fab_group">群组</string>
+    <string name="zzjg_empty_short">无可选人员</string>
+    <string name="group_empty_short">还没有任何群组</string>
+    <string name="join_public_group_members_count">成员: </string>
+    <string name="join_public_group_friends_count">好友: </string>
+    <string name="auth_code_wrong_username">用户名错误?</string>
+    <string name="shuRuIP">请输入IP+端口</string>
+    <string name="jiZhuMiMa">记住用户名和密码</string>
+    <string name="group_menu_add">添加成员</string>
+    <string name="menu_app_open" tools:ignore="ExtraTranslation">第三方应用打开</string>
+    <string name="map_send">发送</string>
+
+    <string name="messages_action_revert" tools:ignore="ExtraTranslation">撤回</string>
 </resources>

@@ -2,18 +2,9 @@ package im.actor.runtime.android;
 
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Process;
-import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
-import org.webrtc.AudioSource;
-import org.webrtc.MediaConstraints;
-import org.webrtc.MediaStream;
-import org.webrtc.PeerConnection;
 import org.webrtc.PeerConnectionFactory;
-import org.webrtc.VideoCapturer;
-import org.webrtc.VideoSource;
-import org.webrtc.VideoTrack;
 
 import im.actor.runtime.WebRTCRuntime;
 import im.actor.runtime.actors.ActorContext;

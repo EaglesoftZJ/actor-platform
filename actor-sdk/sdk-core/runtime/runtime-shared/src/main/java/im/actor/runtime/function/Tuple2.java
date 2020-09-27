@@ -2,7 +2,7 @@ package im.actor.runtime.function;
 
 import com.google.j2objc.annotations.Property;
 
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 public class Tuple2<T1, T2> {
 

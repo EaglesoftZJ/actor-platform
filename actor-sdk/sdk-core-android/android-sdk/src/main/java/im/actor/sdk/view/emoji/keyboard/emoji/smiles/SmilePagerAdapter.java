@@ -1,7 +1,6 @@
 package im.actor.sdk.view.emoji.keyboard.emoji.smiles;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import androidx.viewpager.widget.PagerAdapter;
 import im.actor.runtime.mvvm.MVVMCollection;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseActivity;

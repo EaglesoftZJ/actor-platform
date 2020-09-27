@@ -5,7 +5,7 @@
 package im.actor.runtime.bser;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 import java.util.ArrayList;

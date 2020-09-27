@@ -1,10 +1,10 @@
 package im.actor.sdk.controllers.fragment.preview;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
+import androidx.appcompat.app.ActionBar;
 import im.actor.sdk.controllers.activity.BaseActivity;
 
 public class CodePreviewActivity extends BaseActivity {

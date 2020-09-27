@@ -3,12 +3,12 @@ package im.actor.sdk.controllers.activity;
 import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import im.actor.core.entity.Avatar;
 import im.actor.core.viewmodel.Command;
 import im.actor.core.viewmodel.CommandCallback;

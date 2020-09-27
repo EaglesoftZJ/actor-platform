@@ -2,9 +2,6 @@ package im.actor.sdk.controllers.zuzhijiagou;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
@@ -88,7 +88,7 @@ public class ZzjgFragment extends BaseFragment {
         View res = inflater.inflate(layoutId, container, false);
 
         topBarRecyclerView = (RecyclerView) res.findViewById(R.id.zuzhijiagou_topbar);
-        topBarRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), OrientationHelper.HORIZONTAL, false));
+        topBarRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         List<TreeBarBean> bars = new ArrayList<TreeBarBean>();
         baradapter = new TopBarAdapter(getContext(), bars);
         baradapter.setOnItemClickLitener(new TopBarAdapter.OnItemClickLitener() {

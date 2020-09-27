@@ -3,7 +3,7 @@ package im.actor.runtime.promise;
 import com.google.j2objc.annotations.ObjectiveCName;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 

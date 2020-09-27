@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-public abstract class BindedViewHolder extends android.support.v7.widget.RecyclerView.ViewHolder {
+import androidx.recyclerview.widget.RecyclerView;
+
+public abstract class BindedViewHolder extends RecyclerView.ViewHolder {
 
     protected final View contentView;
     protected final FrameLayout contentFrame;

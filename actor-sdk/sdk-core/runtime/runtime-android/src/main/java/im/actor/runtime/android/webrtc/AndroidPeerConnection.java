@@ -1,9 +1,6 @@
 package im.actor.runtime.android.webrtc;
 
-import android.support.annotation.NonNull;
-
 import org.jetbrains.annotations.NotNull;
-
 
 import org.webrtc.DataChannel;
 import org.webrtc.IceCandidate;
@@ -19,6 +16,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 
+import androidx.annotation.NonNull;
 import im.actor.runtime.actors.messages.Void;
 import im.actor.runtime.android.AndroidWebRTCRuntimeProvider;
 import im.actor.runtime.function.CountedReference;

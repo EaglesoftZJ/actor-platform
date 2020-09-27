@@ -20,6 +20,9 @@ public class ActorSDKApplication extends Application {
 
         int id = android.os.Process.myPid();
         String myProcessName = getPackageName();
+
+
+
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         for (ActivityManager.RunningAppProcessInfo procInfo : activityManager.getRunningAppProcesses()) {
             if (id == procInfo.pid) {

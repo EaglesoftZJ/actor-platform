@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Build;
@@ -47,6 +48,7 @@ import im.actor.core.viewmodel.UploadFileVM;
 import im.actor.core.viewmodel.UploadFileVMCallback;
 import im.actor.runtime.Log;
 import im.actor.sdk.ActorSDK;
+import im.actor.sdk.ActorStyle;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;
 import im.actor.sdk.controllers.conversation.messages.MessagesAdapter;
@@ -120,6 +122,7 @@ public class PhotoHolder extends MessageHolder {
 
         // Content
         previewView = (SimpleDraweeView) itemView.findViewById(R.id.image);
+
         GenericDraweeHierarchyBuilder builder =
                 new GenericDraweeHierarchyBuilder(context.getResources());
 
@@ -302,7 +305,7 @@ public class PhotoHolder extends MessageHolder {
                 }
 
                 if (!updated) {
-                    previewView.setImageURI(null);
+                    previewView.setImageURI((Uri) null);
                 }
                 downloadFileVM = messenger().bindFile(((FileRemoteSource) fileMessage.getSource()).getFileReference(),
                         autoDownload, new DownloadVMCallback(fileMessage));
@@ -314,7 +317,7 @@ public class PhotoHolder extends MessageHolder {
                     bindImage(uri);
                 } else {
                     if (!updated) {
-                        previewView.setImageURI(null);
+                        previewView.setImageURI((Uri)null);
                         Log.d(TAG, "rebind video - setImageURI(null)!");
 
                     }
@@ -436,7 +439,7 @@ public class PhotoHolder extends MessageHolder {
 
         // Releasing images
         fastThumbLoader.cancel();
-        previewView.setImageURI(null);
+        previewView.setImageURI((Uri)null);
         previewView.destroyDrawingCache();
 
         playRequested = false;

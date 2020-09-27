@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -16,6 +15,7 @@ import android.widget.Toast;
 
 import com.droidkit.progress.CircularView;
 
+import androidx.fragment.app.FragmentActivity;
 import im.actor.core.entity.Message;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.content.DocumentContent;

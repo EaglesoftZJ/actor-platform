@@ -4,15 +4,15 @@ import android.content.Context;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.auth.AuthActivity;
@@ -21,7 +21,7 @@ import im.actor.sdk.util.Fonts;
 import im.actor.sdk.view.SelectorFactory;
 
 
-public class TourActivity extends ActionBarActivity {
+public class TourActivity extends AppCompatActivity {
 
     private static final int SIGNIN = 1;
     private static final int SIGNUP = 3;

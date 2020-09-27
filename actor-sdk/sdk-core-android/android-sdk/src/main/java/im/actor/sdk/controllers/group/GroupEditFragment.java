@@ -1,7 +1,7 @@
 package im.actor.sdk.controllers.group;
 
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import im.actor.core.util.JavaUtil;
 import im.actor.core.viewmodel.GroupVM;

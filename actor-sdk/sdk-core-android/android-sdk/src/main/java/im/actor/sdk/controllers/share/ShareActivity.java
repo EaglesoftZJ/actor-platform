@@ -2,8 +2,8 @@ package im.actor.sdk.controllers.share;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 
+import androidx.appcompat.widget.Toolbar;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.activity.BaseFragmentActivity;

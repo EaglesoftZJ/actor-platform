@@ -1,7 +1,7 @@
 package im.actor.sdk.controllers.dialogs;
 
-import android.support.v4.app.Fragment;
 
+import androidx.fragment.app.Fragment;
 import im.actor.core.entity.Dialog;
 
 public class DialogsFragment extends BaseDialogFragment {

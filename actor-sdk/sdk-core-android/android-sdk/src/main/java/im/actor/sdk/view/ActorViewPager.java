@@ -1,11 +1,12 @@
 package im.actor.sdk.view;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class ActorViewPager extends ViewPager{
+import androidx.viewpager.widget.ViewPager;
+
+public class ActorViewPager extends ViewPager {
     private boolean isCanScroll = true;
 
 

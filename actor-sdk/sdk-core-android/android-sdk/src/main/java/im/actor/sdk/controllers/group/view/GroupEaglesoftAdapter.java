@@ -1,7 +1,6 @@
 package im.actor.sdk.controllers.group.view;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.SectionIndexer;
@@ -9,6 +8,7 @@ import android.widget.SectionIndexer;
 import java.util.HashSet;
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.core.entity.Contact;
 import im.actor.core.entity.Group;
 import im.actor.core.viewmodel.GroupVM;

@@ -2,14 +2,16 @@ package im.actor.sdk.intents;
 
 import android.content.Intent;
 
+import androidx.fragment.app.Fragment;
+
 public class ActorIntentFragmentActivity extends ActorIntentActivity {
-    android.support.v4.app.Fragment fragment;
+    Fragment fragment;
 
     public ActorIntentFragmentActivity(Intent intent) {
         super(intent);
     }
 
-    public ActorIntentFragmentActivity(Intent intent, android.support.v4.app.Fragment fragment) {
+    public ActorIntentFragmentActivity(Intent intent, Fragment fragment) {
         super(intent);
         this.fragment = fragment;
     }
@@ -18,7 +20,7 @@ public class ActorIntentFragmentActivity extends ActorIntentActivity {
         super(null);
     }
 
-    public android.support.v4.app.Fragment getFragment() {
+    public Fragment getFragment() {
         return fragment;
     }
 }

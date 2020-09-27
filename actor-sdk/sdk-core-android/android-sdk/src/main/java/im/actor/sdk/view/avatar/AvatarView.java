@@ -117,7 +117,7 @@ public class AvatarView extends SimpleDraweeView {
             bindedFile = null;
         }
 
-        setImageURI(null);
+        setImageURI((Uri) null);
 
         if (avatar == null || getImage(avatar) == null) {
             currentId = 0;
@@ -182,6 +182,6 @@ public class AvatarView extends SimpleDraweeView {
         }
         currentId = 0;
 
-        setImageURI(null);
+        setImageURI((Uri) null);
     }
 }

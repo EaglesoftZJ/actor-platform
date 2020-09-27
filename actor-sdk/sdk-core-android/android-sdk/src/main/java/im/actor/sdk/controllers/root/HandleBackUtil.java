@@ -1,11 +1,12 @@
 package im.actor.sdk.controllers.root;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * Created by huchengjie on 2018/3/15.
@@ -17,8 +18,8 @@ public class HandleBackUtil {
      * 没有处理back事件，则尝试 FragmentManager.popBackStack()
      *
      * @return 如果处理了back键则返回 <b>true</b>
-     * @see #handleBackPress(android.support.v4.app.Fragment)
-     * @see #handleBackPress(android.support.v4.app.FragmentActivity)
+     * @see #handleBackPress(androidx.fragment.app.Fragment)
+     * @see #handleBackPress(androidx.fragment.app.FragmentActivity)
      */
     public static boolean handleBackPress(FragmentManager fragmentManager) {
         List<Fragment> fragments = fragmentManager.getFragments();

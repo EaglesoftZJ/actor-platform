@@ -2,12 +2,14 @@ package im.actor.tour;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
+
 import org.jetbrains.annotations.NotNull;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by Jesus Christ. Amen.
@@ -45,7 +47,8 @@ public class PagerContainer extends FrameLayout implements ViewPager.OnPageChang
     }
 
     @Override
-    protected void onFinishInflate() {
+    public void onFinishTemporaryDetach() {
+        super.onFinishTemporaryDetach();
         try {
             mPager = (VerticalViewPager) getChildAt(0);
             mPager.setOnPageChangeListener(this);
@@ -53,6 +56,16 @@ public class PagerContainer extends FrameLayout implements ViewPager.OnPageChang
             throw new IllegalStateException("The root child of PagerContainer must be a ViewPager");
         }
     }
+
+//    @Override
+//    protected void onFinishInflate() {
+//        try {
+//            mPager = (VerticalViewPager) getChildAt(0);
+//            mPager.setOnPageChangeListener(this);
+//        } catch (Exception e) {
+//            throw new IllegalStateException("The root child of PagerContainer must be a ViewPager");
+//        }
+//    }
 
     public VerticalViewPager getViewPager() {
         return mPager;

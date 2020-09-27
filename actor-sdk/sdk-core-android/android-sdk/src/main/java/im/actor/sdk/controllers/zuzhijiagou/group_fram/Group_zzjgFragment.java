@@ -2,9 +2,6 @@ package im.actor.sdk.controllers.zuzhijiagou.group_fram;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -32,6 +29,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.core.viewmodel.UserVM;
 import im.actor.runtime.promise.Promise;
 import im.actor.sdk.ActorSDK;

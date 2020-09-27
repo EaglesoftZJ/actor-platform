@@ -12,8 +12,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.app.AppCompatActivity;
 
+import androidx.appcompat.app.AppCompatActivity;
 import im.actor.sdk.controllers.pickers.file.items.ExplorerItem;
 
 import java.io.File;

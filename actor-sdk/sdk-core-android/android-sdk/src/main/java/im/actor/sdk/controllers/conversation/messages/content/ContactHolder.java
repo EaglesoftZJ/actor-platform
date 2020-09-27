@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;

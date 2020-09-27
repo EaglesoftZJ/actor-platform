@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
-import android.support.v4.content.ContextCompat;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import androidx.core.content.ContextCompat;
 import im.actor.sdk.util.Devices;
 import im.actor.core.providers.PhoneBookProvider;
 import im.actor.core.entity.PhoneBookContact;

@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +24,8 @@ import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.SwitchCompat;
 import im.actor.core.entity.GroupMember;
 import im.actor.core.entity.GroupType;
 import im.actor.core.entity.Peer;

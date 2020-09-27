@@ -1,22 +1,36 @@
 allprojects {
 
     repositories {
+        google()
         jcenter()
-        URL HMSMaven =new URL('http://developer.huawei.com/repo')
-        maven {url HMSMaven}
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
+        maven { url "https://jitpack.io" }
+        maven {url 'https://developer.huawei.com/repo/'}
     }
 
     buildscript {
         repositories {
+            google()
             jcenter()
-            maven {
-                url 'https://maven.google.com/'
-                name 'Google'
-            }
+            maven { url "https://jitpack.io" }
+            maven {url 'https://developer.huawei.com/repo/'}
         }
     }
+}
+
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+        maven {url 'https://developer.huawei.com/repo/'}
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.huawei.agconnect:agcp:1.3.1.300'
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

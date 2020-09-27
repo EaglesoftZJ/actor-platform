@@ -1,9 +1,10 @@
 package im.actor.fragments;
 
-import android.support.v7.app.ActionBar;
+
 
 import im.actor.develop.R;
 import im.actor.sdk.controllers.root.RootFragment;
+import androidx.appcompat.app.ActionBar;
 
 public class RootFragmentEx extends RootFragment {
     @Override

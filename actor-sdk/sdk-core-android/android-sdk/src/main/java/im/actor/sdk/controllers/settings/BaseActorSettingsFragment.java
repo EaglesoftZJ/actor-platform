@@ -21,10 +21,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -588,7 +589,7 @@ public abstract class BaseActorSettingsFragment extends BaseFragment implements 
 //                    Toast.makeText(getActivity(), "send logs off", Toast.LENGTH_LONG).show();
 //                } else {
 //
-//                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+//                    ndroidx.appcompat.app.AlertDialog.Builder builder = new ndroidx.appcompat.app.AlertDialog.Builder(getActivity());
 //                    builder.setTitle("Send logs integration url");
 //
 //                    LinearLayout ll = new LinearLayout(getActivity());

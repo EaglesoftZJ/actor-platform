@@ -3,7 +3,7 @@ package im.actor.core.modules.calls.peers;
 import com.google.j2objc.annotations.Property;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import java.util.List;
 

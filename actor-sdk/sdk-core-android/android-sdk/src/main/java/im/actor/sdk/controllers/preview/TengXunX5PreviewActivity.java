@@ -2,7 +2,6 @@ package im.actor.sdk.controllers.preview;
 
 import android.app.Activity;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -14,6 +13,7 @@ import com.tencent.smtt.sdk.TbsReaderView;
 
 import java.io.File;
 
+import androidx.appcompat.app.AppCompatActivity;
 import im.actor.sdk.R;
 import im.actor.sdk.controllers.Intents;
 

@@ -28,13 +28,13 @@ sourceSets {
 dependencies {
 //	compile project(':actor-sdk:sdk-core:core:core-shared') //don't use this because of the duplicate class exception (runtime-clc and runtime-share)
 //	compile project(':actor-sdk:sdk-core:runtime:runtime-clc')
-	compile 'org.xerial:sqlite-jdbc:3.8.11.2'
-	compile 'org.slf4j:slf4j-api:1.7.18'
-	compile 'ch.qos.logback:logback-classic:1.1.6'
-	compile 'ch.qos.logback:logback-core:1.1.6'
+	implementation 'org.xerial:sqlite-jdbc:3.8.11.2'
+	implementation 'org.slf4j:slf4j-api:1.7.18'
+	implementation 'ch.qos.logback:logback-classic:1.1.6'
+	implementation 'ch.qos.logback:logback-core:1.1.6'
 //    compile 'commons-configuration:commons-configuration:1.6'
 //    compile 'commons-codec:commons-codec:1.9'
-    testCompile "junit:junit:4.11"
+	implementation "junit:junit:4.11"
 }
 
 

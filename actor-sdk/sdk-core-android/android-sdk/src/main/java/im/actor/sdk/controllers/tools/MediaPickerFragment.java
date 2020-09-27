@@ -15,10 +15,8 @@ import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.widget.Toast;
+
 
 import com.soundcloud.android.crop.Crop;
 
@@ -26,6 +24,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 import im.actor.runtime.android.AndroidContext;
 import im.actor.sdk.ActorSDK;
 import im.actor.sdk.R;
@@ -65,8 +66,14 @@ public class MediaPickerFragment extends BaseFragment {
             if (Build.VERSION.SDK_INT >= 23) {
                 if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA},
-                            PERMISSIONS_REQUEST_CAMERA);
+                    if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                PERMISSIONS_REQUEST_CAMERA);
+                    } else {
+                        requestPermissions(new String[]{Manifest.permission.CAMERA},
+                                PERMISSIONS_REQUEST_CAMERA);
+                    }
                     return;
                 }
             }
@@ -112,14 +119,18 @@ public class MediaPickerFragment extends BaseFragment {
         Activity activity = getActivity();
         if (Build.VERSION.SDK_INT >= 23) {
 
-            String[] PERMISSIONS_CONTACT = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
+            String[] PERMISSIONS_CONTACT = {Manifest.permission.CAMERA};
 
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(PERMISSIONS_CONTACT,
-                        PERMISSIONS_REQUEST_CAMERA);
+                    != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
+                            PERMISSIONS_REQUEST_CAMERA);
+                } else {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            PERMISSIONS_REQUEST_CAMERA);
+                }
                 return;
             }
         }
@@ -134,7 +145,7 @@ public class MediaPickerFragment extends BaseFragment {
 //            ContentValues contentValues = new ContentValues(1);
 //            contentValues.put(MediaStore.Images.Media.DATA, videoFile.getAbsolutePath());
 //            videoUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-            videoUri = FileProvider.getUriForFile(activity,"im.actor.develop.myFileProvider",videoFile);
+            videoUri = FileProvider.getUriForFile(activity, "im.actor.develop.myFileProvider", videoFile);
         }
 //        System.out.println("iGem:videoUri:"+videoUri.toString());
         intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
@@ -164,12 +175,11 @@ public class MediaPickerFragment extends BaseFragment {
         Activity activity = getActivity();
         if (activity != null) {
             if (Build.VERSION.SDK_INT >= 23) {
+
                 String[] PERMISSIONS_CONTACT = {
-                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_PHONE_STATE
+                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
                 };
+
                 if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(PERMISSIONS_CONTACT, PERMISSIONS_REQUEST_LOCATION);
                     return;
@@ -217,7 +227,7 @@ public class MediaPickerFragment extends BaseFragment {
                         pendingFile = generateRandomFile(".jpg");
                         Crop.of(data.getData(), Uri.fromFile(new File(pendingFile)))
                                 .asSquare()
-                                .start(getContext(), this);
+                                .start((Activity) getContext());
                     } else {
                         getCallback().onUriPicked(data.getData());
                     }
@@ -236,7 +246,7 @@ public class MediaPickerFragment extends BaseFragment {
                         pendingFile = generateRandomFile(".jpg");
                         Crop.of(Uri.fromFile(new File(sourceFileName)), Uri.fromFile(new File(pendingFile)))
                                 .asSquare()
-                                .start(getContext(), this);
+                                .start((Activity) getContext());
                     } else {
                         getCallback().onPhotoPicked(sourceFileName);
                     }
@@ -353,7 +363,9 @@ public class MediaPickerFragment extends BaseFragment {
             }
         }
         if (requestCode == PERMISSIONS_REQUEST_LOCATION) {
-            requestLocation();
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                requestLocation();
+            }
         }
 
     }

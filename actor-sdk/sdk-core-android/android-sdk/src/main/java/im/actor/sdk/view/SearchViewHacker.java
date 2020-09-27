@@ -1,7 +1,7 @@
 package im.actor.sdk.view;
 
 import android.content.res.Resources;
-import android.support.v7.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.AutoCompleteTextView;

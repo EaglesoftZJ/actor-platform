@@ -32,6 +32,7 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import im.actor.sdk.controllers.BaseFragment;
 
 public class MapFragment extends BaseFragment implements
@@ -80,7 +81,6 @@ public class MapFragment extends BaseFragment implements
         callBackListener = (MapCallBackListener) getActivity();
         mMapView = (MapView) view.findViewById(R.id.gaode_map);
         mMapView.onCreate(savedInstanceState);
-
 
         try {
             longitude = getArguments().getDouble("longitude");

@@ -1,7 +1,6 @@
 package im.actor.sdk.controllers.group.view;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.core.entity.Contact;
 import im.actor.core.entity.Group;
 import im.actor.core.viewmodel.GroupVM;

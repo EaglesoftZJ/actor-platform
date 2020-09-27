@@ -3,6 +3,7 @@ package im.actor.sdk.controllers;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import im.actor.core.entity.Avatar;
 import im.actor.core.viewmodel.GroupVM;
 import im.actor.core.viewmodel.UserVM;
@@ -15,7 +16,7 @@ import im.actor.sdk.view.avatar.CoverAvatarView;
 import im.actor.runtime.mvvm.ValueChangedListener;
 import im.actor.runtime.mvvm.ValueModel;
 
-public class BinderCompatFragment extends android.support.v4.app.Fragment {
+public class BinderCompatFragment extends Fragment {
 
     private final ActorBinder BINDER = new ActorBinder();
 

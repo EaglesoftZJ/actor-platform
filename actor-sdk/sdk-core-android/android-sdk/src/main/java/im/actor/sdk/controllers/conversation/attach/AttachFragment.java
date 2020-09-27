@@ -2,6 +2,7 @@ package im.actor.sdk.controllers.conversation.attach;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -13,9 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.content.ContextCompat;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,6 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import im.actor.core.api.ApiJsonMessage;
 import im.actor.core.api.ApiMessage;
 import im.actor.core.entity.Peer;
@@ -134,6 +135,7 @@ public class AttachFragment extends AbsAttachFragment implements MediaPickerCall
         return root;
     }
 
+    @SuppressLint("RestrictedApi")
     private void prepareView() {
         if (isLoaded) {
             return;

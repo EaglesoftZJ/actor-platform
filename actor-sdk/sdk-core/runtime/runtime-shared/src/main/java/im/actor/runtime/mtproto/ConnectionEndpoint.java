@@ -8,7 +8,7 @@ import com.google.j2objc.annotations.ObjectiveCName;
 import com.google.j2objc.annotations.Property;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 

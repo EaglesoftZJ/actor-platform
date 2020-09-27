@@ -19,7 +19,7 @@
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mediaList"
         android:alpha="0"
         android:clipToPadding="false"
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <!-- Pager -->
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:visibility="gone"
         android:alpha="0"
@@ -59,7 +59,7 @@
     <!--</RelativeLayout>-->
 
     <!-- Toolbar -->
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:background="#a0000000"
         app:popupTheme="@style/Base.Theme.AppCompat.Light.DarkActionBar"

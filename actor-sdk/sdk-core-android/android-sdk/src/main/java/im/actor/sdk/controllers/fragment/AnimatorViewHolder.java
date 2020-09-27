@@ -4,8 +4,9 @@
 
 package im.actor.sdk.controllers.fragment;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by ex3ndr on 16.05.15.

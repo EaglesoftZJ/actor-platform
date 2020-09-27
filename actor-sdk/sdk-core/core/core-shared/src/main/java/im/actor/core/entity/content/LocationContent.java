@@ -1,7 +1,7 @@
 package im.actor.core.entity.content;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 
 import im.actor.core.api.ApiJsonMessage;
 import im.actor.core.entity.content.internal.ContentRemoteContainer;

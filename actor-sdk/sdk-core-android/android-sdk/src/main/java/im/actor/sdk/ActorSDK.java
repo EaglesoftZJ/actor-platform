@@ -19,7 +19,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import androidx.fragment.app.Fragment;
 import im.actor.core.AndroidMessenger;
 import im.actor.core.ApiConfiguration;
 import im.actor.core.AutoJoinType;
@@ -275,6 +276,10 @@ public class ActorSDK {
     //
 
     private static JSONObject zjjgData;
+
+    static HashMap<String, String> phoneMap;
+
+    static boolean isPhoneMapLoad = true;
 
     public void createActor(final Application application) {
 
@@ -1082,7 +1087,7 @@ public class ActorSDK {
     /**
      * Method is used internally for getting delegated fragment
      */
-    public <T> T getDelegatedFragment(ActorIntent delegatedIntent, android.support.v4.app.Fragment baseFragment, Class<T> type) {
+    public <T> T getDelegatedFragment(ActorIntent delegatedIntent, Fragment baseFragment, Class<T> type) {
 
         if (delegatedIntent != null &&
                 delegatedIntent instanceof ActorIntentFragmentActivity &&
@@ -1149,10 +1154,53 @@ public class ActorSDK {
         return zjjgData;
     }
 
+    public static void getZjjgData(JSONObject data) {
+        zjjgData = data;
+        messenger().getPreferences().putString("zzjgJson", data.toString());
+        isPhoneMapLoad = true;
+        Runtime.dispatch(() -> {
+            try {
+                phoneMap = new HashMap<>();
+                JSONArray yh_array = data.getJSONArray("yh_data");
+                for (int i = 0; i < yh_array.length(); i++) {
+                    phoneMap.put(yh_array.getJSONObject(i).getString("IGIMID"), yh_array.getJSONObject(i).getString("sjh"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
+                isPhoneMapLoad = false;
+            }
+        });
+
+    }
+
     public static void setZjjgData(JSONObject data) {
         zjjgData = data;
         messenger().getPreferences().putString("zzjgJson", data.toString());
     }
 
+
+    public static String getPhoneByPeerId(int peerId) {
+        if (phoneMap != null && phoneMap.size() > 0 && !isPhoneMapLoad) {
+            return phoneMap.get(peerId + "");
+        } else {
+            ActorSDK.sharedActor().waitForReady();
+            String sjh = null;
+            JSONArray yh_array = null;
+            try {
+                yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
+                System.out.println("iGem:" + yh_array);
+                for (int i = 0; i < yh_array.length(); i++) {
+                    if (yh_array.getJSONObject(i).getString("IGIMID").equals(peerId + "")) {
+                        sjh = yh_array.getJSONObject(i).getString("sjh");
+                        break;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return sjh;
+        }
+    }
 
 }
