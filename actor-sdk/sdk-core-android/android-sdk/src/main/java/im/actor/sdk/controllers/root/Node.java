@@ -51,7 +51,7 @@ public class Node  implements Serializable,
     private String wzh;// 位置号
     private String dwid;
     private String bmid;
-    private String szk;
+    private String szk;//表示是舟港股份还是别的数据库，现在统一为ZGGF
     private int index;// 在listView里的位置，从0开始
     private boolean isChecked = false;// 是否处于选中状态
     private boolean isExpanded = false;// 是否处于展开状态
@@ -352,7 +352,7 @@ public class Node  implements Serializable,
             else
                 sx = -1;
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         return sx;

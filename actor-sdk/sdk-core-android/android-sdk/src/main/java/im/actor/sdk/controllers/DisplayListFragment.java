@@ -214,7 +214,7 @@ public abstract class DisplayListFragment<T extends BserObject & ListEngineItem,
                             }
                             for (int j = 0; j < yh_array.length(); j++) {
                                 JSONObject json = yh_array.getJSONObject(j);
-                                String igImid = json.getString("IGIMID");
+                                String igImid = json.getString("iGIMID");
                                 if (contact.getUid() == Integer.valueOf(igImid).intValue()) {
                                     String xm = json.getString("xm");
                                     Message message = new Message();

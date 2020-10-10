@@ -176,7 +176,7 @@ public abstract class ZuZhiJiaGouSearchBaseFragment extends BaseFragment {
                         try {
                             yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
                             int order = 0;
-                            List<Node> yhList = ZzjgFragment.getListNode(yh_array, new String[]{"IGIMID", "xm", "wzh", "fid", "dwid", "bmid"});
+                            List<Node> yhList = ZzjgFragment.getListNode(yh_array, new String[]{"iGIMID", "xm", "wzh", null, "dwid", "bmid"});
                             List<ZzjgSearchEntity> ryList = new ArrayList<>();
                             for (Node node : yhList) {
                                 if (node.getText().contains(searchQuery)) {

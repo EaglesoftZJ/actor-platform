@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -111,12 +112,39 @@ public class RootActivity extends BaseFragmentActivity {
 
 
 //        }
-        execute(new Command<String>() {
+
+
+        new Command<String>() {
             @Override
             public void start(CommandCallback<String> callback) {
                 zjjgData(callback);
             }
+        }.start(new CommandCallback<String>() {
+            @Override
+            public void onResult(String res) {
+                try {
+                    ActorSDK.setZjjgData(new JSONObject(res));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
+//                fragment.changeAdapter();
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
         });
+
+
+//        execute(new Command<String>() {
+//            @Override
+//            public void start(CommandCallback<String> callback) {
+//                zjjgData(callback);
+//            }
+//        });
+
 
         //
         // Configure Toolbar
@@ -263,18 +291,17 @@ public class RootActivity extends BaseFragmentActivity {
 
     private void zjjgData(final CommandCallback<String> callback) {
 
-        WebForV8Util.webPostUrl(AndroidContext.getContext(), ActorSDK.getWebServiceUri(getApplicationContext()) + ":8801" + "/zsgwuias/rest/out/getTxl", null,
+        WebForV8Util.webPostUrl(AndroidContext.getContext(), ActorSDK.getWebServiceUserUri(getApplicationContext()) + ":8801" + "/zsgwuias/rest/out/getTxl", null,
                 new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message message) {
                         Bundle b = message.getData();
                         String datasource = b.getString("datasource");
+                        System.out.println("egdatasource"+datasource);
                         try {
                             JSONObject json = new JSONObject(datasource);
-                            ActorSDK.setZjjgData(json.getJSONObject("data"));
-                            ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
-                            fragment.changeAdapter();
-                            callback.onResult("");
+                            System.out.println("egdatasource="+json.toString());
+                            callback.onResult(json.getJSONObject("data").toString());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -283,8 +310,8 @@ public class RootActivity extends BaseFragmentActivity {
                 }));
 
 
-//        WebServiceUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8801", new HashMap<String, String>(),
-//                "/zsgwuias/rest/out/getTxl", AndroidContext.getContext(), new Handler(new Handler.Callback() {
+//        WebServiceUtil.webServiceRun(ActorSDK.getWebServiceUri(getApplicationContext()) + ":8004", new HashMap<String, String>(),
+//                "GetAllUserFullData", AndroidContext.getContext(), new Handler(new Handler.Callback() {
 //                    @Override
 //                    public boolean handleMessage(Message msg) {
 //                        Bundle b = msg.getData();
@@ -292,6 +319,7 @@ public class RootActivity extends BaseFragmentActivity {
 //                        try {
 //                            JSONObject json = new JSONObject(datasource);
 //                            ActorSDK.setZjjgData(json);
+//                            System.out.println("egdatasource"+json.toString());
 ////                                ComposeEaglesoftFragment fragment = (ComposeEaglesoftFragment) rootPageFragment.getHomePagerAdapter().getContactsFragment();
 ////                                fragment.changeAdapter();
 //                            callback.onResult("");

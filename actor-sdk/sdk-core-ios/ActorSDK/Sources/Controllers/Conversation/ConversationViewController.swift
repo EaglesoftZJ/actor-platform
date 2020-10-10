@@ -614,7 +614,7 @@ open class ConversationViewController:
             let dict:NSDictionary = UserDefaults.standard.object(forKey: "ZZJG") as! NSDictionary
             let personInfo:Array<NSDictionary> = dict["yh_data"] as! Array<NSDictionary>
             for dic in personInfo {
-                if Int(dic["IGIMID"] as! String) == Int(self.peer.peerId) {
+                if Int(dic["iGIMID"] as! String) == Int(self.peer.peerId) {
                     var arr:[String] = [];
                     let sjh = dic["sjh"] as! String
                     let dh = dic["dh"] as! String

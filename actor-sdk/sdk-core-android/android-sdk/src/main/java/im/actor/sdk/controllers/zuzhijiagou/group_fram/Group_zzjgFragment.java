@@ -224,7 +224,7 @@ public class Group_zzjgFragment extends BaseFragment {
                     try {
                         yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
                         int order = 0;
-                        List<Node> yhList = getListNode(yh_array, new String[]{"IGIMID", "xm", "wzh", "fid", "dwid", "bmid"});
+                        List<Node> yhList = getListNode(yh_array, new String[]{"iGIMID", "xm", "wzh", "fid", "dwid", "bmid"});
                         List<Node> ryNode = new ArrayList<>();
                         for (Node node : yhList) {
                             if (node.getText().contains(filter)) {
@@ -384,7 +384,7 @@ public class Group_zzjgFragment extends BaseFragment {
 //            rycollection.setVisibility(View.GONE);
             zuzhijiagou_lay.setVisibility(View.VISIBLE);
             yh_array = json.getJSONArray("yh_data");
-            List<Node> yhList = getListNode(yh_array, new String[]{"IGIMID", "xm", "wzh", "fid", "dwid", "bmid"});
+            List<Node> yhList = getListNode(yh_array, new String[]{"iGIMID", "xm", "wzh", "fid", "dwid", "bmid"});
 //            yhList = getAdapterRoot(yhList).getChildren();
             ryMap = new HashMap<>();
             for (int i = 0; i < yhList.size(); i++) {
@@ -620,7 +620,7 @@ public class Group_zzjgFragment extends BaseFragment {
                     node.setBmid(jo.getString(jsonName[5]).trim());
                 }
 //                if (jsonName.length > 6) {
-                node.setSzk(jo.getString("szk").trim());
+                node.setSzk("ZGGF");
 //                }
                 node.setJson(jo);
                 nodes.add(node);

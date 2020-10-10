@@ -40,13 +40,13 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.activity_welcome);
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-                this.requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS},
-                        PERMISSIONS_REQUEST_FOR_CONTACTS);
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+//                    || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+//                this.requestPermissions(new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS},
+//                        PERMISSIONS_REQUEST_FOR_CONTACTS);
+//            }
+//        }
 
         LinearLayout lay = (LinearLayout) findViewById(R.id.welcome_lay);
         SharedPreferences sp = this.getSharedPreferences("flyChatSp", MODE_PRIVATE);
@@ -114,26 +114,26 @@ public class WelcomeActivity extends Activity {
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST_FOR_CONTACTS) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Catch all phone book changes
-                Runtime.dispatch(() ->
-                        messenger().getContext().getContentResolver()
-                                .registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true,
-                                        new ContentObserver(null) {
-                                            @Override
-                                            public void onChange(boolean selfChange) {
-                                                messenger().onPhoneBookChanged();
-                                            }
-                                        }));
-            } else {
-                Toast toast = Toast.makeText(messenger().getContext(), "请前往手机系统设置，允许本应用读取和写入通讯录数据", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        if (requestCode == PERMISSIONS_REQUEST_FOR_CONTACTS) {
+//            if (grantResults.length > 0
+//                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // Catch all phone book changes
+//                Runtime.dispatch(() ->
+//                        messenger().getContext().getContentResolver()
+//                                .registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true,
+//                                        new ContentObserver(null) {
+//                                            @Override
+//                                            public void onChange(boolean selfChange) {
+//                                                messenger().onPhoneBookChanged();
+//                                            }
+//                                        }));
+//            } else {
+//                Toast toast = Toast.makeText(messenger().getContext(), "请前往手机系统设置，允许本应用读取和写入通讯录数据", Toast.LENGTH_LONG);
+//                toast.show();
+//            }
+//        }
+//    }
 
 }

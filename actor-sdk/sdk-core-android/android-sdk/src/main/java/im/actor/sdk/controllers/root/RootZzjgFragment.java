@@ -185,7 +185,7 @@ public class RootZzjgFragment extends BaseFragment {
             zuzhijiagou_lay.setVisibility(View.GONE);
 //            backImage.setVisibility(View.GONE);
             yh_array = json.getJSONArray("yh_data");
-            List<Node> yhList = getListNode(yh_array, new String[]{"IGIMID", "xm", "wzh", "fid", "dwid", "bmid"});
+            List<Node> yhList = getListNode(yh_array, new String[]{"iGIMID", "xm", "wzh", "fid", "dwid", "bmid"});
 //            yhList = getAdapterRoot(yhList).getChildren();
             ryMap = new HashMap<>();
             for (int i = 0; i < yhList.size(); i++) {
@@ -385,7 +385,7 @@ public class RootZzjgFragment extends BaseFragment {
                     node.setBmid(jo.getString(jsonName[5]).trim());
                 }
 //                if (jsonName.length > 6) {
-                node.setSzk(jo.getString("szk").trim());
+                node.setSzk("ZGGF");
 //                }
                 node.setJson(jo);
                 nodes.add(node);

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -497,5 +498,24 @@ public class BaseFragment extends BinderCompatFragment implements MediaPickerCal
     @Override
     public boolean onBackPressed() {
         return HandleBackUtil.handleBackPress(this);
+    }
+
+    // 生成文件夹
+    public static void makeRootDirectory(String filePath) {
+        File file = null;
+        try {
+            file = new File(filePath);
+            if (file.isFile()) {
+                if (!file.getParentFile().exists()) {
+                    file.getParentFile().mkdirs();
+                }
+            } else {
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

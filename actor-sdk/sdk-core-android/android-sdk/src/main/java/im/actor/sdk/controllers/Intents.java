@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +21,7 @@ import android.webkit.MimeTypeMap;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import androidx.core.content.FileProvider;
 import im.actor.core.entity.FileReference;
 import im.actor.core.entity.Peer;
 import im.actor.core.utils.IOUtils;

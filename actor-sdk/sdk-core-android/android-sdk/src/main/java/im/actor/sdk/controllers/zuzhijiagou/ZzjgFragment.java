@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
@@ -219,7 +220,8 @@ public class ZzjgFragment extends BaseFragment {
 //            rycollection.setVisibility(View.GONE);
             zuzhijiagou_lay.setVisibility(View.VISIBLE);
             yh_array = json.getJSONArray("yh_data");
-            List<Node> yhList = getListNode(yh_array, new String[]{"IGIMID", "xm", "wzh", "fid", "dwid", "bmid"});
+            System.out.println(yh_array.toString());
+            List<Node> yhList = getListNode(yh_array, new String[]{"iGIMID", "xm", "wzh", null, "dwid", "bmid"});
 //            yhList = getAdapterRoot(yhList).getChildren();
             ryMap = new HashMap<>();
             for (int i = 0; i < yhList.size(); i++) {
@@ -249,7 +251,7 @@ public class ZzjgFragment extends BaseFragment {
                 ryMap.put(szk, maps);
             }
             JSONArray dw_array = json.getJSONArray("dw_data");
-            List<Node> dwList = getListNode(dw_array, new String[]{"id", "mc", "wzh", null});
+            List<Node> dwList = getListNode(dw_array, new String[]{"id", "mc", "wzh", "egDel"});
             Collections.sort(dwList);
             dwList = getAdapterRoot(dwList).getChildren();
             JSONArray bm_array = json.getJSONArray("bm_data");
@@ -258,18 +260,25 @@ public class ZzjgFragment extends BaseFragment {
             bmMap = new HashMap<>();
             for (int i = 0; i < bmList.size(); i++) {
                 Node node = bmList.get(i);
+                System.out.println(node.toString());
                 String dwid = node.getDwid();
+                if (dwid == null && node.getFid() != null) {
+                    dwid = getDwid(bmList, node.getFid());
+                    node.setDwid(dwid);
+                }
                 String szk = node.getSzk();
                 List<Node> bmNodes = new ArrayList<Node>();
                 HashMap<String, List<Node>> mapSzks = new HashMap<>();
-                if (bmMap.get(szk) != null)
+                if (bmMap.get(szk) != null) {
                     mapSzks = bmMap.get(szk);
+                }
 //                if (ryMap.get(dwid) != null &&
 //                        ryMap.get(dwid).get(node.getValue()) != null) {
 //                    node.setChildren(ryMap.get(dwid).get(node.getValue()));
 //                }
-                if (mapSzks.get(dwid) != null)
+                if (mapSzks.get(dwid) != null) {
                     bmNodes = mapSzks.get(dwid);
+                }
                 if (ryMap.get(szk).get(dwid) != null) {
                     List<Node> ryNodes = ryMap.get(szk).get(dwid).get(node.getValue());
                     if (ryNodes != null) {
@@ -279,8 +288,8 @@ public class ZzjgFragment extends BaseFragment {
                         node.setChildrenSize(0);
                     }
                 }
-
                 bmNodes.add(node);
+                System.out.println("EgTool---" + node.getText() + "---" + node.getValue() + "----" + node.getDwid() + "---" + bmNodes.size());
                 mapSzks.put(dwid, bmNodes);
                 bmMap.put(szk, mapSzks);
             }
@@ -417,6 +426,23 @@ public class ZzjgFragment extends BaseFragment {
         }
     }
 
+    private String getDwid(List<Node> bmList, String fid) {
+        Optional optional = bmList.stream().filter(bm -> fid.equals(bm.getValue())).findFirst();
+        if (!optional.equals(Optional.empty())) {
+            Node fNode = (Node) optional.get();
+            String dwid = fNode.getDwid();
+            if (dwid == null) {
+                if (dwid == null && fNode.getFid() != null) {
+                    String t = getDwid(bmList, fNode.getFid());
+                    return t;
+                }
+            } else {
+                return dwid;
+            }
+        }
+        return null;
+    }
+
     // 根据一个jsonArray生成一个无关系的list<Node>
     public static List<Node> getListNode(JSONArray jsonArray, String[] jsonName) {
         List<Node> nodes = new ArrayList<Node>();
@@ -437,7 +463,20 @@ public class ZzjgFragment extends BaseFragment {
                     node.setWzh(wzh);
                 }
                 if (jsonName[3] != null) {
-                    node.setFid(jo.getString(jsonName[3]).trim());
+                    try {
+                        if (jsonName[3].equals("egDel")) {
+                            //单位数据fid是-1的干掉一层
+                            String fid = jo.getString("fid");
+                            if (fid.equals("-1")) {
+                                continue;
+                            }
+                        } else {
+                            node.setFid(jo.getString(jsonName[3]).trim());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 if (jsonName.length > 4) {
                     node.setDwid(jo.getString(jsonName[4]).trim());
@@ -446,8 +485,13 @@ public class ZzjgFragment extends BaseFragment {
                     node.setBmid(jo.getString(jsonName[5]).trim());
                 }
 //                if (jsonName.length > 6) {
-                node.setSzk(jo.getString("szk").trim());
+                node.setSzk("ZGGF");
 //                }
+
+                if (node.getDwid() != null && node.getDwid().equals(node.getFid())) {
+                    node.setFid("-1");
+                }
+
                 node.setJson(jo);
                 nodes.add(node);
             } catch (JSONException e) {

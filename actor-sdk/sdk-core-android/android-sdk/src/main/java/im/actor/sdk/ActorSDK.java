@@ -19,7 +19,9 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.Nullable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -251,6 +253,10 @@ public class ActorSDK {
     public static String getWebServiceUri(Context context) {
         SharedPreferences sp = context.getSharedPreferences("ipLogin", Context.MODE_PRIVATE);
         return sp.getString("url", context.getString(R.string.url));
+    }
+
+    public static String getWebServiceUserUri(Context context) {
+        return context.getString(R.string.userUrl);
     }
 
 
@@ -1163,7 +1169,7 @@ public class ActorSDK {
                 phoneMap = new HashMap<>();
                 JSONArray yh_array = data.getJSONArray("yh_data");
                 for (int i = 0; i < yh_array.length(); i++) {
-                    phoneMap.put(yh_array.getJSONObject(i).getString("IGIMID"), yh_array.getJSONObject(i).getString("sjh"));
+                    phoneMap.put(yh_array.getJSONObject(i).getString("iGIMID"), yh_array.getJSONObject(i).getString("sjh"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1191,7 +1197,7 @@ public class ActorSDK {
                 yh_array = ActorSDK.getZjjgData().getJSONArray("yh_data");
                 System.out.println("iGem:" + yh_array);
                 for (int i = 0; i < yh_array.length(); i++) {
-                    if (yh_array.getJSONObject(i).getString("IGIMID").equals(peerId + "")) {
+                    if (yh_array.getJSONObject(i).getString("iGIMID").equals(peerId + "")) {
                         sjh = yh_array.getJSONObject(i).getString("sjh");
                         break;
                     }

@@ -17,14 +17,14 @@ package androidx.recyclerview.widget;
 
 import android.annotation.SuppressLint;
 import android.support.v4.animation.AnimatorCompatHelper;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPropertyAnimatorCompat;
-import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.core.view.ViewPropertyAnimatorListener;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import im.actor.sdk.controllers.fragment.AnimatorViewHolder;

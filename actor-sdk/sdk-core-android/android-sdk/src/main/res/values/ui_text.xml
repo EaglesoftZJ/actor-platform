@@ -6,7 +6,8 @@
     <string name="hwpush_ability_value" translatable="false">successRateAnalytics</string>
 
     <string name="urlForCompany" translatable="false">宁波舟山港舟山港务有限公司</string>
-    <string name="url" translatable="false">http://61.175.100.12</string>
+    <string name="userUrl" translatable="false">http://61.175.100.12</string>
+    <string name="url" translatable="false">http://61.175.100.14</string>
     <!--<string name="url">http://220.189.207.21:8709</string>-->
     <string name="pushUrl" translatable="false">http://10.169.204.9:8012</string>
     <!--<string name="pushUrl">http://127.0.0.1:8080</string>-->

@@ -187,7 +187,7 @@ class CreateGroupController: AAContactsListContentController, CLTokenInputViewDe
         let arr = dict["yh_data"] as! [Dictionary<String, Any>]
         for d in arr {
             let dic:Dictionary = d
-            if dic.keys.contains("IGIMID") {
+            if dic.keys.contains("iGIMID") {
                 if jint(dic["IGIMID"] as! String) != Actor.myUid() {
                     allPersonArr.append(dic)
                 }
@@ -233,7 +233,7 @@ class CreateGroupController: AAContactsListContentController, CLTokenInputViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {//添加人员
             let person = personArr[indexPath.row] as NSDictionary
-            let uid:jint = jint(person["IGIMID"] as! String)!
+            let uid:jint = jint(person["iGIMID"] as! String)!
             var isSelected:Bool = false
             for i in 0..<selected.count {
                 let n = selected[i]
@@ -290,7 +290,7 @@ class CreateGroupController: AAContactsListContentController, CLTokenInputViewDe
             var yh_arr = Array<Dictionary<String, Any>>()
             //人员
             for ygInfo in yhArr {
-                if ygInfo["dwid"] as! String == dwid && ygInfo["bmid"] as! String == bmid && ygInfo["szk"] as! String == szk && jint(ygInfo["IGIMID"] as! String) != Actor.myUid()
+                if ygInfo["dwid"] as! String == dwid && ygInfo["bmid"] as! String == bmid && ygInfo["szk"] as! String == szk && jint(ygInfo["iGIMID"] as! String) != Actor.myUid()
                 {
                     yh_arr.append(ygInfo)
                 }

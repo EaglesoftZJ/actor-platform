@@ -3,12 +3,13 @@ package im.actor.sdk.controllers.conversation.view;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.v4.text.BidiFormatter;
 import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.core.text.BidiFormatter;
 
 /**
  * Created by ex3ndr on 11.09.14.

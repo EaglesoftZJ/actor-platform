@@ -110,7 +110,7 @@ class YGJGTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0{
-            let uid:String = yg_arr[indexPath.row]["IGIMID"] as! String
+            let uid:String = yg_arr[indexPath.row]["iGIMID"] as! String
             navigateDetail(ConversationViewController(peer: ACPeer_userWithInt_(jint(uid)!)))
         }
         else{

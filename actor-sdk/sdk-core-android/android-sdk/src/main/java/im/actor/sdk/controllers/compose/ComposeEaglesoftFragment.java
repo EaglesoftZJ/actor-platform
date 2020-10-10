@@ -208,7 +208,7 @@ public class ComposeEaglesoftFragment extends BaseFragment {
                         if (yh_array != null) {
                             for (int i = 0; i < yh_array.length(); i++) {
                                 JSONObject json = yh_array.getJSONObject(i);
-                                int uid = json.getInt("IGIMID");
+                                int uid = json.getInt("iGIMID");
                                 try {
                                     UserVM userVM = users().get(uid);
                                     String name = userVM.getName().get();
